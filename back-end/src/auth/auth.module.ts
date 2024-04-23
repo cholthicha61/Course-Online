@@ -18,9 +18,7 @@ import { User } from 'src/user/entities/user.entity';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
     }),
-    TypeOrmModule.forFeature([
-      User,
-    ])
+    TypeOrmModule.forFeature([User]),
   ],
 })
 export class AuthModule {}

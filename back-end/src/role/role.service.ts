@@ -18,18 +18,19 @@ export class RoleService {
 
   async findOne(id: number) {
     return await this.roleRepository.findOne({
-      where: {id}});
+      where: { id },
+    });
   }
 
   async create(createRoleDto: CreateRoleDto) {
-      const createRolename = this.roleRepository.create({
-        name: createRoleDto.name,
-      })
-      await this.roleRepository.save(createRolename)
-      return 'This action adds a new name';
+    const createRolename = this.roleRepository.create({
+      name: createRoleDto.name,
+    });
+    await this.roleRepository.save(createRolename);
+    return 'This action adds a new name';
   }
 
-  async update(id: number, updateRole:UpdateRoleDto){
+  async update(id: number, updateRole: UpdateRoleDto) {
     return this.roleRepository.update(id, updateRole);
   }
 
