@@ -13,40 +13,31 @@ export class RoleService {
   ) {}
 
   async findAll() {
-    try {
-      return this.roleRepository.find();
-    } catch (error) {
-      throw error;
-    }
+    return this.roleRepository.find();
   }
 
   async findOne(id: number) {
-    try {
-      return await this.roleRepository.findOne({
-        where: { id },
-      });
-    } catch (error) {
-      throw error;
-    }
+    return await this.roleRepository.findOne({
+      where: {id}});
   }
 
   async create(createRoleDto: CreateRoleDto) {
-    try {
       const createRolename = this.roleRepository.create({
-        role_name: createRoleDto.role_name,
-      });
-      await this.roleRepository.save(createRolename);
+        name: createRoleDto.name,
+      })
+      await this.roleRepository.save(createRolename)
       return 'This action adds a new name';
-    } catch (error) {
-      throw error;
-    }
   }
 
-  async update(id: number, updateRole: UpdateRoleDto) {
-    try {
-      return this.roleRepository.update(id, updateRole);
-    } catch (error) {
-      throw error;
-    }
+  async update(id: number, updateRole:UpdateRoleDto){
+    return this.roleRepository.update(id, updateRole);
   }
+
+  // async remove(id: number) {
+  //   const removeRolename = await this.findOne(id);
+  //   if(!removeRolename) {
+  //     throw new NotFoundException();
+  //   }
+  //   return await this.roleRepository.remove(removeRolename);
+  // }
 }

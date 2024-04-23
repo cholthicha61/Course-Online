@@ -4,5 +4,5 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 @Entity({ name: 'role' })
 export class Role extends BaseEntity {
   @Column()
-  role_name: string;
+  name: string;
 }
