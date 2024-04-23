@@ -33,7 +33,7 @@ export class RoleService {
   async create(createRoleDto: CreateRoleDto) {
     try {
       const createRolename = this.roleRepository.create({
-        role_name: createRoleDto.role_name,
+        name: createRoleDto.name,
       });
       await this.roleRepository.save(createRolename);
       return 'This action adds a new name';

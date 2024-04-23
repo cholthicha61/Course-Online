@@ -5,7 +5,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 @Entity({ name: 'role' })
 export class Role extends BaseEntity {
   @Column()
-  role_name: string;
+  name: string;
 
   @ManyToOne(() => User, user => user.roles)
     user: User;
