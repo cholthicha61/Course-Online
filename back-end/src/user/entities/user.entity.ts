@@ -1,13 +1,7 @@
-import { BaseEntity } from 'src/entity/base.entity';
-import { Role } from 'src/role/entities/role.entity';
-import {
-  Column,
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import { BaseEntity } from "src/entity/base.entity";
+import { Role } from "src/role/entities/role.entity";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -29,6 +23,8 @@ export class User extends BaseEntity {
   @Column({ default: true })
   active: boolean;
 
-  @OneToMany(() => Role, (role) => role.user)
-  roles: Role[];
+  @ManyToOne(() => Role, role => role.user)
+  @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
+  roles: Role;
+
 }

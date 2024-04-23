@@ -44,6 +44,7 @@ export class UserService {
 
   async findAll(): Promise<User[]> {
     try {
+      //don't return password on postman
       return await this.userRepository.find();
     } catch (error) {
       throw error;
@@ -57,6 +58,16 @@ export class UserService {
         throw new NotFoundException(`User with ID ${id} not found`);
       }
       return user;
+    } catch (error) {
+      throw error
+    }
+
+  }
+
+  async findByEmail(email: string) {
+    try {
+      const findByEmail = await this.userRepository.findOne({ where: { email } });
+      return findByEmail;
     } catch (error) {
       throw error;
     }
