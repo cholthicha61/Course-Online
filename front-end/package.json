@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  
   "dependencies": {
     "@amcharts/amcharts5": "^5.9.2",
     "apexcharts": "^3.49.0",
