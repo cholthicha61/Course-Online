@@ -7,6 +7,23 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
+  private readonly users = [
+    {
+      userId: 1,
+      username: 'john',
+      password: 'changeme',
+    },
+    {
+      userId: 2,
+      username: 'maria',
+      password: 'guess',
+    },
+  ];
+
+  async findOneTest(username: string) {
+    return this.users.find((user) => user.username === username);
+  }
+  
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
