@@ -1,5 +1,6 @@
 import { BaseEntity } from "src/entity/base.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Role } from "src/role/entities/role.entity";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "user" })
 export class User extends BaseEntity {
@@ -22,4 +23,6 @@ export class User extends BaseEntity {
     @Column()
     active: boolean;
 
+    @OneToMany(() => Role, role => role.user)
+    roles: Role[];
 }
