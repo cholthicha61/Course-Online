@@ -1,33 +1,34 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import * as _ from 'lodash';
 
 @Injectable()
 export class UserService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  // private readonly users = [
+  //   {
+  //     userId: 1,
+  //     username: 'john',
+  //     password: 'changeme',
+  //   },
+  //   {
+  //     userId: 2,
+  //     username: 'maria',
+  //     password: 'guess',
+  //   },
+  // ];
 
-  async findOneTest(username: string) {
-    return this.users.find((user) => user.username === username);
-  }
+  // async findOneTest(username: string) {
+  //   return this.users.find((user) => user.username === username);
+  // }
 
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userRepository: Repository<User>
   ) {}
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
@@ -59,14 +60,19 @@ export class UserService {
       }
       return user;
     } catch (error) {
-      throw error
+      throw error;
     }
-
   }
 
   async findByEmail(email: string) {
     try {
-      const findByEmail = await this.userRepository.findOne({ where: { email } });
+      console.log(email);
+      const findByEmail = await this.userRepository.findOne({
+        where: { email },
+      });
+      if (_.isEmpty(findByEmail)) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
       return findByEmail;
     } catch (error) {
       throw error;
