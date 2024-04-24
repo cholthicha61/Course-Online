@@ -13,6 +13,6 @@ export class Order extends BaseEntity {
   @Column()
   enddate: string;
 
-  @ManyToOne(() => User, user => user.orders)
+  @ManyToOne(() => User, (user) => user.orders)
   user: User[];
 }
