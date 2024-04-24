@@ -1,9 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Role } from './entities/role.entity';
 import { Repository } from 'typeorm';
+import * as _ from 'lodash';
 
 @Injectable()
 export class RoleService {
@@ -13,32 +19,65 @@ export class RoleService {
   ) {}
 
   async findAll() {
-    return this.roleRepository.find();
+    try {
+      return this.roleRepository.find();
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findOne(id: number) {
-    return await this.roleRepository.findOne({
-      where: { id },
-    });
+    try {
+      const findOne = await this.roleRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
+      if (_.isEmpty(findOne)) {
+        throw new HttpException('Role not found', HttpStatus.NOT_FOUND);
+      }
+      return findOne;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async create(createRoleDto: CreateRoleDto) {
-    const createRolename = this.roleRepository.create({
-      name: createRoleDto.name,
-    });
-    await this.roleRepository.save(createRolename);
-    return 'This action adds a new name';
+    try {
+      const findById = await this.roleRepository.findOne({
+        where: { name: createRoleDto.name },
+      });
+      if (!_.isEmpty(findById)) {
+        throw new HttpException(
+          'Role name already exists',
+          HttpStatus.CONFLICT,
+        );
+      }
+      const createRolename = this.roleRepository.create({
+        name: createRoleDto.name,
+      });
+      await this.roleRepository.save(createRolename);
+      return 'This action adds a new Role name';
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id: number, updateRole: UpdateRoleDto) {
-    return this.roleRepository.update(id, updateRole);
+    try {
+      const findById = await this.roleRepository.findOne({
+        where: { name: updateRole.name },
+      });
+      if (!_.isEmpty(findById) && findById.id !== id) {
+        throw new HttpException(
+          'Role name already exists',
+          HttpStatus.CONFLICT,
+        );
+      }
+      await this.roleRepository.update(id, updateRole);
+      return 'This action edit a Role name';
+    } catch (error) {
+      throw error;
+    }
   }
-
-  // async remove(id: number) {
-  //   const removeRolename = await this.findOne(id);
-  //   if(!removeRolename) {
-  //     throw new NotFoundException();
-  //   }
-  //   return await this.roleRepository.remove(removeRolename);
-  // }
 }
