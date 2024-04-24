@@ -1,4 +1,5 @@
 import { BaseEntity } from "src/entity/base.entity";
+import { Order } from "src/order/entities/order.entity";
 import { Role } from "src/role/entities/role.entity";
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -26,5 +27,9 @@ export class User extends BaseEntity {
   @ManyToOne(() => Role, role => role.user)
   @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
   roles: Role;
+
+  @ManyToOne(() => Order, order => order.id)
+  @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
+  orders: Order;
 
 }
