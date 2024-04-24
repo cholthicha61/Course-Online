@@ -28,15 +28,15 @@ export class RoleService {
 
   async findOne(id: number) {
     try {
-      const findOne = await this.roleRepository.findOne({
+      const findById = await this.roleRepository.findOne({
         where: {
           id: id,
         },
       });
-      if (_.isEmpty(findOne)) {
+      if (_.isEmpty(findById)) {
         throw new HttpException('Role not found', HttpStatus.NOT_FOUND);
       }
-      return findOne;
+      return findById;
     } catch (error) {
       throw error;
     }
@@ -44,10 +44,10 @@ export class RoleService {
 
   async create(createRoleDto: CreateRoleDto) {
     try {
-      const findById = await this.roleRepository.findOne({
+      const role = await this.roleRepository.findOne({
         where: { name: createRoleDto.name },
       });
-      if (!_.isEmpty(findById)) {
+      if (!_.isEmpty(role)) {
         throw new HttpException(
           'Role name already exists',
           HttpStatus.CONFLICT,
@@ -65,17 +65,17 @@ export class RoleService {
 
   async update(id: number, updateRole: UpdateRoleDto) {
     try {
-      const findById = await this.roleRepository.findOne({
+      const role = await this.roleRepository.findOne({
         where: { name: updateRole.name },
       });
-      if (!_.isEmpty(findById) && findById.id !== id) {
+      if (!_.isEmpty(role) && role.id !== id) {
         throw new HttpException(
           'Role name already exists',
           HttpStatus.CONFLICT,
         );
       }
       await this.roleRepository.update(id, updateRole);
-      return 'This action edit a Role name';
+      return 'This Role has been updated';
     } catch (error) {
       throw error;
     }
