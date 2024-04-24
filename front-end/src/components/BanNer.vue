@@ -1,6 +1,5 @@
 <template>
   <div class="w-full">
- 
       <v-row >
         <v-col cols="12">
           <v-carousel
@@ -8,16 +7,15 @@
             interval="3000"
             cycle
             hide-delimiter-background
-            
           >
             <template v-slot:prev="{ props }">
-              <v-btn color="info" variant="elevated" @click="props.onClick">
+              <v-btn color="light-blue-darken-3" variant="elevated" @click="props.onClick">
                 <
               </v-btn>
             </template>
             <template v-slot:next="{ props }">
-              <v-btn color="info" variant="elevated" @click="props.onClick"
-                >></v-btn
+              <v-btn color="light-blue-darken-3" variant="elevated" @click="props.onClick"
+                > > </v-btn
               >
             </template>
             <v-carousel-item
@@ -57,9 +55,9 @@ export default {
   data() {
     return {
       images: [
-        { src: "../../public/img/cat01.jpg" },
-        { src: "../../public/img/cat02.jpg" },
-        { src: "../../public/img/cat03.jpg" },
+        { src: "../../public/img/Course_01.jpg" },
+        { src: "../../public/img/Course_02.png" },
+        { src: "../../public/img/Course_03.jpg" },
       ],
       dialog: false,
       selectedImage: "",

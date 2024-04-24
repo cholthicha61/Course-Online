@@ -3,12 +3,12 @@
       <button @click="togglePopup"
               v-if="!showPopup"
               class="fixed bottom-10 right-10 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg z-10">
-        Question?
+        <h1> Question ?</h1>
       </button>
       
       <!-- Popup Box -->
       <transition name="fade">
-        <div v-if="showPopup" class="fixed top-1/2 right-10 transform -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg z-10 h-90 w-80">
+        <div v-if="showPopup" class="fixed -bottom-1/4 right-10 transform -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg z-10 h-90 w-80">
           <h2 class="text-2xl mb-4">Question</h2>
           <button @click="togglePopup" class="absolute top-0 right-0 m-4 bg-transparent text-gray-600 hover:text-gray-800">
             <span class="sr-only">Close</span>
@@ -57,12 +57,12 @@
   };
   </script>
   
-  <style>
+  <!-- <style>
   .fade-enter-active, .fade-leave-active {
     transition: opacity 0.3s;
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
     opacity: 0;
   }
-  </style>
+  </style> -->
   

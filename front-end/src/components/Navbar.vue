@@ -1,21 +1,21 @@
 <template>
-    <div class="bg-white  text-sky-800 py-4 px-4 shadow md:flex justify-between item-center"> 
+    <div class="bg-white fixed z-50 w-full text-sky-800 py-4 px-4 shadow md:flex justify-between item-center"> 
             <h1 class="text-xl font-bold text-sky-800 "> Course-Online </h1>
             <span @click="MenuOpen" class="absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl">
-            <i :class="[open ? 'text-sky-500' : 'text-blue-500']"> 
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" v-if="open"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" v-else></path>
-            </svg>
+                <i :class="[open ? 'text-sky-700' : 'text-sky-700']" class="inline-block ">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-6 sm:h-7 sm:w-7 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" v-if="open"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" v-else></path>
+                    </svg>
                 </i>
             </span>
 
-        <ul class="md:flex md:items-center md:px-0 px-10 md:pb-0 pb-0 md:static absolute bg-white 
+        <ul class="md:flex md:items-center md:px-0 px-10 md:pb pb-0 md:static absolute bg-white 
                     md:w-auto w-full top-14 duration-700 ease-in "
                     :class="[open ? 'left-0' : 'left-[-100%]']">
 
-            <li :key="link.name" class="md:mx-4 md:my-0 my-4" v-for="link in Links">
-                <a :href="link.link" class="text-l text-sky-800 hover:text-sky-500">{{ link.name }}</a>
+            <li :key="link.name" class="md:mx-4 md:my-0 my-3" v-for="link in Links">
+                <a :href="link.link" class="text-lg text-sky-800 hover:text-sky-500">{{ link.name }}</a>
             </li>
         </ul>      
     </div>

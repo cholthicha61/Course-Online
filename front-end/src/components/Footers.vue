@@ -1,23 +1,31 @@
 <template>
-  <v-card flat dark padless class="text-center py-5">
-    <v-card-text>
+  <v-card color="#4A6FA5" class="text-center" >
+    <!-- <v-card-text>
       <v-btn v-for="icon in icons" :key="icon" class="mx-3 " icon>
-        <v-icon>{{ icon }}</v-icon> <!-- Remove size attribute -->
+        <v-icon>{{ icon }}</v-icon> 
       </v-btn>
+    </v-card-text> -->
+
+    <v-card-text class="py-3 ">
+      
     </v-card-text>
 
-    <v-card-text class="py-2 ">
-      TOEIC® and TOEFL® are registered trademarks of Educational Testing Service (ETS). This product is not endorsed or approved by ETS.
-    </v-card-text>
 
-    <a href="#" class="text-sm border-r border-black px-2 underline"> FAQ </a> 
-    <a href="#" class="text-sm px-2 underline"> Contact Us </a> 
+    <div class="py-2 flex items-center justify-center">
+      <a href="#" class="text-sm underline mr-2"> FAQ </a>
+      <h1 class="text-sm"> | </h1>
+      <a href="#" class="text-sm px-2 underline"> Contact Us </a> 
+
+    </div>
+
+    <!-- <v-card-text class="flex justify-center bg-blue-800 py-2 text-center">
+      {{ new Date().getFullYear() }} — <h1 class="font-bold"> Course Online </h1>
+    </v-card-text> -->
+
 
   </v-card>
 
-    <v-card-text class="flex justify-center bg-gray-300 py-2 text-center">
-      {{ new Date().getFullYear() }} — <h1 class="font-bold"> Course Online </h1>
-    </v-card-text>
+    
 
 </template>
 
