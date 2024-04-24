@@ -1,10 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import * as _ from 'lodash';
+import { Role } from 'src/role/entities/role.entity';
+import { response } from 'express';
 
 @Injectable()
 export class UserService {
@@ -28,24 +31,60 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {}
-  async create(createUserDto: CreateUserDto): Promise<User> {
+    @InjectRepository(Role)
+    private roleRepository: Repository<Role>,
+  ) { }
+
+  async create(createUserDto: CreateUserDto, roleId: number) {
     try {
-      const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-      const user = this.userRepository.create({
-        ...createUserDto,
-        password: hashedPassword,
+      const findByEmail = await this.userRepository.findOne({
+        where: {
+          email: createUserDto.email
+        }
       });
-      return await this.userRepository.save(user);
+      if (!_.isEmpty(findByEmail)) {
+        throw new HttpException('email already exists', HttpStatus.CONFLICT);
+      }
+
+      const findRole = await this.roleRepository.findOne({
+        where: {
+          id: createUserDto.roleId
+        }
+      });
+      if (_.isEmpty(findRole)) {
+        throw new HttpException('role not found', HttpStatus.NOT_FOUND);
+      }
+
+      const hashPass = new User();
+      const createUser = this.userRepository.create({
+        fname: createUserDto.fname,
+        lname: createUserDto.lname,
+        phone: createUserDto.phone,
+        email: createUserDto.email,
+        password: await hashPass.hashPassword(createUserDto.password, 10),
+        roles: findRole
+      })
+      const userSave = await this.userRepository.save(createUser)
+
+      const { password, ...response } = userSave;
+
+      return response;
     } catch (error) {
       throw error;
     }
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll() {
     try {
-      //don't return password on postman
-      return await this.userRepository.find();
+
+      const allUser = await this.userRepository.find();
+      const response = allUser.map(user => {
+        const { password, ...response } = user;
+        return response;
+      });
+
+      return response;
+
     } catch (error) {
       throw error;
     }
@@ -65,22 +104,47 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
+    console.log(email);
     try {
       const findByEmail = await this.userRepository.findOne({ where: { email } });
+      if (_.isEmpty(findByEmail)) {
+        throw new HttpException('Email not found', HttpStatus.UNAUTHORIZED);
+      }
+
       return findByEmail;
     } catch (error) {
       throw error;
     }
   }
-
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  //edit เอา id dto > findone get role id>>
+  //add updat status
+  async update(id: number, updateUserDto: UpdateUserDto, roleId: number) {
     try {
-      await this.findOne(id);
+      const user = await this.findOne(id);
+
+      const findRole = await this.roleRepository.findOne({
+        where: {
+          id: roleId
+        }
+      });
+      if (_.isEmpty(findRole)) {
+        throw new HttpException('role not found', HttpStatus.NOT_FOUND);
+      }
+
+      user.fname = updateUserDto.fname;
+      user.lname = updateUserDto.lname;
+      user.phone = updateUserDto.phone;
+      user.email = updateUserDto.email;
+
       if (updateUserDto.password) {
         updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
       }
-      await this.userRepository.update(id, updateUserDto);
-      return await this.findOne(id);
+
+      user.roles = findRole;
+
+      const updatedUser = await this.userRepository.save(user);
+      const { password, ...response } = updatedUser;
+      return response;
     } catch (error) {
       throw error;
     }

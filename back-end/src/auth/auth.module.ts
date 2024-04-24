@@ -7,6 +7,7 @@ import { UserModule } from 'src/user/user.module';
 import { UserService } from 'src/user/user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
+import { Role } from 'src/role/entities/role.entity';
 
 @Module({
   controllers: [AuthController],
@@ -18,7 +19,7 @@ import { User } from 'src/user/entities/user.entity';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User,Role]),
   ],
 })
 export class AuthModule {}
