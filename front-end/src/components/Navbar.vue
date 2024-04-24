@@ -1,7 +1,6 @@
-
 <template>
     <div class="bg-white  text-sky-800 py-4 px-4 shadow md:flex justify-between item-center"> 
-            <h1 class="text-2xl font-bold text-sky-800 "> Course-Online </h1>
+            <h1 class="text-xl font-bold text-sky-800 "> Course-Online </h1>
             <span @click="MenuOpen" class="absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl">
             <i :class="[open ? 'text-sky-500' : 'text-blue-500']"> 
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -16,7 +15,7 @@
                     :class="[open ? 'left-0' : 'left-[-100%]']">
 
             <li :key="link.name" class="md:mx-4 md:my-0 my-4" v-for="link in Links">
-                <a :href="link.link" class="text-xl text-sky-800 hover:text-sky-500">{{ link.name }}</a>
+                <a :href="link.link" class="text-l text-sky-800 hover:text-sky-500">{{ link.name }}</a>
             </li>
         </ul>      
     </div>
