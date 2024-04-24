@@ -1,30 +1,42 @@
+
 <template>
-    <div class="bg-white text-sky-800 py-4 px-4 shadow md:flex justify-between item-center"> 
-        <div class="logo text-2xl font-bold text-sky-800 cursor-pointer"> 
-            <h1> Course-Online </h1>
-        </div>
-        <ul class="md:flex md:items-center">
-            <li :key="link.name" class="md:mx-4" v-for="link in Links">
+    <div class="bg-white  text-sky-800 py-4 px-4 shadow md:flex justify-between item-center"> 
+            <h1 class="text-2xl font-bold text-sky-800 "> Course-Online </h1>
+            <span @click="MenuOpen" class="absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl">
+            <i :class="[open ? 'text-sky-500' : 'text-blue-500']"> 
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" v-if="open"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" v-else></path>
+            </svg>
+                </i>
+            </span>
+
+        <ul class="md:flex md:items-center md:px-0 px-10 md:pb-0 pb-0 md:static absolute bg-white 
+                    md:w-auto w-full top-14 duration-700 ease-in "
+                    :class="[open ? 'left-0' : 'left-[-100%]']">
+
+            <li :key="link.name" class="md:mx-4 md:my-0 my-4" v-for="link in Links">
                 <a :href="link.link" class="text-xl text-sky-800 hover:text-sky-500">{{ link.name }}</a>
             </li>
-      
-        </ul>
+        </ul>      
     </div>
-     
     </template>
     
     <script>
+    import { ref } from '@vue/reactivity';
     export default { 
         setup() {
+            const open = ref(false);
             const Links = [
                 {name: "Home", link: "#"},
                 {name: "All Course", link: "#"},
                 {name: "Login", link: "#"},
                 {name: "Register", link: "#"},
             ];
-            
-            return { Links };
+            function MenuOpen(){
+                open.value = !open.value
+            }
+            return { Links,open, MenuOpen};
         }
     }
     </script>
-    
