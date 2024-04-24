@@ -5,17 +5,30 @@
 
     </div>
       <div class="w-full h-full"></div>
-     
+     <Banner class="" />
 
-      <Footer/>
-  </div>
+    <ProfileCard />
+    <QuestionPopup />
+
+      <Footer />
+    </div>
 
 </template>
 
-<script setup>
-import Navbar from './components/Navbar.vue';
-import Footer from './components/Footers.vue';
+<script>
+import Navbar from "./components/Navbar.vue";
+import Banner from "./components/BanNer.vue";
+import ProfileCard from "./components/ProFile.vue";
+import QuestionPopup from './components/QuestionPopup.vue';
+import Footers from "./components/Footers.vue";
+export default {
+  components: {
+    Navbar,
+    Banner,
+    ProfileCard,
+    QuestionPopup,
+    Footers,
+  },
+};
 </script>
 
-<style>
-</style>
