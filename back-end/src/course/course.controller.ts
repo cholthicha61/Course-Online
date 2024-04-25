@@ -33,11 +33,6 @@ export class CourseController {
     return await this.courseService.update(+id, updateCourseDto);
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string, courseName: string) {
-    return await this.courseService.remove(+id, courseName);
-  }
-
   @Patch('update-status/:id')
   async updateStatusCourse(@Param('id') id: number, @Body() updateCourseDto: UpdateCourseDto) {
     return await this.courseService.updateStatusCourse(id, updateCourseDto);

@@ -74,16 +74,6 @@ export class CourseService {
     }
   }
 
-  async remove(id: number, courseName: string) {
-    try {
-      const course = await this.findOne(id);
-      console.log(`delete course ${id} ${courseName}`);
-      await this.courseRepository.remove(course);
-    } catch (error) {
-      throw error;
-    }
-  }
-
   async updateStatusCourse(id: number, updateCourseDto: UpdateCourseDto){
     try {
       const course = await this.findOne(id);
