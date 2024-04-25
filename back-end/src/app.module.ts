@@ -9,6 +9,7 @@ import { RoleModule } from './role/role.module';
 import { AuthModule } from './auth/auth.module';
 import { CategoryModule } from './category/category.module';
 import { OrderModule } from './order/order.module';
+import { CourseModule } from './course/course.module';
 
 config();
 const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
@@ -30,6 +31,7 @@ const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
     AuthModule,
     CategoryModule,
     OrderModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

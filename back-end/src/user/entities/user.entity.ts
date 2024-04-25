@@ -32,7 +32,7 @@ export class User extends BaseEntity {
     return await bcrypt.hash(password, saltOrRounds);
   }
   
-  @OneToMany(() => Order, (order) => order.user)
+  @OneToMany(() => Order, (order) => order.id)
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   orders: Order;
 }

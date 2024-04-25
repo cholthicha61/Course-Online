@@ -14,6 +14,10 @@ export class CategoryService {
   ) {}
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
     try {
+      const existingCategory = await this.categoryRepository.findOne({ where: { name: createCategoryDto.name } });
+      if (existingCategory) {
+        throw new HttpException(`Category with name ${createCategoryDto.name} already exists`, HttpStatus.CONFLICT);
+      }
       const category = this.categoryRepository.create({
         ...createCategoryDto,
       });
@@ -54,7 +58,6 @@ export class CategoryService {
       throw error;
     }
   }
-  
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
     try {
