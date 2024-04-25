@@ -47,11 +47,6 @@ export class UserController {
     return await this.userService.update(+id, updateUserDto, roleId);
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
-    return await this.userService.remove(+id);
-  }
-
   @Patch('update-status/:id')
   async updateStatusUser(@Param('id')id: number, 
   @Body() updateUserDto: UpdateUserDto, @Body('active') active: boolean) {

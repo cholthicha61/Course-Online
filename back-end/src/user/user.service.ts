@@ -11,22 +11,6 @@ import { response } from 'express';
 
 @Injectable()
 export class UserService {
-  // private readonly users = [
-  //   {
-  //     userId: 1,
-  //     username: 'john',
-  //     password: 'changeme',
-  //   },
-  //   {
-  //     userId: 2,
-  //     username: 'maria',
-  //     password: 'guess',
-  //   },
-  // ];
-
-  // async findOneTest(username: string) {
-  //   return this.users.find((user) => user.username === username);
-  // }
 
   constructor(
     @InjectRepository(User)
@@ -115,8 +99,7 @@ export class UserService {
       throw error;
     }
   }
-  //edit เอา id dto > findone get role id>>
-  //add updat status
+
   async updateStatusUser(id: number, updateUserDto: UpdateUserDto, active: boolean) {
     try {
       const user = await this.findOne(id);
@@ -164,13 +147,4 @@ export class UserService {
     }
   }
 
-  async remove(id: number): Promise<void> {
-    //update activate
-    try {
-      await this.findOne(id);
-      await this.userRepository.softDelete(id);
-    } catch (error) {
-      throw error;
-    }
-  }
 }
