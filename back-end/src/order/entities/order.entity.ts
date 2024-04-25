@@ -1,6 +1,7 @@
+import { Course } from 'src/course/entities/course.entity';
 import { BaseEntity } from 'src/entity/base.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'order' })
 export class Order extends BaseEntity {
@@ -15,4 +16,11 @@ export class Order extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.orders)
   user: User[];
+
+  @ManyToOne(() => Course, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'course_id', referencedColumnName: 'id'})
+  course: Course;
 }
