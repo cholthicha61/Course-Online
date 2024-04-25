@@ -8,7 +8,7 @@
       
       <!-- Popup Box -->
       <transition name="fade">
-        <div v-if="showPopup" class="fixed -bottom-1/4 right-10 transform -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg z-10 h-90 w-80">
+        <div v-if="showPopup" class="fixed -bottom-1/4 right-10 transform -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg z-10 h-94 w-80">
           <h2 class="text-2xl mb-4">Question</h2>
           <button @click="togglePopup" class="absolute top-0 right-0 m-4 bg-transparent text-gray-600 hover:text-gray-800">
             <span class="sr-only">Close</span>

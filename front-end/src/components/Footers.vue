@@ -21,12 +21,17 @@
     <!-- <v-card-text class="flex justify-center bg-blue-800 py-2 text-center">
       {{ new Date().getFullYear() }} — <h1 class="font-bold"> Course Online </h1>
     </v-card-text> -->
-
-
+<!-- 
+    <v-btn
+        v-for="icon in icons"
+        :key="icon"
+        :icon="icon"
+        class="mx-4"
+        variant="text"
+      ></v-btn> -->
   </v-card>
 
-    
-
+  
 </template>
 
 <script>

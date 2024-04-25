@@ -28,8 +28,6 @@
           </v-carousel>
         </v-col>
       </v-row>
-  
-
     <v-dialog v-model="dialog" persistent max-width="500">
       <v-btn
         icon
@@ -83,11 +81,12 @@ export default {
         this.currentIndex = 0;
       }
     },
-    closeDialogOnEscape(event) {
-      if (event.key === "Escape") {
+    closeDialog(event) {
+      if (event.key === "Escape" || event.target.classList.contains('v-dialog')) {
         this.dialog = false;
-      }
-    },
+  }
+},
+
   },
   mounted() {
     window.addEventListener("keydown", this.closeDialogOnEscape);
