@@ -24,6 +24,7 @@ export class OrderService {
         status: createOrderDto.status,
         startdate: createOrderDto.startdate,
         enddate: createOrderDto.enddate,
+        
       });
       await this.orderRepository.save(createOrder);
       return 'This action adds a new order';

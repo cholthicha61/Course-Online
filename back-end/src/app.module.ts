@@ -11,6 +11,7 @@ import { CategoryModule } from './category/category.module';
 import { OrderModule } from './order/order.module';
 import { CourseModule } from './course/course.module';
 import { ImageModule } from './image/image.module';
+import { QuestionModule } from './question/question.module';
 
 config();
 const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
@@ -34,6 +35,7 @@ const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
     OrderModule,
     CourseModule,
     ImageModule,
+    QuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

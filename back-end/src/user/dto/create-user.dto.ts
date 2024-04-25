@@ -24,6 +24,8 @@ export class CreateUserDto {
 
     active?: boolean;
 
+    userId?: number;
+    
     roleId?: number;
 
 }
