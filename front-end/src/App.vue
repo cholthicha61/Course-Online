@@ -6,7 +6,7 @@
     <div class="flex-grow">
       <Banner/>
     </div>
-
+    
     <div> 
        <Recommended/>
     </div>
@@ -22,7 +22,8 @@
       <div class="sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl max-w-screen-2xl mx-auto border-b-2 border-black"> 
              <h1 class="rounded py-2 px-9 md:text-2xl italic font-bold"> Profile </h1>
     </div> -->
-    
+        <NavbarLoginVue/>
+
     <v-container class="head-course">
           <h1>Profile</h1>
         </v-container>
@@ -30,10 +31,9 @@
           <ProfileCard />
     </div>    
     </div>
+    <QuestionPopup />    
 
-    <QuestionPopup />
     <Footers/>
-  
 </template>
 
 <script>
