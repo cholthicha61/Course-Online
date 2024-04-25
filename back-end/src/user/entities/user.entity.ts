@@ -1,6 +1,6 @@
 import { BaseEntity } from "src/entity/base.entity";
 import { Role } from "src/role/entities/role.entity";
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Order } from "src/order/entities/order.entity";
 
@@ -32,7 +32,7 @@ export class User extends BaseEntity {
     return await bcrypt.hash(password, saltOrRounds);
   }
   
-  @ManyToOne(() => Order, (order) => order.id)
+  @OneToMany(() => Order, (order) => order.user)
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   orders: Order;
 }
