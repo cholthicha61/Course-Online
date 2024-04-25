@@ -1,14 +1,15 @@
 import { Order } from "src/order/entities/order.entity";
 import { BaseEntity } from 'src/entity/base.entity';
-import { Column, Entity, JoinColumn, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Category } from "src/category/entities/category.entity";
 
-@Entity({name: 'course'})
-export class Course extends BaseEntity{
-    @Column()
-    course_name: string;
+@Entity({ name: 'course' })
+export class Course extends BaseEntity {
+    @Column({ name: 'course_name' })
+    courseName: string;
 
-    @Column()
-    course_image: string;
+    @Column({ name: 'course_image' })
+    courseImage: string;
 
     @Column()
     description: string;
@@ -16,7 +17,7 @@ export class Course extends BaseEntity{
     @Column()
     price: number;
 
-    @Column()
+    @Column({ default: true })
     status: boolean;
 
     @Column()
@@ -24,5 +25,12 @@ export class Course extends BaseEntity{
 
     @OneToMany(() => Order, order => order.course)
     orders: Order[];
+
+    @ManyToOne(() => Category,{
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
+    @JoinColumn({name: 'category_id', referencedColumnName:'id'})
+    categorys: Category;
 
 }

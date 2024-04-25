@@ -117,6 +117,21 @@ export class UserService {
   }
   //edit เอา id dto > findone get role id>>
   //add updat status
+  async updateStatusUser(id: number, updateUserDto: UpdateUserDto, active: boolean) {
+    try {
+      const user = await this.findOne(id);
+
+      user.active = updateUserDto.active;
+
+      const updateStatus = await this.userRepository.save(user);
+      const { password, ...response } = updateStatus;
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto, roleId: number) {
     try {
       const user = await this.findOne(id);

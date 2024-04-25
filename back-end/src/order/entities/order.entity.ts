@@ -15,7 +15,8 @@ export class Order extends BaseEntity {
   enddate: string;
 
   @ManyToOne(() => User, (user) => user.orders)
-  user: User[];
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  user: User;
 
   @ManyToOne(() => Course, {
     onDelete: 'CASCADE',

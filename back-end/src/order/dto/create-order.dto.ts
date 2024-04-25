@@ -10,4 +10,8 @@ export class CreateOrderDto {
   @IsNotEmpty()
   @IsString()
   enddate: string;
+
+  courseId: number;
+
+  userID: number;
 }

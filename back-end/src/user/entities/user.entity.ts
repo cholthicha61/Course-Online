@@ -33,6 +33,5 @@ export class User extends BaseEntity {
   }
   
   @OneToMany(() => Order, (order) => order.id)
-  @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
-  orders: Order;
+  orders: Order[];
 }
