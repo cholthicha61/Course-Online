@@ -3,6 +3,7 @@ import { Role } from "src/role/entities/role.entity";
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Order } from "src/order/entities/order.entity";
+import { Question } from "src/question/entities/question.entity";
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -33,5 +34,10 @@ export class User extends BaseEntity {
   }
   
   @OneToMany(() => Order, (order) => order.id)
+  @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   orders: Order[];
+
+  @OneToMany(() => Question, (question) => question.id)
+  @JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
+  questions: Question;
 }
