@@ -14,13 +14,17 @@ export class Order extends BaseEntity {
   @Column()
   enddate: string;
 
-  @ManyToOne(() => User, (user) => user.orders)
-  user: User[];
+  @ManyToOne(() => User, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  users: User[];
 
   @ManyToOne(() => Course, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn({ name: 'course_id', referencedColumnName: 'id'})
+  @JoinColumn({ name: 'course_id', referencedColumnName: 'id' })
   course: Course;
 }

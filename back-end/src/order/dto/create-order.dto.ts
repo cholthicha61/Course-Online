@@ -1,13 +1,17 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateOrderDto {
-  status: boolean;
+  status?: boolean;
 
   @IsNotEmpty()
   @IsString()
-  startdate: string;
+  startdate?: string;
 
   @IsNotEmpty()
   @IsString()
-  enddate: string;
+  enddate?: string;
+
+  userId?: number;
+  
+  courseId?: number;
 }

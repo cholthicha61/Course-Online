@@ -1,6 +1,7 @@
 import { Order } from "src/order/entities/order.entity";
 import { BaseEntity } from 'src/entity/base.entity';
 import { Column, Entity, JoinColumn, OneToMany } from "typeorm";
+import { Image } from "src/image/entities/image.entity";
 
 @Entity({name: 'course'})
 export class Course extends BaseEntity{
@@ -24,5 +25,8 @@ export class Course extends BaseEntity{
 
     @OneToMany(() => Order, order => order.course)
     orders: Order[];
+
+    @OneToMany(() => Image, image => image.course)
+    images: Image[];
 
 }
