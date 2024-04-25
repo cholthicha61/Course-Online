@@ -1,43 +1,33 @@
 <template>
   <div class="w-full">
- 
-      <v-row >
-        <v-col cols="12">
-          <v-carousel
-            show-arrows
-            interval="3000"
-            cycle
-            hide-delimiter-background
-            
-          >
-            <template v-slot:prev="{ props }">
-              <v-btn color="info" variant="elevated" @click="props.onClick">
-                <
-              </v-btn>
-            </template>
-            <template v-slot:next="{ props }">
-              <v-btn color="info" variant="elevated" @click="props.onClick"
-                >></v-btn
-              >
-            </template>
-            <v-carousel-item
-              v-for="(item, index) in images"
-              :key="index"
-              :src="item.src"
-              cover
-              @click="showSingleImage(index)"
-            ></v-carousel-item>
-          </v-carousel>
-        </v-col>
-      </v-row>
-  
+    <v-row>
+      <v-col cols="12">
+        <v-carousel show-arrows interval="3000" cycle hide-delimiter-background>
+          <template v-slot:prev="{ props }">
+            <v-btn color="info" variant="elevated" @click="props.onClick"
+              ><</v-btn>
+          </template>
+          <template v-slot:next="{ props }">
+            <v-btn color="info" variant="elevated" @click="props.onClick"
+              >></v-btn>
+          </template>
+          <v-carousel-item
+            v-for="(item, index) in images"
+            :key="index"
+            :src="item.src"
+            cover
+            @click="showSingleImage(index)"
+          ></v-carousel-item>
+        </v-carousel>
+      </v-col>
+    </v-row>
 
     <v-dialog v-model="dialog" persistent max-width="500">
       <v-btn
         icon
         dark
         @click="dialog = false"
-        class="absolute top-0 right-0 mt-2 mr-2 z-50"
+        class="absolute top-0 -right-full"
       >
         X
       </v-btn>
@@ -53,9 +43,12 @@
 </template>
 
 <script>
+import { mdiAccount } from "@mdi/js";
+
 export default {
   data() {
     return {
+      path: mdiAccount,
       images: [
         { src: "../../public/img/cat01.jpg" },
         { src: "../../public/img/cat02.jpg" },
@@ -85,10 +78,8 @@ export default {
         this.currentIndex = 0;
       }
     },
-    closeDialogOnEscape(event) {
-      if (event.key === "Escape") {
+    closeDialogOnEscape() {
         this.dialog = false;
-      }
     },
   },
   mounted() {

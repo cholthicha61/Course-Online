@@ -1,6 +1,6 @@
 <template>
-    <div class="flex justify-center items-center">
-      <div class="max-w-screen-lg p-8 bg-white rounded-lg shadow-lg hover:shadow-xl">
+    <div class="flex justify-center items-center border-5 border-l-amber-500">
+      <div class="border-2 border-black max-w-screen-lg p-8 bg-white rounded-lg shadow-lg hover:shadow-xl">
         <div class="flex justify-center">
           <img src="../../public/img/PTeacherEng.jpg" alt="Profile Image" class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md transition duration-500 transform hover:scale-110">
         </div>

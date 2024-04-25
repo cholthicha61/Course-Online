@@ -5,6 +5,7 @@
       
     <Banner class="" />
 
+
     <ProfileCard />
     <QuestionPopup />
     </div>
@@ -13,6 +14,7 @@
 </template>
 
 <script>
+
 import Navbar from "./components/Navbar.vue";
 import Banner from "./components/BanNer.vue";
 import ProfileCard from "./components/ProFile.vue";
