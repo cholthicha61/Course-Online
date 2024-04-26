@@ -22,7 +22,6 @@
       <a href="#" class="text-sm underline mr-2"> FAQ </a>
       <h1 class="text-sm"> | </h1>
       <a href="#" class="text-sm px-2 underline"> Contact Us </a> 
-
     </div>
 
     <!-- <v-card-text class="flex justify-center bg-blue-800 py-2 text-center">

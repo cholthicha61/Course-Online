@@ -33,7 +33,7 @@
         icon
         dark
         @click="dialog = false"
-        class="absolute top-0 right-0 mt-2 mr-2 z-50"
+        class="absolute top-0 -right-full"
       >
         X
       </v-btn>
@@ -49,9 +49,12 @@
 </template>
 
 <script>
+import { mdiAccount } from "@mdi/js";
+
 export default {
   data() {
     return {
+      path: mdiAccount,
       images: [
         { src: "../../public/img/Course_01.jpg" },
         { src: "../../public/img/Course_02.png" },
@@ -81,12 +84,9 @@ export default {
         this.currentIndex = 0;
       }
     },
-    closeDialog(event) {
-      if (event.key === "Escape" || event.target.classList.contains('v-dialog')) {
+    closeDialogOnEscape() {
         this.dialog = false;
-  }
-},
-
+    },
   },
   mounted() {
     window.addEventListener("keydown", this.closeDialogOnEscape);

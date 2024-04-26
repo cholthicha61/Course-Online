@@ -6,7 +6,6 @@
         <h1> Question ?</h1>
       </button>
       
-      <!-- Popup Box -->
       <transition name="fade">
         <div v-if="showPopup" class="fixed -bottom-1/4 right-10 transform -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg z-10 h-94 w-80">
           <h2 class="text-2xl mb-4">Question</h2>

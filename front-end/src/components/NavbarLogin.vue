@@ -62,7 +62,6 @@ import Dropdown from './Dropdown.vue'
   nav .menu-item.active,
   nav .menu-item:hover {
     background-color: #C0D6DF;
-    border-bottom-color: #4A6FA5;
   }
   
   nav .menu-item a {
