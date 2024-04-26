@@ -7,11 +7,9 @@
       <Banner/>
     </div>
     
-    <div> 
-       <Recommended/>
-    </div>
+    
 
-    <div class="bg-gray-200"> 
+    <div class=""> 
         <AllCourse/>
     </div>
       
@@ -43,7 +41,7 @@ import ProfileCard from "./components/ProFile.vue";
 import QuestionPopup from './components/QuestionPopup.vue';
 import Footers from './components/Footers.vue';
 import AllCourse from "./views/AllCourse.vue";
-import Recommended from './views/Recommended.vue';
+// import Recommended from './views/Recommended.vue';
 
 export default {
   components: {
@@ -53,7 +51,7 @@ export default {
     QuestionPopup,
     Footers,
     AllCourse,
-    Recommended,
+  
   },
 };
 </script>

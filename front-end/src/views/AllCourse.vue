@@ -1,5 +1,26 @@
 <template lang="">
-  <div> 
+  <div>
+    <v-container class="head-course">
+            <h1>Recommended course</h1>
+          </v-container>
+        </div>
+        <div>
+          <v-container>
+            <v-row class="justify-start" no-gutters>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+                lg="3"
+                xl="2"
+                v-for="i in data"
+                fixed >
+                <v-sheet class="ma-3 rounded-border">
+                  <CardCourse />
+                </v-sheet>
+              </v-col>
+            </v-row>
+          </v-container>
         <v-container class="head-course ">
           <h1>All course</h1>
         </v-container>
@@ -20,6 +41,7 @@
             </v-col>
           </v-row>
         </v-container>
+      
       </div>
 </template>
 
@@ -40,7 +62,6 @@ export default {
   },
 };
 </script>
-
 
 
 <style scoped>
