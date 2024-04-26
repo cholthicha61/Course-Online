@@ -5,9 +5,11 @@
         <Navbar />
         <div class="mt-24">
           <RouterView />
+
         </div>
-        <Footers />
+    
       </v-main>
+      <Footers />
     </v-app>
   </div>
 </template>
@@ -15,6 +17,8 @@
 <script setup>
 import Navbar from "./components/Navbar.vue";
 import Footers from "./components/Footers.vue";
+
+
 </script>
 
 <style scoped>
