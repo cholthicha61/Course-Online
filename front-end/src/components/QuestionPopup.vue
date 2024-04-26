@@ -2,12 +2,12 @@
     <div>
       <button @click="togglePopup"
               v-if="!showPopup"
-              class="fixed bottom-5 right-10 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg z-10">
-        Question?
+              class="fixed bottom-10 right-10 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg z-10">
+        <h1> Question ?</h1>
       </button>
       
       <transition name="fade">
-        <div v-if="showPopup" class="fixed -bottom-1/4  right-10 transform -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg z-10 h-90 w-80">
+        <div v-if="showPopup" class="fixed -bottom-1/4 right-10 transform -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg z-10 h-94 w-80">
           <h2 class="text-2xl mb-4">Question</h2>
           <button @click="togglePopup" class="absolute top-0 right-0 m-4 bg-transparent text-gray-600 hover:text-gray-800">
             <span class="sr-only">Close</span>
