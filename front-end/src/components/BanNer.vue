@@ -85,7 +85,7 @@ export default {
       }
     },
     closeDialogOnEscape() {
-        this.dialog = false;
+      this.dialog = false;
     },
   },
   mounted() {
