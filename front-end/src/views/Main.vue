@@ -1,14 +1,14 @@
 <template>
-  <div> 
+  <div>
     <div class="flex-grow">
-      <Banner/>
+      <Banner />
     </div>
-    
-    <div class=""> 
-        <AllCourse/>
+
+    <div class="">
+      <AllCourse />
     </div>
-      
-      <!-- <div> 
+
+    <!-- <div> 
         <div class="py-4">
         <div class="sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl max-w-screen-lg mx-auto">
         <h1 class="py-4 font-bold text-black border-b-2 border-gray-400 w-full">Profile</h1>
@@ -17,14 +17,13 @@
     </div> -->
 
     <v-container class="head-course">
-          <h1>Profile</h1>
-        </v-container>
-    <div class="py-8 w-full ">
-          <ProfileCard />
-         
-    </div>   
-    <div class=""> 
-         <QuestionPopup/> 
+      <h1>Profile</h1>
+    </v-container>
+    <div class="py-8 w-full">
+      <ProfileCard />
+    </div>
+    <div class="">
+      <QuestionPopup />
     </div>
   </div>
 </template>
@@ -32,8 +31,8 @@
 <script>
 import Banner from "@/components/BanNer.vue";
 import ProfileCard from "@/components/ProFile.vue";
-import QuestionPopup from '@/components/QuestionPopup.vue';
-import AllCourse from "@/views/AllCourse.vue";
+import QuestionPopup from "@/components/QuestionPopup.vue";
+import AllCourse from "../components/AllCourse.vue";
 
 export default {
   components: {
@@ -45,7 +44,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .head-course h1 {
   font-size: 30px;
@@ -53,5 +51,4 @@ export default {
   border-bottom: 1px solid #9e9e9e;
   font-style: italic;
 }
-
 </style>
