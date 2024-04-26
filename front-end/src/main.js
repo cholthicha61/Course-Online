@@ -16,7 +16,6 @@ const vuetify = createVuetify({
   directives,
 })
 
-
 const app = createApp(App)
 
 app.use(router)

@@ -8,21 +8,19 @@
     </v-img>
 
     <v-card-text>
-      <h1>TOEIC</h1>
+      <h1>TOEIC500</h1>
       <div class="description-course mt-1">
         <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia,
-          possimus.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo cum amet, hic est iusto quam?
         </p>
       </div>
-      <div class="text-end">
-        <h2>฿2,500.00</h2>
+      <div class="text-end mt-2">
+        <h2>฿2,500</h2>
       </div>
     </v-card-text>
 
     <v-card-btn
-      class="card-button pa-2"
-      style="display: flex; justify-content: space-between"
+      class="card-button pa-2 d-flex justify-between"
     >
       <v-btn value="favorites">
         <!-- <v-icon>mdi-heart</v-icon> -->
@@ -36,6 +34,25 @@
 <script>
 export default {
   name: "CardCourse",
+  // data() {
+  //   return {
+  //     Name: '',
+  //     courseDescription: '',
+  //     coursePrice: ''
+  //   }
+  // },
+  // mounted() {
+  //   this.fetchCourseData();
+  // },
+  // methods: {
+  //   fetchCourseData() {
+  //     setTimeout(() => {
+  //       this.Name = 'Toei';
+  //       this.courseDescription = 'lorem ipsum dolor';
+  //       this.coursePrice = '฿2000';
+  //     }, 1000); 
+  //   }
+  // }
 };
 </script>
 

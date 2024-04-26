@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import RecomendCourse from '../views/AllCourse.vue'
+import RecomendCourse from '../components/AllCourse.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

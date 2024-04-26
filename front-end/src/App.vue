@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="bg-sky-200 h-screen ">
+  <div id="app" class="bg-white h-screen ">
       <Navbar />
       <AllCourse/>
   </div>
@@ -7,7 +7,7 @@
 
 <script setup>
 import Navbar from './components/Navbar.vue';
-import AllCourse from './views/AllCourse.vue';
+import AllCourse from './components/AllCourse.vue';
 </script>
 
 <style>
