@@ -12,12 +12,18 @@ import { OrderModule } from './order/order.module';
 import { CourseModule } from './course/course.module';
 import { ImageModule } from './image/image.module';
 import { QuestionModule } from './question/question.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { FOLDERPATH } from './constant/folder-path';
 
 config();
 const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', FOLDERPATH.Public), // Specify the root path for static files
+      serveRoot: '/api', // Serve static files for '/api' route
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: DB_HOST,
