@@ -4,12 +4,18 @@
       <v-col cols="12">
         <v-carousel show-arrows interval="3000" cycle hide-delimiter-background>
           <template v-slot:prev="{ props }">
-            <v-btn color="info" variant="elevated" @click="props.onClick"
-              ></v-btn>
+            <v-btn
+              color="info"
+              variant="elevated"
+              @click="props.onClick"
+            ></v-btn>
           </template>
           <template v-slot:next="{ props }">
-            <v-btn color="info" variant="elevated" @click="props.onClick"
-              >></v-btn>
+            <v-btn
+              color="info"
+              variant="elevated"
+              @click="props.onClick"
+            ></v-btn>
           </template>
           <v-carousel-item
             v-for="(item, index) in images"
@@ -79,7 +85,7 @@ export default {
       }
     },
     closeDialogOnEscape() {
-        this.dialog = false;
+      this.dialog = false;
     },
   },
   mounted() {
