@@ -1,23 +1,28 @@
 <template>
-  <div class="bg-white">
-    <AllCourse />
+  <div id="app" style="font-family: 'Kanit'">
+    <v-app>
+      <v-main>
+        <Navbar />
+        <div class="mt-24">
+          <RouterView />
+        </div>
+        <Footers />
+      </v-main>
+    </v-app>
   </div>
 </template>
 
-<script>
-import AllCourse from "./components/AllCourse.vue";
-
-export default {
-  components: {
-    AllCourse,
-  },
-};
+<script setup>
+import Navbar from "./components/Navbar.vue";
+import Footers from "./components/Footers.vue";
 </script>
+
 <style scoped>
-.head-course h1 {
-  font-size: 30px;
-  color: black;
-  border-bottom: 1px solid #9e9e9e;
-  font-style: italic;
+ิิbody {
+  font-family: Kanit;
+}
+header {
+  line-height: 1.5;
+  max-height: 100vh;
 }
 </style>

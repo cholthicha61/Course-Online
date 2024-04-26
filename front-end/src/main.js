@@ -9,7 +9,8 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
-import "./assets/main.css"
+import '@mdi/js'; // นำเข้า MDI icons
+
 
 const vuetify = createVuetify({
   components,
