@@ -5,7 +5,10 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx,html}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+      }
+    },
   },
   plugins: [],
 }

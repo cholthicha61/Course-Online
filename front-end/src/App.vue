@@ -1,14 +1,23 @@
 <template>
-  <div id="app" class="bg-white h-screen ">
-      <Navbar />
-      <AllCourse/>
+  <div class="bg-white">
+    <AllCourse />
   </div>
 </template>
 
-<script setup>
-import Navbar from './components/Navbar.vue';
-import AllCourse from './components/AllCourse.vue';
-</script>
+<script>
+import AllCourse from "./components/AllCourse.vue";
 
-<style>
+export default {
+  components: {
+    AllCourse,
+  },
+};
+</script>
+<style scoped>
+.head-course h1 {
+  font-size: 30px;
+  color: black;
+  border-bottom: 1px solid #9e9e9e;
+  font-style: italic;
+}
 </style>
