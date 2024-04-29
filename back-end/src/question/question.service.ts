@@ -13,7 +13,7 @@ export class QuestionService {
   ) {}
 
   async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
-    try {
+    try { 
       const question = await this.questionRepository.create({
         message: createQuestionDto.message,
       });

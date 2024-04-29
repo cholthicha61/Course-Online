@@ -22,18 +22,18 @@ export class UserController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto, @Query('roleId') roleId: number) {
     console.log(createUserDto);
-    return await this.userService.create(createUserDto, roleId);
+    return await this.userService.create(createUserDto);
   }
   @UseGuards(AuthGuard)
   @Get()
-  async findAll() {
-    return await this.userService.findAll();
+  async findAll(@Query() keyword) {
+    return await this.userService.findAll(keyword);
   }
 
-  @Get('email/:email')
-  async findByEmail(@Query('email') email: string) {
-    return await this.userService.findByEmail(email);
-  }
+  // @Get('email')
+  // async findByEmail(@Query() keyword) {
+  //   return await this.userService.findByEmail(keyword);
+  // }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {

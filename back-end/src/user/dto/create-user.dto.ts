@@ -23,8 +23,6 @@ export class CreateUserDto {
     password?: string;
 
     active?: boolean;
-
-    userId?: number;
     
     roleId?: number;
 

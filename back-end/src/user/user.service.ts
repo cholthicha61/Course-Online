@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,7 +19,7 @@ export class UserService {
     private roleRepository: Repository<Role>,
   ) { }
 
-  async create(createUserDto: CreateUserDto, roleId: number) {
+  async create(createUserDto: CreateUserDto) {
     try {
       const findByEmail = await this.userRepository.findOne({
         where: {
@@ -58,11 +58,22 @@ export class UserService {
     }
   }
 
-  async findAll() {
+  async findAll(keyword) {
     try {
+console.log('keyword', keyword);
 
-      const allUser = await this.userRepository.find();
-      const response = allUser.map(user => {
+      const findAllUsers = await this.userRepository.createQueryBuilder('user')
+      .leftJoinAndSelect('user.roles', 'roles')
+      .where('1=1')
+      if(keyword?.fname) {
+        findAllUsers.andWhere('user.fname = :fname', {fname: keyword?.fname})
+      }
+      if(keyword?.email) {
+        findAllUsers.andWhere('user.email = :email', {email: keyword?.email})
+      }
+      const users = await findAllUsers.getMany()
+
+      const response = users.map(user => {
         const { password, ...response } = user;
         return response;
       });
@@ -74,9 +85,12 @@ export class UserService {
     }
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: number) {
     try {
-      const user = await this.userRepository.findOne({ where: { id } });
+      const user = await this.userRepository.createQueryBuilder('user')
+      .leftJoinAndSelect('user.roles', 'roles')
+      .where('user.id = :id', {id})
+      .getOne();
       if (!user) {
         throw new NotFoundException(`User with ID ${id} not found`);
       }
@@ -86,20 +100,19 @@ export class UserService {
     }
   }
 
-  async findByEmail(email: string) {
-    console.log(email);
-    try {
-      const findByEmail = await this.userRepository.findOne({ where: { email } });
-      if (_.isEmpty(findByEmail)) {
-        throw new HttpException('Email not found', HttpStatus.UNAUTHORIZED);
-      }
+  // async findByEmail(keyword) {
+  //   try {
+  //     const findByEmail = await this.userRepository.findOne({ where: { keyword.email } });
+  //     if (_.isEmpty(findByEmail)) {
+  //       throw new HttpException('Email not found', HttpStatus.NOT_FOUND);
+  //     }
 
-      return findByEmail;
-    } catch (error) {
-      throw error;
-    }
-  }
-
+  //     return findByEmail;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+  
   async updateStatusUser(id: number, updateUserDto: UpdateUserDto, active: boolean) {
     try {
       const user = await this.findOne(id);

@@ -8,10 +8,12 @@ export class CreateCourseDto {
     description?: string;
 
     @IsNotEmpty()
-    @IsNumber()
+    // @IsNumber()
     price?: number;
 
     status?: boolean;
-    @IsNumber()
+    // @IsNumber()
     priority?: number;
+
+    categoryId?: number;
 }

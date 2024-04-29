@@ -51,5 +51,5 @@ export class ImageController {
     return this.imageService.remove(+id);
   }
 
-
+  
 }

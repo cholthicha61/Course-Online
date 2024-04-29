@@ -22,7 +22,7 @@ const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', FOLDERPATH.Public), // Specify the root path for static files
-      serveRoot: '/api', // Serve static files for '/api' route
+      serveRoot: '/public', // Serve static files for '/api' route
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
