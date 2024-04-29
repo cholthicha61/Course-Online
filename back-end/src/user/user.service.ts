@@ -66,9 +66,7 @@ export class UserService {
         const { password, ...response } = user;
         return response;
       });
-
       return response;
-
     } catch (error) {
       throw error;
     }
@@ -76,7 +74,10 @@ export class UserService {
 
   async findOne(id: number): Promise<User> {
     try {
-      const user = await this.userRepository.findOne({ where: { id } });
+      const user = await this.userRepository.findOne({ where: { id },
+       relations:{
+        questions:true
+       } });
       if (!user) {
         throw new NotFoundException(`User with ID ${id} not found`);
       }
