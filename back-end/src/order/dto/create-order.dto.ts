@@ -12,6 +12,6 @@ export class CreateOrderDto {
   enddate?: string;
 
   userId?: number;
-  
+
   courseId?: number;
 }

@@ -15,4 +15,4 @@ import { ImageService } from 'src/image/image.service';
   controllers: [CourseController, CategoryController, ImageController],
   providers: [CourseService, CategoryService, ImageService],
 })
-export class CourseModule { }
+export class CourseModule {}
