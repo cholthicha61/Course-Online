@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +26,31 @@ const router = createRouter({
     //     }
     //   ]
     //   },
+    {
+      path: "/register",
+      name: "Register",
+      component: () => import("../components/Register.vue"),
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("../components/Login.vue"),
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: () => import("../components/Register.vue"),
+    },
+    {
+      path: "/allcourse",
+      name: "allcourse",
+      component: () => import("../components/AllCourse.vue"),
+    },
+    // {
+    //   path: '/addcourse',
+    //   name: 'addcourse',
+    //   component: () => import('../components/AddCourse.vue'),
+    // },
   ],
 });
 

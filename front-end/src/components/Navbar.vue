@@ -67,10 +67,11 @@ export default {
   setup() {
     const open = ref(false);
     const Links = [
-      { name: "Home", link: "#" },
-      { name: "All Course", link: "#" },
-      { name: "Login", link: "#" },
-      { name: "Register", link: "#" },
+      { name: "Home", link: "/" },
+      { name: "All Course", link: "/allcourse" },
+      { name: "Login", link: "/login" },
+      { name: "Register", link: "/register" },
+      // { name: "Add Course", link: "/addcourse"}
     ];
     function MenuOpen() {
       open.value = !open.value;
