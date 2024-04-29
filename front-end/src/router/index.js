@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import RecomendCourse from '../components/AllCourse.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +8,24 @@ const router = createRouter({
       name: "main",
       component: () => import("../views/Main.vue"),
     },
+    {
+      path: "/home",
+      name: "home",
+      component: () => import("../views/Home.vue"),
+    },
+    {
+      name: "master",
+      path: "/",
+      component: import('../views/layout/Master.vue'),
+      redirect: '/dashboard',
+      children: [
+        {
+          name: 'dashboard',
+          path: '/dashboard',
+          component: import('../views/Dashboard.vue'),
+        }
+      ]
+      },
   ],
 });
 
