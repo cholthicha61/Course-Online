@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <login /> -->
     <div class="flex-grow">
       <Banner />
     </div>
@@ -30,9 +31,12 @@
 
 <script>
 import Banner from "@/components/BanNer.vue";
-import ProfileCard from "@/components/ProFile.vue";
+import ProfileCard from "@/components/Profile-2.vue";
 import QuestionPopup from "@/components/QuestionPopup.vue";
 import AllCourse from "../components/AllCourse.vue";
+import Login from "../components/Login.vue";
+import Register from "../components/Register.vue";
+
 
 export default {
   components: {
@@ -40,6 +44,8 @@ export default {
     ProfileCard,
     QuestionPopup,
     AllCourse,
+    Login,
+    Register,
   },
 };
 </script>
