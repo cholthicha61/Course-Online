@@ -13,19 +13,19 @@ const router = createRouter({
       name: "home",
       component: () => import("../views/Home.vue"),
     },
-    {
-      name: "master",
-      path: "/",
-      component: import('../views/layout/Master.vue'),
-      redirect: '/dashboard',
-      children: [
-        {
-          name: 'dashboard',
-          path: '/dashboard',
-          component: import('../views/Dashboard.vue'),
-        }
-      ]
-      },
+    // {
+    //   name: "master",
+    //   path: "/",
+    //   component: import('../views/layout/Master.vue'),
+    //   redirect: '/dashboard',
+    //   children: [
+    //     {
+    //       name: 'dashboard',
+    //       path: '/dashboard',
+    //       component: import('../views/Dashboard.vue'),
+    //     }
+    //   ]
+    //   },
   ],
 });
 

@@ -2,12 +2,12 @@
   <div id="app" style="font-family: 'Kanit'">
     <v-app>
       <v-main>
-        <!-- <Navbar /> -->
-        <!-- <div class="mt-24"> -->
-          <!-- <RouterView /> -->
-        <!-- </div> -->
-        <!-- <Footers /> -->
-        <Master/>
+        <Navbar />
+        <div class="mt-24">
+          <RouterView />
+        </div>
+        <Footers />
+        <!-- <Master/> -->
       </v-main>
     </v-app>
 </div>
