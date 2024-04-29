@@ -28,8 +28,8 @@ export class QuestionService {
       }
 
       const question = this.questionRepository.create({
-        message: createQuestionDto.message
-      })
+        message: createQuestionDto.message,
+      });
 
       return await this.questionRepository.save(question);
     } catch (error) {
