@@ -7,6 +7,7 @@ export class Question extends BaseEntity {
   @Column()
   message: string;
 
-  @ManyToOne(() => User, (user) => user.questions)
+  @ManyToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 }

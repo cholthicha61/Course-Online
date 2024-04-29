@@ -77,9 +77,7 @@ console.log('keyword', keyword);
         const { password, ...response } = user;
         return response;
       });
-
       return response;
-
     } catch (error) {
       throw error;
     }
@@ -89,6 +87,7 @@ console.log('keyword', keyword);
     try {
       const user = await this.userRepository.createQueryBuilder('user')
       .leftJoinAndSelect('user.roles', 'roles')
+      .leftJoinAndSelect('user.questions', 'questions')
       .where('user.id = :id', {id})
       .getOne();
       if (!user) {

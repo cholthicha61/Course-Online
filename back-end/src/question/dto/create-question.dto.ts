@@ -1,8 +1,10 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateQuestionDto {
-    @IsNotEmpty()
-    @IsString()
-    message: string;
+  @IsNotEmpty()
+  @IsString()
+  message?: string;
+  @IsNotEmpty()
+  @IsNumber()
+  userId?: number;
 }
-    
