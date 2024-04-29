@@ -74,6 +74,7 @@ export default {
       { name: "All Course", link: "/allcourse" },
       { name: "Login", link: "/login" },
       { name: "Register", link: "/register" },
+      // { name: "Add Course", link: "/addcourse"},
     ];
     function MenuOpen() {
       open.value = !open.value;

@@ -31,7 +31,12 @@ const router = createRouter({
       path: '/allcourse',
       name: 'allcourse',
       component: () => import('../components/AllCourse.vue'),
-    }
+    },
+    // {
+    //   path: '/addcourse',
+    //   name: 'addcourse',
+    //   component: () => import('../components/AddCourse.vue'),
+    // },
   ],
 });
 
