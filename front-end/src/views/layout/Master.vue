@@ -4,7 +4,7 @@
     <div class="w-full h-full">
       <Header :dataOpenSideBar="openSidebar" :clickHambuger="toggleSidebar" />
       <div class="w-full h-[calc(100vh-50px)]">
-        <router-view></router-view>
+        <!-- <router-view></router-view> -->
       </div>
     </div>
   </div>
