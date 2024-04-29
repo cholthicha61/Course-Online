@@ -8,22 +8,22 @@ export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Post()
-  create(@Body() createQuestionDto: CreateQuestionDto) {
-    return this.questionService.create(createQuestionDto);
+  async create(@Body() createQuestionDto: CreateQuestionDto, @Query('user_id') userId: number) {
+    return await this.questionService.create(createQuestionDto, userId);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.questionService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.questionService.findOne(+id);
   }
   @Get('user/:id')
-  async findByUserId(@Query('id') id: number) {
-    return await this.questionService.findByUserId(id);
+  async findByUserId(@Query('user_id') userId: number) {
+    return await this.questionService.findOne(userId);
   }
 
   // @Patch(':id')

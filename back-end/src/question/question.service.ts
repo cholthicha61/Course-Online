@@ -5,18 +5,32 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Question } from './entities/question.entity';
 import { Repository } from 'typeorm';
 import * as _ from 'lodash';
+import { User } from 'src/user/entities/user.entity';
 @Injectable()
 export class QuestionService {
   constructor(
     @InjectRepository(Question)
-    private questionRepository: Repository<Question>
+    private questionRepository: Repository<Question>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>
   ) {}
 
-  async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
+  async create(createQuestionDto: CreateQuestionDto, userId: number): Promise<Question> {
     try {
-      const question = await this.questionRepository.create({
-        message: createQuestionDto.message,
+      const user = await this.userRepository.findOne({
+        where: {
+          id: userId,
+        },
       });
+
+      if (_.isEmpty(user)) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+
+      const question = this.questionRepository.create({
+        message: createQuestionDto.message
+      })
+
       return await this.questionRepository.save(question);
     } catch (error) {
       throw error;
@@ -45,17 +59,17 @@ export class QuestionService {
     }
   }
 
-  async findByUserId(id: number): Promise<Question> {
-    try {
-      const findByUserId = await this.questionRepository.findOne({ where: { id } });
-      if (_.isEmpty(findByUserId)) {
-        throw new HttpException('User ID not found', HttpStatus.NOT_FOUND);
-      }
-      return findByUserId;
-    } catch (error) {
-      throw error;
-    }
-  }
+  // async findByUserId(id: number): Promise<Question> {
+  //   try {
+  //     const findByUserId = await this.questionRepository.findOne({ where: { id } });
+  //     if (_.isEmpty(findByUserId)) {
+  //       throw new HttpException('User ID not found', HttpStatus.NOT_FOUND);
+  //     }
+  //     return findByUserId;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
   async remove(id: number) {
     try {
