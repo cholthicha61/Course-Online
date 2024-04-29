@@ -12,7 +12,7 @@ const router = createRouter({
     },
 
     {
-      path: "/R3",
+      path: "/register",
       name: "Register",
       component: () => import("../components/Register.vue"),
     },
