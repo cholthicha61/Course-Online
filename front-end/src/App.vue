@@ -1,4 +1,14 @@
 <template>
+  <div id="app">
+    <v-app id="inspire">
+      <!-- <TheNavBar /> -->
+      <v-main>
+        <router-view />
+      </v-main>
+    </v-app>
+  </div>
+</template>
+<!-- <template>
   <div id="app" style="font-family: 'Kanit'">
     <v-app>
       <v-main>
@@ -12,7 +22,7 @@
       <Footers />
     </v-app>
   </div>
-</template>
+</template> -->
 
 <script setup>
 import Navbar from "./components/Navbar.vue";

@@ -1,7 +1,9 @@
 
-import { createStore } from 'vuex'
+import { createStore , mapState } from 'vuex'
 
 import datafromApiFree from './modules/datafromApiFree'
+import Login  from '@/components/Login.vue'
+
 
 export default createStore({
   state: {
@@ -14,6 +16,7 @@ export default createStore({
   },
   modules: {
     datafromApiFree,
+    Login,
 
   }
 })
