@@ -1,6 +1,8 @@
 <template>
-  <div>
+  <!-- <v-container> -->
+    <div>
     <!-- <login /> -->
+
     <div class="flex-grow">
       <Banner />
     </div>
@@ -17,9 +19,9 @@
              <h1 class="rounded py-2 px-9 md:text-2xl italic font-bold"> Profile </h1>
     </div> -->
 
-    <v-container class="head-course">
+    <div class="head-course">
       <h1>Profile</h1>
-    </v-container>
+    </div>
     <div class="py-8 w-full">
       <ProfileCard />
     </div>
@@ -27,6 +29,7 @@
       <QuestionPopup />
     </div>
   </div>
+  <!-- </v-container> -->
 </template>
 
 <script>
@@ -36,6 +39,7 @@ import QuestionPopup from "@/components/QuestionPopup.vue";
 import AllCourse from "../components/AllCourse.vue";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
+import NavbarLogin from "@/components/NavbarLogin.vue";
 
 
 export default {
@@ -46,6 +50,7 @@ export default {
     AllCourse,
     Login,
     Register,
+    NavbarLogin,
   },
 };
 </script>

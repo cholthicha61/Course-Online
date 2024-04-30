@@ -31,10 +31,8 @@
             <p class="text-white">Admin</p>
           </div>
         </div>
-        <div
-          class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-sm cursor-pointer text-gray-300"
-        >
-          <router-link to="/" class="px-2 flex space-x-2"
+        <div class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-sm cursor-pointer text-gray-300">
+          <router-link to="/Dashboard" class="px-2 flex space-x-2"
             ><span v-tooltip.right="'Home'"></span>
             <span class="" v-show="dataOpenSideBar ">Home</span></router-link
           >
@@ -55,8 +53,8 @@
         <div
           class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
-          <router-link to="/user" class="px-2 flex space-x-2"
-            ><span class="" v-tooltip.right="'User'"></span>
+          <router-link to="/Inbox" class="px-2 flex space-x-2"
+            ><span class="" v-tooltip.right="'Inbox'"></span>
             <span v-show="dataOpenSideBar">Inbox</span></router-link
           >
           <svg
@@ -76,8 +74,8 @@
         <div
           class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
-          <router-link to="/product" class="px-2 flex space-x-2"
-            ><span class="" v-tooltip.right="'Product'"></span>
+          <router-link to="/Manage Course'" class="px-2 flex space-x-2"
+            ><span class="" v-tooltip.right="'Manage Course'"></span>
             <span v-show="dataOpenSideBar">Manage Course</span></router-link
           >
           <svg
@@ -94,8 +92,8 @@
         <div
           class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
-          <router-link to="/contact" class="px-2 flex space-x-2"
-            ><span class="" v-tooltip.right="'Contact'"></span>
+          <router-link to="/Manage User" class="px-2 flex space-x-2"
+            ><span class="" v-tooltip.right="'Manage User'"></span>
             <span v-show="dataOpenSideBar">Manage User</span></router-link
           >
           <svg

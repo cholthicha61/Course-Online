@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
@@ -42,10 +44,21 @@ export default {
         email: '',
         password: ''
       }
+
+      //test3@gmail.com
+      //10225555
       
     };
   },
 
+  computed: {
+    ...mapState({
+      profile: (state) => state.auth.profile
+    })
+  },
+  mounted() {
+    
+  },
   methods: {
     handleSubmit(event) {
       event.preventDefault();
@@ -57,8 +70,7 @@ export default {
       // this.savePassword = false;
     },
     async Login(){
-      await this.$store.dispatch('auth/Login',this.payload)
-
+      await this.$store.dispatch('auth/login',this.payload)
     }
   },
 };

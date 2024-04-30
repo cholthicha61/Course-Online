@@ -2,16 +2,18 @@
 <nav class="px-5 flex items-center justify-end text-lg">
       <div class="menu-item hover:text-sky-500"><a href="#">Home</a></div>
       <div class="menu-item hover:text-sky-500"><a href="#">All Course</a></div>
-      <Dropdown class="hover:text-sky-500" title="Menu" :items="services" />
+
+      <DropdownLogin class="hover:text-sky-500" title="Menu" :items="services" style="z-index: 99;"/>
     </nav>
   </template>
   
   <script>
-import Dropdown from './Dropdown.vue'
+import DropdownLogin from './DropdownLogin.vue'
+// import Dropdown from './Dropdown.vue'
   export default {
     name: 'navbar',
     components: {
-      Dropdown
+      DropdownLogin
     },
     data () {
       return {
@@ -34,7 +36,7 @@ import Dropdown from './Dropdown.vue'
           },
           {
             title: 'Logout',
-            link: '#'
+            link: '/login'
           },
         ]
       }
@@ -42,7 +44,7 @@ import Dropdown from './Dropdown.vue'
   }
   </script>
   
-  <style>
+  <style scoped>
   nav {
     display: flex;
     align-items: center;

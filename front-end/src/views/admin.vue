@@ -1,6 +1,6 @@
 <template>
-  <div> 
-    Hello Dashboard
+  <div>
+    asdfghjkl;
   </div>
 </template>
 
