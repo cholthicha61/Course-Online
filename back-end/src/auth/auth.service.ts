@@ -30,7 +30,7 @@ export class AuthService {
       const comparePassword = await bcrypt.compare(loginInDto.password, userByEmail.password);
 
       if (!comparePassword) {
-        throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+        throw new HttpException('Password Incorrect', HttpStatus.UNAUTHORIZED);
       }
 
       if (!userByEmail.active) {
