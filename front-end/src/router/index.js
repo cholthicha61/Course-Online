@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import RecomendCourse from '../components/AllCourse.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +8,11 @@ const router = createRouter({
       name: "main",
       component: () => import("../views/Main.vue"),
     },
+    {
+      path: "/usermanage",
+      name: "usermanage",
+      component: () => import("../views/UserManage.vue"),
+    }
   ],
 });
 
