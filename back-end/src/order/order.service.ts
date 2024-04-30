@@ -7,6 +7,7 @@ import { FindOneOptions, Repository } from 'typeorm';
 import * as _ from 'lodash';
 import { User } from 'src/user/entities/user.entity';
 import { Course } from 'src/course/entities/course.entity';
+import { StatusOrder } from 'src/enums/status-order';
 
 @Injectable()
 export class OrderService {
@@ -39,7 +40,7 @@ export class OrderService {
       }
 
       const createOrder = this.orderRepository.create({
-        status: createOrderDto.status,
+        status: StatusOrder.Waiting,
         startdate: createOrderDto.startdate,
         enddate: createOrderDto.enddate,
         users: findUser,
@@ -58,6 +59,9 @@ export class OrderService {
         relations: {
           users: true,
           course: true,
+        },
+        order: {
+          id: 'ASC',
         },
       });
     } catch (error) {
@@ -105,7 +109,6 @@ export class OrderService {
         throw new HttpException('Course not found', HttpStatus.NOT_FOUND);
       }
 
-      order.status = updateOrderDto.status;
       order.startdate = updateOrderDto.startdate;
       order.enddate = updateOrderDto.enddate;
       order.users = findUser;
@@ -113,6 +116,44 @@ export class OrderService {
 
       const updateOrder = await this.orderRepository.save(order);
       return updateOrder;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateStatus(id: number, updateOrderDto: UpdateOrderDto) {
+    try {
+      const order = await this.findOne(id);
+      // function convertStatusOrder(status: string): StatusOrder {
+      //   switch (status) {
+      //     case 'Waiting':
+      //       return StatusOrder.Waiting;
+      //     case 'Incourse':
+      //       return StatusOrder.Incourse;
+      //     case 'Endcourse':
+      //       return StatusOrder.Endcourse;
+      //     case 'Canceled':
+      //       return StatusOrder.Canceled;
+      //     default:
+      //       throw new HttpException('Invalid status', HttpStatus.BAD_REQUEST);
+      //   }
+      // }
+
+      function convertStatusOrder(status: string): StatusOrder {
+        const statusMap: { [key: string]: StatusOrder } = {
+          Waiting: StatusOrder.Waiting,
+          Incourse: StatusOrder.Incourse,
+          Endcourse: StatusOrder.Endcourse,
+          Canceled: StatusOrder.Canceled,
+        };
+        if (statusMap.hasOwnProperty(status)) {
+          return statusMap[status];
+        }
+        throw new HttpException('Invalid status', HttpStatus.BAD_REQUEST);
+      }
+      // ใช้ฟังก์ชัน convertStatusOrder เพื่อแปลงค่า string เป็น StatusOrder
+      order.status = convertStatusOrder(updateOrderDto.status);
+      return await this.orderRepository.save(order);
     } catch (error) {
       throw error;
     }

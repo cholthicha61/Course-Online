@@ -5,8 +5,8 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'order' })
 export class Order extends BaseEntity {
-  @Column({ default: true })
-  status: boolean;
+  @Column({ nullable: true })
+  status: string;
 
   @Column()
   startdate: string;
