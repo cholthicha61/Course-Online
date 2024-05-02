@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, UploadedFiles, NotFoundException } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { unlink } from 'fs/promises';
 import { diskStorage } from 'multer';
@@ -44,40 +44,6 @@ export class CourseController {
     return await this.courseService.updateStatusCourse(id, updateCourseDto);
   }
 
-  @Post('/upload')
-  @UseInterceptors(FileInterceptor('file', {
-    storage: diskStorage({
-      destination: FOLDERPATH.Imgs, // แก้เป็น path ที่ต้องการเก็บไฟล์
-      filename: (req, file, cb) => {
-        const uniqueSuffix = uniqueSuffixString();
-        const extension = path.extname(file.originalname);
-        const filename = `${uniqueSuffix}${extension}`;
-        cb(null, filename);
-      },
-    }),
-  }))
-  async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() createCourseDto: CreateCourseDto) {
-    // ตรวจสอบประเภทไฟล์ก่อนอัพโหลด
-    const allowedFileTypes = ['.png', '.jpeg', '.jpg'];
-    const fileExt = path.extname(file.originalname).toLowerCase();
-    if (!allowedFileTypes.includes(fileExt)) {
-      const filePath = `${FOLDERPATH.Imgs}/${file.filename}`
-      try {
-        await unlink(filePath); // ใช้ unlink เพื่อลบไฟล์
-        console.log(`File ${filePath} deleted successfully`);
-      } catch (error) {
-        console.error(`Error deleting file ${filePath}:`, error);
-        throw new Error(`Failed to delete file ${filePath}`);
-      }
-      throw new BadRequestException('Invalid file type');
-    }
-    // ทำสิ่งที่ต้องการกับไฟล์ที่อัพโหลด
-    // เช่น เก็บข้อมูลในฐานข้อมูลหรือประมวลผลไฟล์
-    // ส่งคืนข้อมูลหรือตอบกลับตามที่ต้องการ
-    const course = await this.courseService.createCourseImage(file.filename, createCourseDto)
-    return { message: 'File uploaded successfully', filename: file.filename };
-  }
-
   @Post('/uploads')
   @UseInterceptors(FilesInterceptor('files', 10, {
     storage: diskStorage({
@@ -104,7 +70,7 @@ export class CourseController {
     for (const file of files) {
       const extension = path.extname(file.originalname).toLowerCase();
       if (!allowedFileTypes.includes(extension)) {
-        const filePath = `${FOLDERPATH.Imgs}/${file.filename}`
+        const filePath = `${FOLDERPATH.Imgs}/${file.filename}` //ดูฟังก์ชั่นนี้เพื่อลบไฟล์
         try {
           await unlink(filePath); // ใช้ unlink เพื่อลบไฟล์
           console.log(`File ${filePath} deleted successfully`);
@@ -122,6 +88,12 @@ export class CourseController {
     console.log("files is ", successFile);
 
     const course = await this.courseService.createCourseImages(successFile, createCourseDto)
-    return response;
+    return course;
   }
+
+  @Delete(':id')
+  async deleteCourse(@Param('id') id: string) {
+    return await this.courseService.deleteCourse(+id);
+  }
+
 }

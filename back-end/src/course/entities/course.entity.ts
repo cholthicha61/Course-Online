@@ -9,8 +9,8 @@ export class Course extends BaseEntity {
   @Column({ name: 'course_name' })
   courseName: string;
 
-    @Column({ name: 'course_image', nullable: true })
-    courseImage: string;
+  @Column({ name: 'course_image', nullable: true })
+  courseImage: string;
 
   @Column()
   description: string;
@@ -21,14 +21,15 @@ export class Course extends BaseEntity {
   @Column({ default: true })
   status: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   priority: number;
 
   @OneToMany(() => Order, (order) => order.course)
   orders: Order[];
 
-  @OneToMany(() => Image, (image) => image.course)
+  @OneToMany(() => Image, (image) => image.course, { cascade: true })
   images: Image[];
+
   @ManyToOne(() => Category, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',

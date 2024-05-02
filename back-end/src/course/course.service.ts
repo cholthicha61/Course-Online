@@ -7,8 +7,8 @@ import { Course } from './entities/course.entity';
 import * as _ from 'lodash';
 import { Category } from 'src/category/entities/category.entity';
 import { Image } from 'src/image/entities/image.entity';
-import * as sizeOf from 'image-size';
-import { throwError } from 'rxjs';
+import { FOLDERPATH } from 'src/constant/folder-path';
+import { unlink } from 'fs/promises';
 
 @Injectable()
 export class CourseService {
@@ -131,39 +131,20 @@ export class CourseService {
     }
   }
 
-  async createCourseImage(fileName: string, createCourseDto: CreateCourseDto) {
-    try {
-      console.log("fileName is ", fileName);
-      console.log("createCourseDto is ", createCourseDto);
-
-      const courseImage = this.courseRepository.create({
-        courseName: createCourseDto.courseName,
-        courseImage: fileName,
-        description: createCourseDto.description,
-        price: createCourseDto.price,
-        priority: createCourseDto.priority,
-
-      })
-      return await this.courseRepository.save(courseImage);
-    } catch (error) {
-      throw error
-    }
-  }
-
   //ดูว่าลบรูปแล้วต้องลบในโฟลเดอร์ be ด้วย 
   async createCourseImages(files: any[], createCourseDto: CreateCourseDto) {
     try {
-
       const saveImgs = []
-      for (const file of files) {
-        console.log(file.filename);
+      for (let i = 1; i < files.length; i++) {
+        console.log(i);
         const createImg = this.imageRepository.create({
-          name: file.filename
+          name: files[i].filename
         })
         const saveImg = await this.imageRepository.save(createImg)
         saveImgs.push(saveImg)
       }
       const courseImage = this.courseRepository.create({
+        courseImage: files[0].filename,
         courseName: createCourseDto.courseName,
         description: createCourseDto.description,
         price: createCourseDto.price,
@@ -175,4 +156,38 @@ export class CourseService {
       throw error;
     }
   }
+
+  async deleteFile(filename: string) {
+    const filePath = `${FOLDERPATH.Imgs}/${filename}` //ดูฟังก์ชั่นนี้เพื่อลบไฟล์
+    try {
+      await unlink(filePath); // Use 'unlink' to delete the file
+      console.log(`File ${filePath} deleted successfully`);
+    } catch (error) {
+      console.error(`Error deleting file ${filePath}:`, error);
+    }
+  }
+
+  async deleteCourse(id: number) {
+    try {
+      console.log(id);
+
+      const course = await this.courseRepository.findOne({ where: { id }, relations: ['images'] });
+      if (_.isEmpty(course)) {
+        throw new HttpException('course not found', HttpStatus.NOT_FOUND);
+      }
+      if (!_.isEmpty(course.courseImage)) {
+        await this.deleteFile(course.courseImage)
+      }
+      if (!_.isEmpty(course.images)) {
+        for (const image of course.images) {
+          await this.deleteFile(image.name);
+        }
+      }
+
+      await this.courseRepository.delete(id);
+    } catch (error) {
+      throw error
+    }
+  }
+
 }
