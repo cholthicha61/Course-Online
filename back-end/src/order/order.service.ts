@@ -18,7 +18,7 @@ export class OrderService {
     private userRepository: Repository<User>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>
-  ) {}
+  ) { }
 
   async create(createOrderDto: CreateOrderDto) {
     try {
@@ -43,7 +43,7 @@ export class OrderService {
         status: StatusOrder.Waiting,
         startdate: createOrderDto.startdate,
         enddate: createOrderDto.enddate,
-        users: findUser,
+        user: findUser,
         course: findCourse,
       });
 
@@ -57,7 +57,7 @@ export class OrderService {
     try {
       return this.orderRepository.find({
         relations: {
-          users: true,
+          user: true,
           course: true,
         },
         order: {
@@ -71,15 +71,22 @@ export class OrderService {
 
   async findOne(id: number) {
     try {
-      const findOne = await this.orderRepository.findOne({
-        where: {
-          id: id,
-        },
-        relations: {
-          users: true,
-          course: true,
-        },
-      });
+      // const findOne = await this.orderRepository.findOne({
+      //   where: {
+      //     id: id,
+      //   },
+      //   relations: {
+      //     user: true,
+      //     course: true,
+      //   },
+      // });
+      const findOne = await this.orderRepository.createQueryBuilder('order')
+        .leftJoinAndSelect('order.user', 'user')
+        .leftJoinAndSelect('order.course', 'course')
+        .leftJoinAndSelect('course.images', 'images')
+        .leftJoinAndSelect('course.categorys', 'categorys')
+        .getOne()
+
       if (_.isEmpty(findOne)) {
         throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
       }
@@ -111,7 +118,7 @@ export class OrderService {
 
       order.startdate = updateOrderDto.startdate;
       order.enddate = updateOrderDto.enddate;
-      order.users = findUser;
+      order.user = findUser;
       order.course = findCourse;
 
       const updateOrder = await this.orderRepository.save(order);

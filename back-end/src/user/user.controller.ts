@@ -4,10 +4,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { FindAllUserDto } from './dto/find-all-dto';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   // @UseGuards(AuthGuard)
   @Post()
@@ -17,7 +18,7 @@ export class UserController {
   }
   @UseGuards(AuthGuard)
   @Get()
-  async findAll(@Query() keyword) {
+  async findAll(@Query() keyword: FindAllUserDto) {
     return await this.userService.findAll(keyword);
   }
 
