@@ -1,39 +1,42 @@
 <template>
-  <v-card
-    style="border-radius: 10px"
-    elevation="hover"
-    @mouseenter="isHover = true"
-    @mouseleave="isHover = false"
-  >
-    <v-img
-      height="200px"
-      src="https://pbs.twimg.com/media/FaL6vmQaAAA63UG.jpg"
-      cover
+  <div>
+    <v-card
+      style="border-radius: 10px"
+      elevation="hover"
+      @mouseenter="isHover = true"
+      @mouseleave="isHover = false"
     >
-    </v-img>
+      <v-img
+        height="200px"
+        src="https://pbs.twimg.com/media/FaL6vmQaAAA63UG.jpg"
+        cover
+      >
+      </v-img>
 
-    <v-card-text>
-      <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">TOEIC</h1>
-      <div class="description-course mt-1">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, reiciendis.
-        </p>
-      </div>
-      <div class="text-end">
-        <h2 class="mt-13">฿2,500.00</h2>
-      </div>
-    </v-card-text>
+      <v-card-text>
+        <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
+          TOEIC
+        </h1>
+        <div class="description-course mt-1">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Reprehenderit, reiciendis.
+          </p>
+        </div>
+        <div class="text-end">
+          <h2 class="mt-13">฿2,500.00</h2>
+        </div>
+      </v-card-text>
 
-    <v-card-btn
-      class="card-button pa-2 d-flex justify-between"
-    >
-      <v-btn value="favorites">
-        <!-- <v-icon>mdi-heart</v-icon> -->
-        <span>icon</span>
-      </v-btn>
-      <v-btn class="btn-buy "> Buy </v-btn>
-    </v-card-btn>
-  </v-card>
+      <v-card-btn class="card-button pa-2 d-flex justify-between">
+        <v-btn value="favorites">
+          <!-- <v-icon>mdi-heart</v-icon> -->
+          <span>icon</span>
+        </v-btn>
+        <v-btn class="btn-buy"> Buy </v-btn>
+      </v-card-btn>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -76,7 +79,6 @@ export default {
   font-size: 24px;
   color: #fc5d19;
   font-weight: bold;
-
 }
 .description-course {
   color: grey;
@@ -84,5 +86,4 @@ export default {
 .cursor-pointer {
   cursor: pointer;
 }
-
 </style>

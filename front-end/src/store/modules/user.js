@@ -9,7 +9,6 @@ const state = {
 const mutations = {
   SET_PROFILE: (state, payload) => {
     // state.user = payload
-    localStorage.setItem("accessToken", payload.accessToken);
     localStorage.setItem("role", payload.user.roles.name);
     localStorage.setItem("user", JSON.stringify(payload.user));
 
@@ -17,25 +16,27 @@ const mutations = {
   },
 };
 const actions = {
-  async login({ commit }, payload) {
-    const url = `${ENDPOINT.LOGIN}`;
+  async createUser({ commit }, payload) {
+    const url = `${ENDPOINT.USER}`;
     try {
       const res = await axios(configAxios("post", url, payload));
       console.log("login OK", res);
-      if (res.status == 200) {
-        if (res.data.user.roles.name == "admin") {
-          router.push({ path: "/admin" });
-        } else {
-          router.push({ path: "/home" });
-        }
+      if (res.status == 201) {
+        router.push({ path: "/login" });
       }
       commit("SET_PROFILE", res.data);
-    } catch (error) {}
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'ข้อมูลไม่ถูกต้อง',
+            text: 'ข้อมูลไม่ถูกต้อง',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+    }
   },
 
-  async logout() {
-    localStorage.removeItem('accessToken')
-  }
+  
 };
 export default {
   // เพื่อทำให้การทำงานทั้งหมดทำงาน

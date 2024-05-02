@@ -29,7 +29,7 @@
 
 
     <div class="mt-6 text-center">
-      <p>Don't have an account? <a href="#" class="text-blue-500 hover:text-blue-600">Create Account</a></p>
+      <p>Don't have an account? <a href="/register" class="text-blue-500 hover:text-blue-600">Create Account</a></p>
     </div>
   </div>
 </template>

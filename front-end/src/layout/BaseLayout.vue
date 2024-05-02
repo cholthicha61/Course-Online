@@ -2,18 +2,12 @@
   <div>
     <div v-if="role == 'admin'">
       <MasterVue />
-     
     </div>
     <div v-else>
       <NavbarLogin />
-
-      <v-main>
-        <v-container fluid>
-            <router-view></router-view>
-       
-        </v-container>
-      </v-main>
-      <!-- <MainVue/> -->
+      <div>
+        <RouterView />
+      </div>
       <Footers />
     </div>
   </div>
@@ -24,14 +18,12 @@ import MasterVue from "./Master.vue";
 import Footers from "./Footers.vue";
 import Navbar from "./Navbar.vue";
 import NavbarLogin from "@/components/NavbarLogin.vue";
-// import MainVue from '../views/Main.vue';
 
 export default {
   components: {
     Navbar,
     Footers,
     MasterVue,
-    // MainVue,
     NavbarLogin,
   },
   data() {
@@ -41,7 +33,7 @@ export default {
   },
 
   mounted() {
-    console.log("ff",this.role );
+    console.log("ff", this.role);
   },
 };
 </script>

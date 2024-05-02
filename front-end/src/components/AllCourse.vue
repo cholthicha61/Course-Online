@@ -29,9 +29,9 @@
     <v-container>
       <v-row class="justify-start" no-gutters>
         <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
-          <v-sheet class="ma-3 rounded-border">
+          <div class="ma-3 rounded-border">
             <CardCourse />
-          </v-sheet>
+          </div>
         </v-col>
       </v-row>
     </v-container>
