@@ -58,7 +58,12 @@ export class CourseController {
     return await this.courseService.updateStatusCourse(id, updateCourseDto);
   }
   @UseGuards(AuthGuard)
-  @Post('/upload')
+  @Patch(':update-priority/:id')
+  async updatePriority(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto){
+    return await this.courseService.updatePriority(+id, updateCourseDto.priority);
+  }
+  @UseGuards(AuthGuard)
+  @Post(':upload')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
