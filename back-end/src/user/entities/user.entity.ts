@@ -37,7 +37,7 @@ export class User extends BaseEntity {
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   orders: Order[];
 
-  @OneToMany(() => Question, (question) => question.id)
-  @JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
+  @OneToMany(() => Question, (question) => question.user, {cascade:true})
   questions: Question[];
+
 }

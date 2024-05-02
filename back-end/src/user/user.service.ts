@@ -60,16 +60,16 @@ export class UserService {
 
   async findAll(keyword) {
     try {
-console.log('keyword', keyword);
+      console.log('keyword', keyword);
 
       const findAllUsers = await this.userRepository.createQueryBuilder('user')
-      .leftJoinAndSelect('user.roles', 'roles')
-      .where('1=1')
-      if(keyword?.fname) {
-        findAllUsers.andWhere('user.fname = :fname', {fname: keyword?.fname})
+        .leftJoinAndSelect('user.roles', 'roles')
+        .where('1=1')
+      if (keyword?.fname) {
+        findAllUsers.andWhere('user.fname = :fname', { fname: keyword?.fname })
       }
-      if(keyword?.email) {
-        findAllUsers.andWhere('user.email = :email', {email: keyword?.email})
+      if (keyword?.email) {
+        findAllUsers.andWhere('user.email = :email', { email: keyword?.email })
       }
       const users = await findAllUsers.getMany()
 
@@ -85,11 +85,20 @@ console.log('keyword', keyword);
 
   async findOne(id: number) {
     try {
-      const user = await this.userRepository.createQueryBuilder('user')
-      .leftJoinAndSelect('user.roles', 'roles')
-      .leftJoinAndSelect('user.questions', 'questions')
-      .where('user.id = :id', {id})
-      .getOne();
+      // const user = await this.userRepository.createQueryBuilder('user')
+      //   .leftJoinAndSelect('user.roles', 'roles')
+      //   .leftJoinAndSelect('user.questions', 'questions')
+      //   .where('user.id = :id', { id })
+      //   .getOne();
+      const user = await this.userRepository.findOne({
+        where: {
+          id
+        },
+        relations: {
+          questions: true,
+          roles: true
+        }
+      })
       if (!user) {
         throw new NotFoundException(`User with ID ${id} not found`);
       }
@@ -111,7 +120,7 @@ console.log('keyword', keyword);
   //     throw error;
   //   }
   // }
-  
+
   async updateStatusUser(id: number, updateUserDto: UpdateUserDto, active: boolean) {
     try {
       const user = await this.findOne(id);

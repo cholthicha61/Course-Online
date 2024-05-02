@@ -19,6 +19,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
+  // @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createUserDto: CreateUserDto, @Query('roleId') roleId: number) {
     console.log(createUserDto);
