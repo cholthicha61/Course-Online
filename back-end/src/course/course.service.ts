@@ -1,6 +1,6 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThan, MoreThanOrEqual, Not, Repository } from 'typeorm';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { Course } from './entities/course.entity';
@@ -132,7 +132,22 @@ export class CourseService {
   async update(id: number, updateCourseDto: UpdateCourseDto) {
     try {
       const course = await this.findOne(id);
+      const currentPriority = course.priority;
       this.courseRepository.merge(course, updateCourseDto);
+
+      if (updateCourseDto.priority !== undefined && updateCourseDto.priority !== currentPriority) {
+        const coursesToUpdate = await this.courseRepository.find({
+          where: {
+            priority: updateCourseDto.priority,
+            id: Not(id),
+          },
+        });
+        for (const courseToUpdate of coursesToUpdate) {
+          courseToUpdate.priority++;
+          await this.courseRepository.save(courseToUpdate);
+        }
+      }
+
       return await this.courseRepository.save(course);
     } catch (error) {
       throw error;
@@ -146,6 +161,35 @@ export class CourseService {
       course.status = updateCourseDto.status;
 
       return await this.courseRepository.save(course);
+    } catch (error) {
+      throw error;
+    }
+  }
+  async updatePriority(id: number, newPriority: number) {
+    try {
+      const courseToUpdate = await this.findOne(id);
+      if (!courseToUpdate) {
+        throw new NotFoundException(`Course ${id} does not exist`);
+      }
+      const oldPriority = courseToUpdate.priority;
+      courseToUpdate.priority = newPriority;
+      await this.courseRepository.save(courseToUpdate);
+
+      const coursesToAdjust = await this.courseRepository.find({
+        where: {
+          priority: MoreThanOrEqual(oldPriority),
+          id: Not(id),
+        },
+      });
+      for (const course of coursesToAdjust) {
+        if (newPriority < oldPriority) {
+          course.priority++;
+        } else {
+          course.priority--;
+        }
+        await this.courseRepository.save(course)
+      }
+      return courseToUpdate;
     } catch (error) {
       throw error;
     }
