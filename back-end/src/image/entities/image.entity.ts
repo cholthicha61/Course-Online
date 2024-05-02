@@ -7,7 +7,10 @@ export class Image extends BaseEntity {
   @Column()
   name: string;
 
-  @ManyToOne(() => Course, course => course.id)
+  @ManyToOne(() => Course, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'course_id', referencedColumnName: 'id' })
   course: Course;
 }

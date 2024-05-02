@@ -1,14 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -17,8 +7,9 @@ import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
+  // @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createUserDto: CreateUserDto, @Query('roleId') roleId: number) {
     console.log(createUserDto);
@@ -34,22 +25,24 @@ export class UserController {
   // async findByEmail(@Query() keyword) {
   //   return await this.userService.findByEmail(keyword);
   // }
-
+  @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return await this.userService.findOne(+id);
   }
-
+  @UseGuards(AuthGuard)
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto,
-  ) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const roleId = updateUserDto.roleId;
     return await this.userService.update(+id, updateUserDto, roleId);
   }
-
+  @UseGuards(AuthGuard)
   @Patch('update-status/:id')
-  async updateStatusUser(@Param('id')id: number, 
-  @Body() updateUserDto: UpdateUserDto, @Body('active') active: boolean) {
+  async updateStatusUser(
+    @Param('id') id: number,
+    @Body() updateUserDto: UpdateUserDto,
+    @Body('active') active: boolean
+  ) {
     return await this.userService.updateStatusUser(id, updateUserDto, active);
   }
 }
