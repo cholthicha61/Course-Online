@@ -59,11 +59,11 @@ export class CourseController {
   }
   @UseGuards(AuthGuard)
   @Patch(':update-priority/:id')
-  async updatePriority(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto){
+  async updatePriority(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
     return await this.courseService.updatePriority(+id, updateCourseDto.priority);
   }
   @UseGuards(AuthGuard)
-  @Post(':upload')
+  @Post('/upload')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -98,6 +98,7 @@ export class CourseController {
     const course = await this.courseService.createCourseImage(file.filename, createCourseDto);
     return { message: 'File uploaded successfully', filename: file.filename };
   }
+
   @UseGuards(AuthGuard)
   @Post('/uploads')
   @UseInterceptors(
@@ -122,6 +123,8 @@ export class CourseController {
       successfully: [],
       failed: [],
     };
+    console.log(files);
+
     const successFile = [];
     for (const file of files) {
       const extension = path.extname(file.originalname).toLowerCase();

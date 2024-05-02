@@ -9,8 +9,8 @@ export class Course extends BaseEntity {
   @Column({ name: 'course_name' })
   courseName: string;
 
-    @Column({ name: 'course_image', nullable: true })
-    courseImage: string;
+  @Column({ name: 'course_image', nullable: true })
+  courseImage: string;
 
   @Column()
   description: string;
