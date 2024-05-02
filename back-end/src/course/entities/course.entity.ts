@@ -21,7 +21,7 @@ export class Course extends BaseEntity {
   @Column({ default: true })
   status: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   priority: number;
 
   @OneToMany(() => Order, (order) => order.course)
