@@ -12,16 +12,19 @@ export class OrderController {
   async create(@Body() createOrderDto: CreateOrderDto) {
     return this.orderService.create(createOrderDto);
   }
+
   @UseGuards(AuthGuard)
   @Get()
   async findAll() {
     return this.orderService.findAll();
   }
+
   @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.orderService.findOne(+id);
   }
+
   @UseGuards(AuthGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {

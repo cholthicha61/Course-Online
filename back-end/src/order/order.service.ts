@@ -43,7 +43,7 @@ export class OrderService {
         status: StatusOrder.Waiting,
         startdate: createOrderDto.startdate,
         enddate: createOrderDto.enddate,
-        users: findUser,
+        user: findUser,
         course: findCourse,
       });
 
@@ -57,11 +57,8 @@ export class OrderService {
     try {
       return this.orderRepository.find({
         relations: {
-          users: true,
+          user: true,
           course: true,
-        },
-        order: {
-          id: 'ASC',
         },
       });
     } catch (error) {
@@ -71,19 +68,19 @@ export class OrderService {
 
   async findOne(id: number) {
     try {
-      const findOne = await this.orderRepository.findOne({
-        where: {
-          id: id,
-        },
-        relations: {
-          users: true,
-          course: true,
-        },
-      });
-      if (_.isEmpty(findOne)) {
+      const order = await this.orderRepository
+        .createQueryBuilder('order')
+        .leftJoinAndSelect('order.user', 'user')
+        .leftJoinAndSelect('order.course', 'course')
+        .leftJoinAndSelect('course.categorys', 'categorys')
+        .leftJoinAndSelect('course.images', 'images')
+        .where('order.id = :id', { id })
+        .getOne();
+
+      if (_.isEmpty(order)) {
         throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
       }
-      return findOne;
+      return order;
     } catch (error) {
       throw error;
     }
@@ -111,7 +108,7 @@ export class OrderService {
 
       order.startdate = updateOrderDto.startdate;
       order.enddate = updateOrderDto.enddate;
-      order.users = findUser;
+      order.user = findUser;
       order.course = findCourse;
 
       const updateOrder = await this.orderRepository.save(order);
@@ -124,20 +121,6 @@ export class OrderService {
   async updateStatus(id: number, updateOrderDto: UpdateOrderDto) {
     try {
       const order = await this.findOne(id);
-      // function convertStatusOrder(status: string): StatusOrder {
-      //   switch (status) {
-      //     case 'Waiting':
-      //       return StatusOrder.Waiting;
-      //     case 'Incourse':
-      //       return StatusOrder.Incourse;
-      //     case 'Endcourse':
-      //       return StatusOrder.Endcourse;
-      //     case 'Canceled':
-      //       return StatusOrder.Canceled;
-      //     default:
-      //       throw new HttpException('Invalid status', HttpStatus.BAD_REQUEST);
-      //   }
-      // }
 
       function convertStatusOrder(status: string): StatusOrder {
         const statusMap: { [key: string]: StatusOrder } = {
