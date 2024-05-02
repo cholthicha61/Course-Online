@@ -18,15 +18,31 @@ export class CourseService {
     @InjectRepository(Category)
     private catagoryRepository: Repository<Category>,
     @InjectRepository(Image)
-    private imageRepository: Repository<Image>,
-  ) { }
+    private imageRepository: Repository<Image>
+  ) {}
+
+  async createNewPriority() {
+    // Find maximum priority in database
+    const findMaxPriority = await this.courseRepository
+      .createQueryBuilder('course')
+      .select('MAX(course.priority)', 'maxPriority')
+      .getRawOne();
+
+    // create new priority
+    let newPriority = 1;
+    if (findMaxPriority && findMaxPriority.maxPriority !== null) {
+      newPriority = findMaxPriority.maxPriority + 1;
+    }
+
+    return newPriority;
+  }
 
   async create(createCourseDto: CreateCourseDto) {
     try {
       const findCourse = await this.courseRepository.findOne({
         where: {
-          courseName: createCourseDto.courseName
-        }
+          courseName: createCourseDto.courseName,
+        },
       });
       if (!_.isEmpty(findCourse)) {
         throw new HttpException(`course ${createCourseDto.courseName} already exists`, HttpStatus.CONFLICT);
@@ -34,8 +50,8 @@ export class CourseService {
 
       const findCategory = await this.catagoryRepository.findOne({
         where: {
-          id: createCourseDto.categoryId
-        }
+          id: createCourseDto.categoryId,
+        },
       });
 
       if (_.isEmpty(findCategory)) {
@@ -44,18 +60,21 @@ export class CourseService {
 
       const findImage = await this.courseRepository.findOne({
         where: {
-          courseImage: createCourseDto.courseImage
-        }
+          courseImage: createCourseDto.courseImage,
+        },
       });
 
       if (_.isEmpty(findImage)) {
         throw new HttpException('Image not found', HttpStatus.NOT_FOUND);
       }
 
+      const newPriority = await this.createNewPriority();
       const createCourse = this.courseRepository.create({
-        ...createCourseDto,
+        courseName: createCourseDto.courseName,
+        description: createCourseDto.description,
+        price: createCourseDto.price,
+        priority: newPriority,
         categorys: findCategory,
-
       });
       return await this.courseRepository.save(createCourse);
     } catch (error) {
@@ -69,8 +88,8 @@ export class CourseService {
         relations: {
           images: true,
           categorys: true,
-        }
-      })
+        },
+      });
     } catch (error) {
       throw error;
     }
@@ -83,7 +102,7 @@ export class CourseService {
         relations: {
           images: true,
           categorys: true,
-        }
+        },
       });
       if (_.isEmpty(course)) {
         throw new HttpException('course not found', HttpStatus.NOT_FOUND);
@@ -96,7 +115,8 @@ export class CourseService {
 
   async findByName(courseName: string) {
     try {
-      const course = await this.courseRepository.createQueryBuilder('course')
+      const course = await this.courseRepository
+        .createQueryBuilder('course')
         .leftJoinAndSelect('course.images', 'images')
         .where('course.courseName = :courseName', { courseName })
         .getOne();
@@ -125,7 +145,7 @@ export class CourseService {
 
       course.status = updateCourseDto.status;
 
-      return await this.courseRepository.save(course);;
+      return await this.courseRepository.save(course);
     } catch (error) {
       throw error;
     }
@@ -143,14 +163,15 @@ export class CourseService {
         const saveImg = await this.imageRepository.save(createImg)
         saveImgs.push(saveImg)
       }
+      const newPriority = await this.createNewPriority();
       const courseImage = this.courseRepository.create({
         courseImage: files[0].filename,
         courseName: createCourseDto.courseName,
         description: createCourseDto.description,
         price: createCourseDto.price,
-        priority: createCourseDto.priority,
-        images: saveImgs
-      })
+        priority: newPriority,
+        images: saveImgs,
+      });
       return await this.courseRepository.save(courseImage);
     } catch (error) {
       throw error;
