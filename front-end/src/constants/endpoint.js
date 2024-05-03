@@ -1,5 +1,8 @@
-import { API_BASE_URL } from ".";
+import baseURL from "@/axios/baseURL";
 export const ENDPOINT = {
-  //------------- auth -----------
-  LOGIN: `${API_BASE_URL}/auth/login`,
+    //------------- auth -----------
+    LOGIN: `${baseURL}/auth/login`,
+    USER: `${baseURL}/user`,
 }
+
+console.log('ll',baseURL);

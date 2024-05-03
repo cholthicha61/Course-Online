@@ -23,7 +23,10 @@ export class AuthService {
 
       // const userByEmail = await this.userService.findByEmail(loginInDto.email);
       const userByEmail = await this.userRepository.findOne({
-        where: { email: loginInDto.email}
+        where: { email: loginInDto.email},
+        relations: {
+          roles: true
+        }
       })
 
       const comparePassword = await bcrypt.compareSync(loginInDto.password, userByEmail.password);

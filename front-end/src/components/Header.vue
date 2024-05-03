@@ -1,8 +1,7 @@
 <template>
-  <div class="w-full bg-gray-100 ">
+  <div class="w-full bg-gray-100">
     <div class="flex justify-between items-center h-[50px]">
-      <div class="p-4 cursor-pointer  hover:bg-gray-50" @click="clickHambuger">
-  
+      <div class="p-4 cursor-pointer hover:bg-gray-50" @click="clickHambuger">
         <i class="text-sky-800">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -16,38 +15,30 @@
               clip-rule="evenodd"
             />
           </svg>
-
         </i>
       </div>
-      <Dropdown/>
-
+      <Dropdown />
     </div>
-    
   </div>
-
 </template>
 
 <script>
-import Dropdown from './Dropdown.vue';
+import Dropdown from "./Dropdown.vue";
 export default {
- components:{
-  Dropdown,
- },
+  components: {
+    Dropdown,
+  },
   props: {
     dataOpenSideBar: Boolean,
-    clickHambuger: Function
-
+    clickHambuger: Function,
   },
-  
+
   methods: {
     toggle(event) {
       this.$refs.menu.toggle(event);
     },
-  }
-
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

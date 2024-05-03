@@ -7,7 +7,7 @@ import { Course } from './entities/course.entity';
 import * as _ from 'lodash';
 import { Category } from 'src/category/entities/category.entity';
 import { Image } from 'src/image/entities/image.entity';
-import * as sizeOf from 'image-size';
+// import * as sizeOf from 'image-size';
 import { throwError } from 'rxjs';
 
 @Injectable()

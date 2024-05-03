@@ -53,6 +53,7 @@
         <a
           :href="link.link"
           class="transition duration-500 ease-in-out box-border py-3 px-3 text-lg text-sky-800 hover:bg-sky-200 hover:text-sky-500"
+          
         >
           {{ link.name }}
         </a>
@@ -63,17 +64,16 @@
 
 <script>
 import { ref } from "@vue/reactivity";
+
+
 export default {
   setup() {
     const open = ref(false);
     const Links = [
-      { name: "Home", link: "/" },
-      { name: "All Course", link: "/allcourse" },
+      { name: "Home", link: "/homepage" },
+      { name: "All Course", link: "/allcourse-user" },
       { name: "Login", link: "/login" },
       { name: "Register", link: "/register" },
-      // { name: "AllC", link: "/AllC" },
-      // { name: "DGS", link: "/DGS" }
-
       // { name: "Add Course", link: "/addcourse"}
     ];
     function MenuOpen() {
@@ -81,5 +81,7 @@ export default {
     }
     return { Links, open, MenuOpen };
   },
+  
+
 };
 </script>

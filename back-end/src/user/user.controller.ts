@@ -21,7 +21,7 @@ export class UserController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto, @Query('roleId') roleId: number) {
-    console.log(createUserDto);
+    console.log("createUserDto >>>", createUserDto);
     return await this.userService.create(createUserDto);
   }
   @UseGuards(AuthGuard)

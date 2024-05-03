@@ -1,11 +1,18 @@
 <template>
-  <div> 
-    <Sidebar/>
-  </div>
+
+<AllCourse/>
+
+
 </template>
 
-<script setup>
+<script>
+import AllCourse from '../components/AllCourse.vue'
 
+export default {
+ components: {
+    AllCourse
+ }
+}
 </script>
 
 <style>

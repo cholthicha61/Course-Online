@@ -3,7 +3,7 @@
     <h2 class="text-3xl font-bold text-center">Create Account</h2>
 
     <div
-      class="flex flex-col w-full px-96 py-8 border border-gray-200 rounded-lg shadow-md"
+      class="flex flex-col w-full px-96 py-8  border-gray-200 rounded-lg "
     >
       <div class="flex flex-col mb-4">
         <label class="mb-2 text-gray-700">ชื่อ</label>
@@ -20,14 +20,16 @@
         <input
           type="text"
           class="form-input border border-l-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          v-model="lname"
         />
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">อีเมลล์</label>
+        <label class="mb-2 text-gray-700">อีเมล</label>
         <input
           type="email"
           class="form-input border border-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          v-model="email"
         />
       </div>
 
@@ -36,6 +38,7 @@
         <input
           type="password"
           class="form-input border border-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          v-model="password"
         />
       </div>
 
@@ -44,6 +47,7 @@
         <input
           type="password"
           class="form-input border border-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          v-model="confirmPassword"
         />
       </div>
 
@@ -52,17 +56,18 @@
         <input
           type="tel"
           class="form-input border border-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          v-model="phone"
         />
       </div>
 
-      <div class="flex items-center mb-4">
+      <!-- <div class="flex items-center mb-4">
         <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600" />
         <label class="ml-2 text-gray-700"
           >Agree with Terms and Conditions</label
         >
-      </div>
+      </div> -->
 
-      <button
+      <button @click="createUser()"
         class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600"
       >
         Create Account
@@ -88,6 +93,16 @@ export default {
       confirmPasswordError: null,
       phoneError: null,
       termsError: null,
+
+      payload: {
+        fname: "",
+        lname: "",
+        phone: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        
+      },
     };
   },
   computed: {
@@ -96,68 +111,94 @@ export default {
     },
   },
   methods: {
-    handleSubmit() {
-    // ตรวจสอบข้อมูลก่อน submit
-    this.validateForm();
+    handleSubmit(event) {
+      // ตรวจสอบข้อมูลก่อน submit
+      this.validateForm();
 
-    if (
-      this.fnameError ||
-      this.lnameError ||
-      this.emailError ||
-      this.passwordError ||
-      this.confirmPasswordError ||
-      this.phoneError ||
-      this.termsError ||
-      !this.passwordMatch
-    ) {
-      return; // หยุดการ submit ถ้ามีข้อผิดพลาด
-    }
-
-    console.log('Submitting registration data...');
-  },
-  validateForm() {
-    // ตรวจสอบชื่อ
-    this.fnameError = this.validateName(this.fname);
-    this.lnameError = this.validateName(this.lname);
-
-    // ตรวจสอบอีเมลล์
-    this.emailError = this.validateEmail(this.email);
-
-    // ตรวจสอบรหัสผ่าน
-    this.passwordError = this.validatePassword(this.password);
-    this.confirmPasswordError = this.validatePassword(this.confirmPassword);
-
-    // ตรวจสอบเบอร์โทรศัพท์ (ตัวอย่าง: ใส่เฉพาะตัวเลข)
-    this.phoneError = this.phone.match(/^[0-9]+$/) ? null : 'เบอร์โทรศัพท์ไม่ถูกต้อง';
-
-    this.termsError = this.agree ? null : 'กรุณายอมรับข้อกำหนดและเงื่อนไข';
-  },
-  validateName(name) {
-    if (!name.trim()) {
-      return 'กรุณากรอกชื่อ';
-    }
-    return null;
-  },
-  validateEmail(email){
-    const re = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!re.test(email)) {
-      return 'รูปแบบอีเมลล์ไม่ถูกต้อง (กรุณาใช้ Gmail)';
-    }
-    return null;
-  },
-  validatePassword(password) {
-    if (password.length < 6) {
-      return 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร';
-    }
-    return null;
-
-    //   if (this.password !== this.confirmPassword || !this.agree) {
-    //     return;
-    //   }
+      if (
+        this.fnameError ||
+        this.lnameError ||
+        this.emailError ||
+        this.passwordError ||
+        this.confirmPasswordError ||
+        this.phoneError ||
+        this.termsError ||
+        !this.passwordMatch
+      ) {
+        return; // หยุดการ submit ถ้ามีข้อผิดพลาด
+      }
 
       console.log("Submitting registration data...");
+
+      event.preventDefault();
+
+      console.log(
+        "register submitted:",
+        this.fname,
+        this.lname,
+        this.phone,
+        this.email,
+        this.password,
+        this.roleId,
+      );
+    },
+    async createUser() {
+      this.payload = {
+        fname: this.fname,
+        lname: this.lname,
+        email: this.email,
+        password: this.password,
+        confirmPassword: this.confirmPassword,
+        phone: this.phone,
+        roleId: 3,
+
+      }
+      await this.$store.dispatch("user/createUser", this.payload);
+      console.log('payload',this.payload);
+    },
+    validateForm() {
+      // ตรวจสอบชื่อ
+      this.fnameError = this.validateName(this.fname);
+      this.lnameError = this.validateName(this.lname);
+
+      // ตรวจสอบอีเมลล์
+      this.emailError = this.validateEmail(this.email);
+
+      // ตรวจสอบรหัสผ่าน
+      this.passwordError = this.validatePassword(this.password);
+      this.confirmPasswordError = this.validatePassword(this.confirmPassword);
+
+      // ตรวจสอบเบอร์โทรศัพท์ (ตัวอย่าง: ใส่เฉพาะตัวเลข)
+      this.phoneError = this.phone.match(/^[0-9]+$/)
+        ? null
+        : "เบอร์โทรศัพท์ไม่ถูกต้อง";
+
+      this.termsError = this.agree ? null : "กรุณายอมรับข้อกำหนดและเงื่อนไข";
+    },
+    validateName(name) {
+      if (!name.trim()) {
+        return "กรุณากรอกชื่อ";
+      }
+      return null;
+    },
+    validateEmail(email) {
+      const re = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!re.test(email)) {
+        return "รูปแบบอีเมลล์ไม่ถูกต้อง (กรุณาใช้ Gmail)";
+      }
+      return null;
+    },
+    validatePassword(password) {
+      if (password.length < 6) {
+        return "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร";
+      }
+      return null;
+
+      //   if (this.password !== this.confirmPassword || !this.agree) {
+      //     return;
+      //   }
+
     },
   },
 };
 </script>
-

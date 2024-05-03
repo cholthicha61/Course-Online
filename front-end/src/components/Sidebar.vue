@@ -22,27 +22,32 @@
       <div class="menu-man text-left px-2 whitespace-nowrap">
         <div class="profile flex justify-center items-center text-center p-5">
           <div class="text-center text-white" v-show="dataOpenSideBar">
-            <img
-              src="https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Editor.png"
-              class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4"
-              alt="Avatar"
-            />
-            <h5 class="text-xl font-medium leading-tight mb-2">My Name</h5>
+            <div class="flex justify-center">
+              <img
+                src="https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Editor.png"
+                class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4"
+                alt="Avatar"
+              />
+            </div>
+
+            <h5 class="text-xl font-medium leading-tight mb-2">
+              {{ adminEmail.email }}
+            </h5>
             <p class="text-white">Admin</p>
           </div>
         </div>
         <div
-          class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-sm cursor-pointer text-gray-300"
+          class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-sm cursor-pointer text-gray-300 px-1"
         >
-          <router-link to="/" class="px-2 flex space-x-2"
+          <router-link to="/Dashboard" class="px-2 flex space-x-2"
             ><span v-tooltip.right="'Home'"></span>
-            <span class="" v-show="dataOpenSideBar ">Home</span></router-link
+            <span class="absolute bottom left-9 px-4" v-show="dataOpenSideBar">Home</span></router-link
           >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="w-6 h-6"
+            class="w-7 h-7 "
           >
             <path
               d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
@@ -53,11 +58,11 @@
           </svg>
         </div>
         <div
-          class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
+          class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
-          <router-link to="/user" class="px-2 flex space-x-2"
-            ><span class="" v-tooltip.right="'User'"></span>
-            <span v-show="dataOpenSideBar">Inbox</span></router-link
+          <router-link to="/Inbox" class="px-2 flex space-x-2"
+            ><span class="" v-tooltip.right="'Inbox'"></span>
+            <span class="absolute bottom left-9 px-4" v-show="dataOpenSideBar">Inbox</span></router-link
           >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -74,11 +79,11 @@
           </svg>
         </div>
         <div
-          class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
+          class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
-          <router-link to="/product" class="px-2 flex space-x-2"
-            ><span class="" v-tooltip.right="'Product'"></span>
-            <span v-show="dataOpenSideBar">Manage Course</span></router-link
+          <router-link to="/Manage Course'" class="px-2 flex space-x-2"
+            ><span class="" v-tooltip.right="'Manage Course'"></span>
+            <span class="absolute bottom left-9 px-4" v-show="dataOpenSideBar">Manage Course</span></router-link
           >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -92,11 +97,11 @@
           </svg>
         </div>
         <div
-          class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
+          class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
-          <router-link to="/contact" class="px-2 flex space-x-2"
-            ><span class="" v-tooltip.right="'Contact'"></span>
-            <span v-show="dataOpenSideBar">Manage User</span></router-link
+          <router-link to="/Manage User" class="px-2 flex space-x-2"
+            ><span class="" v-tooltip.right="'Manage User'"></span>
+            <span class="absolute bottom left-9  px-4" v-show="dataOpenSideBar">Manage User</span></router-link
           >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -119,10 +124,19 @@ export default {
   props: {
     dataOpenSideBar: Boolean,
   },
+  data() {
+    return {
+      adminEmail: "",
+    };
+  },
+  mounted() {
+    this.adminEmail = JSON.parse(localStorage.getItem("user"));
+    // this.adminEmail = localStorage.getItem('user')
+  },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .p-tooltip-text {
   font-size: 10px !important;
 }

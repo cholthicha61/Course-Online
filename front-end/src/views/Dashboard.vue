@@ -1,13 +1,60 @@
 <template>
-  
+  <div class="py-8 px-8">
+    <div class="head-course">
+      <h1>Dashboard</h1>
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+      >
+        <div class="py-8">
+          <DashboardUser />
+        </div>
+        <div class="py-8">
+          <DashboarCourse />
+        </div>
+        <div class="py-8">
+          <DashboarConfirme />
+        </div>
+        <div class="py-8">
+          <DashboardInbox />
+        </div>
+      </div>
+      <div class="">
+        <AllSales />
+      </div>
+      <!-- <div class="">
+          <Sale />
+      </div> -->
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
+import DashboardUser from "@/components/card/DashboardUser.vue";
+import DashboarCourse from "@/components/card/DashboardCourse.vue";
+import DashboarConfirme from "../components/card/DashboardConfirm.vue";
+import DashboardInbox from "@/components/card/DashboardInbox.vue";
+import Sale from "../components/card/Sales.vue";
+import AllSales from "../components/card/AllSales.vue";
 
-}
+export default {
+  data: () => ({ review: "30%" }),
+
+  components: {
+    DashboardUser,
+    DashboarCourse,
+    DashboarConfirme,
+    DashboardInbox,
+    Sale,
+    AllSales,
+  },
+};
 </script>
 
-<style>
-
+<style scoped>
+.head-course h1 {
+  font-size: 30px;
+  color: black;
+  border-bottom: 1px solid #9e9e9e;
+  font-style: italic;
+}
 </style>
