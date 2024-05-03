@@ -263,8 +263,8 @@ export class CourseService {
           await this.deleteFile(image.name);
         }
       }
-
-      await this.courseRepository.delete(id);
+      course.deletedAt = new Date();
+      await this.courseRepository.save(course);
     } catch (error) {
       throw error;
     }

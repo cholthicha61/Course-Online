@@ -73,7 +73,8 @@ export class CategoryService {
     try {
       const category = await this.findOne(id);
       console.log(`Removing category with ID ${id}`);
-      await this.categoryRepository.remove(category);
+      category.deletedAt = new Date();
+      await this.categoryRepository.save(category);
     } catch (error) {
       throw error;
     }
