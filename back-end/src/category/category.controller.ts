@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -7,8 +7,8 @@ import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('category')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
-  
+  constructor(private readonly categoryService: CategoryService) { }
+
   @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
@@ -18,8 +18,8 @@ export class CategoryController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findAll(): Promise<Category[]> {
-    return await this.categoryService.findAll();
+  async findAll(@Query() keyword) {
+    return await this.categoryService.findAll(keyword);
   }
 
   @UseGuards(AuthGuard)
@@ -42,7 +42,7 @@ export class CategoryController {
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) : Promise<void> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.categoryService.remove(+id);
   }
 }

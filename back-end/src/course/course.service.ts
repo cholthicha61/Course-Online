@@ -85,11 +85,11 @@ export class CourseService {
 
   async findAll(keyword: FindAllCourseDto) {
     try {
-      
+
       const findAllCourse = await this.courseRepository.createQueryBuilder('course')
-      .leftJoinAndSelect('course.categorys', 'category')
-      .leftJoinAndSelect('course.images', 'images')
-      .leftJoinAndSelect('course.orders', 'orders')
+        .leftJoinAndSelect('course.categorys', 'category')
+        .leftJoinAndSelect('course.images', 'images')
+        .leftJoinAndSelect('course.orders', 'orders')
       if (keyword?.categorys == 'true') {
         findAllCourse.leftJoinAndSelect('course.categorys', 'category')
       }
@@ -106,11 +106,11 @@ export class CourseService {
       if (keyword?.orderById) {
         findAllCourse.orderBy('course.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`)
       }
-      if (keyword?.limit){
+      if (keyword?.limit) {
         findAllCourse.take(+keyword?.limit)
-      } 
+      }
 
-      return  await findAllCourse.getMany();
+      return await findAllCourse.getMany();
 
     } catch (error) {
       throw error;
@@ -189,28 +189,28 @@ export class CourseService {
         }
       });
       // เงื่อนไขในการเลื่อนขึ้นเลื่อนลง
-    for (const course of coursesToAdjust) {
-      if (newPriority > oldPriority) {
-        // เลื่อนลง
-        if (course.priority === oldPriority) {
-          course.priority = newPriority;
-        } else if (course.priority > oldPriority && course.priority <= newPriority) {
-          course.priority--;
+      for (const course of coursesToAdjust) {
+        if (newPriority > oldPriority) {
+          // เลื่อนลง
+          if (course.priority === oldPriority) {
+            course.priority = newPriority;
+          } else if (course.priority > oldPriority && course.priority <= newPriority) {
+            course.priority--;
+          }
+        } else {
+          // เลื่อนขึ้น
+          if (course.priority === oldPriority) {
+            course.priority = newPriority;
+          } else if (course.priority >= newPriority && course.priority < oldPriority) {
+            course.priority++;
+          }
         }
-      } else {
-        // เลื่อนขึ้น
-        if (course.priority === oldPriority) {
-          course.priority = newPriority;
-        } else if (course.priority >= newPriority && course.priority < oldPriority) {
-          course.priority++;
-        }
+        await this.courseRepository.save(course);
       }
-      await this.courseRepository.save(course);
-    }
-    courseToUpdate.priority = newPriority;
-    await this.courseRepository.save(courseToUpdate);
-      
-      
+      courseToUpdate.priority = newPriority;
+      await this.courseRepository.save(courseToUpdate);
+
+
       return courseToUpdate;
     } catch (error) {
       throw error;
@@ -263,7 +263,7 @@ export class CourseService {
   }
 
   async deleteFile(filename: string) {
-    const filePath = `${FOLDERPATH.Imgs}/${filename}` 
+    const filePath = `${FOLDERPATH.Imgs}/${filename}`
     try {
       await unlink(filePath); // Use 'unlink' to delete the file
       console.log(`File ${filePath} deleted successfully`);
