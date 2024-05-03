@@ -43,7 +43,7 @@ export class OrderService {
         status: StatusOrder.Waiting,
         startdate: createOrderDto.startdate,
         enddate: createOrderDto.enddate,
-        users: findUser,
+        user: findUser,
         course: findCourse,
       });
 
@@ -57,7 +57,7 @@ export class OrderService {
     try {
       return this.orderRepository.find({
         relations: {
-          users: true,
+          user: true,
           course: true,
         },
         order: {
@@ -76,7 +76,7 @@ export class OrderService {
           id: id,
         },
         relations: {
-          users: true,
+          user: true,
           course: true,
         },
       });
@@ -111,7 +111,7 @@ export class OrderService {
 
       order.startdate = updateOrderDto.startdate;
       order.enddate = updateOrderDto.enddate;
-      order.users = findUser;
+      order.user = findUser;
       order.course = findCourse;
 
       const updateOrder = await this.orderRepository.save(order);
@@ -159,3 +159,4 @@ export class OrderService {
     }
   }
 }
+ 

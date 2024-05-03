@@ -9,6 +9,7 @@ import { Category } from 'src/category/entities/category.entity';
 import { Image } from 'src/image/entities/image.entity';
 import { FOLDERPATH } from 'src/constant/folder-path';
 import { unlink } from 'fs/promises';
+import { FindAllCourseDto } from './dto/find-all-course.dto';
 
 @Injectable()
 export class CourseService {
@@ -19,7 +20,7 @@ export class CourseService {
     private catagoryRepository: Repository<Category>,
     @InjectRepository(Image)
     private imageRepository: Repository<Image>
-  ) {}
+  ) { }
 
   async createNewPriority() {
     // Find maximum priority in database
@@ -82,14 +83,35 @@ export class CourseService {
     }
   }
 
-  async findAll() {
+  async findAll(keyword: FindAllCourseDto) {
     try {
-      return await this.courseRepository.find({
-        relations: {
-          images: true,
-          categorys: true,
-        },
-      });
+      
+      const findAllCourse = await this.courseRepository.createQueryBuilder('course')
+      .leftJoinAndSelect('course.categorys', 'category')
+      .leftJoinAndSelect('course.images', 'images')
+      .leftJoinAndSelect('course.orders', 'orders')
+      if (keyword?.categorys == 'true') {
+        findAllCourse.leftJoinAndSelect('course.categorys', 'category')
+      }
+      if (keyword?.images == 'true') {
+        findAllCourse.leftJoinAndSelect('course.images', 'images')
+      }
+      if (keyword?.orders == 'true') {
+        findAllCourse.leftJoinAndSelect('course.orders', 'orders')
+      }
+      findAllCourse.where('1=1')
+      if (keyword?.courseName) {
+        findAllCourse.andWhere('course.courseName like :courseName', { courseName: `%${keyword?.courseName}%` })
+      }
+      if (keyword?.orderById) {
+        findAllCourse.orderBy('course.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`)
+      }
+      if (keyword?.limit){
+        findAllCourse.take(+keyword?.limit)
+      } 
+
+      return  await findAllCourse.getMany();
+
     } catch (error) {
       throw error;
     }
@@ -106,22 +128,6 @@ export class CourseService {
       });
       if (_.isEmpty(course)) {
         throw new HttpException('course not found', HttpStatus.NOT_FOUND);
-      }
-      return course;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async findByName(courseName: string) {
-    try {
-      const course = await this.courseRepository
-        .createQueryBuilder('course')
-        .leftJoinAndSelect('course.images', 'images')
-        .where('course.courseName = :courseName', { courseName })
-        .getOne();
-      if (_.isEmpty(course)) {
-        throw new HttpException(`course name: ${courseName} not found`, HttpStatus.NOT_FOUND);
       }
       return course;
     } catch (error) {
@@ -165,6 +171,7 @@ export class CourseService {
       throw error;
     }
   }
+
   async updatePriority(id: number, newPriority: number) {
     try {
       const courseToUpdate = await this.findOne(id);
@@ -195,9 +202,27 @@ export class CourseService {
     }
   }
 
-  //ดูว่าลบรูปแล้วต้องลบในโฟลเดอร์ be ด้วย 
-  async createCourseImages(files: any[], createCourseDto: CreateCourseDto) {
+  async createCourse(files: any[], createCourseDto: CreateCourseDto) {
     try {
+      const findCourse = await this.courseRepository.findOne({
+        where: {
+          courseName: createCourseDto.courseName,
+        },
+      });
+      if (!_.isEmpty(findCourse)) {
+        throw new HttpException(`course ${createCourseDto.courseName} already exists`, HttpStatus.CONFLICT);
+      }
+
+      const findCategory = await this.catagoryRepository.findOne({
+        where: {
+          id: createCourseDto.categoryId,
+        },
+      });
+
+      if (_.isEmpty(findCategory)) {
+        throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+      }
+
       const saveImgs = []
       for (let i = 1; i < files.length; i++) {
         console.log(i);
@@ -223,7 +248,7 @@ export class CourseService {
   }
 
   async deleteFile(filename: string) {
-    const filePath = `${FOLDERPATH.Imgs}/${filename}` //ดูฟังก์ชั่นนี้เพื่อลบไฟล์
+    const filePath = `${FOLDERPATH.Imgs}/${filename}` 
     try {
       await unlink(filePath); // Use 'unlink' to delete the file
       console.log(`File ${filePath} deleted successfully`);

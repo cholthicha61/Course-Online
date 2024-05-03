@@ -11,6 +11,7 @@ import {
   BadRequestException,
   UploadedFiles,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { unlink } from 'fs/promises';
@@ -36,20 +37,14 @@ export class CourseController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findAll() {
-    return await this.courseService.findAll();
+  async findAll(@Query() keyword) {
+    return await this.courseService.findAll(keyword);
   }
 
   @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.courseService.findOne(+id);
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('/courseName/:courseName')
-  async findByName(@Param('courseName') courseName: string) {
-    return await this.courseService.findByName(courseName);
   }
 
   @UseGuards(AuthGuard)
@@ -117,7 +112,7 @@ export class CourseController {
     }
     console.log('files is ', successFile);
 
-    const course = await this.courseService.createCourseImages(successFile, createCourseDto);
+    const course = await this.courseService.createCourse(successFile, createCourseDto);
     return course;
   }
 

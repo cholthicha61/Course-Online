@@ -7,7 +7,7 @@ import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
 import { Role } from 'src/role/entities/role.entity';
-import { response } from 'express';
+import { FindAllUserDto } from './dto/find-all-dto';
 
 @Injectable()
 export class UserService {
@@ -16,7 +16,7 @@ export class UserService {
     private userRepository: Repository<User>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto) {
     try {
@@ -57,18 +57,38 @@ export class UserService {
     }
   }
 
-  async findAll(keyword) {
+  async findAll(keyword: FindAllUserDto) {
     try {
       console.log('keyword', keyword);
 
       const findAllUsers = await this.userRepository.createQueryBuilder('user')
-        .leftJoinAndSelect('user.roles', 'roles')
-        .where('1=1')
+      if (keyword?.role == 'true') {
+        findAllUsers.leftJoinAndSelect('user.roles', 'roles')
+      }
+      if (keyword?.orders == 'true') {
+        findAllUsers.leftJoinAndSelect('user.orders', 'orders')
+      }
+      if (keyword?.questions == 'true') {
+        findAllUsers.leftJoinAndSelect('user.questions', 'questions')
+      }
+      findAllUsers.where('1=1')
       if (keyword?.fname) {
-        findAllUsers.andWhere('user.fname = :fname', { fname: keyword?.fname })
+        findAllUsers.andWhere('user.fname like :fname', { fname: `%${keyword?.fname}%` })
       }
       if (keyword?.email) {
-        findAllUsers.andWhere('user.email = :email', { email: keyword?.email })
+        findAllUsers.andWhere('user.email like :email', { email: `%${keyword?.email}%` })
+      }
+      if (keyword?.phone) {
+        findAllUsers.andWhere('user.phone like :phone', { phone: `%${keyword?.phone}%` })
+      }
+      if (keyword?.lname) {
+        findAllUsers.andWhere('user.lname like :lname', { lname: `%${keyword?.lname}%` })
+      }
+      if (keyword?.orderById) {
+        findAllUsers.orderBy('user.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`)
+      }
+      if (keyword?.limit) {
+        findAllUsers.take(+keyword?.limit)
       }
       const users = await findAllUsers.getMany();
 
@@ -84,7 +104,7 @@ export class UserService {
 
   async findOne(id: number) {
     try {
-      
+
       const user = await this.userRepository.findOne({
         where: {
           id
@@ -97,7 +117,8 @@ export class UserService {
       if (!user) {
         throw new NotFoundException(`User with ID ${id} not found`);
       }
-      return user;
+      const { password, ...response } = user;
+      return response;
     } catch (error) {
       throw error;
     }
