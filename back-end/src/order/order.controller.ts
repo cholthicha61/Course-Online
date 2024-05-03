@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, UseGuards, Query } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -15,8 +15,8 @@ export class OrderController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findAll() {
-    return this.orderService.findAll();
+  async findAll(@Query() keyword) {
+    return this.orderService.findAll(keyword);
   }
 
   @UseGuards(AuthGuard)

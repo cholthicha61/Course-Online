@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { User } from 'src/user/entities/user.entity';
 import { Course } from 'src/course/entities/course.entity';
 import { StatusOrder } from 'src/enums/status-order';
+import { FindAllOrderDto, FindAllUserDto } from 'src/user/dto/find-all-dto';
 
 @Injectable()
 export class OrderService {
@@ -53,14 +54,40 @@ export class OrderService {
     }
   }
 
-  async findAll() {
+  async findAll(keyword: FindAllOrderDto) {
     try {
-      return this.orderRepository.find({
-        relations: {
-          user: true,
-          course: true,
-        },
-      });
+      console.log('keyword', keyword);
+
+      const findAllOrders = this.orderRepository
+        .createQueryBuilder('order')
+        .leftJoinAndSelect('order.course', 'course')
+        .leftJoinAndSelect('order.user', 'user')
+        .leftJoinAndSelect('course.categorys', 'categorys')
+        .leftJoinAndSelect('course.images', 'images')
+      findAllOrders.where('1=1');
+      if (keyword?.status) {
+        findAllOrders.andWhere('order.status like :status', { status: `%${keyword?.status}%` });
+      }
+      if (keyword?.startdate) {
+        findAllOrders.andWhere('order.startdate like :startdate', { startdate: `%${keyword?.startdate}%` });
+      }
+      if (keyword?.enddate) {
+        findAllOrders.andWhere('order.enddate like :enddate', { enddate: `%${keyword?.enddate}%` });
+      }
+      if (keyword?.courseName) {
+        findAllOrders.andWhere('course.courseName like :courseName', { courseName: `%${keyword?.courseName}%` });
+      }
+      if (keyword.description) {
+        findAllOrders.andWhere('course.description like :description', { description: `%${keyword?.description}%` });
+      }
+      if (keyword.orderById) {
+        findAllOrders.orderBy('order.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`);
+      }
+      if (keyword?.limit) {
+        findAllOrders.take(+keyword?.limit);
+      }
+
+      return await findAllOrders.getMany();
     } catch (error) {
       throw error;
     }
