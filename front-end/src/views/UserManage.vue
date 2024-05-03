@@ -1,0 +1,128 @@
+<template>
+  <div>
+    <v-data-table-virtual
+      :headers="headers"
+      :items="users"
+      height="760"
+    >
+      <template v-slot:[`item.no`]="{ index }">
+        {{ index + 1 }}
+      </template>
+      <!-- <template v-slot:[`item.status`]="{ item }">
+        <v-switch
+          v-model="item.active"
+          color="#0284C7"
+          :label="'Activated'"
+          hide-details
+          inset
+        />
+      </template> -->
+
+      <template #item="{ item }">
+        <tr :key="item.id">
+          <td
+            class="text-start"
+            style="width: 150px; max-width: 150px; word-wrap: break-word"
+          >
+            {{ item.id }}
+          </td>
+          <td
+            class="text-between"
+            style="width: 300px; max-width: 300px; word-wrap: break-word"
+          >
+            {{ item.createdAt }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.fname }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.lname }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.email }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.phone }}
+          </td>
+          <td style="width: 100px; margin-left: auto">
+            <v-switch
+              v-model="item.active"
+              color="#0284C7"
+              hide-details
+              inset
+            />
+          </td>
+        </tr>
+      </template>
+    </v-data-table-virtual>
+  </div>
+</template>
+
+<script>
+import { mapState } from "vuex";
+
+export default {
+  data: () => ({
+    headers: [
+      {
+        title: "No.",
+        align: "start",
+        value: "id",
+      },
+      {
+        title: "createdAt",
+        align: "start",
+        value: "createdAt",
+      },
+      {
+        title: "fName",
+        align: "start",
+        value: "fname",
+      },
+      {
+        title: "lName",
+        align: "start",
+        value: "lname",
+      },
+      {
+        title: "Email",
+        align: "start",
+        value: "email",
+      },
+      {
+        title: "phone",
+        align: "start",
+        value: "phone",
+      },
+      {
+        title: "status",
+        align: "center",
+        value: "active",
+      },
+    ],
+    users: [],
+  }),
+
+  computed: {
+    ...mapState({
+      user: (state) => state.user.user,
+    }),
+  },
+  watch: {
+    user(newVal) {
+      return newVal;
+    },
+  },
+  async mounted() {
+    this.getData();
+  },
+  methods: {
+    async getData() {
+      await this.$store.dispatch("user/getUser");
+      this.users = JSON.parse(JSON.stringify(this.user));
+    },
+  },
+};
+</script>
+
+<style scoped></style>
