@@ -28,7 +28,7 @@
 
     <v-card-actions class="text-blue-800">
       <v-btn
-        href="#"
+        href="/coursemanage"
         text="Manage Course"
         class="absolute top-0 left-48 hover:text-sky-800 hover:bg-blue-200"
       ></v-btn>

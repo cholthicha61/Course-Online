@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center mt-8">
-      <div class="bg-blue-100 p-16 rounded-lg w-3/4">
+      <div class=" p-16 rounded-lg w-3/4">
         <h1 class="text-2xl font-bold mb-4">All Confirmed Courses</h1>
         <div class="overflow-x-auto">
           <table class="min-w-full border-collapse">
