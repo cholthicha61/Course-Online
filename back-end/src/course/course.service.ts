@@ -9,6 +9,7 @@ import { Category } from 'src/category/entities/category.entity';
 import { Image } from 'src/image/entities/image.entity';
 import { FOLDERPATH } from 'src/constant/folder-path';
 import { unlink } from 'fs/promises';
+import { FindAllCourseDto } from 'src/user/dto/find-all-dto';
 
 @Injectable()
 export class CourseService {
@@ -82,14 +83,35 @@ export class CourseService {
     }
   }
 
-  async findAll() {
+  async findAll(keyword: FindAllCourseDto) {
     try {
-      return await this.courseRepository.find({
-        relations: {
-          images: true,
-          categorys: true,
-        },
-      });
+      
+      const findAllCourse = await this.courseRepository.createQueryBuilder('course')
+      .leftJoinAndSelect('course.categorys', 'category')
+      .leftJoinAndSelect('course.images', 'images')
+      .leftJoinAndSelect('course.orders', 'orders')
+      if (keyword?.categorys == 'true') {
+        findAllCourse.leftJoinAndSelect('course.categorys', 'category')
+      }
+      if (keyword?.images == 'true') {
+        findAllCourse.leftJoinAndSelect('course.images', 'images')
+      }
+      if (keyword?.orders == 'true') {
+        findAllCourse.leftJoinAndSelect('course.orders', 'orders')
+      }
+      findAllCourse.where('1=1')
+      if (keyword?.courseName) {
+        findAllCourse.andWhere('course.courseName like :courseName', { courseName: `%${keyword?.courseName}%` })
+      }
+      if (keyword?.orderById) {
+        findAllCourse.orderBy('course.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`)
+      }
+      if (keyword?.limit){
+        findAllCourse.take(+keyword?.limit)
+      } 
+
+      return  await findAllCourse.getMany();
+
     } catch (error) {
       throw error;
     }

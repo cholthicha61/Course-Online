@@ -11,6 +11,7 @@ import {
   BadRequestException,
   UploadedFiles,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { unlink } from 'fs/promises';
@@ -36,8 +37,8 @@ export class CourseController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findAll() {
-    return await this.courseService.findAll();
+  async findAll(@Query() keyword) {
+    return await this.courseService.findAll(keyword);
   }
 
   @UseGuards(AuthGuard)
