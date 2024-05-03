@@ -18,7 +18,7 @@ export class OrderService {
     private userRepository: Repository<User>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>
-  ) {}
+  ) { }
 
   async create(createOrderDto: CreateOrderDto) {
     try {
@@ -71,15 +71,14 @@ export class OrderService {
 
   async findOne(id: number) {
     try {
-      const findOne = await this.orderRepository.findOne({
-        where: {
-          id: id,
-        },
-        relations: {
-          user: true,
-          course: true,
-        },
-      });
+      
+      const findOne = await this.orderRepository.createQueryBuilder('order')
+        .leftJoinAndSelect('order.user', 'user')
+        .leftJoinAndSelect('order.course', 'course')
+        .leftJoinAndSelect('course.images', 'images')
+        .leftJoinAndSelect('course.categorys', 'categorys')
+        .getOne()
+
       if (_.isEmpty(findOne)) {
         throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
       }
@@ -124,21 +123,7 @@ export class OrderService {
   async updateStatus(id: number, updateOrderDto: UpdateOrderDto) {
     try {
       const order = await this.findOne(id);
-      // function convertStatusOrder(status: string): StatusOrder {
-      //   switch (status) {
-      //     case 'Waiting':
-      //       return StatusOrder.Waiting;
-      //     case 'Incourse':
-      //       return StatusOrder.Incourse;
-      //     case 'Endcourse':
-      //       return StatusOrder.Endcourse;
-      //     case 'Canceled':
-      //       return StatusOrder.Canceled;
-      //     default:
-      //       throw new HttpException('Invalid status', HttpStatus.BAD_REQUEST);
-      //   }
-      // }
-
+      
       function convertStatusOrder(status: string): StatusOrder {
         const statusMap: { [key: string]: StatusOrder } = {
           Waiting: StatusOrder.Waiting,

@@ -7,7 +7,9 @@ import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
 import { Role } from 'src/role/entities/role.entity';
+import { response } from 'express';
 import { FindAllUserDto } from './dto/find-all-dto';
+import { RolesUser, UserInit } from 'src/constant/init-user';
 
 @Injectable()
 export class UserService {
@@ -17,7 +19,6 @@ export class UserService {
     @InjectRepository(Role)
     private roleRepository: Repository<Role>
   ) { }
-
   async create(createUserDto: CreateUserDto) {
     try {
       const findByEmail = await this.userRepository.findOne({

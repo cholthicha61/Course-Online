@@ -115,7 +115,7 @@ export class CourseController {
     const course = await this.courseService.createCourse(successFile, createCourseDto);
     return course;
   }
-
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteCourse(@Param('id') id: string) {
     return await this.courseService.deleteCourse(+id);

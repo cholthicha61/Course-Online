@@ -29,7 +29,7 @@ export class OrderController {
     const courseId = updateOrderDto.courseId;
     return this.orderService.update(+id, updateOrderDto, userId, courseId);
   }
-
+  @UseGuards(AuthGuard)
   @Patch('update-status/:id')
   async updateStatus(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.updateStatus(+id, updateOrderDto);

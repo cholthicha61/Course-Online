@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThan, MoreThanOrEqual, Not, Repository } from 'typeorm';
+import { Between, MoreThan, MoreThanOrEqual, Not, Repository } from 'typeorm';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { Course } from './entities/course.entity';
@@ -179,23 +179,38 @@ export class CourseService {
         throw new NotFoundException(`Course ${id} does not exist`);
       }
       const oldPriority = courseToUpdate.priority;
-      courseToUpdate.priority = newPriority;
-      await this.courseRepository.save(courseToUpdate);
-
       const coursesToAdjust = await this.courseRepository.find({
         where: {
-          priority: MoreThanOrEqual(oldPriority),
-          id: Not(id),
-        },
+          priority: Between(
+            Math.min(oldPriority, newPriority),
+            Math.max(oldPriority, newPriority)
+          ),
+          id: Not(id) // Exclude the current course from the update
+        }
       });
-      for (const course of coursesToAdjust) {
-        if (newPriority < oldPriority) {
-          course.priority++;
-        } else {
+      // เงื่อนไขในการเลื่อนขึ้นเลื่อนลง
+    for (const course of coursesToAdjust) {
+      if (newPriority > oldPriority) {
+        // เลื่อนลง
+        if (course.priority === oldPriority) {
+          course.priority = newPriority;
+        } else if (course.priority > oldPriority && course.priority <= newPriority) {
           course.priority--;
         }
-        await this.courseRepository.save(course)
+      } else {
+        // เลื่อนขึ้น
+        if (course.priority === oldPriority) {
+          course.priority = newPriority;
+        } else if (course.priority >= newPriority && course.priority < oldPriority) {
+          course.priority++;
+        }
       }
+      await this.courseRepository.save(course);
+    }
+    courseToUpdate.priority = newPriority;
+    await this.courseRepository.save(courseToUpdate);
+      
+      
       return courseToUpdate;
     } catch (error) {
       throw error;
@@ -227,10 +242,10 @@ export class CourseService {
       for (let i = 1; i < files.length; i++) {
         console.log(i);
         const createImg = this.imageRepository.create({
-          name: files[i].filename
-        })
-        const saveImg = await this.imageRepository.save(createImg)
-        saveImgs.push(saveImg)
+          name: files[i].filename,
+        });
+        const saveImg = await this.imageRepository.save(createImg);
+        saveImgs.push(saveImg);
       }
       const newPriority = await this.createNewPriority();
       const courseImage = this.courseRepository.create({
@@ -266,18 +281,17 @@ export class CourseService {
         throw new HttpException('course not found', HttpStatus.NOT_FOUND);
       }
       if (!_.isEmpty(course.courseImage)) {
-        await this.deleteFile(course.courseImage)
+        await this.deleteFile(course.courseImage);
       }
       if (!_.isEmpty(course.images)) {
         for (const image of course.images) {
           await this.deleteFile(image.name);
         }
       }
-
-      await this.courseRepository.delete(id);
+      course.deletedAt = new Date();
+      await this.courseRepository.save(course);
     } catch (error) {
-      throw error
+      throw error;
     }
   }
-
 }

@@ -19,7 +19,7 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findAll(@Query() keyword) {
+  async findAll(@Query() keyword: FindAllUserDto) {
     return await this.userService.findAll(keyword);
   }
 
