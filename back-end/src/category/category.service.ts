@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
 import * as _ from 'lodash';
+import { FindAllCategoryDto } from 'src/user/dto/find-all-dto';
 
 Injectable();
 export class CategoryService {
@@ -27,9 +28,29 @@ export class CategoryService {
     }
   }
 
-  async findAll(): Promise<Category[]> {
+  async findAll(keyword: FindAllCategoryDto) {
     try {
-      return await this.categoryRepository.find();
+      console.log('keyword', keyword);
+
+      const findAllCategory = this.categoryRepository
+        .createQueryBuilder('category')
+        .leftJoinAndSelect('category.courses', 'courses')
+
+      findAllCategory.where('1=1');
+      if (keyword?.name) {
+        findAllCategory.andWhere('category.name like :name', { name: `%${keyword?.name}%` });
+      }
+      if (keyword?.type) {
+        findAllCategory.andWhere('category.type like :type', { type: `%${keyword?.type}%` });
+      }
+      if (keyword.orderById) {
+        findAllCategory.orderBy('category.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`);
+      }
+      if (keyword?.limit) {
+        findAllCategory.take(+keyword?.limit)
+      }
+
+      return await findAllCategory.getMany();
     } catch (error) {
       throw error;
     }
@@ -37,9 +58,14 @@ export class CategoryService {
 
   async findOne(id: number) {
     try {
-      const category = await this.categoryRepository.findOne({ where: { id } });
+      const category = await this.categoryRepository
+        .createQueryBuilder('category')
+        .leftJoinAndSelect('category.courses', 'courses')
+        .where('category.id = :id', { id })
+        .getOne();
+        
       if (!category) {
-        throw new NotFoundException(`User with ID ${id} not found`);
+        throw new NotFoundException(`Category with ID ${id} not found`);
       }
       return category;
     } catch (error) {
@@ -73,7 +99,8 @@ export class CategoryService {
     try {
       const category = await this.findOne(id);
       console.log(`Removing category with ID ${id}`);
-      await this.categoryRepository.remove(category);
+      category.deletedAt = new Date();
+      await this.categoryRepository.save(category);
     } catch (error) {
       throw error;
     }

@@ -7,7 +7,10 @@ export class Question extends BaseEntity {
   @Column()
   message: string;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 }

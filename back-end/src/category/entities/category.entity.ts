@@ -6,8 +6,6 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColu
 export class Category extends BaseEntity {
   @Column()
   name: string;
-  @Column()
-  type: string;
 
   @OneToMany(() => Course, course => course.categorys)
   courses: Course[];

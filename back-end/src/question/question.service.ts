@@ -74,7 +74,8 @@ export class QuestionService {
   async remove(id: number) {
     try {
       const question = await this.findOne(id);
-      return await this.questionRepository.remove(question);
+      question.deletedAt = new Date(); // Mark as soft deleted
+      await this.questionRepository.save(question);
     } catch (error) {
       throw error;
     }

@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateOrderDto {
-  status?: boolean;
+  status?: string;
 
   @IsNotEmpty()
   @IsString()
