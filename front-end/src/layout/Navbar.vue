@@ -53,6 +53,7 @@
         <a
           :href="link.link"
           class="transition duration-500 ease-in-out box-border py-3 px-3 text-lg text-sky-800 hover:bg-sky-200 hover:text-sky-500"
+          
         >
           {{ link.name }}
         </a>
@@ -63,6 +64,8 @@
 
 <script>
 import { ref } from "@vue/reactivity";
+
+
 export default {
   setup() {
     const open = ref(false);
@@ -78,5 +81,7 @@ export default {
     }
     return { Links, open, MenuOpen };
   },
+  
+
 };
 </script>

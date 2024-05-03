@@ -1,12 +1,12 @@
 <template>
-  <div class="container mx-auto max-w-sm mt-16">
-    <h2 class="text-3xl font-bold text-center">Login Account</h2>
-
-      <div class="mt-6">
-        <label for="email" class="block mb-2">Email</label>
-        <input type="email" id="email" v-model="payload.email" class="w-full p-2 border rounded-md focus:outline-none">
-      </div>
-
+    <div class="container mx-auto max-w-sm mt-16">
+      <h2 class="text-3xl font-bold text-center">Login Account</h2>
+  
+        <div class="mt-6">
+          <label for="email" class="block mb-2">Email</label>
+          <input type="email" id="email" v-model="payload.email" class="w-full p-2 border rounded-md focus:outline-none">
+        </div>
+  
       <div class="mt-6">
         <label for="password" class="block mb-2">Password</label>
         <input type="password" id="password" v-model="payload.password" class="w-full p-2 border rounded-md focus:outline-none">

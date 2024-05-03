@@ -1,5 +1,5 @@
 
-import { createStore } from 'vuex'
+import { createStore , mapState } from 'vuex'
 
 import datafromApiFree from './modules/datafromApiFree'
 import auth from './modules/auth'
