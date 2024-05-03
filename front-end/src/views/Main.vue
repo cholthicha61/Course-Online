@@ -31,7 +31,7 @@
 
 <script>
 import Banner from "@/components/BanNer.vue";
-import ProfileCard from "@/components/Profile.vue";
+import ProfileCard from "../components/Profile.vue";
 import QuestionPopup from "@/components/QuestionPopup.vue";
 import AllCourse from "../components/AllCourse.vue";
 import Login from "../components/Login.vue";

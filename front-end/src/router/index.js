@@ -32,6 +32,16 @@ const router = createRouter({
       name: 'allcourse',
       component: () => import('../components/AllCourse.vue'),
     },
+    {
+      path: '/ALC',
+      name: 'AllConfrimCourse',
+      component: () => import('../components/AllconfrimedCourse.vue'),
+    },
+    {
+      path: '/DSG',
+      name: 'DSG',
+      component: () => import('../components/CourseOrder.vue'),
+    },
     // {
     //   path: '/addcourse',
     //   name: 'addcourse',
