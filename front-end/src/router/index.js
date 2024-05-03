@@ -5,6 +5,37 @@ const router = createRouter({
   routes: [
     {
       path: "",
+      component: () => import("../layout/BaseLaoutHome.vue"),
+      children: [
+        {
+          path: "/homepage",
+          name: "homepage",
+          component: () => import("../views/Main.vue"),
+        },
+        {
+          path: "/allcourse-user",
+          name: "allcourse-user",
+          component: () => import("../components/AllCourse.vue"),
+        },
+        {
+          path: "/addcourse",
+          name: "addcourse",
+          component: () => import("../views/AddCourse.vue"),
+        },
+        {
+          path: "/inbox",
+          name: "inbox",
+          component: () => import("../views/Inbox.vue"),
+        },
+        {
+          path: "/changePassword",
+          name: "changePassword",
+          component: () => import("../components/ChangePassword.vue")
+        }
+      ],
+    },
+    {
+      path: "",
       component: () => import("@/layout/BaseLayout.vue"),
       children: [
         {
@@ -12,11 +43,7 @@ const router = createRouter({
           name: "home",
           component: () => import("../views/Main.vue"),
         },
-        {
-          path: "/admin",
-          name: "admin",
-          component: () => import("../views/admin.vue"),
-        },
+        
         {
           path: "/dashboard",
           name: "dashboard",

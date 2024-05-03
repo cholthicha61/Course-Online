@@ -12,10 +12,10 @@
         <input type="password" id="password" v-model="payload.password" class="w-full p-2 border rounded-md focus:outline-none">
       </div>
 
-      <div class="mt-4 flex items-center">
+      <!-- <div class="mt-4 flex items-center">
         <input type="checkbox" id="savePassword" v-model="savePassword" class="mr-2">
         <label for="savePassword" class="text-sm">Save Password</label>
-      </div>
+      </div> -->
 
       <div class="mt-4">
         <a href="#" class="text-sm text-gray-500 hover:text-gray-600">Forgot Password?</a>

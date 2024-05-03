@@ -3,7 +3,7 @@
     <h2 class="text-3xl font-bold text-center">Create Account</h2>
 
     <div
-      class="flex flex-col w-full px-96 py-8 border border-gray-200 rounded-lg shadow-md"
+      class="flex flex-col w-full px-96 py-8  border-gray-200 rounded-lg "
     >
       <div class="flex flex-col mb-4">
         <label class="mb-2 text-gray-700">ชื่อ</label>
@@ -25,7 +25,7 @@
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">อีเมลล์</label>
+        <label class="mb-2 text-gray-700">อีเมล</label>
         <input
           type="email"
           class="form-input border border-gray-300 bg-blue-100 rounded-md px-2 py-2"

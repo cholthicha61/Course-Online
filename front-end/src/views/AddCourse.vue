@@ -1,6 +1,7 @@
 <template>
-  <div class="container mx-auto px-96 py-8">
-    <h1 class="text-2xl font-bold mb-4 text-center">Add Course</h1>
+  <div class="container mx-auto px-96 mt-8">
+    
+    <h1 class="text-3xl font-bold mb-10 text-left ">Add Course</h1>
     <div class="mb-4 flex items-center">
       <label for="name" class="block w-1/4 mr-4">Name:</label>
       <input
@@ -44,7 +45,7 @@
       <div class="w-1/4 mr-4">
         <label class="block">Upload image :</label>
       </div>
-      <div class="flex items-center">
+      <div class="flex items-center ml-13">
         <div
           id="image-preview-1"
           class="max-w-sm p-6 mb-4 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer mr-4"
@@ -56,7 +57,7 @@
             accept="image/*"
             @change="handleFileUpload(1, $event)"
           />
-          <label for="upload-1" class="cursor-pointer">
+          <label for="upload-1" class="cursor-pointer ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -94,7 +95,7 @@
             id="upload-2"
             type="file"
             class="hidden"
-            accept="image/*"
+            accept=".png,.jpg"
             @change="handleFileUpload(2, $event)"
           />
           <label for="upload-2" class="cursor-pointer">
@@ -128,7 +129,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-center space-x-80 mb-12">
+    <!-- <div class="flex items-center justify-center space-x-80 mb-12">
       <div class="w-full">
         <label
           for="upload-1"
@@ -159,17 +160,17 @@
           @change="handleFileUpload(2, $event)"
         />
       </div>
-    </div>
+    </div> -->
 
-    <div class="flex justify-center mt-36 mr-8">
+    <div class="flex justify-center mt-10 ml-10">
       <button
         @click="submitCourse"
-        class="bg-blue-500 text-white px-4 py-2 rounded"
+        class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800"
       >
         Submit
       </button>
       <div class="w-4"></div>
-      <button @click="cancel" class="bg-blue-500 text-white px-4 py-2 rounded">
+      <button @click="cancel" class="bg-gray-500 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-gray-500">
         Cancel
       </button>
     </div>

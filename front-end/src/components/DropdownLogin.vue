@@ -8,7 +8,7 @@
       </svg>
       <transition name="fade" appear>
         <div class="sub-menu " v-if="isOpen">
-          <div v-for="(item, i) in items" :key="i" class="menu-item hover:text-sky-500">
+          <div v-for="(item, i) in items" :key="i" class="menu-item py-2 px-3 hover:text-sky-500 hover:bg-sky-200">
             <a :href="item.link" @click="logout(item)">{{ item.title }}</a>
           </div>
         </div>
@@ -27,7 +27,7 @@
     },
     methods: {
         async logout(item) {
-            console.log('ffffff',item.title);
+            console.log('logout',item.title);
             if(item.title == 'Logout') {
                 await this.$store.dispatch('auth/logout')
                 
@@ -37,10 +37,10 @@
   }
   </script>
   
-  <style>
+  <style scoped>
   nav .menu-item svg {
     width: 10px;
-    margin-left: 10px;
+    margin-left: 20px;
   }
   
   nav .menu-item .sub-menu {

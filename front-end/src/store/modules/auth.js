@@ -24,7 +24,7 @@ const actions = {
       console.log("login OK", res);
       if (res.status == 200) {
         if (res.data.user.roles.name == "admin") {
-          router.push({ path: "/admin" });
+          router.push({ path: "/Dashboard" });
         } else {
           router.push({ path: "/home" });
         }

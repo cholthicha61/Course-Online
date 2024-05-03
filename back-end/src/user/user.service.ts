@@ -151,6 +151,9 @@ console.log('keyword', keyword);
 
       user.roles = findRole;
 
+      console.log("user",user);
+      
+
       const updatedUser = await this.userRepository.save(user);
       const { password, ...response } = updatedUser;
       return response;

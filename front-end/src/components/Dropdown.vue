@@ -27,7 +27,7 @@
         <class class="py-1">
           <MenuItem v-slot="{ active }">
             <a
-              href="#"
+              href="/changePassword"
               :class="[
                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                 'block px-4 py-2 text-sm',
@@ -41,6 +41,7 @@
           <MenuItem v-slot="{ active }">
             <a
               href="#"
+              @click.prevent="logout"
               :class="[
                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                 'block px-4 py-2 text-sm',
@@ -57,7 +58,15 @@
 <script setup>
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+import { useRouter } from 'vue-router';
 
-let user =  JSON.parse(localStorage.getItem('user'))
+let user = JSON.parse(localStorage.getItem('user'));
+const router = useRouter();
 
+const logout = () => {
+  localStorage.removeItem('user');
+  localStorage.removeItem('token'); 
+
+  router.push('/login'); 
+};
 </script>
