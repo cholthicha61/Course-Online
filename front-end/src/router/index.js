@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -32,6 +31,16 @@ const router = createRouter({
           path: "/changePassword",
           name: "changePassword",
           component: () => import("../components/ChangePassword.vue")
+        },
+        {
+          path: "/coursemanage",
+          name: "coursemanage",
+          component: () => import("../views/CourseManage.vue")
+        },
+        {
+          path: "/usermanage",
+          name: "usermanage",
+          component: () => import("../views/UserManage.vue")
         }
       ],
     },
@@ -73,6 +82,11 @@ const router = createRouter({
         },
       ],
     },
+    // {
+    //   path: "/usermanage",
+    //   name: "usermanage",
+    //   component: () => import("../views/UserManage.vue"),
+    // }
   ],
 });
 

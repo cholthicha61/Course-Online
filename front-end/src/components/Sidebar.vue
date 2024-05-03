@@ -81,7 +81,7 @@
         <div
           class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
-          <router-link to="/Manage Course'" class="px-2 flex space-x-2"
+          <router-link to="/coursemanage" class="px-2 flex space-x-2"
             ><span class="" v-tooltip.right="'Manage Course'"></span>
             <span class="absolute bottom left-9 px-4" v-show="dataOpenSideBar">Manage Course</span></router-link
           >
@@ -99,7 +99,7 @@
         <div
           class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
-          <router-link to="/Manage User" class="px-2 flex space-x-2"
+          <router-link to="/usermanage" class="px-2 flex space-x-2"
             ><span class="" v-tooltip.right="'Manage User'"></span>
             <span class="absolute bottom left-9  px-4" v-show="dataOpenSideBar">Manage User</span></router-link
           >

@@ -5,9 +5,12 @@ import router from "../../router/index";
 import Swal from "sweetalert2";
 
 const state = {
-  profile: {},
+  user: {},
 };
 const mutations = {
+  SET_USER: (state, payload) => {
+    state.user = payload;
+  },
 };
 const actions = {
   async createUser({ commit }, payload) {
@@ -29,7 +32,17 @@ const actions = {
       });
     }
   },
+  async getUser({ commit }, payload) {
+    try {
+      const url = `${ENDPOINT.USER}`;
+      const res = await axios(configAxios("get", url));
+      commit("SET_USER", res.data);
+    } catch (error) {
+      throw error;
+    }
+  },
 };
+
 export default {
   // เพื่อทำให้การทำงานทั้งหมดทำงาน
   namespaced: true,
