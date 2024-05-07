@@ -128,7 +128,7 @@ export default {
       this.users = JSON.parse(JSON.stringify(this.user));
     },
     formatDate(date) {
-      return moment(date).startOf('hour').fromNow();
+      return moment(date).format('llll');
     }
   },
 };

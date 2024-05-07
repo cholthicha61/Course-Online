@@ -1,16 +1,11 @@
 <template>
-    <div class="px-8 mt-8">
-    <div class="head-course">
-      <h1>Manage Course</h1>
-    </div>
-  </div>
   <div>
     <div style="display: flex; justify-content: flex-end">
-      <v-btn class="mt-5 ma-5" color="#0284C7" @click="addCourse"
-        >Add Course</v-btn
-      >
+      <router-link to="/addcourse" class="mt-5 ma-5" style="color: #fff; text-decoration: none;">
+        <v-btn color="#0284C7">Add Course</v-btn>
+      </router-link>
     </div>
-    <v-data-table-virtual :headers="headers" :items="course" height="500">
+    <v-data-table-virtual :headers="headers" :items="course" height="700">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
@@ -117,12 +112,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.head-course h1 {
-  font-size: 30px;
-  color: rgb(11, 94, 188);
-  border-bottom: 1px solid #d9d9d9;
-  font-style: italic;
-}
-</style>
