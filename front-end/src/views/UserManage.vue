@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-data-table-virtual
-      :headers="headers"
-      :items="users"
-      height="760"
-    >
+    <v-data-table-virtual :headers="headers" :items="users" height="760">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
@@ -30,7 +26,7 @@
             class="text-between"
             style="width: 300px; max-width: 300px; word-wrap: break-word"
           >
-            {{ item.createdAt }}
+          {{ formatDate(item.createdAt) }}
           </td>
           <td style="width: 300px; max-width: 300px; word-wrap: break-word">
             {{ item.fname }}
@@ -60,6 +56,7 @@
 
 <script>
 import { mapState } from "vuex";
+import moment from 'moment';
 
 export default {
   data: () => ({
@@ -121,6 +118,9 @@ export default {
       await this.$store.dispatch("user/getUser");
       this.users = JSON.parse(JSON.stringify(this.user));
     },
+    formatDate(date) {
+      return moment(date).startOf('hour').fromNow();
+    }
   },
 };
 </script>
