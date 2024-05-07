@@ -1,9 +1,14 @@
 <template>
-  <div>
+   <div class="px-8 mt-8">
+    <div class="head-course">
+      <h1>Manage User</h1>
+    </div>
+  </div>
+  <div class="mt-9">
     <v-data-table-virtual
       :headers="headers"
       :items="users"
-      height="760"
+      height="560"
     >
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
@@ -125,4 +130,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.head-course h1 {
+  font-size: 30px;
+  color: rgb(11, 94, 188);
+  border-bottom: 1px solid #d9d9d9;
+  font-style: italic;
+}
+</style>

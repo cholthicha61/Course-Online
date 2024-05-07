@@ -53,8 +53,8 @@ export default {
 <style scoped>
 .head-course h1 {
   font-size: 30px;
-  color: black;
-  border-bottom: 1px solid #9e9e9e;
+  color: rgb(11, 94, 188);
+  border-bottom: 1px solid #d9d9d9;
   font-style: italic;
 }
 </style>
