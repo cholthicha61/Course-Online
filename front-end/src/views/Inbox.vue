@@ -5,16 +5,29 @@
     </div>
   </div>
   <div class="mt-9">
-    <v-data-table-virtual :headers="headers" :items="users" height="calc(100vh - 280px)">
+    <v-data-table-virtual
+      :headers="headers"
+      :items="users"
+      height="calc(100vh - 280px)"
+    >
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
 
       <template #item="{ item }">
-        <tr :key="item.id">
-          <td class="text-between" style="width: 300px; max-width: 300px; word-wrap: break-word">{{ item.createdAt }}</td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">{{ item.fname }}</td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">{{ item.email }}</td>
+        <tr :key="item">
+          <td
+            class="text-between"
+            style="width: 300px; max-width: 300px; word-wrap: break-word"
+          >
+          {{ formatDate(item.date) }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.email }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.message }}
+          </td>
         </tr>
       </template>
     </v-data-table-virtual>
@@ -43,8 +56,25 @@ export default {
         value: "message",
       },
     ],
-    users: [],
+    emails: [],
   }),
+  computed: {
+    ...mapState(["emails"]),
+  },
+  methods: {
+    formatDate(date) {
+    return new Date(date).toLocaleString(); 
+  },
+    async addEmails() {
+      await this.$store.dispatch("user/addEmails");
+      this.users = JSON.parse(JSON.stringify(this.emails));
+    },
+  },
+  watch: {
+    emails(newVal) {
+      return newVal;
+    },
+  },
 };
 </script>
 

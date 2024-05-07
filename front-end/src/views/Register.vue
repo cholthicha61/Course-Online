@@ -3,72 +3,64 @@
     <h2 class="text-3xl font-bold text-center">Create Account</h2>
 
     <div
-      class="flex flex-col w-full px-96 py-8  border-gray-200 rounded-lg "
+      class="flex flex-col w-full px-96 py-10  border-gray-200 rounded-lg "
     >
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">ชื่อ</label>
+        <label class="mb-2 text-gray-700">Firstname</label>
         <input
           type="text"
-          class="form-input border border-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          class="form-input border border-gray-300 rounded-md px-2 py-2"
           v-model="fname"
         />
         <span class="text-blue-100">{{ fnameError }}</span>
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">นามสกุล</label>
+        <label class="mb-2 text-gray-700">Lastname</label>
         <input
           type="text"
-          class="form-input border border-l-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          class="form-input border border-l-gray-300  rounded-md px-2 py-2"
           v-model="lname"
         />
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">อีเมล</label>
+        <label class="mb-2 text-gray-700">Email</label>
         <input
           type="email"
-          class="form-input border border-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          class="form-input border border-gray-300  rounded-md px-2 py-2"
           v-model="email"
         />
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">รหัสผ่าน</label>
+        <label class="mb-2 text-gray-700">Password</label>
         <input
           type="password"
-          class="form-input border border-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          class="form-input border border-gray-300  rounded-md px-2 py-2"
           v-model="password"
         />
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">ยืนยันรหัสผ่าน</label>
+        <label class="mb-2 text-gray-700">Confirm Password</label>
         <input
           type="password"
-          class="form-input border border-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          class="form-input border border-gray-300  rounded-md px-2 py-2"
           v-model="confirmPassword"
         />
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">เบอร์โทรศัพท์</label>
+        <label class="mb-2 text-gray-700">Phone</label>
         <input
           type="tel"
-          class="form-input border border-gray-300 bg-blue-100 rounded-md px-2 py-2"
+          class="form-input border border-gray-300  rounded-md px-2 py-2"
           v-model="phone"
         />
       </div>
-
-      <!-- <div class="flex items-center mb-4">
-        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600" />
-        <label class="ml-2 text-gray-700"
-          >Agree with Terms and Conditions</label
-        >
-      </div> -->
-
       <button @click="createUser()"
-        class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600"
+        class="w-full bg-sky-600 text-white font-bold py-2 px-4 rounded-md hover:bg-sky-800"
       >
         Create Account
       </button>
@@ -150,7 +142,7 @@ export default {
         password: this.password,
         confirmPassword: this.confirmPassword,
         phone: this.phone,
-        roleId: 3,
+        roleId: 2,
 
       }
       await this.$store.dispatch("user/createUser", this.payload);

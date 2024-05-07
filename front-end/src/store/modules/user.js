@@ -15,12 +15,25 @@ const mutations = {
 const actions = {
   async createUser({ commit }, payload) {
     const url = `${ENDPOINT.USER}`;
+    console.log("url",url);
     try {
-      const res = await axios(configAxios("post", url, payload));
-      console.log("created user OK", res);
-      if (res.status == 201) {
-        router.push({ path: "/login" });
-      }
+      // const res = await axios(configAxios("post", url, payload));
+      await axios.post(url, payload).then((res)=>{
+        console.log("created user OK", res);
+
+        if (res.status == 201) {
+          Swal.fire({
+            icon: "success",
+            title: "สมัครสมาชิกสำเร็จ",
+            text: "",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          router.push({ path: "/login" });
+        }
+      });
+
+      
     } catch (error) {
       console.log("error  >>> ", error);
       Swal.fire({
@@ -37,6 +50,15 @@ const actions = {
       const url = `${ENDPOINT.USER}`;
       const res = await axios(configAxios("get", url));
       commit("SET_USER", res.data);
+    } catch (error) {
+      throw error;
+    }
+  },
+  async sentEmail({ commit }, payload) {
+    try {
+      const url = `${ENDPOINT.USER}`;
+      const res = await axios(configAxios("get", url));
+      commit("SET_EMAILS", res.data);
     } catch (error) {
       throw error;
     }

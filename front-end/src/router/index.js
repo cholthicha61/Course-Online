@@ -30,7 +30,7 @@ const router = createRouter({
         {
           path: "/changePassword",
           name: "changePassword",
-          component: () => import("../components/ChangePassword.vue"),
+          component: () => import("../views/ChangePassword.vue"),
         },
         {
           path: "/coursemanage",
@@ -40,7 +40,7 @@ const router = createRouter({
         {
           path: "/allconfriem",
           name: "allconfriem",
-          component: () => import("../components/AllconfrimedCourse.vue"),
+          component: () => import("../views/AllconfrimedCourse.vue"),
         },
         {
           path: "/editcourse",
@@ -51,6 +51,11 @@ const router = createRouter({
           path: "/usermanage",
           name: "usermanage",
           component: () => import("../views/UserManage.vue"),
+        },
+        {
+          path: "/category",
+          name: "category",
+          component: () => import("../views/Category.vue"),
         },
       ],
     },
@@ -74,6 +79,7 @@ const router = createRouter({
           name: "allcourse",
           component: () => import("../components/AllCourse.vue"),
         },
+        
       ],
     },
     {
@@ -83,12 +89,12 @@ const router = createRouter({
         {
           path: "/login",
           name: "login",
-          component: () => import("../components/Login.vue"),
+          component: () => import("../views/Login.vue"),
         },
         {
           path: "/register",
           name: "register",
-          component: () => import("../components/Register.vue"),
+          component: () => import("../views/Register.vue"),
         },
       ],
     },

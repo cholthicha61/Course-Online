@@ -4,6 +4,7 @@ import { createStore , mapState } from 'vuex'
 import datafromApiFree from './modules/datafromApiFree'
 import auth from './modules/auth'
 import user from './modules/user'
+import inbox from './modules/inbox'
 
 
 export default createStore({
@@ -19,6 +20,7 @@ export default createStore({
     datafromApiFree,
     auth,
     user,
+    inbox,
   }
 })
 
