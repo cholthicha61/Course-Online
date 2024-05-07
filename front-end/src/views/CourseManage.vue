@@ -1,11 +1,16 @@
 <template>
+    <div class="px-8 mt-8">
+    <div class="head-course">
+      <h1>Manage Course</h1>
+    </div>
+  </div>
   <div>
     <div style="display: flex; justify-content: flex-end">
-      <v-btn class="mt-3 ma-3" color="#0284C7" @click="addCourse"
+      <v-btn class="mt-5 ma-5" color="#0284C7" @click="addCourse"
         >Add Course</v-btn
       >
     </div>
-    <v-data-table-virtual :headers="headers" :items="course" height="700">
+    <v-data-table-virtual :headers="headers" :items="course" height="500">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
@@ -112,3 +117,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.head-course h1 {
+  font-size: 30px;
+  color: rgb(11, 94, 188);
+  border-bottom: 1px solid #d9d9d9;
+  font-style: italic;
+}
+</style>
