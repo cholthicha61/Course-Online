@@ -29,6 +29,7 @@ export class QuestionService {
 
       const question = this.questionRepository.create({
         message: createQuestionDto.message,
+        user:user
       });
 
       return await this.questionRepository.save(question);
