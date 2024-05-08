@@ -45,6 +45,7 @@ export default {
         password: ''
       }
 
+      
       //test3@gmail.com
       //10225555
       
@@ -69,9 +70,12 @@ export default {
       this.password = '';
       // this.savePassword = false;
     },
+    
     async Login(){
       await this.$store.dispatch('auth/login',this.payload)
+   
     }
+    
   },
 };
 </script>

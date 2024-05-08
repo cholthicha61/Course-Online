@@ -1,10 +1,10 @@
 <template>
   <div
-    class="h-screen bg-sky-600"
+    class="h-screen bg-sky-600 "
     id="side-bar"
     :class="dataOpenSideBar == true ? 'side-bar-visible' : 'side-bar-close'"
   >
-    <div class="bg-sky-600 h-[50px] flex justify-center items-center">
+    <div class="bg-sky-600 h-[40px] flex justify-center items-center">
       <div
         class="text-xl font-bold text-center flex items-center justify-center text-white h-full"
         v-show="dataOpenSideBar"
@@ -37,9 +37,9 @@
           </div>
         </div>
         <div
-          class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-sm cursor-pointer text-gray-300 px-1"
+          class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300 px-1"
         >
-          <router-link to="/Dashboard" class="px-2 flex space-x-2"
+          <router-link to="/Dashboard" class="px-2 flex space-x-2 "
             ><span v-tooltip.right="'Home'"></span>
             <span class="absolute bottom left-9 px-4" v-show="dataOpenSideBar"
               >Home</span
@@ -171,16 +171,12 @@ export default {
 .p-tooltip-text {
   font-size: 10px !important;
 }
-
-#side-bar {
-  overflow: hidden;
-  transition: 300ms;
-}
-
 .side-bar-visible {
   width: 250px !important;
 }
-
+#side-bar {
+  transition: 400ms;
+} 
 .side-bar-close {
   width: 50px !important;
 }

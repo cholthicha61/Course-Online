@@ -35,13 +35,7 @@
           </svg>
         </button>
         <input
-          v-model="name"
-          type="text"
-          placeholder="Name"
-          class="border border-gray-300 rounded-md mb-4 w-full px-3 py-2"
-        />
-        <input
-          v-model="email"
+          v-model="userEmail.email"
           type="email"
           placeholder="Email"
           class="border border-gray-300 rounded-md mb-4 w-full px-3 py-2"
@@ -53,7 +47,7 @@
         ></textarea>
         <div class="flex justify-end">
           <button
-            @click="submitForm"
+            @click="addEmail()" 
             class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full mr-2"
           >
             Submit
@@ -69,8 +63,7 @@ export default {
   data() {
     return {
       showPopup: false,
-      name: "",
-      email: "",
+      userEmail: { email: "" }, 
       message: "",
       payload: {
         date: "",
@@ -83,38 +76,22 @@ export default {
     togglePopup() {
       this.showPopup = !this.showPopup;
     },
-    submitForm() {
-      // ทำการ submit form โดยเรียกใช้ sentEmail และส่ง payload ไปยังฟังก์ชัน
-      this.sentEmail();
-    },
-    clearForm() {
-      this.name = "";
-      this.email = "";
-      this.message = "";
-    },
-    async sentEmail() {
+    async addEmail() {
       this.payload = {
-        email: this.email,
+        email: this.userEmail.email, 
         message: this.message,
         date: new Date().toISOString(),
       };
       try {
-        // เรียกใช้ sentEmail action จาก Vuex store และส่ง payload ไปด้วย
-        await this.$store.dispatch("user/sentEmail", this.payload);
+        await this.$store.dispatch("inbox/addEmails", this.payload); // เปลี่ยนจาก user/sentEmail เป็น user/addEmails
         console.log("Payload sent:", this.payload);
       } catch (error) {
         console.error("Error sending email:", error);
       }
     },
   },
+  mounted() {
+    this.userEmail = JSON.parse(localStorage.getItem('user'))
+  }
 };
 </script>
-
-<!-- <style>
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity 0.3s;
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-    opacity: 0;
-  }
-  </style> -->

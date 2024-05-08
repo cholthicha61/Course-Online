@@ -29,7 +29,7 @@ const actions = {
             showConfirmButton: false,
             timer: 2000,
           });
-          router.push({ path: "/login" });
+          // router.push({ path: "/login" });
         }
       });
 
@@ -54,16 +54,8 @@ const actions = {
       throw error;
     }
   },
-  async sentEmail({ commit }, payload) {
-    try {
-      const url = `${ENDPOINT.USER}`;
-      const res = await axios(configAxios("get", url));
-      commit("SET_EMAILS", res.data);
-    } catch (error) {
-      throw error;
-    }
-  },
-};
+
+}
 
 export default {
   // เพื่อทำให้การทำงานทั้งหมดทำงาน
