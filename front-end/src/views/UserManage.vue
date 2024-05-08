@@ -76,17 +76,17 @@ export default {
         value: "id",
       },
       {
-        title: "createdAt",
+        title: "CreatedAt",
         align: "start",
         value: "createdAt",
       },
       {
-        title: "fName",
+        title: "First Name",
         align: "start",
         value: "fname",
       },
       {
-        title: "lName",
+        title: "Last Name",
         align: "start",
         value: "lname",
       },
@@ -96,12 +96,12 @@ export default {
         value: "email",
       },
       {
-        title: "phone",
+        title: "Phone",
         align: "start",
         value: "phone",
       },
       {
-        title: "status",
+        title: "Status",
         align: "center",
         value: "active",
       },
@@ -128,7 +128,7 @@ export default {
       this.users = JSON.parse(JSON.stringify(this.user));
     },
     formatDate(date) {
-      return moment(date).format('llll');
+      return moment(date).format('lll');
     }
   },
 };
