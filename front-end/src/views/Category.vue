@@ -1,15 +1,14 @@
 <template>
     <div class="px-8 mt-8">
     <div class="head-course">
-      <h1>Manage Category</h1>
+      <h1 >Manage Category</h1>
     </div>
   </div>
   <div>
-    <div style="display: flex; justify-content: flex-end">
-      <v-btn class="mt-5 ma-5" color="#0284C7" @click="addCourse" 
-        >Add Category</v-btn
-      >
+    <div class="add-category-btn "> 
+       <AddCategory/>
     </div>
+   
     <v-data-table-virtual :headers="headers" :items="course" height="500">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
@@ -33,26 +32,15 @@
             class="text-start"
             style="width: 150x; max-width: 150px; word-wrap: break-word"
           >
-            {{  }}
+            {{ }}
           </td>
-          <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
-          >
-            {{  }}
-          </td>
-          <td
-            class="text-center"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
-          >
-            <v-btn
-              color="warning"
-              @click="setPriority(item)"
-              style="margin-right: 8px"
-            >
-              edit</v-btn
-            >
-            <v-btn color="" @click="setPriority(item)">delete</v-btn>
+          <td style="width: 100px; margin-left: auto">
+            <v-switch
+              v-model="item.active"
+              color="#0284C7"
+              hide-details
+              inset
+            />
           </td>
         </tr>
       </template>
@@ -62,14 +50,16 @@
 
 <script>
 import { mapState } from "vuex";
-
+import AddCategory from '../components/AddCategory.vue';
 export default {
+  components:{
+    AddCategory
+  },
   data() {
     return {
       headers: [
         { title: "No.", align: "start", value: "no." },
         { title: "Name", align: "start", value: "name" },
-        { title: "Update", align: "start", value: "update" },
         { title: "Delet", align: "start", value: "delet" },
       ],
       course: [],
@@ -83,6 +73,7 @@ export default {
   methods: {
     
   },
+  
 };
 </script>
 
@@ -93,4 +84,8 @@ export default {
   border-bottom: 1px solid #d9d9d9;
   font-style: italic;
 }
+.add-category-btn {
+  margin-left: 1225px; /* ปรับระยะห่างของปุ่ม Add Category จากข้อความ "Manage Category" */
+}
+
 </style>

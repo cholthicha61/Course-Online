@@ -7,7 +7,7 @@
   <div class="mt-9">
     <v-data-table-virtual
       :headers="headers"
-      :items="users"
+      :items="emails"
       height="calc(100vh - 280px)"
     >
       <template v-slot:[`item.no`]="{ index }">
@@ -20,7 +20,7 @@
             class="text-between"
             style="width: 300px; max-width: 300px; word-wrap: break-word"
           >
-          {{ formatDate(item.date) }}
+            {{ formatDate(item.date) }}
           </td>
           <td style="width: 300px; max-width: 300px; word-wrap: break-word">
             {{ item.email }}
@@ -59,20 +59,21 @@ export default {
     emails: [],
   }),
   computed: {
-    ...mapState(["emails"]),
+    ...mapState({
+      emails: (state) => state.inbox.emails,
+    }),
+  },
+  async mounted() {
+    this.getData();
   },
   methods: {
     formatDate(date) {
-    return new Date(date).toLocaleString(); 
-  },
-    async addEmails() {
-      await this.$store.dispatch("user/addEmails");
-      this.users = JSON.parse(JSON.stringify(this.emails));
+      return new Date(date).toLocaleString();
     },
-  },
-  watch: {
-    emails(newVal) {
-      return newVal;
+    async getData() {
+      await this.$store.dispatch("inbox/getEmail");
+      this.emails = JSON.parse(JSON.stringify(this.inbox));
+
     },
   },
 };

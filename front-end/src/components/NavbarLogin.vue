@@ -1,5 +1,5 @@
 <template>
-  <nav class="px-5 flex items-center justify-end text-lg">
+  <nav class=" px-5 flex items-center justify-end text-lg">
     <div class="menu-item "><a href="/home">Home</a></div>
     <div class="menu-item "><a href="/allcourse">All Course</a></div>
 
@@ -29,10 +29,6 @@ export default {
         },
         {
           title: "Interested Course",
-          link: "#",
-        },
-        {
-          title: "Question",
           link: "#",
         },
         {
@@ -78,10 +74,11 @@ nav .menu-item:hover {
 }
 
 nav .menu-item:hover {
-  color: #0ea5e9;
+  color: #054664;
 }
 nav .menu-item a {
   color: inherit;
   text-decoration: none;
+  
 }
 </style>
