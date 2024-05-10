@@ -39,13 +39,24 @@ const actions = {
       });
     } catch (error) {
       console.log("error  >>> ", error);
-      Swal.fire({
-        icon: "error",
-        title: "ข้อมูลไม่ถูกต้อง",
-        text: "ข้อมูลไม่ถูกต้อง",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+      if (error.response.status == 400) {
+        Swal.fire({
+          icon: "warning",
+          title: "กรุณากรอกข้อมูลให้ครบถ้วน",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        if (error.response.status == 401) {
+          Swal.fire({
+            icon: "warning",
+            title: "ข้อมูลไม่ถูกต้อง",
+            text: "",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+      }
     }
   },
   async getUser({ commit }, payload) {
@@ -54,7 +65,7 @@ const actions = {
     if (!_.isEmpty(payload)) {
       if (payload?.question) {
         url = `${url}?questions=${payload?.question}`;
-        console.log("url",url);
+        console.log("url", url);
       }
       try {
         const res = await axios(configAxios("get", url));

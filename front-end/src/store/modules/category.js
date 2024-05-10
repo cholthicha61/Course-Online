@@ -29,7 +29,7 @@ const actions = {
           showConfirmButton: false,
           timer: 2000,
         });
-        location.reload()
+        location.reload();
       }
     } catch (error) {
       console.log("error  >>> ", error);
@@ -71,53 +71,54 @@ const actions = {
           title: "ลบหมวดหมู่สำเร็จ",
           text: "",
           showConfirmButton: false,
-          timer: 2000,
+          timer: 3000,
         });
         commit("SET_NAMES", res.data);
-        location.reload()
-
+        location.reload();
       }
     } catch (error) {
       console.error("Error deleting category:", error);
-      {
+      if (error.response.status == 400) {
+        {
+          Swal.fire({
+            icon: "warning",
+            title: "ไม่พบข้อมูล",
+            text: "",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+      }
+    }
+  },
+  async updateCategory({ commit }, { categoryId, newData }) {
+    try {
+      console.log("categoryId:", categoryId); 
+      console.log("newData:", newData);
+      const url = `${ENDPOINT.CATEGORY}/${categoryId}`;
+      const res = await axios(configAxios("patch", url, newData));
+
+      if (res.status === 200) {
+        commit("SET_NAMES", res.data);
         Swal.fire({
-          icon: "warning",
-          title: "ไม่พบข้อมูล",
+          icon: "success",
+          title: "อัปเดตหมวดหมู่สำเร็จ",
           text: "",
           showConfirmButton: false,
           timer: 2000,
         });
       }
+    } catch (error) {
+      console.error("Error updating category:", error);
+      Swal.fire({
+        icon: "warning",
+        title: "ไม่สามารถอัปเดตหมวดหมู่ได้",
+        text: "",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   },
-  // async updateCategory({ commit }, { categoryId, newData }) {
-  //   try {
-  //     const url = `${ENDPOINT.CATEGORY}/${categoryId}`;
-  //     const res = await axios(configAxios("patch", url, newData));
-
-  //     if (res.status === 200) {
-  //       Swal.fire({
-  //         icon: "success",
-  //         title: "อัปเดตหมวดหมู่สำเร็จ",
-  //         text: "",
-  //         showConfirmButton: false,
-  //         timer: 2000,
-  //       });
-  //       commit("SET_NAMES", res.data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating category:", error);
-  //     {
-  //       Swal.fire({
-  //         icon: "warning",
-  //         title: "ไม่สามารถอัปเดตหมวดหมู่ได้",
-  //         text: "",
-  //         showConfirmButton: false,
-  //         timer: 2000,
-  //       });
-  //     }
-  //   }
-  // },
 };
 
 export default {

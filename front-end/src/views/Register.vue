@@ -3,13 +3,13 @@
     <h2 class="text-3xl font-bold text-center">Create Account</h2>
 
     <div
-      class="flex flex-col w-full px-96 py-10  border-gray-200 rounded-lg "
+      class="flex items-center flex flex-col w-full px-96 py-10 border-gray-200 rounded-lg"
     >
       <div class="flex flex-col mb-4">
         <label class="mb-2 text-gray-700">Firstname</label>
         <input
           type="text"
-          class="form-input border border-gray-300 rounded-md px-2 py-2"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="fname"
         />
         <span class="text-blue-100">{{ fnameError }}</span>
@@ -19,7 +19,7 @@
         <label class="mb-2 text-gray-700">Lastname</label>
         <input
           type="text"
-          class="form-input border border-l-gray-300  rounded-md px-2 py-2"
+          class="form-input border border-l-gray-300 rounded-md px-2 py-2 w-96"
           v-model="lname"
         />
       </div>
@@ -28,7 +28,7 @@
         <label class="mb-2 text-gray-700">Email</label>
         <input
           type="email"
-          class="form-input border border-gray-300  rounded-md px-2 py-2"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="email"
         />
       </div>
@@ -37,7 +37,7 @@
         <label class="mb-2 text-gray-700">Password</label>
         <input
           type="password"
-          class="form-input border border-gray-300  rounded-md px-2 py-2"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="password"
         />
       </div>
@@ -46,7 +46,7 @@
         <label class="mb-2 text-gray-700">Confirm Password</label>
         <input
           type="password"
-          class="form-input border border-gray-300  rounded-md px-2 py-2"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="confirmPassword"
         />
       </div>
@@ -55,12 +55,13 @@
         <label class="mb-2 text-gray-700">Phone</label>
         <input
           type="tel"
-          class="form-input border border-gray-300  rounded-md px-2 py-2"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="phone"
         />
       </div>
-      <button @click="createUser()"
-        class="w-full bg-sky-600 text-white font-bold py-2 px-4 rounded-md hover:bg-sky-800"
+      <button
+        @click="createUser()"
+        class="w-96 bg-sky-600 text-white font-bold py-2 px-4 rounded-md hover:bg-sky-800"
       >
         Create Account
       </button>
@@ -93,7 +94,6 @@ export default {
         email: "",
         password: "",
         confirmPassword: "",
-        
       },
     };
   },
@@ -131,7 +131,7 @@ export default {
         this.phone,
         this.email,
         this.password,
-        this.roleId,
+        this.roleId
       );
     },
     async createUser() {
@@ -143,52 +143,62 @@ export default {
         confirmPassword: this.confirmPassword,
         phone: this.phone,
         roleId: 2,
-
-      }
+      };
       await this.$store.dispatch("user/createUser", this.payload);
-      console.log('payload',this.payload);
+      console.log("payload", this.payload);
     },
     validateForm() {
       // ตรวจสอบชื่อ
-      this.fnameError = this.validateName(this.fname);
-      this.lnameError = this.validateName(this.lname);
+      if (!this.fname.trim()) {
+        this.fnameError = "กรุณากรอกชื่อ";
+      } else {
+        this.fnameError = null;
+      }
+
+      // ตรวจสอบนามสกุล
+      if (!this.lname.trim()) {
+        this.lnameError = "กรุณากรอกนามสกุล";
+      } else {
+        this.lnameError = null;
+      }
 
       // ตรวจสอบอีเมลล์
-      this.emailError = this.validateEmail(this.email);
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!this.email.trim()) {
+        this.emailError = "กรุณากรอกอีเมลล์";
+      } else if (!emailPattern.test(this.email)) {
+        this.emailError = "รูปแบบอีเมลล์ไม่ถูกต้อง";
+      } else {
+        this.emailError = null;
+      }
 
       // ตรวจสอบรหัสผ่าน
-      this.passwordError = this.validatePassword(this.password);
-      this.confirmPasswordError = this.validatePassword(this.confirmPassword);
-
-      // ตรวจสอบเบอร์โทรศัพท์ (ตัวอย่าง: ใส่เฉพาะตัวเลข)
-      this.phoneError = this.phone.match(/^[0-9]+$/)
-        ? null
-        : "เบอร์โทรศัพท์ไม่ถูกต้อง";
-
-      this.termsError = this.agree ? null : "กรุณายอมรับข้อกำหนดและเงื่อนไข";
-    },
-    validateName(name) {
-      if (!name.trim()) {
-        return "กรุณากรอกชื่อ";
+      if (!this.password.trim()) {
+        this.passwordError = "กรุณากรอกรหัสผ่าน";
+      } else if (this.password.length < 6) {
+        this.passwordError = "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร";
+      } else {
+        this.passwordError = null;
       }
-      return null;
-    },
-    validateEmail(email) {
-      const re = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!re.test(email)) {
-        return "รูปแบบอีเมลล์ไม่ถูกต้อง (กรุณาใช้ Gmail)";
-      }
-      return null;
-    },
-    validatePassword(password) {
-      if (password.length < 6) {
-        return "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร";
-      }
-      return null;
 
-      //   if (this.password !== this.confirmPassword || !this.agree) {
-      //     return;
-      //   }
+      // ตรวจสอบการยืนยันรหัสผ่าน
+      if (!this.confirmPassword.trim()) {
+        this.confirmPasswordError = "กรุณายืนยันรหัสผ่าน";
+      } else if (this.password !== this.confirmPassword) {
+        this.confirmPasswordError = "รหัสผ่านไม่ตรงกัน";
+      } else {
+        this.confirmPasswordError = null;
+      }
+
+      // ตรวจสอบเบอร์โทรศัพท์
+      const phonePattern = /^[0-9]+$/;
+      if (!this.phone.trim()) {
+        this.phoneError = "กรุณากรอกเบอร์โทรศัพท์";
+      } else if (!phonePattern.test(this.phone)) {
+        this.phoneError = "เบอร์โทรศัพท์ไม่ถูกต้อง";
+      } else {
+        this.phoneError = null;
+      }
 
     },
   },

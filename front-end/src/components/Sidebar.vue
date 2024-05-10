@@ -11,12 +11,14 @@
       >
         Course-online
       </div>
-      <img
+      <div class="mt-8"> 
+        <img
         src="https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Editor.png"
         v-show="!dataOpenSideBar"
-        class="p-1 w-8 h-8 rounded-full ring-2 ring-gray-100 dark:ring-gray-500"
+        class="2 p-1 w-8 h-8 rounded-full ring-2 ring-gray-100 dark:ring-gray-500"
         alt="Avatar"
       />
+      </div>
     </div>
     <div class="flex flex-col justify-between h-[calc(100vh-3rem)] bg-sky-600">
       <div class="menu-man text-left px-2 whitespace-nowrap">

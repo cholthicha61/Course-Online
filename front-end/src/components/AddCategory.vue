@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-4 text-center drop-shadow-lg ">
+  <div class="pa-4 text-center drop-shadow-lg">
     <v-dialog v-model="dialog" max-width="600">
       <template v-slot:activator="{ props: activatorProps }">
         <v-btn
@@ -7,6 +7,7 @@
           text="Add Category"
           variant=""
           v-bind="activatorProps"
+          @click="clearForm"
         ></v-btn>
       </template>
 
@@ -29,11 +30,10 @@
           <v-btn text="Close" variant="plain" @click="dialog = false"></v-btn>
 
           <v-btn
-            color="#4A6FA5 "
+            color="#4A6FA5"
             text="Save"
             variant="tonal"
-            @click="names()"
-
+            @click="saveCategory"
           ></v-btn>
         </v-card-actions>
       </v-card>
@@ -46,49 +46,26 @@ export default {
   data: () => ({
     dialog: false,
     name: "",
+    formData: {},
   }),
   methods: {
-    async names() {
+    async saveCategory() {
       const payload = {
         name: this.name,
       };
       await this.$store.dispatch("category/names", payload);
-      this.dialog = false
-
-      console.log("payload", this.payload);
+      this.dialog = false;
       this.name = "";
     },
+    setData(item) {
+      this.name = item.name;
+      this.dialog = true;
+    },
+
+    clearForm() {
+      this.name = "";
+      this.dialog = true;
+    },
   },
-  // methods: {
-  //   async names() {
-  //     const payload = {
-  //       name: this.name,
-  //     };
-  //     try {
-  //       await this.$store.dispatch("category/names", payload);
-  //       // เพิ่ม SweetAlert ตรงนี้สำหรับเพิ่มหมวดหมู่สำเร็จ
-  //       Swal.fire({
-  //         icon: "success",
-  //         title: "เพิ่มหมวดหมู่สำเร็จ",
-  //         text: "",
-  //         showConfirmButton: false,
-  //         timer: 2000,
-  //       });
-  //     } catch (error) {
-  //       console.log("error  >>> ", error);
-  //       if (error.response.status == 400) {
-  //         // เพิ่ม SweetAlert ตรงนี้สำหรับไม่พบข้อมูล
-  //         Swal.fire({
-  //           icon: "warning",
-  //           title: "ไม่พบข้อมูล",
-  //           text: "",
-  //           showConfirmButton: false,
-  //           timer: 2000,
-  //         });
-  //       }
-  //     }
-  //     this.name = "";
-  //   },
-  // },
 };
 </script>
