@@ -1,11 +1,20 @@
 <template>
+  <div class="px-8 mt-8">
+      <div class="head-course">
+        <h1>Manage Course</h1>
+      </div>
+    </div>
   <div>
     <div style="display: flex; justify-content: flex-end">
-      <router-link to="/addcourse" class="mt-5 ma-5" style="color: #fff; text-decoration: none;">
+      <router-link
+        to="/addcourse"
+        class="mt-5 ma-5"
+        style="color: #fff; text-decoration: none"
+      >
         <v-btn color="#0284C7">Add Course</v-btn>
       </router-link>
     </div>
-    <v-data-table-virtual :headers="headers" :items="course" height="700">
+    <v-data-table-virtual :headers="headers" :items="courses" height="700">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
@@ -13,50 +22,71 @@
       <template #item="{ item }">
         <tr :key="item.coursename">
           <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            "
           >
             {{ item.courseName }}
           </td>
           <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            "
           >
             {{ item.categoryId }}
           </td>
           <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 400px;
+              min-width: 400px;
+              max-width: 400px;
+              text-align: start;
+              word-wrap: break-word;
+            "
           >
             {{ item.description }}
           </td>
           <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: start;
+              word-wrap: break-word;
+            "
           >
             {{ item.price }}
           </td>
           <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: center;
+              word-wrap: break-word;
+            "
           >
-            {{ item.cstatus }}
+            <v-select
+              variant="underlined"
+            >
+          </v-select>
           </td>
-
-          <!-- <td class="text-center" style="width: 100px">
-
-            <v-btn
-              color="#0284C7"
-              @click="performAction(item)"
-              style="margin-right: 8px"
-            >
-              up</v-btn
-            >
-            <v-btn color="#0284C7" @click="performAction(item)">down</v-btn>
-          </td> -->
           <td
-            class="text-center"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: center;
+              word-wrap: break-word;
+            "
           >
             <v-btn
               color="warning"
@@ -84,11 +114,28 @@ export default {
         { title: "Category", align: "start", value: "categoryId" },
         { title: "Detail", align: "start", value: "description" },
         { title: "Price", align: "start", value: "price" },
-        { title: "Piority", align: "start", value: "priority" },
-        // { title: "Status", align: "start", value: "Status" },
+        { title: "Piority", align: "center", value: "priority" },
         { title: "Action", align: "center" },
       ],
       course: [],
+      courses: [
+        {
+          courseName: "wwwwwwwwwwwwwwwwwwwwwww",
+          categoryId: "categoryIwwwwwwwwwwwwwwwwwwwwwwwd",
+          description:
+            "Description lor em50000000 00000000000 0000000000000000000 0000000000000000000000 0000",
+          price: 20000000000000000,
+          priority: "1",
+        },
+        {
+          courseName: "wwwwwwwwwwwwwwwwwwwwwww",
+          categoryId: "categoryIwwwwwwwwwwwwwwwwwwwwwwwd",
+          description:
+            "Description lorem5000000000000000000000000000000000000000000000000000000000000000",
+          price: 20000000000000000,
+          priority: "2",
+        },
+      ],
     };
   },
   computed: {
@@ -112,3 +159,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.head-course h1 {
+  font-size: 30px;
+  color: rgb(11, 94, 188);
+  border-bottom: 1px solid #d9d9d9;
+  font-style: italic;
+}
+</style>

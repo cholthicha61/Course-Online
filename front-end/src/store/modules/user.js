@@ -54,6 +54,15 @@ const actions = {
       throw error;
     }
   },
+  async updateStatus({commit}, payload) {
+    const url = `${ENDPOINT.USER}`;
+    try{
+      await axios(configAxios("update", url));
+      console.log("this",res)
+    }catch (error){
+      console.log("this",error);
+    }
+  },
 
 }
 

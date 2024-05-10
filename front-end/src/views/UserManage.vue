@@ -1,61 +1,98 @@
 <template>
-   <div class="px-8 mt-8">
+  <div class="px-8 mt-8">
     <div class="head-course">
       <h1>Manage User</h1>
     </div>
   </div>
   <div class="mt-9">
-    <v-data-table-virtual
-      :headers="headers"
-      :items="users"
-      height="560"
-    >
+      
+    <v-data-table-virtual :headers="headers" :items="users" height="560">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-      <!-- <template v-slot:[`item.status`]="{ item }">
-        <v-switch
-          v-model="item.active"
-          color="#0284C7"
-          :label="'Activated'"
-          hide-details
-          inset
-        />
-      </template> -->
 
       <template #item="{ item }">
         <tr :key="item.id">
           <td
-            class="text-start"
-            style="width: 150px; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 150px;
+              min-width: 150px;
+              max-width: 150px;
+              text-align: center;
+              word-wrap: break-word;
+            "
           >
             {{ item.id }}
           </td>
           <td
-            class="text-between"
-            style="width: 300px; max-width: 300px; word-wrap: break-word"
+            style="
+              width: 250px;
+              min-width: 250px;
+              max-width: 250px;
+              text-align: start;
+              word-wrap: break-word;
+            "
           >
-          {{ formatDate(item.createdAt) }}
+            {{ formatDate(item.createdAt) }}
           </td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+          <td
+            style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            "
+          >
             {{ item.fname }}
           </td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+          <td
+            style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            "
+          >
             {{ item.lname }}
           </td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+          <td
+            style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            "
+          >
             {{ item.email }}
           </td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+          <td
+            style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: start;
+              word-wrap: break-word;
+            "
+          >
             {{ item.phone }}
           </td>
-          <td style="width: 100px; margin-left: auto">
-            <v-switch
-              v-model="item.active"
-              color="#0284C7"
-              hide-details
-              inset
-            />
+          <td
+            style="
+              width: 150px;
+              min-width: 150px;
+              max-width: 150px;
+              text-align: center;
+            "
+          >
+            <v-btn
+              :class="{ 'green-btn': item.active, 'red-btn': !item.active }"
+              @click="handleClick"
+              >Click</v-btn
+            >
+            {{ item.active }}
           </td>
         </tr>
       </template>
@@ -63,16 +100,17 @@
   </div>
 </template>
 
-<script>
+<script >
 import { mapState } from "vuex";
-import moment from 'moment';
+import moment from "moment";
+import Swal from "sweetalert2";
 
 export default {
   data: () => ({
     headers: [
       {
         title: "No.",
-        align: "start",
+        align: "center",
         value: "id",
       },
       {
@@ -96,7 +134,7 @@ export default {
         value: "email",
       },
       {
-        title: "Phone",
+        title: "Tel.",
         align: "start",
         value: "phone",
       },
@@ -127,9 +165,32 @@ export default {
       await this.$store.dispatch("user/getUser");
       this.users = JSON.parse(JSON.stringify(this.user));
     },
+    async updateUser() {
+      await this.$store.dispatch("user/updateUser");
+    },
     formatDate(date) {
-      return moment(date).format('lll');
-    }
+      return moment(date).format("lll");
+    },
+    handleClick() {
+      console.log("Click Click Clik");
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Change status!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Changed!",
+            text: "Status change.",
+            icon: "success",
+          });
+        }
+      });
+    },
   },
 };
 </script>
@@ -140,5 +201,13 @@ export default {
   color: rgb(11, 94, 188);
   border-bottom: 1px solid #d9d9d9;
   font-style: italic;
+}
+.green-btn {
+  background-color: green;
+  color: white;
+}
+.red-btn {
+  background-color: red;
+  color: white;
 }
 </style>
