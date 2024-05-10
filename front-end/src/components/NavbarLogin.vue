@@ -4,7 +4,7 @@
     <div class="menu-item "><a href="/allcourse">All Course</a></div>
 
     <DropdownLogin
-      class="hover:text-sky-500 px-8"
+      class="hover:text-sky-500 px-4"
       :title="userEmail.email"
       :items="services"
       style="z-index: 99"

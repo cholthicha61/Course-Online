@@ -1,48 +1,35 @@
 <template>
-    <div class="px-8 mt-8">
+  <div class="px-8 mt-8">
     <div class="head-course">
-      <h1 >Manage Category</h1>
+      <h1>Manage Category</h1>
     </div>
   </div>
   <div>
-    <div class="add-category-btn "> 
-       <AddCategory/>
+    <div class="add-category-btn">
+      <AddCategory ref="addCategory" />
     </div>
-   
-    <v-data-table-virtual :headers="headers" :items="course" height="500">
+
+    <v-data-table-virtual
+      :headers="headers"
+      :items="names"
+      height="400"
+      item-value="name"
+    >
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
+      <template v-slot:[`item.update`]="{ item }">
+        <v-btn
+          color="blue"
+          @click="updateCategoryDialog(item)"
+          style="margin-right: 8px"
+        >
+          Edit
+        </v-btn>
+      </template>
 
-      <template #item="{ item }">
-        <tr :key="item.coursename">
-          <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
-          >
-            {{  }}
-          </td>
-          <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
-          >
-            {{ }}
-          </td>
-          <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
-          >
-            {{ }}
-          </td>
-          <td style="width: 100px; margin-left: auto">
-            <v-switch
-              v-model="item.active"
-              color="#0284C7"
-              hide-details
-              inset
-            />
-          </td>
-        </tr>
+      <template v-slot:[`item.delet`]="{ item }">
+        <v-btn color="warning" @click="deleteCategory(item.id)">delete</v-btn>
       </template>
     </v-data-table-virtual>
   </div>
@@ -50,33 +37,53 @@
 
 <script>
 import { mapState } from "vuex";
-import AddCategory from '../components/AddCategory.vue';
+import AddCategory from "../components/AddCategory.vue";
+import category from "@/store/modules/category";
 export default {
-  components:{
-    AddCategory
+  components: {
+    AddCategory,
   },
   data() {
     return {
       headers: [
-        { title: "No.", align: "start", value: "no." },
-        { title: "Name", align: "start", value: "name" },
-        { title: "Delet", align: "start", value: "delet" },
+        { title: "No.", align: "center", value: "no" },
+        { title: "Category Name", align: "center", value: "name" },
+        { title: "Action", align: "center", value: "update" },
+        { title: "Action", align: "center", value: "delet" },
       ],
-      course: [],
+      categorys: [],
     };
   },
   computed: {
-    
+    ...mapState({
+      names: (state) => state.category.names,
+    }),
   },
   async mounted() {
+    this.getData();
   },
   methods: {
-    
+    async getData() {
+      const payload = {
+        category: true,
+      };
+      await this.$store.dispatch("category/getCategory", payload);
+      this.categorys = this.names;
+    },
+    async deleteCategory(categoryId) {
+      await this.$store.dispatch("category/deleteCategory", categoryId);
+    },
+    async updateCategoryDialog(item) {
+      await this.$refs.addCategory.setData(item);
+      await this.$store.dispatch("category/updateCategory", {
+        categoryId: item.id,
+        newData: item,
+      });
+      
+    },
   },
-  
 };
 </script>
-
 <style scoped>
 .head-course h1 {
   font-size: 30px;
@@ -85,7 +92,6 @@ export default {
   font-style: italic;
 }
 .add-category-btn {
-  margin-left: 1225px; /* ปรับระยะห่างของปุ่ม Add Category จากข้อความ "Manage Category" */
+  margin-left: 1225px;
 }
-
 </style>

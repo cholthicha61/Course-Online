@@ -65,11 +65,7 @@ export default {
       showPopup: false,
       userEmail: { email: "" }, 
       message: "",
-      payload: {
-        date: "",
-        email: "",
-        message: "",
-      },
+      
     };
   },
   methods: {
@@ -77,21 +73,19 @@ export default {
       this.showPopup = !this.showPopup;
     },
     async addEmail() {
-      this.payload = {
+      const payload = {
+        userId: this.userEmail.id,
         email: this.userEmail.email, 
         message: this.message,
-        date: new Date().toISOString(),
       };
-      try {
-        await this.$store.dispatch("inbox/addEmails", this.payload); // เปลี่ยนจาก user/sentEmail เป็น user/addEmails
-        console.log("Payload sent:", this.payload);
-      } catch (error) {
-        console.error("Error sending email:", error);
-      }
+      console.log("payload",payload);
+      await this.$store.dispatch("inbox/addEmails", payload); 
     },
   },
   mounted() {
     this.userEmail = JSON.parse(localStorage.getItem('user'))
+    
   }
+  
 };
 </script>
