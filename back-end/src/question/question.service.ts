@@ -16,10 +16,15 @@ export class QuestionService {
   ) {}
 
   async create(createQuestionDto: CreateQuestionDto, userId: number): Promise<Question> {
+    console.log("createQuestionDto",createQuestionDto);
+    console.log("userId",userId);
+
+    
+    
     try {
       const user = await this.userRepository.findOne({
         where: {
-          id: userId,
+          id: createQuestionDto.userId,
         },
       });
 
@@ -29,6 +34,7 @@ export class QuestionService {
 
       const question = this.questionRepository.create({
         message: createQuestionDto.message,
+        user: user
       });
 
       return await this.questionRepository.save(question);

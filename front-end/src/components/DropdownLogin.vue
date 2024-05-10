@@ -8,7 +8,7 @@
       </svg>
       <transition name="fade" appear>
         <div class="sub-menu" v-if="isOpen">
-          <div v-for="(item, i) in items" :key="i" class="menu-item py-2 px-3 hover:text-sky-700 hover:bg-sky-500 bg-sky-200">
+          <div v-for="(item, i) in items" :key="i" class="menu-item py-3 px-3 hover:text-sky-700 hover:bg-sky-500 bg-sky-200">
             <a :href="item.link" @click="logout(item)">{{ item.title }}</a>
           </div>
         </div>
@@ -31,7 +31,9 @@
             
             if(item.title == 'Logout') {
                 await this.$store.dispatch('auth/logout')
-                
+                localStorage.removeItem('user');
+                localStorage.removeItem('role');
+
             }
         }
     }
@@ -41,17 +43,17 @@
   <style scoped>
   nav .menu-item svg {
     width: 10px;
-    margin-left: 20px;
+    margin-left: 10px;
   }
   
   nav .menu-item .sub-menu {
     position: absolute;
     background-color: #ffffff;
-    top: calc(100% + 18px);
-    left: 50%;
+    top: calc(100% + 3px);
+    left: 59%;
     transform: translateX(-50%);
     width: max-content;
-    border-radius: 0px 0px 16px 16px;
+    border-radius: 0px 16px 16px 16px;
   }
   
   .fade-enter-active,

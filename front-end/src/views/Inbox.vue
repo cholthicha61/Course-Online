@@ -7,11 +7,15 @@
   <div class="mt-9">
     <v-data-table-virtual
       :headers="headers"
-      :items="emails"
+      :items="userEmail"
       height="calc(100vh - 280px)"
     >
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
+      </template>
+
+            <template v-slot:[`item.name`]="{ item }">
+        <b class="border-2 border-red-500">{{ item.name }}</b>
       </template>
 
       <template #item="{ item }">
@@ -36,7 +40,7 @@
 
 <script>
 import { mapState } from "vuex";
-
+import _ from "lodash";
 export default {
   data: () => ({
     headers: [
@@ -56,11 +60,11 @@ export default {
         value: "message",
       },
     ],
-    emails: [],
+    userEmail: [],
   }),
   computed: {
     ...mapState({
-      emails: (state) => state.inbox.emails,
+      users: (state) => state.user.users,
     }),
   },
   async mounted() {
@@ -71,9 +75,39 @@ export default {
       return new Date(date).toLocaleString();
     },
     async getData() {
-      await this.$store.dispatch("inbox/getEmail");
-      this.emails = JSON.parse(JSON.stringify(this.inbox));
-
+      const payload = {
+        question: true,
+      };
+      await this.$store.dispatch("user/getUser", payload);
+      console.log("user", this.users);
+      // await this.$store.dispatch("inbox/getEmail");
+      // this.emails = JSON.parse(JSON.stringify(this.inbox));
+      this.setDataEmail(this.users);
+    },
+    setDataEmail(users) {
+      console.log("users", users.length);
+      const setData = [];
+      _.map(users, (item) => {
+        if (!_.isEmpty(item.questions)) {
+          console.log(
+            "item.questions[item?.questions?.length - 1].createdAt",
+            item.questions
+          );
+          setData.push({
+            date: item.questions[item?.questions?.length - 1].createdAt,
+            email: item.email,
+            message: item.questions[item?.questions?.length - 1].message,
+          });
+        } else {
+          // setData.push({
+          //   date: "",
+          //   email: item.email,
+          //   message: "",
+          // });
+        }
+      });
+      this.userEmail = setData;
+      console.log("useremail",this.userEmail);
     },
   },
 };

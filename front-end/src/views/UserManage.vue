@@ -163,7 +163,7 @@ export default {
   methods: {
     async getData() {
       await this.$store.dispatch("user/getUser");
-      this.users = JSON.parse(JSON.stringify(this.user));
+      this.users = this.user
     },
     async updateUser() {
       await this.$store.dispatch("user/updateUser");
