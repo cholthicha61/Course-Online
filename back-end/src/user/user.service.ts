@@ -35,7 +35,7 @@ export class UserService {
 
       const findRole = await this.roleRepository.findOne({
         where: {
-          id: createUserDto.roleId,
+          name: RolesUser.User,
         },
       });
       if (_.isEmpty(findRole)) {
@@ -151,6 +151,7 @@ export class UserService {
       const findRole = await this.roleRepository.findOne({
         where: {
           id: roleId,
+          name: RolesUser.User,
         },
       });
       if (_.isEmpty(findRole)) {
@@ -170,7 +171,6 @@ export class UserService {
 
       console.log("user",user);
       
-
       const updatedUser = await this.userRepository.save(user);
       const { password, ...response } = updatedUser;
       return response;

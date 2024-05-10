@@ -26,11 +26,6 @@ export class QuestionController {
     return await this.questionService.findOne(userId);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
-  //   return this.questionService.update(+id, updateQuestionDto);
-  // }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.questionService.remove(+id);
