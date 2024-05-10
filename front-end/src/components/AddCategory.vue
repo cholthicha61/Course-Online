@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-4 text-center drop-shadow-lg">
+  <div class="pa-4 text-center drop-shadow-lg ">
     <v-dialog v-model="dialog" max-width="600">
       <template v-slot:activator="{ props: activatorProps }">
         <v-btn
@@ -14,7 +14,11 @@
         <v-card-text>
           <v-row dense>
             <v-col>
-              <v-text-field label="Category Name" v-model="payload.name" class=""></v-text-field>
+              <v-text-field
+                label="Category Name"
+                v-model="name"
+                class=""
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -29,6 +33,7 @@
             text="Save"
             variant="tonal"
             @click="names()"
+
           ></v-btn>
         </v-card-actions>
       </v-card>
@@ -37,20 +42,53 @@
 </template>
 
 <script>
-import { create } from "lodash";
-
 export default {
   data: () => ({
     dialog: false,
-    payload: {
-      name: "",
-    },
+    name: "",
   }),
   methods: {
     async names() {
-      await this.$store.dispatch("category/names", this.payload);
+      const payload = {
+        name: this.name,
+      };
+      await this.$store.dispatch("category/names", payload);
+      this.dialog = false
+
       console.log("payload", this.payload);
+      this.name = "";
     },
   },
+  // methods: {
+  //   async names() {
+  //     const payload = {
+  //       name: this.name,
+  //     };
+  //     try {
+  //       await this.$store.dispatch("category/names", payload);
+  //       // เพิ่ม SweetAlert ตรงนี้สำหรับเพิ่มหมวดหมู่สำเร็จ
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "เพิ่มหมวดหมู่สำเร็จ",
+  //         text: "",
+  //         showConfirmButton: false,
+  //         timer: 2000,
+  //       });
+  //     } catch (error) {
+  //       console.log("error  >>> ", error);
+  //       if (error.response.status == 400) {
+  //         // เพิ่ม SweetAlert ตรงนี้สำหรับไม่พบข้อมูล
+  //         Swal.fire({
+  //           icon: "warning",
+  //           title: "ไม่พบข้อมูล",
+  //           text: "",
+  //           showConfirmButton: false,
+  //           timer: 2000,
+  //         });
+  //       }
+  //     }
+  //     this.name = "";
+  //   },
+  // },
 };
 </script>

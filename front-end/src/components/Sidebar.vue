@@ -1,10 +1,10 @@
 <template>
   <div
-    class="h-screen bg-sky-600 "
+    class=" h-screen bg-sky-600"
     id="side-bar"
     :class="dataOpenSideBar == true ? 'side-bar-visible' : 'side-bar-close'"
   >
-    <div class="bg-sky-600 h-[40px] flex justify-center items-center">
+    <div class="bg-sky-600 flex justify-center items-center">
       <div
         class="text-xl font-bold text-center flex items-center justify-center text-white h-full"
         v-show="dataOpenSideBar"
@@ -36,14 +36,14 @@
             <p class="text-white">Admin</p>
           </div>
         </div>
-        <div
+        <div @click="$router.push('/Dashboard')"
           class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300 px-1"
         >
-          <router-link to="/Dashboard" class="px-2 flex space-x-2 "
+          <div class="px-2 flex space-x-2 "
             ><span v-tooltip.right="'Home'"></span>
             <span class="absolute bottom left-9 px-4" v-show="dataOpenSideBar"
               >Home</span
-            ></router-link
+            ></div
           >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@
             />
           </svg>
         </div>
-        <div
+        <div @click="$router.push('/Inbox')"
           class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
           <router-link to="/Inbox" class="px-2 flex space-x-2"
@@ -82,7 +82,7 @@
             />
           </svg>
         </div>
-        <div
+        <div @click="$router.push('/coursemanage')"
           class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
           <router-link to="/coursemanage" class="px-2 flex space-x-2"
@@ -102,7 +102,7 @@
             />
           </svg>
         </div>
-        <div
+        <div @click="$router.push('/usermanage')"
           class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
           <router-link to="/usermanage" class="px-2 flex space-x-2"
@@ -122,7 +122,7 @@
             />
           </svg>
         </div>
-        <div
+        <div @click="$router.push('/category')"
           class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
           <router-link to="/category" class="px-2 flex space-x-2"

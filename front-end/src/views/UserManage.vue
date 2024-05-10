@@ -8,7 +8,7 @@
     <v-data-table-virtual
       :headers="headers"
       :items="users"
-      height="560"
+      height=""
     >
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
@@ -124,7 +124,7 @@ export default {
   methods: {
     async getData() {
       await this.$store.dispatch("user/getUser");
-      this.users = JSON.parse(JSON.stringify(this.user));
+      this.users = this.user
     },
   },
 };
