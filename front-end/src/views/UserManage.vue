@@ -10,8 +10,9 @@
         {{ index + 1 }}
       </template>
 
-      <template #item="{ item }">
-        <tr :key="item.id">
+      <template #item="{ item, index }">
+
+        <tr :key="index">
           <td
             style="
               width: 150px;
@@ -21,7 +22,7 @@
               word-wrap: break-word;
             "
           >
-            {{ item.id }}
+            {{ index + 1 }}
           </td>
           <td
             style="
@@ -184,7 +185,7 @@ export default {
     async updateUser(item) {
       const payload = {
         id: item.id,
-        active: item.active
+        active: item.active == 'true' ? true : false
       }
       await this.$store.dispatch("user/updateStatus", payload);
     },
