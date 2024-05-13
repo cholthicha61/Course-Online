@@ -33,7 +33,9 @@
               text-align: start;
               word-wrap: break-word;
             ">
-            {{ item.categoryId }}
+            <v-select :items="categorys" v-model="item.categoryId" variant="underlined" return-object @update:modelValue="updateUser(item)">
+</v-select>
+
           </td>
           <td style="
               width: 400px;
@@ -98,7 +100,7 @@ export default {
       courses: [
         {
           courseName: "wwwwwwwwwwwwwwwwwwwwwww",
-          categoryId: "categoryIwwwwwwwwwwwwwwwwwwwwwwwd",
+          categoryId:"",
           description:
             "Description lor em50000000 00000000000 0000000000000000000 0000000000000000000000 0000",
           price: 20000000000000000,
@@ -106,24 +108,39 @@ export default {
         },
         {
           courseName: "wwwwwwwwwwwwwwwwwwwwwww",
-          categoryId: "categoryIwwwwwwwwwwwwwwwwwwwwwwwd",
           description:
             "Description lorem5000000000000000000000000000000000000000000000000000000000000000",
           price: 20000000000000000,
           priority: "2",
         },
       ],
+      categorys: [{
+        names: "",
+      }],
     };
   },
   computed: {
     ...mapState({
       course: (state) => state.course.course,
+      names: (state) => state.category.names,
     }),
   },
   async mounted() {
     await this.$store.dispatch("course/getCourse");
+    this.getData();
+
   },
   methods: {
+    async getData() {
+      await this.$store.dispatch("category/getCat");
+      this.categorys = this.names;
+      console.log("lllllll:", this.categorys);
+    },
+    // async updateCatagory() {
+    //   const payload = {
+    //     category: true,
+    //   }
+    // },
     addCourse() {
       console.log("Add Course button clicked!");
     },

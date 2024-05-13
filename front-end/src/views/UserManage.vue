@@ -143,7 +143,7 @@ export default {
     users: [],
     status: [
       'true',
-      'false'
+      'false',
     ],
 
   }),
@@ -183,7 +183,6 @@ export default {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, Change status!'
       })
-
       if (isConfirmed) {
         await this.$store.dispatch("user/updateStatus", payload);
         Swal.fire({
@@ -197,26 +196,6 @@ export default {
     formatDate(date) {
       return new Date(date).toLocaleString();
     },
-    // handleClick() {
-    //   console.log("Click Click Clik");
-    //   Swal.fire({
-    //     title: "Are you sure?",
-    //     text: "You won't be able to revert this!",
-    //     icon: "warning",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3085d6",
-    //     cancelButtonColor: "#d33",
-    //     confirmButtonText: "Yes, Change status!",
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       Swal.fire({
-    //         title: "Changed!",
-    //         text: "Status change.",
-    //         icon: "success",
-    //       });
-    //     }
-    //   });
-    // },
   },
 };
 </script>
