@@ -6,9 +6,12 @@
   </div>
   <div>
     <div class="add-category-btn">
-      <AddCategory ref="addCategory" />
+      <AddCategory  />
     </div>
 
+    
+      <EditCategory v-if="isEditCategory" :isEditCategory="isEditCategory" :selectCategory="selectCategory" :onCloseEdit="onCloseEdit"/>
+ 
     <v-data-table-virtual
       :headers="headers"
       :items="names"
@@ -21,7 +24,7 @@
       <template v-slot:[`item.update`]="{ item }">
         <v-btn
           color="blue"
-          @click="updateCategoryDialog(item)"
+          @click="updateCategory(item)"
           style="margin-right: 8px"
         >
           Edit
@@ -39,9 +42,13 @@
 import { mapState } from "vuex";
 import AddCategory from "../components/AddCategory.vue";
 import category from "@/store/modules/category";
+import EditCategory from "../components/EditCategory.vue"
+import Swal from "sweetalert2";
+
 export default {
   components: {
     AddCategory,
+    EditCategory
   },
   data() {
     return {
@@ -52,12 +59,19 @@ export default {
         { title: "Action", align: "center", value: "delet" },
       ],
       categorys: [],
+      isEditCategory: false,
+      selectCategory: {}
     };
   },
   computed: {
     ...mapState({
       names: (state) => state.category.names,
     }),
+  },
+  watch: {
+    names(newVal) {
+      return newVal;
+    },
   },
   async mounted() {
     this.getData();
@@ -71,16 +85,28 @@ export default {
       this.categorys = this.names;
     },
     async deleteCategory(categoryId) {
-      await this.$store.dispatch("category/deleteCategory", categoryId);
-    },
-    async updateCategoryDialog(item) {
-      await this.$refs.addCategory.setData(item);
-      await this.$store.dispatch("category/updateCategory", {
-        categoryId: item.id,
-        newData: item,
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(async(result) => {
+        if (result.isConfirmed) {
+          await this.$store.dispatch("category/deleteCategory", categoryId);
+        }
       });
-      
+
     },
+    async updateCategory(item) {
+      this.isEditCategory = true;
+      this.selectCategory = item
+    },
+    onCloseEdit(isClose){
+      this.isEditCategory = false;
+    }
   },
 };
 </script>

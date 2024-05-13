@@ -118,7 +118,7 @@ const actions = {
 };
 
 export default {
-  // เพื่อทำให้การทำงานทั้งหมดทำงาน
+  
   namespaced: true,
   state,
   mutations,

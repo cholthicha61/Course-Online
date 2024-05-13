@@ -1,87 +1,17 @@
-<!-- <template>
-    <div class="flex justify-center mt-8">
-      <div class="bg-blue-100 p-8 rounded-lg w-3/4">
-        <h1 class="text-2xl font-bold mb-4">Course Orders</h1>
-        <div class="overflow-x-auto">
-          <table class="min-w-full border-collapse">
-            <thead>
+<template>
+  <div class="flex justify-center mt-8">
+    <div class=" rounded-lg w-full ">
+      <h1 class="text-4xl  mb-8 text-center bg-gray-100 px-4 py-4 rounded-lg">Course Orders</h1>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse-full ">
+          <thead>
               <tr>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Course Name</th>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Price</th>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Detail</th>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">User</th>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Email</th>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(order, index) in orders" :key="index">
-                <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">{{ order.name }}</td>
-                <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">{{ order.price }}</td>
-                <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">{{ order.detail }}</td>
-                <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">{{ order.user }}</td>
-                <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">{{ order.email }}</td>
-                <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">
-                  <button @click="confirmOrder(index)" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Confirm</button>
-                  <button @click="rejectOrder(index)" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md">Reject</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        orders: [
-          {
-            name: 'Course 1',
-            price: '$100',
-            detail: '555555555555555555',
-            user: 'John Wru Doki',
-            email: 'johnyasennahailui099xD4@example.com',
-            confirmed: false
-          },
-          {
-            name: '',
-            price: '',
-            detail: '',
-            user: '',
-            email: '',
-            confirmed: false
-          },
-        ]
-      }
-    },
-    methods: {
-      confirmOrder(index) {
-        this.orders[index].confirmed = true;
-      },
-      rejectOrder(index) {
-        this.orders[index].confirmed = false;
-      }
-    }
-  }
-  </script>
-   -->
-   <template>
-    <div class="flex justify-center mt-8">
-      <div class="bg-blue-100 p-8 rounded-lg w-4/5">
-        <h1 class="text-2xl text-center font-bold mb-8">Course Orders</h1>
-        <div class="overflow-x-auto">
-          <table class="min-w-full border-collapse">
-            <thead>
-              <tr>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Course Name</th>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Price</th>
-                <th class="px-6 py-3 bg-blue-200 text-center text-sm font-semibold text-black uppercase border-b border-gray-300">Detail</th>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">User</th>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Email</th>
-                <th class="px-6 py-3 bg-blue-200 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Confirm Course</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Course Name</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Price</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Detail</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">User</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Email</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-black uppercase border-b border-gray-300">Confirm Course</th>
               </tr>
             </thead>
             <tbody>
@@ -107,7 +37,6 @@
           </table>
         </div>
       </div>
-      <!-- Popup Dialog -->
       <div v-if="showConfirmationDialog" class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
         <div class="bg-white p-8 rounded-lg">
           <p class="text-xl mb-4">Confirmation Successful!</p>
@@ -118,7 +47,7 @@
   </template>
   
   <script>
-  export default {
+   export default {
     data() {
       return {
         orders: [
@@ -131,11 +60,11 @@
             confirmed: false
           },
           {
-            name: '',
-            price: '',
-            detail: '',
-            user: '',
-            email: '',
+            name: 'นักเขาบินข้ามเขา',
+            price: '0.389',
+            detail: 'มันจึ้งมากนะ จึ้งจริง แต่จะบอกใครไม่ได้นะ',
+            user: 'เฮ้ยไอไนท์ พ่อมึงโทรมา ฉิบหายแล้วๆๆ ทำไงดีวะ ปิดดิๆ',
+            email: 'AiNight@gmailc.om',
             confirmed: false
           },
         ],
@@ -147,6 +76,7 @@
         this.orders[index].confirmed = true;
         this.showConfirmationDialog = true;
         this.hideActions(index);
+        this.$store.dispatch('order/confrimonder', this.confirmOrder);
       },
       rejectOrder(index) {
         this.showConfirmationDialog = false;
@@ -161,5 +91,32 @@
       }
     }
   }
+  // import { mapState, mapActions } from 'vuex';
+  
+  // export default {
+    
+  //   computed: {
+  //     ...mapState(['orders', 'showConfirmationDialog'])
+  //   },
+  //   methods: {
+  //     ...mapActions(['confirmOrder', 'rejectOrder', 'fetchOrders']),
+  //     async confirmOrderHandler(index) {
+  //       try {
+  //         await this.confirmOrder(index);
+  //         await this.fetchOrders();
+  //       } catch (error) {
+  //         console.error('Error confirming order:', error);
+  //       }
+  //     },
+  //     async rejectOrderHandler(index) {
+  //       try {
+  //         await this.rejectOrder(index);
+  //         await this.fetchOrders();
+  //       } catch (error) {
+  //         console.error('Error rejecting order:', error);
+  //       }
+  //     }
+  //   }
+  // };
   </script>
   

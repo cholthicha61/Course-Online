@@ -6,9 +6,9 @@
   </div>
   <div>
     <div style="display: flex; justify-content: flex-end">
-      <router-link to="/addcourse" class="mt-5 ma-5" style="color: #fff; text-decoration: none">
-        <v-btn color="#0284C7">Add Course</v-btn>
-      </router-link>
+      <!-- <router-link to="/addcourse" class="mt-5 ma-5" style="color: #fff; text-decoration: none"> -->
+        <v-btn @click="goTo('addcourse')" color="#0284C7" class="mt-5 ma-5" style="color: #fff; text-decoration: none">Add Course</v-btn>
+      <!-- </router-link> -->
     </div>
     <v-data-table-virtual :headers="headers" :items="courses" height="700">
       <template v-slot:[`item.no`]="{ index }">
@@ -152,6 +152,9 @@ export default {
 
       await this.$store.dispatch("course/deleteCourse", item.id);
     },
+    async goTo(path) {
+      await this.$router.push(`/${path}`)
+    }
     // async EditCourse(item) {
     //   console.log("Edit:", item);
 
