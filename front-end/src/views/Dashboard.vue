@@ -9,10 +9,14 @@
           <DashboardUser />
         </div>
         <div class="py-8">
-          <DashboarCourse />
+          <router-link to="/courseorder">
+            <DashboarCourse />
+          </router-link>
         </div>
         <div class="py-8">
-          <DashboarConfirme />
+          <router-link to="/allconfirm">
+            <DashboarConfirme />
+          </router-link>
         </div>
         <div class="py-8">
           <DashboardInbox />
