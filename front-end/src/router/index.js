@@ -24,11 +24,6 @@ const routes =  [
           meta: { requiresAuth: true },
         },
         {
-          path: "/addcourse2",
-          name: "addcourse2",
-          component: () => import("../views/AddCourse2.vue"),
-        },
-        {
           path: "/inbox",
           name: "inbox",
           component: () => import("../views/Inbox.vue"),

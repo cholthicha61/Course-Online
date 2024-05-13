@@ -185,7 +185,7 @@ export default {
     },
     updateCourse() {
       console.log("Updating course:", this.course);
-      this.$store.dispatch('editCourse/editCourse', this.course);
+      this.$store.dispatch('course/editCourse', this.course);
     },
     cancel() {
       

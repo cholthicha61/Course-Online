@@ -226,7 +226,7 @@ export default {
       }
 
       // console.log("Course submission logic goes here");
-      this.$store.dispatch('addCourse/addCourse', this.course);
+      this.$store.dispatch('course/addCourse', this.course);
     },
     uploadImage() {
       axios
