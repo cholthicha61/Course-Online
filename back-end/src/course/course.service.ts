@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, MoreThan, MoreThanOrEqual, Not, Repository } from 'typeorm';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -10,6 +10,7 @@ import { Image } from 'src/image/entities/image.entity';
 import { FOLDERPATH } from 'src/constant/folder-path';
 import { unlink } from 'fs/promises';
 import { FindAllCourseDto } from './dto/find-all-course.dto';
+import { StatusCourse } from 'src/enums/status-course';
 
 @Injectable()
 export class CourseService {
@@ -20,7 +21,7 @@ export class CourseService {
     private catagoryRepository: Repository<Category>,
     @InjectRepository(Image)
     private imageRepository: Repository<Image>
-  ) { }
+  ) {}
 
   async createNewPriority() {
     // Find maximum priority in database
@@ -38,80 +39,34 @@ export class CourseService {
     return newPriority;
   }
 
-  async create(createCourseDto: CreateCourseDto) {
-    try {
-      const findCourse = await this.courseRepository.findOne({
-        where: {
-          courseName: createCourseDto.courseName,
-        },
-      });
-      if (!_.isEmpty(findCourse)) {
-        throw new HttpException(`course ${createCourseDto.courseName} already exists`, HttpStatus.CONFLICT);
-      }
-
-      const findCategory = await this.catagoryRepository.findOne({
-        where: {
-          id: createCourseDto.categoryId,
-        },
-      });
-
-      if (_.isEmpty(findCategory)) {
-        throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
-      }
-
-      const findImage = await this.courseRepository.findOne({
-        where: {
-          courseImage: createCourseDto.courseImage,
-        },
-      });
-
-      if (_.isEmpty(findImage)) {
-        throw new HttpException('Image not found', HttpStatus.NOT_FOUND);
-      }
-
-      const newPriority = await this.createNewPriority();
-      const createCourse = this.courseRepository.create({
-        courseName: createCourseDto.courseName,
-        description: createCourseDto.description,
-        price: createCourseDto.price,
-        priority: newPriority,
-        categorys: findCategory,
-      });
-      return await this.courseRepository.save(createCourse);
-    } catch (error) {
-      throw error;
-    }
-  }
-
   async findAll(keyword: FindAllCourseDto) {
     try {
-
-      const findAllCourse = await this.courseRepository.createQueryBuilder('course')
+      const findAllCourse = await this.courseRepository
+        .createQueryBuilder('course')
         .leftJoinAndSelect('course.categorys', 'category')
         .leftJoinAndSelect('course.images', 'images')
-        .leftJoinAndSelect('course.orders', 'orders')
+        .leftJoinAndSelect('course.orders', 'orders');
       if (keyword?.categorys == 'true') {
-        findAllCourse.leftJoinAndSelect('course.categorys', 'category')
+        findAllCourse.leftJoinAndSelect('course.categorys', 'category');
       }
       if (keyword?.images == 'true') {
-        findAllCourse.leftJoinAndSelect('course.images', 'images')
+        findAllCourse.leftJoinAndSelect('course.images', 'images');
       }
       if (keyword?.orders == 'true') {
-        findAllCourse.leftJoinAndSelect('course.orders', 'orders')
+        findAllCourse.leftJoinAndSelect('course.orders', 'orders');
       }
-      findAllCourse.where('1=1')
+      findAllCourse.where('1=1');
       if (keyword?.courseName) {
-        findAllCourse.andWhere('course.courseName like :courseName', { courseName: `%${keyword?.courseName}%` })
+        findAllCourse.andWhere('course.courseName like :courseName', { courseName: `%${keyword?.courseName}%` });
       }
       if (keyword?.orderById) {
-        findAllCourse.orderBy('course.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`)
+        findAllCourse.orderBy('course.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`);
       }
       if (keyword?.limit) {
-        findAllCourse.take(+keyword?.limit)
+        findAllCourse.take(+keyword?.limit);
       }
 
       return await findAllCourse.getMany();
-
     } catch (error) {
       throw error;
     }
@@ -164,7 +119,19 @@ export class CourseService {
     try {
       const course = await this.findOne(id);
 
-      course.status = updateCourseDto.status;
+      function convertStatusOrder(status: string): StatusCourse {
+        const statusMap: { [key: string]: StatusCourse } = {
+          New: StatusCourse.New,
+          Recommened: StatusCourse.Recommened,
+          General: StatusCourse.General,
+          Off: StatusCourse.Off,
+        };
+        if (statusMap.hasOwnProperty(status)) {
+          return statusMap[status];
+        }
+        throw new HttpException('Invalid status', HttpStatus.BAD_REQUEST);
+      }
+      course.status = convertStatusOrder(updateCourseDto.status);
 
       return await this.courseRepository.save(course);
     } catch (error) {
@@ -181,12 +148,9 @@ export class CourseService {
       const oldPriority = courseToUpdate.priority;
       const coursesToAdjust = await this.courseRepository.find({
         where: {
-          priority: Between(
-            Math.min(oldPriority, newPriority),
-            Math.max(oldPriority, newPriority)
-          ),
-          id: Not(id) // Exclude the current course from the update
-        }
+          priority: Between(Math.min(oldPriority, newPriority), Math.max(oldPriority, newPriority)),
+          id: Not(id), // Exclude the current course from the update
+        },
       });
       // เงื่อนไขในการเลื่อนขึ้นเลื่อนลง
       for (const course of coursesToAdjust) {
@@ -209,7 +173,6 @@ export class CourseService {
       }
       courseToUpdate.priority = newPriority;
       await this.courseRepository.save(courseToUpdate);
-
 
       return courseToUpdate;
     } catch (error) {
@@ -238,7 +201,7 @@ export class CourseService {
         throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
       }
 
-      const saveImgs = []
+      const saveImgs = [];
       for (let i = 1; i < files.length; i++) {
         console.log(i);
         const createImg = this.imageRepository.create({
@@ -247,6 +210,7 @@ export class CourseService {
         const saveImg = await this.imageRepository.save(createImg);
         saveImgs.push(saveImg);
       }
+
       const newPriority = await this.createNewPriority();
       const courseImage = this.courseRepository.create({
         courseImage: files[0].filename,
@@ -255,6 +219,8 @@ export class CourseService {
         price: createCourseDto.price,
         priority: newPriority,
         images: saveImgs,
+        status: StatusCourse.New,
+        categorys: findCategory,
       });
       return await this.courseRepository.save(courseImage);
     } catch (error) {
@@ -263,7 +229,7 @@ export class CourseService {
   }
 
   async deleteFile(filename: string) {
-    const filePath = `${FOLDERPATH.Imgs}/${filename}`
+    const filePath = `${FOLDERPATH.Imgs}/${filename}`;
     try {
       await unlink(filePath); // Use 'unlink' to delete the file
       console.log(`File ${filePath} deleted successfully`);

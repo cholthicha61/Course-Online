@@ -18,8 +18,8 @@ export class Course extends BaseEntity {
   @Column()
   price: number;
 
-  @Column({ default: true })
-  status: boolean;
+  @Column({ nullable: true })
+  status: string;
 
   @Column({ nullable: true })
   priority: number;
