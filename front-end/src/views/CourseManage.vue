@@ -1,16 +1,12 @@
 <template>
   <div class="px-8 mt-8">
-      <div class="head-course">
-        <h1>Manage Course</h1>
-      </div>
+    <div class="head-course">
+      <h1>Manage Course</h1>
     </div>
+  </div>
   <div>
     <div style="display: flex; justify-content: flex-end">
-      <router-link
-        to="/addcourse"
-        class="mt-5 ma-5"
-        style="color: #fff; text-decoration: none"
-      >
+      <router-link to="/addcourse" class="mt-5 ma-5" style="color: #fff; text-decoration: none">
         <v-btn color="#0284C7">Add Course</v-btn>
       </router-link>
     </div>
@@ -21,81 +17,62 @@
 
       <template #item="{ item }">
         <tr :key="item.coursename">
-          <td
-            style="
+          <td style="
               width: 300px;
               min-width: 300px;
               max-width: 300px;
               text-align: start;
               word-wrap: break-word;
-            "
-          >
+            ">
             {{ item.courseName }}
           </td>
-          <td
-            style="
+          <td style="
               width: 300px;
               min-width: 300px;
               max-width: 300px;
               text-align: start;
               word-wrap: break-word;
-            "
-          >
+            ">
             {{ item.categoryId }}
           </td>
-          <td
-            style="
+          <td style="
               width: 400px;
               min-width: 400px;
               max-width: 400px;
               text-align: start;
               word-wrap: break-word;
-            "
-          >
+            ">
             {{ item.description }}
           </td>
-          <td
-            style="
+          <td style="
               width: 200px;
               min-width: 200px;
               max-width: 200px;
               text-align: start;
               word-wrap: break-word;
-            "
-          >
+            ">
             {{ item.price }}
           </td>
-          <td
-            style="
+          <td style="
               width: 200px;
               min-width: 200px;
               max-width: 200px;
               text-align: center;
               word-wrap: break-word;
-            "
-          >
-            <v-select
-              variant="underlined"
-            >
-          </v-select>
+            ">
+            <v-select variant="underlined">
+            </v-select>
           </td>
-          <td
-            style="
+          <td style="
               width: 200px;
               min-width: 200px;
               max-width: 200px;
               text-align: center;
               word-wrap: break-word;
-            "
-          >
-            <v-btn
-              color="warning"
-              @click="setPriority(item)"
-              style="margin-right: 8px"
-            >
-              edit</v-btn
-            >
-            <v-btn color="" @click="setPriority(item)">delete</v-btn>
+            ">
+            <v-btn color="warning" @click="EditCourse()" style="margin-right: 8px">
+              edit</v-btn>
+            <v-btn color="" @click="deleteCourse(item)">delete</v-btn>
           </td>
         </tr>
       </template>
@@ -150,12 +127,19 @@ export default {
     addCourse() {
       console.log("Add Course button clicked!");
     },
-    performAction(item) {
-      console.log("Perform action for:", item.cname);
+    EditCourse() {
+      console.log("Edit Course button clicked!");
     },
-    setPriority(item) {
-      console.log("Set priority for:", item.cname);
+    async deleteCourse(item) {
+      console.log("Delete:", item);
+
+      await this.$store.dispatch("course/deleteCourse", item.id);
     },
+    // async EditCourse(item) {
+    //   console.log("Edit:", item);
+
+    //   await this.$store.dispatch("course/editCourse", item);
+    // }
   },
 };
 </script>

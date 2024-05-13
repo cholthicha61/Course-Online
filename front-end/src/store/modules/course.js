@@ -21,6 +21,17 @@ const actions = {
     }
   },
 
+  async deleteCourse({ commit }, id) {
+    try {
+      const url = `${ENDPOINT.COURSE}/${id}`;
+      const res = await axios(configAxios("delete", url));
+      
+      
+    } catch (error) {
+      throw new Error
+    }
+  }
+
 };
 export default {
   namespaced: true,
