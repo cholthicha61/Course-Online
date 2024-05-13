@@ -18,7 +18,7 @@
       <v-row class="justify-start" no-gutters>
         <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in data" fixed>
           <v-sheet class="ma-3 rounded-border">
-            <CardCourse />
+            <CardCourse :course="i"/>
           </v-sheet>
         </v-col>
       </v-row>
@@ -30,7 +30,7 @@
       <v-row class="justify-start" no-gutters>
         <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
           <div class="ma-3 rounded-border">
-            <CardCourse />
+            <CardCourse :course="i"/>
           </div>
         </v-col>
       </v-row>
@@ -40,6 +40,7 @@
 
 <script>
 import CardCourse from "@/components/CardCourse.vue";
+import { mapState } from "vuex";
 export default {
   components: {
     CardCourse,
@@ -47,9 +48,18 @@ export default {
   data() {
     return {
       data: [1, 2, 3],
-      course: [1, 2, 3, 4, 5],
+      // course: [1, 2, 3, 4, 5],
     };
   },
+  computed: {
+  ...mapState({
+    course: (state) => state.course.course,
+    }),
+  },
+  async mounted() {
+    await this.$store.dispatch('course/getCourse')
+    console.log('coursecoursecourse', this.course);
+  }
   // computed: {
   //   courseList() {
   //     if(this.searchValue.trim().lenght > 0) {
