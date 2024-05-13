@@ -5,7 +5,6 @@
     </div>
   </div>
   <div class="mt-9">
-      
     <v-data-table-virtual :headers="headers" :items="users" height="560">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
@@ -89,9 +88,11 @@
           >
             <v-btn
               :class="{ 'green-btn': item.active, 'red-btn': !item.active }"
-              @click="handleClick"
+              @click="updateUser(item.id)"
               >Click</v-btn
             >
+            <v-select :items="status" outlined v-model="item.active" return-object  @update:modelValue="updateUser(item)">
+            </v-select>
             {{ item.active }}
           </td>
         </tr>
@@ -100,7 +101,7 @@
   </div>
 </template>
 
-<script >
+<script>
 import { mapState } from "vuex";
 import moment from "moment";
 import Swal from "sweetalert2";
@@ -112,48 +113,61 @@ export default {
         title: "No.",
         align: "center",
         value: "id",
+        width: '20px'
       },
       {
         title: "CreatedAt",
         align: "start",
         value: "createdAt",
+        width: '20px'
       },
       {
         title: "First Name",
         align: "start",
         value: "fname",
+        width: '20px'
       },
       {
         title: "Last Name",
         align: "start",
         value: "lname",
+        width: '20px'
       },
       {
         title: "Email",
         align: "start",
         value: "email",
+        width: '20px'
       },
       {
         title: "Tel.",
         align: "start",
         value: "phone",
+        width: '20px'
       },
       {
         title: "Status",
         align: "center",
         value: "active",
+        width: '20px'
       },
     ],
     users: [],
+    status: [
+      'true',
+      'false'
+    ],
+
   }),
 
   computed: {
     ...mapState({
       user: (state) => state.user.user,
+      status: (state) => state.user.status,
     }),
   },
   watch: {
-    user(newVal) {
+    users(newVal) {
       return newVal;
     },
   },
@@ -163,34 +177,40 @@ export default {
   methods: {
     async getData() {
       await this.$store.dispatch("user/getUser");
-      this.users = this.user
+      this.users = this.user;
+      console.log("this.users", this.users);
+
     },
-    async updateUser() {
-      await this.$store.dispatch("user/updateUser");
+    async updateUser(item) {
+      const payload = {
+        id: item.id,
+        active: item.active
+      }
+      await this.$store.dispatch("user/updateStatus", payload);
     },
     formatDate(date) {
       return moment(date).format("lll");
     },
-    handleClick() {
-      console.log("Click Click Clik");
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, Change status!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({
-            title: "Changed!",
-            text: "Status change.",
-            icon: "success",
-          });
-        }
-      });
-    },
+    // handleClick() {
+    //   console.log("Click Click Clik");
+    //   Swal.fire({
+    //     title: "Are you sure?",
+    //     text: "You won't be able to revert this!",
+    //     icon: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     confirmButtonText: "Yes, Change status!",
+    //   }).then((result) => {
+    //     if (result.isConfirmed) {
+    //       Swal.fire({
+    //         title: "Changed!",
+    //         text: "Status change.",
+    //         icon: "success",
+    //       });
+    //     }
+    //   });
+    // },
   },
 };
 </script>

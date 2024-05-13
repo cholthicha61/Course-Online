@@ -8,6 +8,7 @@ import _ from "lodash";
 const state = {
   user: {},
   users: [],
+  // status: [],
 };
 const mutations = {
   SET_USER: (state, payload) => {
@@ -16,6 +17,9 @@ const mutations = {
   SET_USERS: (state, payload) => {
     state.users = payload;
   },
+  // SET_STATUS: (state, payload) => {
+  //   state.status = payload;
+  // },
 };
 const actions = {
   async createUser({ commit }, payload) {
@@ -91,16 +95,26 @@ const actions = {
       console.log("payload", payload);
     }
   },
-  async updateStatus({commit}, payload) {
-    const url = `${ENDPOINT.USER}`;
-    try{
-      await axios(configAxios("update", url));
-      console.log("this",res)
-    }catch (error){
-      console.log("this",error);
+  async updateStatus({ commit }, payload) {
+    console.log("payload", `${ENDPOINT.USER}/update-status/${payload.id}`);
+    try {
+      const url = `${ENDPOINT.USER}/update-status/${payload.id}`;
+      const res = await axios(configAxios("patch", url, payload));
+      console.log('response', res);
+      if (res.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: "แก้ไขสำเร็จ",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        await this.dispatch("user/getUser");
+      }
+    } catch (error) {
+      console.log("this", error);
     }
   },
-
 };
 
 export default {
