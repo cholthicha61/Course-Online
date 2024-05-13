@@ -14,26 +14,32 @@ export class AuthService {
     private jwtService: JwtService,
 
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userRepository: Repository<User>
   ) {}
 
   async signIn(loginInDto: LoginDto) {
     try {
-      console.log(loginInDto);
-
-      // const userByEmail = await this.userService.findByEmail(loginInDto.email);
       const userByEmail = await this.userRepository.findOne({
-        where: { email: loginInDto.email},
-        relations: {
-          roles: true
+        where: { email: loginInDto.email },
+        relations:{
+          roles : true
         }
-      })
+      });
 
-      const comparePassword = await bcrypt.compareSync(loginInDto.password, userByEmail.password);
-      console.log(comparePassword);
-      if (comparePassword == false) {
-        throw new HttpException('user password incorrect', HttpStatus.UNAUTHORIZED);
+      if (!userByEmail) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
+
+      const comparePassword = await bcrypt.compare(loginInDto.password, userByEmail.password);
+
+      if (!comparePassword) {
+        throw new HttpException('Password Incorrect', HttpStatus.UNAUTHORIZED);
+      }
+
+      if (!userByEmail.active) {
+        throw new HttpException('User account is not active', HttpStatus.UNAUTHORIZED);
+      }
+
       const payload = { id: userByEmail.id, email: userByEmail.email };
 
       const { password, ...response } = userByEmail;
@@ -45,14 +51,4 @@ export class AuthService {
       throw error;
     }
   }
-
-  // async testFunc(username: string, password: string) {
-  //   try {
-  //     const userByUsername = await this.userRepository.findOne(
-
-  //     );
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
 }

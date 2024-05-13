@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +23,11 @@ const router = createRouter({
           component: () => import("../views/AddCourse.vue"),
         },
         {
+          path: "/addcourse2",
+          name: "addcourse2",
+          component: () => import("../views/AddCourse2.vue"),
+        },
+        {
           path: "/inbox",
           name: "inbox",
           component: () => import("../views/Inbox.vue"),
@@ -30,7 +35,32 @@ const router = createRouter({
         {
           path: "/changePassword",
           name: "changePassword",
-          component: () => import("../components/ChangePassword.vue")
+          component: () => import("../components/ChangePassword.vue"),
+        },
+        {
+          path: "/coursemanage",
+          name: "coursemanage",
+          component: () => import("../views/CourseManage.vue"),
+        },
+        {
+          path: "/allconfriem",
+          name: "allconfriem",
+          component: () => import("../components/AllconfrimedCourse.vue"),
+        },
+        {
+          path: "/editcourse",
+          name: "editcourse",
+          component: () => import("../components/EditCourse.vue"),
+        },
+        {
+          path: "/usermanage",
+          name: "usermanage",
+          component: () => import("../views/UserManage.vue"),
+        },
+        {
+          path: "/courseorder",
+          name: "courseorder",
+          component: () => import("../components/CourseOrder.vue")
         }
       ],
     },
@@ -43,7 +73,7 @@ const router = createRouter({
           name: "home",
           component: () => import("../views/Main.vue"),
         },
-        
+
         {
           path: "/dashboard",
           name: "dashboard",
@@ -72,11 +102,6 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: "/usermanage",
-      name: "usermanage",
-      component: () => import("../views/UserManage.vue"),
-    }
   ],
 });
 

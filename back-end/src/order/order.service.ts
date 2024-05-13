@@ -7,6 +7,8 @@ import { FindOneOptions, Repository } from 'typeorm';
 import * as _ from 'lodash';
 import { User } from 'src/user/entities/user.entity';
 import { Course } from 'src/course/entities/course.entity';
+import { StatusOrder } from 'src/enums/status-order';
+import { FindAllOrderDto, FindAllUserDto } from 'src/user/dto/find-all-dto';
 
 @Injectable()
 export class OrderService {
@@ -17,7 +19,7 @@ export class OrderService {
     private userRepository: Repository<User>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>
-  ) {}
+  ) { }
 
   async create(createOrderDto: CreateOrderDto) {
     try {
@@ -39,10 +41,10 @@ export class OrderService {
       }
 
       const createOrder = this.orderRepository.create({
-        status: createOrderDto.status,
+        status: StatusOrder.Waiting,
         startdate: createOrderDto.startdate,
         enddate: createOrderDto.enddate,
-        users: findUser,
+        user: findUser,
         course: findCourse,
       });
 
@@ -52,14 +54,40 @@ export class OrderService {
     }
   }
 
-  async findAll() {
+  async findAll(keyword: FindAllOrderDto) {
     try {
-      return this.orderRepository.find({
-        relations: {
-          users: true,
-          course: true,
-        },
-      });
+      console.log('keyword', keyword);
+
+      const findAllOrders = this.orderRepository
+        .createQueryBuilder('order')
+        .leftJoinAndSelect('order.course', 'course')
+        .leftJoinAndSelect('order.user', 'user')
+        .leftJoinAndSelect('course.categorys', 'categorys')
+        .leftJoinAndSelect('course.images', 'images')
+      findAllOrders.where('1=1');
+      if (keyword?.status) {
+        findAllOrders.andWhere('order.status like :status', { status: `%${keyword?.status}%` });
+      }
+      if (keyword?.startdate) {
+        findAllOrders.andWhere('order.startdate like :startdate', { startdate: `%${keyword?.startdate}%` });
+      }
+      if (keyword?.enddate) {
+        findAllOrders.andWhere('order.enddate like :enddate', { enddate: `%${keyword?.enddate}%` });
+      }
+      if (keyword?.courseName) {
+        findAllOrders.andWhere('course.courseName like :courseName', { courseName: `%${keyword?.courseName}%` });
+      }
+      if (keyword.description) {
+        findAllOrders.andWhere('course.description like :description', { description: `%${keyword?.description}%` });
+      }
+      if (keyword.orderById) {
+        findAllOrders.orderBy('order.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`);
+      }
+      if (keyword?.limit) {
+        findAllOrders.take(+keyword?.limit);
+      }
+
+      return await findAllOrders.getMany();
     } catch (error) {
       throw error;
     }
@@ -67,19 +95,19 @@ export class OrderService {
 
   async findOne(id: number) {
     try {
-      const findOne = await this.orderRepository.findOne({
-        where: {
-          id: id,
-        },
-        relations: {
-          users: true,
-          course: true,
-        },
-      });
-      if (_.isEmpty(findOne)) {
+      const order = await this.orderRepository
+        .createQueryBuilder('order')
+        .leftJoinAndSelect('order.user', 'user')
+        .leftJoinAndSelect('order.course', 'course')
+        .leftJoinAndSelect('course.categorys', 'categorys')
+        .leftJoinAndSelect('course.images', 'images')
+        .where('order.id = :id', { id })
+        .getOne();
+
+      if (_.isEmpty(order)) {
         throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
       }
-      return findOne;
+      return order;
     } catch (error) {
       throw error;
     }
@@ -105,14 +133,37 @@ export class OrderService {
         throw new HttpException('Course not found', HttpStatus.NOT_FOUND);
       }
 
-      order.status = updateOrderDto.status;
       order.startdate = updateOrderDto.startdate;
       order.enddate = updateOrderDto.enddate;
-      order.users = findUser;
+      order.user = findUser;
       order.course = findCourse;
 
       const updateOrder = await this.orderRepository.save(order);
       return updateOrder;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateStatus(id: number, updateOrderDto: UpdateOrderDto) {
+    try {
+      const order = await this.findOne(id);
+
+      function convertStatusOrder(status: string): StatusOrder {
+        const statusMap: { [key: string]: StatusOrder } = {
+          Waiting: StatusOrder.Waiting,
+          Incourse: StatusOrder.Incourse,
+          Endcourse: StatusOrder.Endcourse,
+          Canceled: StatusOrder.Canceled,
+        };
+        if (statusMap.hasOwnProperty(status)) {
+          return statusMap[status];
+        }
+        throw new HttpException('Invalid status', HttpStatus.BAD_REQUEST);
+      }
+      // ใช้ฟังก์ชัน convertStatusOrder เพื่อแปลงค่า string เป็น StatusOrder
+      order.status = convertStatusOrder(updateOrderDto.status);
+      return await this.orderRepository.save(order);
     } catch (error) {
       throw error;
     }

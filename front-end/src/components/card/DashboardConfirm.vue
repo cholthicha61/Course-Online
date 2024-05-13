@@ -30,7 +30,7 @@
 
     <v-card-actions class="text-sky-800">
       <v-btn
-        href="#"
+        href="/allconfriem"
         text="Manage Course"
         class="absolute top-0 left-48 hover:text-sky-800 hover:bg-sky-200"
       ></v-btn>
