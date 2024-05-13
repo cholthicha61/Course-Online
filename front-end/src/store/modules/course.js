@@ -40,8 +40,8 @@ const actions = {
     formData.append("price", addcourse.price);
     formData.append("description", addcourse.detail);
     // formData.append("status", addcourse.status);
-    // formData.append("categoryId",addcourse.category);
-    formData.append("categoryId", 1);
+    formData.append("categoryId",addcourse.category);
+    // formData.append("categoryId", 1);
 
 
     // formData.append("newCategory",addcourse.newCategory);
