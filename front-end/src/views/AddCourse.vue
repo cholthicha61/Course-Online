@@ -54,6 +54,7 @@
 </select>
 </div>
 
+
     <div class="mb-2 flex items-center">
       <div class="w-1/4 mr-4">
         <label class="block">Upload image :</label>
@@ -125,6 +126,7 @@
       >
         Cancel
       </button>
+      
     </div>
   </div>
 </template>
@@ -143,10 +145,10 @@ export default {
         status: "",
         category: "",
         images: [],
-        categoryOptions: ["toeic", "toefl"],
-        newCategory: "",
+        // categoryOptions: ["toeic", "toefl"],
+        // newCategory: "",
       },
-      showNewCategoryInput: false,
+      // showNewCategoryInput: false,
     };
   },
 
@@ -205,21 +207,34 @@ export default {
       reader.readAsDataURL(event.target.files[0]);
     },
     submitCourse() {
-      if (
-        !this.course.name ||
-        !this.course.price ||
-        !this.course.detail ||
-        !this.course.status ||
-        !this.course.category ||
-        this.course.images.filter((image) => image).length === 0
-      ) {
-        alert("Please fill in all required fields");
-        return;
-      }
+  if (
+    !this.course.name ||
+    !this.course.price ||
+    !this.course.detail ||
+    !this.course.status ||
+    !this.course.category ||
+    this.course.images.filter((image) => image).length === 0
+  ) {
+    alert("Please fill in all required fields");
+    return;
+  }
 
-      // console.log("Course submission logic goes here");
-      this.$store.dispatch("course/addCourse", this.course);
-    },
+  const confirmed = window.confirm("Are you sure you want to submit?");
+  if (confirmed) {
+    this.$store.dispatch("course/addCourse", this.course)
+      .then(() => {
+        this.showConfirmationDialog = true;
+        alert(" Add Course succress!")
+        console.log("Course added successfully");
+      })
+      .catch((error) => {
+        console.error("Failed to add course", error);
+      });
+  } else {
+    console.log("User canceled submission");
+  }
+},
+
     uploadImage() {
       axios
         .post("addcourse/addCourse", formData)

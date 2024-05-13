@@ -42,33 +42,18 @@
       </select>
     </div>
     <div class="mb-4 flex items-center">
-      <label for="category" class="block w-1/4 mr-4">Category:</label>
-      <select
-        id="category"
-        v-model="course.category"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-        @change="categoryChangeHandler"
-      >
-        <option value="" disabled>Select category</option>
-        <option v-for="option in course.categoryOptions" :value="option">{{ option }}</option>
-        <option value="Add New Category">Add New Category</option>
-      </select>
-    </div>
-    <div v-if="showNewCategoryInput" class="mb-4 flex items-center">
-      <label for="newCategory" class="block w-1/4 mr-4">New Category:</label>
-      <input
-        type="text"
-        id="newCategory"
-        v-model="newCategory"
-        class="w-2/4 p-1.5 border border-gray-300 rounded"
-      />
-      <button
-        @click="addNewCategory"
-        class="bg-green-500 text-white px-4 py-2 rounded hover:shadow-xl hover:bg-green-300 text-sm mt-2 ml-4"
-      >
-        Add New Category
-      </button>
-    </div>
+  <label for="category" class="block w-1/4 mr-4">Category:</label>
+  <select
+  id="category"
+  v-model="course.category"
+  class="w-3/4 p-2 border border-gray-300 rounded"
+  @change="categoryChangeHandler"
+>
+  <option value="" disabled>Select category</option>
+  <option v-for="option in category" :value="option.id">{{ option.name }}</option>
+</select>
+</div>
+
     <div class="mb-2 flex items-center">
       <div class="w-1/4 mr-4">
         <label class="block">Upload image :</label>
@@ -87,7 +72,11 @@
             multiple
             @change="handleFileUpload($event)"
           />
-          <label v-if="course.images.length == 0" for="upload-1" class="cursor-pointer" >
+          <label
+            v-if="course.images.length == 0"
+            for="upload-1"
+            class="cursor-pointer"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -113,25 +102,21 @@
               and should be in
               <b class="text-gray-600">JPG, PNG, or GIF</b> format.
             </p>
-
-          
-           
           </label>
-          <div  v-for="(item, i) in course.images" :key="i" >
-              <span  class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
-            </div>
+          <div v-for="(item, i) in course.images" :key="i">
+            <span class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
+          </div>
           <!-- </div> -->
         </div>
-
       </div>
     </div>
 
     <div class="flex justify-center mt-10 ml-10">
       <button
-        @click="updateCourse"
+        @click="submitCourse"
         class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800"
       >
-        Update
+        Save
       </button>
       <div class="w-4"></div>
       <button
@@ -145,7 +130,8 @@
 </template>
 
 <script>
-import axios from "axios"; // Import Axios library
+import axios from "axios"; // เพิ่มการนำเข้า Axios
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -156,12 +142,28 @@ export default {
         detail: "",
         status: "",
         category: "",
-        images: [], 
-        categoryOptions: ["toeic", "toefl"],
-        newCategory: "",
+        images: [],
+        // categoryOptions: ["toeic", "toefl"],
+        // newCategory: "",
       },
-      showNewCategoryInput: false,
+      // showNewCategoryInput: false,
     };
+  },
+
+  watch: {
+    category(newVal) {
+      return newVal;
+    },
+  },
+
+  computed: {
+    ...mapState({
+      category: (state) => state.category.names,
+    }),
+  },
+
+  async mounted() {
+    await this.$store.dispatch("category/getCategory");
   },
 
   methods: {
@@ -183,22 +185,60 @@ export default {
       this.course.category = this.newCategory;
       this.newCategory = "";
     },
-    updateCourse() {
-      console.log("Updating course:", this.course);
-      this.$store.dispatch('course/editCourse', this.course);
+    handleFileUpload(event) {
+      console.log("Hello event", event);
+
+      for (const item of event.target.files) {
+        this.course.images.push(item);
+      }
+      console.log("SSSS", this.course.images);
+
+      console.log("pppp", event.target.result);
+
+      const reader = new FileReader();
+      // reader.onload = (e) => {
+      //   const imagePreview = document.getElementById(`image-preview-${index}`);
+      //   imagePreview.innerHTML = `<img src="${event.target.files[0].name}" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
+      //   imagePreview.classList.remove("border-dashed", "border-2", "border-gray-400");
+      // };
+
+      reader.readAsDataURL(event.target.files[0]);
+    },
+    submitCourse() {
+      if (
+        !this.course.name ||
+        !this.course.price ||
+        !this.course.detail ||
+        !this.course.status ||
+        !this.course.category ||
+        this.course.images.filter((image) => image).length === 0
+      ) {
+        alert("Please fill in all required fields");
+        return;
+      }
+
+      // console.log("Course submission logic goes here");
+      this.$store.dispatch("course/addCourse", this.course);
+    },
+    uploadImage() {
+      axios
+        .post("addcourse/addCourse", formData)
+        .then((response) => {
+          console.log("Course added successfully", response);
+          // this.$store.dispatch("addCourse", response.data);
+        })
+        .catch((error) => {
+          console.error("Failed to add course", error);
+        });
     },
     cancel() {
-      
-      this.clearForm();
-    },
-    clearForm() {
       this.course = {
         name: "",
         price: "",
         detail: "",
         status: "",
         category: "",
-        images: [], 
+        images: [],
       };
     },
   },

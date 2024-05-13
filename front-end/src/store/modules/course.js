@@ -69,11 +69,11 @@ const actions = {
   async updateCourse({ commit }, updatedCourse) {
     const url = `${ENDPOINT.COURSE}/${updatedCourse.id}`;
     const formData = new FormData();
-    formData.append("name", updatedCourse.name);
+    formData.append("courseName", updatedCourse.name);
     formData.append("price", updatedCourse.price);
-    formData.append("detail", updatedCourse.detail);
-    formData.append("status", updatedCourse.status);
-    formData.append("category", updatedCourse.category);
+    formData.append("description", updatedCourse.detail);
+    // formData.append("status", updatedCourse.status);
+    formData.append("categoryId", updatedCourse.category);
     for (const item of updatedCourse.images) {
       formData.append("files", item)
     }
