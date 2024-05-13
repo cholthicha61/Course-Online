@@ -95,24 +95,24 @@ export default {
         { title: "Action", align: "center" },
       ],
       course: [],
-      courses: [
-        {
-          courseName: "wwwwwwwwwwwwwwwwwwwwwww",
-          categoryId: "categoryIwwwwwwwwwwwwwwwwwwwwwwwd",
-          description:
-            "Description lor em50000000 00000000000 0000000000000000000 0000000000000000000000 0000",
-          price: 20000000000000000,
-          priority: "1",
-        },
-        {
-          courseName: "wwwwwwwwwwwwwwwwwwwwwww",
-          categoryId: "categoryIwwwwwwwwwwwwwwwwwwwwwwwd",
-          description:
-            "Description lorem5000000000000000000000000000000000000000000000000000000000000000",
-          price: 20000000000000000,
-          priority: "2",
-        },
-      ],
+      // courses: [
+      //   {
+      //     courseName: "",
+      //     categoryId: "",
+      //     description:
+      //       "Description lor em50000000 00000000000 0000000000000000000 0000000000000000000000 0000",
+      //     price: 20000000000000000,
+      //     priority: "1",
+      //   },
+      //   {
+      //     courseName: "wwwwwwwwwwwwwwwwwwwwwww",
+      //     categoryId: "categoryIwwwwwwwwwwwwwwwwwwwwwwwd",
+      //     description:
+      //       "Description lorem5000000000000000000000000000000000000000000000000000000000000000",
+      //     price: 20000000000000000,
+      //     priority: "2",
+      //   },
+      // ],
     };
   },
   computed: {
