@@ -7,10 +7,11 @@
   <div>
     <div style="display: flex; justify-content: flex-end">
       <!-- <router-link to="/addcourse" class="mt-5 ma-5" style="color: #fff; text-decoration: none"> -->
-        <v-btn @click="goTo('addcourse')" color="#0284C7" class="mt-5 ma-5" style="color: #fff; text-decoration: none">Add Course</v-btn>
+      <v-btn @click="goTo('addcourse')" color="#0284C7" class="mt-5 ma-5" style="color: #fff; text-decoration: none">Add
+        Course</v-btn>
       <!-- </router-link> -->
     </div>
-    <v-data-table-virtual :headers="headers" :items="courses" height="700">
+    <v-data-table-virtual :headers="headers" :items="course" height="700">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
@@ -33,9 +34,11 @@
               text-align: start;
               word-wrap: break-word;
             ">
-            <v-select :items="categorys" v-model="item.categoryId" variant="underlined" return-object @update:modelValue="updateUser(item)">
-</v-select>
-
+            <!-- <v-select :items="categorys" v-model="item.categoryId" variant="underlined" return-object
+              @update:modelValue="updateUser(item)">
+              {{ item.category }}
+            </v-select> -->
+            {{ item.categorys.name }}
           </td>
           <td style="
               width: 400px;
@@ -90,57 +93,38 @@ export default {
     return {
       headers: [
         { title: "Course Name", align: "start", value: "courseName" },
-        { title: "Category", align: "start", value: "categoryId" },
+        { title: "Category", align: "start", value: "category" },
         { title: "Detail", align: "start", value: "description" },
         { title: "Price", align: "start", value: "price" },
         { title: "Piority", align: "center", value: "priority" },
         { title: "Action", align: "center" },
       ],
-      course: [],
-      courses: [
-        {
-          courseName: "wwwwwwwwwwwwwwwwwwwwwww",
-          categoryId:"",
-          description:
-            "Description lor em50000000 00000000000 0000000000000000000 0000000000000000000000 0000",
-          price: 20000000000000000,
-          priority: "1",
-        },
-        {
-          courseName: "wwwwwwwwwwwwwwwwwwwwwww",
-          description:
-            "Description lorem5000000000000000000000000000000000000000000000000000000000000000",
-          price: 20000000000000000,
-          priority: "2",
-        },
-      ],
-      categorys: [{
-        names: "",
-      }],
+      courses: [],
+      // categorys: [],
     };
   },
   computed: {
     ...mapState({
       course: (state) => state.course.course,
       names: (state) => state.category.names,
+
     }),
   },
   async mounted() {
-    await this.$store.dispatch("course/getCourse");
-    this.getData();
-
+    this.getCourse();
+    this.getCatagory();
   },
   methods: {
-    async getData() {
-      await this.$store.dispatch("category/getCat");
+    async getCatagory() {
+      await this.$store.dispatch("category/getCategory");
       this.categorys = this.names;
-      console.log("lllllll:", this.categorys);
+      console.log("this.category", this.names);
     },
-    // async updateCatagory() {
-    //   const payload = {
-    //     category: true,
-    //   }
-    // },
+    async getCourse() {
+      await this.$store.dispatch("course/getCourse");
+      this.courses = this.course;
+      console.log("this.wwwwwcourse", this.courses);
+    },
     addCourse() {
       console.log("Add Course button clicked!");
     },
