@@ -2,6 +2,7 @@ import axios from "axios";
 import configAxios from "../../axios/configAxios";
 import { ENDPOINT } from "../../constants/endpoint";
 import router from "../../router/index";
+import Swal from "sweetalert2";
 
 const state = {
   profile: {},
@@ -30,7 +31,18 @@ const actions = {
         }
       }
       commit("SET_PROFILE", res.data);
-    } catch (error) {}
+    } catch (error) {
+      console.log("error  >>> ", error);
+      if (error.response.status == 401){
+        Swal.fire({
+          icon: "warning",
+          title: "ข้อมูลไม่ถูกต้อง",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    }
   },
 
   async logout() {

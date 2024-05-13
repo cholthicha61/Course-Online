@@ -1,94 +1,114 @@
-<template v-slot:text>
-    <div class="py-8 px-8">
-      <div class="head-course">
-        <h1>Inbox</h1>
-      </div>
-      <v-card class="mt-4">
-        <v-text-field
-          v-model="search"
-          prepend-inner-icon=""
-          class="ml-5 mr-5"
-          variant="outlined"
-          hide-details
-          single-line
-        >
-          <div class="mr-">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
-          </div>
-  
-          <span class=""> </span>
-        </v-text-field>
-        <v-data-table
-          :headers="headers"
-          :items="desserts"
-          :search="search"
-        ></v-data-table>
-      </v-card>
+<template>
+  <div class="px-8 mt-8">
+    <div class="head-course">
+      <h1>Inbox</h1>
     </div>
-  </template>
+  </div>
+  <div class="mt-9">
+    <v-data-table-virtual
+      :headers="headers"
+      :items="userEmail"
+      height="calc(100vh - 280px)"
+    >
+      <template v-slot:[`item.no`]="{ index }">
+        {{ index + 1 }}
+      </template>
+
+            <template v-slot:[`item.name`]="{ item }">
+        <b class="border-2 border-red-500">{{ item.name }}</b>
+      </template>
+
+      <template #item="{ item }">
+        <tr :key="item">
+          <td
+            class="text-between"
+            style="width: 300px; max-width: 300px; word-wrap: break-word"
+          >
+            {{ formatDate(item.date) }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.email }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.message }}
+          </td>
+        </tr>
+      </template>
+    </v-data-table-virtual>
+  </div>
+</template>
 
 <script>
+import { mapState } from "vuex";
+import _ from "lodash";
 export default {
-  data() {
-    return {
-      search: "",
-      headers: [
-        {
-          align: "start",
-          key: "name",
-          sortable: false,
-          title: "Email",
-        },
-        { key: "message", title: "Message" },
-      ],
-      desserts: [
-        {
-          name: "frozen@gmail.com",
-          message: "รีวิวคอร์สเรียนเพิ่มเติมหน่อยค่า",
-        },
-        {
-          name: "yogurt@gmail.com",
-          message: "ขอรายละเอียดคอร์ส",
-        },
-        {
-          name: "baifern@gmail.com",
-          message: "เริ่มเรียนวันที่เท่าไหร่คะ",
-        },
-        {
-          name: "aaa@gmail.com",
-          message: "มีคอร์สฝึกพูดภาษามั้ยคะ",
-        },
-        {
-          name: "test@gmail.com",
-          message: "รีวิวคอร์สเรียนเพิ่มเติม",
-        },
-        {
-          name: "user01@gmail.com",
-          message: "รายละเอียดคอร์สเพิ่มเติม",
-        },
-        {
-          name: "nana@gmail.com",
-          message: "อยากทราบราคาเพิ่มเติม",
-        },
-        {
-          name: "alexza01@gmail.com",
-          message: "เรียนกี่เดือนคับ",
-        },
-      ],
-    };
+  data: () => ({
+    headers: [
+      {
+        title: "Date",
+        align: "start",
+        value: "date",
+      },
+      {
+        title: "Email",
+        align: "start",
+        value: "email",
+      },
+      {
+        title: "Message",
+        align: "start",
+        value: "message",
+      },
+    ],
+    userEmail: [],
+  }),
+  computed: {
+    ...mapState({
+      users: (state) => state.user.users,
+    }),
+  },
+  async mounted() {
+    this.getData();
+  },
+  methods: {
+    formatDate(date) {
+      return new Date(date).toLocaleString();
+    },
+    async getData() {
+      const payload = {
+        question: true,
+      };
+      await this.$store.dispatch("user/getUser", payload);
+      console.log("user", this.users);
+      // await this.$store.dispatch("inbox/getEmail");
+      // this.emails = JSON.parse(JSON.stringify(this.inbox));
+      this.setDataEmail(this.users);
+    },
+    setDataEmail(users) {
+      console.log("users", users.length);
+      const setData = [];
+      _.map(users, (item) => {
+        if (!_.isEmpty(item.questions)) {
+          console.log(
+            "item.questions[item?.questions?.length - 1].createdAt",
+            item.questions
+          );
+          setData.push({
+            date: item.questions[item?.questions?.length - 1].createdAt,
+            email: item.email,
+            message: item.questions[item?.questions?.length - 1].message,
+          });
+        } else {
+          // setData.push({
+          //   date: "",
+          //   email: item.email,
+          //   message: "",
+          // });
+        }
+      });
+      this.userEmail = setData;
+      console.log("useremail",this.userEmail);
+    },
   },
 };
 </script>
@@ -96,8 +116,8 @@ export default {
 <style scoped>
 .head-course h1 {
   font-size: 30px;
-  color: black;
-  border-bottom: 1px solid #9e9e9e;
+  color: rgb(11, 94, 188);
+  border-bottom: 1px solid #d9d9d9;
   font-style: italic;
 }
 </style>

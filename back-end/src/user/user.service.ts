@@ -21,18 +21,21 @@ export class UserService {
   ) { }
   async create(createUserDto: CreateUserDto) {
     try {
+      
       const findByEmail = await this.userRepository.findOne({
         where: {
           email: createUserDto.email,
         },
+
       });
+
       if (!_.isEmpty(findByEmail)) {
         throw new HttpException('email already exists', HttpStatus.CONFLICT);
       }
 
       const findRole = await this.roleRepository.findOne({
         where: {
-          id: createUserDto.roleId,
+          name: RolesUser.User,
         },
       });
       if (_.isEmpty(findRole)) {
@@ -48,6 +51,7 @@ export class UserService {
         password: await hashPass.hashPassword(createUserDto.password, 10),
         roles: findRole,
       });
+
       const userSave = await this.userRepository.save(createUser);
 
       const { password, ...response } = userSave;
@@ -147,6 +151,7 @@ export class UserService {
       const findRole = await this.roleRepository.findOne({
         where: {
           id: roleId,
+          name: RolesUser.User,
         },
       });
       if (_.isEmpty(findRole)) {
@@ -166,7 +171,6 @@ export class UserService {
 
       console.log("user",user);
       
-
       const updatedUser = await this.userRepository.save(user);
       const { password, ...response } = updatedUser;
       return response;

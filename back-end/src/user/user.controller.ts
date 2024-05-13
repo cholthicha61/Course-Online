@@ -10,9 +10,8 @@ import { FindAllUserDto } from './dto/find-all-dto';
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
-  @UseGuards(AuthGuard)
   @Post()
-  async create(@Body() createUserDto: CreateUserDto, @Query('roleId') roleId: number) {
+  async create(@Body() createUserDto: CreateUserDto) {
     console.log("createUserDto >>>", createUserDto);
     return await this.userService.create(createUserDto);
   }
