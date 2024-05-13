@@ -93,13 +93,17 @@ const actions = {
   },
   async updateCategory({ commit }, { categoryId, newData }) {
     try {
-      console.log("categoryId:", categoryId); 
+      console.log("categoryId:", categoryId);
       console.log("newData:", newData);
       const url = `${ENDPOINT.CATEGORY}/${categoryId}`;
       const res = await axios(configAxios("patch", url, newData));
 
       if (res.status === 200) {
-        commit("SET_NAMES", res.data);
+        // commit("SET_NAMES", res.data);
+        await this.dispatch("category/getCategory", {
+          category: true,
+        });
+
         Swal.fire({
           icon: "success",
           title: "อัปเดตหมวดหมู่สำเร็จ",
