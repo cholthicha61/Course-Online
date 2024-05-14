@@ -1,4 +1,4 @@
-import baseURL from "@/axios/baseURL";
+import { baseURL } from "@/axios/baseURL";
 export const ENDPOINT = {
     //------------- auth -----------
     LOGIN: `${baseURL}/auth/login`,

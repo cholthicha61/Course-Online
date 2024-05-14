@@ -133,8 +133,8 @@ export default {
   async mounted() {
     this.getCourse();
     this.getCatagory();
-    console.log("getCourse", getCourse);
-    console.log("getCatagory", getCatagory);
+    console.log("getCourse",getCourse);
+    console.log("getCatagory",getCatagory);
   },
   methods: {
     async getCatagory() {
