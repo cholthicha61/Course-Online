@@ -114,7 +114,7 @@ const actions = {
   },
   async updatePriority({ commit }, payload) {
     try {
-      const url = `${ENDPOINT.COURSE}/${payload.id}`;
+      const url = `${ENDPOINT.COURSE}/update-priority/${payload.id}`;
       const res = await axios(configAxios("patch", url, payload));
       console.log("response", res);
 
