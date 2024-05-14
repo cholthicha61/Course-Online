@@ -1,4 +1,4 @@
-<template>
+<template lang="">
   <div class="px-8 mt-8">
     <div class="head-course">
       <h1>Manage Course</h1>
@@ -12,69 +12,85 @@
       <!-- </router-link> -->
     </div>
     <v-data-table-virtual :headers="headers" :items="course" height="700">
-      <template v-slot:[`item.no`]="{ index }">
+      <!-- <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
-      </template>
+      </template> -->
 
-      <template #item="{ item }">
+
+      <template #item="{ item ,index}">
         <tr :key="item.coursename">
           <td style="
-              width: 300px;
-              min-width: 300px;
-              max-width: 300px;
-              text-align: start;
-              word-wrap: break-word;
-            ">
+        width: 150px;
+        min-width: 150px;
+        max-width: 150px;
+        text-align: center;
+        word-wrap: break-word;
+      ">
+            {{ index + 1 }}
+          </td>
+          <td style="
+        width: 300px;
+        min-width: 300px;
+        max-width: 300px;
+        text-align: start;
+        word-wrap: break-word;
+      ">
             {{ item.courseName }}
           </td>
           <td style="
-              width: 300px;
-              min-width: 300px;
-              max-width: 300px;
-              text-align: start;
-              word-wrap: break-word;
-            ">
+        width: 300px;
+        min-width: 300px;
+        max-width: 300px;
+        text-align: start;
+        word-wrap: break-word;
+      ">
             <!-- <v-select :items="categorys" v-model="item.categoryId" variant="underlined" return-object
               @update:modelValue="updateUser(item)">
               {{ item.category }}
             </v-select> -->
+            <!-- <v-select :items="categorys.map(category => category.name)" variant="underlined"
+              v-model="item.categorys.name" return-object @update:modelValue="updateCourseCategory(item)">
+            </v-select> -->
             {{ item.categorys.name }}
           </td>
           <td style="
-              width: 400px;
-              min-width: 400px;
-              max-width: 400px;
-              text-align: start;
-              word-wrap: break-word;
-            ">
+        width: 400px;
+        min-width: 400px;
+        max-width: 400px;
+        text-align: start;
+        word-wrap: break-word;
+      ">
             {{ item.description }}
           </td>
           <td style="
-              width: 200px;
-              min-width: 200px;
-              max-width: 200px;
-              text-align: start;
-              word-wrap: break-word;
-            ">
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+        text-align: start;
+        word-wrap: break-word;
+      ">
             {{ item.price }}
           </td>
           <td style="
-              width: 200px;
-              min-width: 200px;
-              max-width: 200px;
-              text-align: center;
-              word-wrap: break-word;
-            ">
-            <v-select variant="underlined">
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+        text-align: center;
+        word-wrap: break-word;
+      ">
+            <v-select :items="courses.map((course) => course.priority)" variant="underlined" v-model="item.priority"
+              return-object @update:modelValue="updatePriority(item)">
             </v-select>
+
+            {{ item.priority }}
           </td>
           <td style="
-              width: 200px;
-              min-width: 200px;
-              max-width: 200px;
-              text-align: center;
-              word-wrap: break-word;
-            ">
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+        text-align: center;
+        word-wrap: break-word;
+      ">
             <v-btn color="warning" @click="EditCourse()" style="margin-right: 8px">
               edit</v-btn>
             <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
@@ -89,16 +105,17 @@
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
 
-
 export default {
   data() {
     return {
       headers: [
+        { title: "No.", align: "center", value: "id" },
         { title: "Course Name", align: "start", value: "courseName" },
         { title: "Category", align: "start", value: "category" },
         { title: "Detail", align: "start", value: "description" },
         { title: "Price", align: "start", value: "price" },
         { title: "Piority", align: "center", value: "priority" },
+        // { title: "Type", align: "center", value: "priority" },
         { title: "Action", align: "center" },
       ],
       courses: [],
@@ -109,19 +126,24 @@ export default {
     ...mapState({
       course: (state) => state.course.course,
       names: (state) => state.category.names,
-
     }),
   },
   async mounted() {
     this.getCourse();
-    this.getCatagory();
+    // this.getCatagory();
   },
   methods: {
-    async getCatagory() {
-      await this.$store.dispatch("category/getCategory");
-      this.categorys = this.names;
-      console.log("this.category", this.names);
-    },
+    // async getCatagory() {
+    //   await this.$store.dispatch("category/getCategory");
+    //   this.categorys = this.names;
+    //   console.log("this.category", this.names);
+    // },
+    // async editCourse(item) {
+    //   const payload = {
+    //     id: itemm.id,
+    //     category: item.category
+    //   }
+    // },
     async getCourse() {
       await this.$store.dispatch("course/getCourse");
       this.courses = this.course;
@@ -135,11 +157,10 @@ export default {
     },
     async deleteCourse(item) {
       console.log("Delete:", item);
-
       await this.$store.dispatch("course/deleteCourse", item.id);
     },
     async goTo(path) {
-      await this.$router.push(`/${path}`)
+      await this.$router.push(`/${path}`);
     },
     async deleteCourse(courseId) {
       Swal.fire({
@@ -149,12 +170,22 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Yes, delete it!",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("course/deleteCourse", courseId);
         }
       });
+    },
+    async updatePriority(item) {
+      const payload = {
+        id: item.id,
+        priority: item.priority,
+      };
+      console.log("====================================");
+      console.log("sssssss", payload);
+      console.log("====================================");
+      await this.$store.dispatch("course/updatePriority", payload);
     },
   },
 

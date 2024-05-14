@@ -1,4 +1,4 @@
-<template>
+<template lang="">
   <div class="px-8 mt-8">
     <div class="head-course">
       <h1>Manage User</h1>
@@ -10,83 +10,101 @@
         {{ index + 1 }}
       </template>
 
-      <template #item="{ item, index }">
-
-        <tr :key="index">
-          <td style="
-              width: 150px;
-              min-width: 150px;
-              max-width: 150px;
-              text-align: center;
-              word-wrap: break-word;
-            ">
-            {{ index + 1 }}
-          </td>
-          <td style="
-              width: 250px;
-              min-width: 250px;
-              max-width: 250px;
-              text-align: start;
-              word-wrap: break-word;
-            ">
-            {{ formatDate(item.createdAt) }}
-          </td>
-          <td style="
-              width: 300px;
-              min-width: 300px;
-              max-width: 300px;
-              text-align: start;
-              word-wrap: break-word;
-            ">
-            {{ item.fname }}
-          </td>
-          <td style="
-              width: 300px;
-              min-width: 300px;
-              max-width: 300px;
-              text-align: start;
-              word-wrap: break-word;
-            ">
-            {{ item.lname }}
-          </td>
-          <td style="
-              width: 300px;
-              min-width: 300px;
-              max-width: 300px;
-              text-align: start;
-              word-wrap: break-word;
-            ">
-            {{ item.email }}
-          </td>
-          <td style="
-              width: 200px;
-              min-width: 200px;
-              max-width: 200px;
-              text-align: start;
-              word-wrap: break-word;
-            ">
-            {{ item.phone }}
-          </td>
-          <td style="
-              width: 150px;
-              min-width: 150px;
-              max-width: 150px;
-              text-align: center;
-            ">
-            <!-- <v-btn
+<template #item="{ item, index }">
+  <tr :key="index">
+    <td
+      style="
+        width: 150px;
+        min-width: 150px;
+        max-width: 150px;
+        text-align: center;
+        word-wrap: break-word;
+      "
+    >
+      {{ index + 1 }}
+    </td>
+    <td
+      style="
+        width: 250px;
+        min-width: 250px;
+        max-width: 250px;
+        text-align: start;
+        word-wrap: break-word;
+      "
+    >
+      {{ formatDate(item.createdAt) }}
+    </td>
+    <td
+      style="
+        width: 300px;
+        min-width: 300px;
+        max-width: 300px;
+        text-align: start;
+        word-wrap: break-word;
+      "
+    >
+      {{ item.fname }}
+    </td>
+    <td
+      style="
+        width: 300px;
+        min-width: 300px;
+        max-width: 300px;
+        text-align: start;
+        word-wrap: break-word;
+      "
+    >
+      {{ item.lname }}
+    </td>
+    <td
+      style="
+        width: 300px;
+        min-width: 300px;
+        max-width: 300px;
+        text-align: start;
+        word-wrap: break-word;
+      "
+    >
+      {{ item.email }}
+    </td>
+    <td
+      style="
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+        text-align: start;
+        word-wrap: break-word;
+      "
+    >
+      {{ item.phone }}
+    </td>
+    <td
+      style="
+        width: 150px;
+        min-width: 150px;
+        max-width: 150px;
+        text-align: center;
+      "
+    >
+      <!-- <v-btn
               :class="{ 'green-btn': item.active, 'red-btn': !item.active }"
               @click="updateUser(item.id)"
               >Click</v-btn
             > -->
-            <v-select :items="status" variant="underlined" v-model="item.active" return-object
-              @update:modelValue="updateUser(item)">
-            </v-select>
-            <!-- {{ item.active }} -->
-          </td>
-        </tr>
-      </template>
-    </v-data-table-virtual>
-  </div>
+      <v-select
+        :items="status"
+        variant="underlined"
+        v-model="item.active"
+        return-object
+        @update:modelValue="updateUser(item)"
+      >
+      </v-select>
+      <!-- {{ item.active }} -->
+    </td>
+  </tr>
+</template>
+</v-data-table-virtual>
+</div>
 </template>
 
 <script>
@@ -100,51 +118,40 @@ export default {
         title: "No.",
         align: "center",
         value: "id",
-        width: '20px',
       },
       {
         title: "CreatedAt",
         align: "start",
         value: "createdAt",
-        width: '20px'
       },
       {
         title: "First Name",
         align: "start",
         value: "fname",
-        width: '20px'
       },
       {
         title: "Last Name",
         align: "start",
         value: "lname",
-        width: '20px'
       },
       {
         title: "Email",
         align: "start",
         value: "email",
-        width: '20px'
       },
       {
         title: "Tel.",
         align: "start",
         value: "phone",
-        width: '20px'
       },
       {
         title: "Status",
         align: "center",
         value: "active",
-        width: '20px'
       },
     ],
     users: [],
-    status: [
-      'true',
-      'false',
-    ],
-
+    status: ["true", "false"],
   }),
 
   computed: {
@@ -166,29 +173,28 @@ export default {
       await this.$store.dispatch("user/getUser");
       this.users = this.user;
       console.log("this.users", this.users);
-
     },
     async updateUser(item) {
       const payload = {
         id: item.id,
-        active: item.active == 'true' ? true : false
-      }
+        active: item.active == "true" ? true : false,
+      };
       const { isConfirmed } = await Swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: "You won't be able to revert this!",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Change status!'
-      })
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Change status!",
+      });
       if (isConfirmed) {
         await this.$store.dispatch("user/updateStatus", payload);
         Swal.fire({
-          title: 'Changed!',
-          text: 'Status changed.',
-          icon: 'success'
-        })
+          title: "Changed!",
+          text: "Status changed.",
+          icon: "success",
+        });
       }
     },
     formatDate(date) {

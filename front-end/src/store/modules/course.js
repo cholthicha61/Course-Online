@@ -112,6 +112,17 @@ const actions = {
       console.error("Failed to update course", error);
     }
   },
+  async updatePriority({ commit }, payload) {
+    try {
+      const url = `${ENDPOINT.COURSE}/${payload.id}`;
+      const res = await axios(configAxios("patch", url, payload));
+      console.log("response", res);
+
+      await this.dispatch("course/getCourse");
+    } catch (error) {
+      console.log("this", error);
+    }
+  },
 };
 export default {
   namespaced: true,
