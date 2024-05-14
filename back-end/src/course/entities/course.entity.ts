@@ -1,8 +1,9 @@
 import { Order } from 'src/order/entities/order.entity';
 import { BaseEntity } from 'src/entity/base.entity';
 import { Image } from 'src/image/entities/image.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { Category } from 'src/category/entities/category.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Entity({ name: 'course' })
 export class Course extends BaseEntity {
@@ -36,4 +37,17 @@ export class Course extends BaseEntity {
   })
   @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   categorys: Category;
+
+  // @ManyToMany((type) => User, {
+  //   cascade: ['insert', 'update', 'remove', 'recover'],
+  //   eager: true,
+  // })
+  // @JoinTable({
+  //   joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+  //   inverseJoinColumn: { name: 'user_course_id', referencedColumnName: 'id' },
+  // })
+  // users: User[];
+  @ManyToMany(() => User, user => user.favoriteCourses)
+  favoriteByUsers: User[];
+
 }
