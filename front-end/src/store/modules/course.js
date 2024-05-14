@@ -1,6 +1,7 @@
 import axios from "axios";
 import configAxios from "../../axios/configAxios";
 import { ENDPOINT } from "../../constants/endpoint";
+import Swal from "sweetalert2";
 
 const state = {
   course: [],
@@ -21,12 +22,44 @@ const actions = {
     }
   },
 
-  async deleteCourse({ commit }, id) {
+  // async deleteCourse({ commit }, id) {
+  //   try {
+  //     const url = `${ENDPOINT.COURSE}/${id}`;
+  //     const res = await axios(configAxios("delete", url));
+  //   } catch (error) {
+  //     throw new Error();
+  //   }
+  // },
+
+  async deleteCourse({ commit }, courseId) {
     try {
-      const url = `${ENDPOINT.COURSE}/${id}`;
+      const url = `${ENDPOINT.COURSE}/${courseId}`;
       const res = await axios(configAxios("delete", url));
+
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "ลบคอร์สสำเร็จ",
+          text: "",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        commit("SET_COURSE", res.data);
+        location.reload();
+      }
     } catch (error) {
-      throw new Error();
+      console.error("Error deleting category:", error);
+      if (error.response.status == 400) {
+        {
+          Swal.fire({
+            icon: "warning",
+            title: "ไม่พบข้อมูล",
+            text: "",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+      }
     }
   },
 

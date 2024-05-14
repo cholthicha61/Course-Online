@@ -77,7 +77,7 @@
             ">
             <v-btn color="warning" @click="EditCourse()" style="margin-right: 8px">
               edit</v-btn>
-            <v-btn color="" @click="deleteCourse(item)">delete</v-btn>
+            <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
       </template>
@@ -87,6 +87,8 @@
 
 <script>
 import { mapState } from "vuex";
+import Swal from "sweetalert2";
+
 
 export default {
   data() {
@@ -138,13 +140,29 @@ export default {
     },
     async goTo(path) {
       await this.$router.push(`/${path}`)
-    }
-    // async EditCourse(item) {
-    //   console.log("Edit:", item);
-
-    //   await this.$store.dispatch("course/editCourse", item);
-    // }
+    },
+    async deleteCourse(courseId) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await this.$store.dispatch("course/deleteCourse", courseId);
+        }
+      });
+    },
   },
+
+  // async EditCourse(item) {
+  //   console.log("Edit:", item);
+
+  //   await this.$store.dispatch("course/editCourse", item);
+  // }
 };
 </script>
 
