@@ -7,71 +7,97 @@
   <div>
     <div style="display: flex; justify-content: flex-end">
       <!-- <router-link to="/addcourse" class="mt-5 ma-5" style="color: #fff; text-decoration: none"> -->
-        <v-btn @click="goTo('addcourse')" color="#0284C7" class="mt-5 ma-5" style="color: #fff; text-decoration: none">Add Course</v-btn>
+      <v-btn
+        @click="goTo('addcourse')"
+        color="#0284C7"
+        class="mt-5 ma-5"
+        style="color: #fff; text-decoration: none"
+        >Add Course</v-btn
+      >
       <!-- </router-link> -->
     </div>
-    <v-data-table-virtual :headers="headers" :items="courses" height="700">
+    <v-data-table-virtual :headers="headers" :items="course" height="700">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
 
       <template #item="{ item }">
         <tr :key="item.coursename">
-          <td style="
+          <td
+            style="
               width: 300px;
               min-width: 300px;
               max-width: 300px;
               text-align: start;
               word-wrap: break-word;
-            ">
+            "
+          >
             {{ item.courseName }}
           </td>
-          <td style="
+          <td
+            style="
               width: 300px;
               min-width: 300px;
               max-width: 300px;
               text-align: start;
               word-wrap: break-word;
-            ">
-            {{ item.categoryId }}
+            "
+          >
+            <!-- <v-select :items="categorys" v-model="item.categoryId" variant="underlined" return-object
+              @update:modelValue="updateUser(item)">
+              {{ item.category }}
+            </v-select> -->
+            {{ item.categorys.name }}
           </td>
-          <td style="
+          <td
+            style="
               width: 400px;
               min-width: 400px;
               max-width: 400px;
               text-align: start;
               word-wrap: break-word;
-            ">
+            "
+          >
             {{ item.description }}
           </td>
-          <td style="
+          <td
+            style="
               width: 200px;
               min-width: 200px;
               max-width: 200px;
               text-align: start;
               word-wrap: break-word;
-            ">
+            "
+          >
             {{ item.price }}
           </td>
-          <td style="
+          <td
+            style="
               width: 200px;
               min-width: 200px;
               max-width: 200px;
               text-align: center;
               word-wrap: break-word;
-            ">
-            <v-select variant="underlined">
-            </v-select>
+            "
+          >
+            <v-select variant="underlined"> </v-select>
           </td>
-          <td style="
+          <td
+            style="
               width: 200px;
               min-width: 200px;
               max-width: 200px;
               text-align: center;
               word-wrap: break-word;
-            ">
-            <v-btn color="warning" @click="EditCourse()" style="margin-right: 8px">
-              edit</v-btn>
+            "
+          >
+            <v-btn
+              color="warning"
+              @click="EditCourse()"
+              style="margin-right: 8px"
+            >
+              edit</v-btn
+            >
             <v-btn color="" @click="deleteCourse(item)">delete</v-btn>
           </td>
         </tr>
@@ -88,42 +114,39 @@ export default {
     return {
       headers: [
         { title: "Course Name", align: "start", value: "courseName" },
-        { title: "Category", align: "start", value: "categoryId" },
+        { title: "Category", align: "start", value: "category" },
         { title: "Detail", align: "start", value: "description" },
         { title: "Price", align: "start", value: "price" },
         { title: "Piority", align: "center", value: "priority" },
         { title: "Action", align: "center" },
       ],
-      course: [],
-      // courses: [
-      //   {
-      //     courseName: "",
-      //     categoryId: "",
-      //     description:
-      //       "Description lor em50000000 00000000000 0000000000000000000 0000000000000000000000 0000",
-      //     price: 20000000000000000,
-      //     priority: "1",
-      //   },
-      //   {
-      //     courseName: "wwwwwwwwwwwwwwwwwwwwwww",
-      //     categoryId: "categoryIwwwwwwwwwwwwwwwwwwwwwwwd",
-      //     description:
-      //       "Description lorem5000000000000000000000000000000000000000000000000000000000000000",
-      //     price: 20000000000000000,
-      //     priority: "2",
-      //   },
-      // ],
+      courses: [],
+      // categorys: [],
     };
   },
   computed: {
     ...mapState({
       course: (state) => state.course.course,
+      names: (state) => state.category.names,
     }),
   },
   async mounted() {
-    await this.$store.dispatch("course/getCourse");
+    this.getCourse();
+    this.getCatagory();
+    console.log("getCourse", getCourse);
+    console.log("getCatagory", getCatagory);
   },
   methods: {
+    async getCatagory() {
+      await this.$store.dispatch("category/getCategory");
+      this.categorys = this.names;
+      console.log("this.category", this.names);
+    },
+    async getCourse() {
+      await this.$store.dispatch("course/getCourse");
+      this.courses = this.course;
+      console.log("this.wwwwwcourse", this.courses);
+    },
     addCourse() {
       console.log("Add Course button clicked!");
     },
@@ -136,8 +159,8 @@ export default {
       await this.$store.dispatch("course/deleteCourse", item.id);
     },
     async goTo(path) {
-      await this.$router.push(`/${path}`)
-    }
+      await this.$router.push(`/${path}`);
+    },
     // async EditCourse(item) {
     //   console.log("Edit:", item);
 
