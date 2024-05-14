@@ -1,10 +1,10 @@
 <template>
-  <nav class=" px-5 flex items-center justify-end text-lg">
+  <nav class=" px-5 flex items-center justify-end text-lg bg-sky-200">
     <div class="menu-item "><a href="/home">Home</a></div>
     <div class="menu-item "><a href="/allcourse">All Course</a></div>
 
     <DropdownLogin
-      class="hover:text-sky-500 px-4"
+      class="hover:text-sky-800 px-4"
       :title="userEmail.email"
       :items="services"
       style="z-index: 99"
@@ -25,15 +25,15 @@ export default {
       services: [
         {
           title: "My Course",
-          link: "#",
+          link: "/mycourse",
         },
         {
           title: "Interested Course",
-          link: "#",
+          link: "/interested",
         },
         {
           title: "Edit Profile",
-          link: "#",
+          link: "/edit-profile",
         },
         {
           title: "Logout",
@@ -58,7 +58,7 @@ nav {
 }
 
 nav .menu-item {
-  color: #4a6fa5;
+  color: #022a65;
   padding: 16px 20px;
   position: relative;
   text-align: center;
@@ -70,11 +70,11 @@ nav .menu-item {
 
 nav .menu-item.active,
 nav .menu-item:hover {
-  background-color: #bae6fd;
+  background-color: #8dd6fd;
 }
 
 nav .menu-item:hover {
-  color: #054664;
+  color: #0c9ee2;
 }
 nav .menu-item a {
   color: inherit;

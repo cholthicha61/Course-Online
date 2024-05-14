@@ -42,8 +42,8 @@ const routes =  [
           meta: { requiresAuth: true },
         },
         {
-          path: "/allconfriem",
-          name: "allconfriem",
+          path: "/allconfirm",
+          name: "allconfirm",
           component: () => import("../views/AllconfrimedCourse.vue"),
           meta: { requiresAuth: true },
         },
@@ -65,6 +65,11 @@ const routes =  [
           component: () => import("../views/Category.vue"),
           meta: { requiresAuth: true },
         },
+        {
+          path: "/courseorder",
+          name: "courseorder",
+          component: () => import("../components/CourseOrder.vue")
+        }
       ],
     },
     {
@@ -91,12 +96,29 @@ const routes =  [
           meta: { requiresAuth: true },
         },
         {
-          path: "/datailcourse",
+          path: "/interested",
+          name: "interested",
+          component: () => import("../views/InterestedCourse.vue"),
+          meta: { requiresAuth: true },
+        },
+        {
+          path: "/mycourse",
+          name: "mycourse",
+          component: () => import("../views/MyCourse.vue"),
+          meta: { requiresAuth: true },
+        },
+        {
+          path: "/edit-profile",
+          name: "edit-profile",
+          component: () => import("../views/EditProfile.vue"),
+          meta: { requiresAuth: true },
+        },
+        {
+        path: "/datailcourse",
           name: "datailcourse",
           component: () => import("../views/DatailCourse.vue"),
           meta: { requiresAuth: true },
         },
-
       ],
     },
     {

@@ -1,16 +1,22 @@
 <template>
-    <div class="px-8 mt-8">
+  <div class="px-8 mt-8">
     <div class="head-course">
       <h1>Manage Course</h1>
     </div>
   </div>
   <div>
     <div style="display: flex; justify-content: flex-end">
-      <v-btn class="mt-5 ma-5" color="#0284C7" @click="addCourse"
+      <!-- <router-link to="/addcourse" class="mt-5 ma-5" style="color: #fff; text-decoration: none"> -->
+      <v-btn
+        @click="goTo('addcourse')"
+        color="#0284C7"
+        class="mt-5 ma-5"
+        style="color: #fff; text-decoration: none"
         >Add Course</v-btn
       >
+      <!-- </router-link> -->
     </div>
-    <v-data-table-virtual :headers="headers" :items="course" height="500">
+    <v-data-table-virtual :headers="headers" :items="course" height="700">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
@@ -18,59 +24,81 @@
       <template #item="{ item }">
         <tr :key="item.coursename">
           <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            "
           >
             {{ item.courseName }}
           </td>
           <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            "
           >
-            {{ item.categoryId }}
+            <!-- <v-select :items="categorys" v-model="item.categoryId" variant="underlined" return-object
+              @update:modelValue="updateUser(item)">
+              {{ item.category }}
+            </v-select> -->
+            {{ item.categorys.name }}
           </td>
           <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 400px;
+              min-width: 400px;
+              max-width: 400px;
+              text-align: start;
+              word-wrap: break-word;
+            "
           >
             {{ item.description }}
           </td>
           <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: start;
+              word-wrap: break-word;
+            "
           >
             {{ item.price }}
           </td>
           <td
-            class="text-start"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: center;
+              word-wrap: break-word;
+            "
           >
-            {{ item.cstatus }}
+            <v-select variant="underlined"> </v-select>
           </td>
-
-          <!-- <td class="text-center" style="width: 100px">
-
-            <v-btn
-              color="#0284C7"
-              @click="performAction(item)"
-              style="margin-right: 8px"
-            >
-              up</v-btn
-            >
-            <v-btn color="#0284C7" @click="performAction(item)">down</v-btn>
-          </td> -->
           <td
-            class="text-center"
-            style="width: 150x; max-width: 150px; word-wrap: break-word"
+            style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: center;
+              word-wrap: break-word;
+            "
           >
             <v-btn
               color="warning"
-              @click="setPriority(item)"
+              @click="EditCourse()"
               style="margin-right: 8px"
             >
               edit</v-btn
             >
-            <v-btn color="" @click="setPriority(item)">delete</v-btn>
+            <v-btn color="" @click="deleteCourse(item)">delete</v-btn>
           </td>
         </tr>
       </template>
@@ -86,34 +114,58 @@ export default {
     return {
       headers: [
         { title: "Course Name", align: "start", value: "courseName" },
-        { title: "Category", align: "start", value: "categoryId" },
+        { title: "Category", align: "start", value: "category" },
         { title: "Detail", align: "start", value: "description" },
         { title: "Price", align: "start", value: "price" },
-        { title: "Piority", align: "start", value: "priority" },
-        // { title: "Status", align: "start", value: "Status" },
+        { title: "Piority", align: "center", value: "priority" },
         { title: "Action", align: "center" },
       ],
-      course: [],
+      courses: [],
+      // categorys: [],
     };
   },
   computed: {
     ...mapState({
       course: (state) => state.course.course,
+      names: (state) => state.category.names,
     }),
   },
   async mounted() {
-    await this.$store.dispatch("course/getCourse");
+    this.getCourse();
+    this.getCatagory();
+    console.log("getCourse", getCourse);
+    console.log("getCatagory", getCatagory);
   },
   methods: {
+    async getCatagory() {
+      await this.$store.dispatch("category/getCategory");
+      this.categorys = this.names;
+      console.log("this.category", this.names);
+    },
+    async getCourse() {
+      await this.$store.dispatch("course/getCourse");
+      this.courses = this.course;
+      console.log("this.wwwwwcourse", this.courses);
+    },
     addCourse() {
       console.log("Add Course button clicked!");
     },
-    performAction(item) {
-      console.log("Perform action for:", item.cname);
+    EditCourse() {
+      console.log("Edit Course button clicked!");
     },
-    setPriority(item) {
-      console.log("Set priority for:", item.cname);
+    async deleteCourse(item) {
+      console.log("Delete:", item);
+
+      await this.$store.dispatch("course/deleteCourse", item.id);
     },
+    async goTo(path) {
+      await this.$router.push(`/${path}`);
+    },
+    // async EditCourse(item) {
+    //   console.log("Edit:", item);
+
+    //   await this.$store.dispatch("course/editCourse", item);
+    // }
   },
 };
 </script>

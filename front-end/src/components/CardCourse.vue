@@ -8,23 +8,22 @@
     >
       <v-img
         height="200px"
-        src="https://pbs.twimg.com/media/FaL6vmQaAAA63UG.jpg"
+        :src="`${img}/${this.course.courseImage}`"
         cover
       >
       </v-img>
 
       <v-card-text>
         <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
-          TOEIC
+          {{ course.courseName }}
         </h1>
         <div class="description-course mt-1">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit, reiciendis.
+            {{ course.description }}
           </p>
         </div>
         <div class="text-end">
-          <h2 class="mt-13">฿2,500.00</h2>
+          <h2 class="mt-13">{{ course.price }} บาท</h2>
         </div>
       </v-card-text>
 
@@ -40,12 +39,27 @@
 </template>
 
 <script>
+import { ENDPOINT } from '@/constants/endpoint';
+
 export default {
   name: "CardCourse",
   data() {
     return {
       isHover: false,
+      img: ENDPOINT.IMG
     };
+  },
+  props: {
+    course: {}
+  },
+  watch: {
+    course(newVal){
+      console.log('card course', newVal);
+    }
+  },
+  mounted() {
+    console.log('ppppppp', `${this.img}/${this.course.courseImage}`);
+    
   },
   methods: {
     toggleShadow() {

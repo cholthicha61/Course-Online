@@ -1,61 +1,87 @@
 <template>
-   <div class="px-8 mt-8">
+  <div class="px-8 mt-8">
     <div class="head-course">
       <h1>Manage User</h1>
     </div>
   </div>
   <div class="mt-9">
-    <v-data-table-virtual
-      :headers="headers"
-      :items="users"
-      height=""
-    >
+    <v-data-table-virtual :headers="headers" :items="users" height="560">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-      <!-- <template v-slot:[`item.status`]="{ item }">
-        <v-switch
-          v-model="item.active"
-          color="#0284C7"
-          :label="'Activated'"
-          hide-details
-          inset
-        />
-      </template> -->
 
-      <template #item="{ item }">
-        <tr :key="item.id">
-          <td
-            class="text-start"
-            style="width: 150px; max-width: 150px; word-wrap: break-word"
-          >
-            {{ item.id }}
+      <template #item="{ item, index }">
+
+        <tr :key="index">
+          <td style="
+              width: 150px;
+              min-width: 150px;
+              max-width: 150px;
+              text-align: center;
+              word-wrap: break-word;
+            ">
+            {{ index + 1 }}
           </td>
-          <td
-            class="text-between"
-            style="width: 300px; max-width: 300px; word-wrap: break-word"
-          >
-            {{ item.createdAt }}
+          <td style="
+              width: 250px;
+              min-width: 250px;
+              max-width: 250px;
+              text-align: start;
+              word-wrap: break-word;
+            ">
+            {{ formatDate(item.createdAt) }}
           </td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+          <td style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            ">
             {{ item.fname }}
           </td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+          <td style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            ">
             {{ item.lname }}
           </td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+          <td style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            ">
             {{ item.email }}
           </td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+          <td style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: start;
+              word-wrap: break-word;
+            ">
             {{ item.phone }}
           </td>
-          <td style="width: 100px; margin-left: auto">
-            <v-switch
-              v-model="item.active"
-              color="#0284C7"
-              hide-details
-              inset
-            />
+          <td style="
+              width: 150px;
+              min-width: 150px;
+              max-width: 150px;
+              text-align: center;
+            ">
+            <!-- <v-btn
+              :class="{ 'green-btn': item.active, 'red-btn': !item.active }"
+              @click="updateUser(item.id)"
+              >Click</v-btn
+            > -->
+            <v-select :items="status" variant="underlined" v-model="item.active" return-object
+              @update:modelValue="updateUser(item)">
+            </v-select>
+            <!-- {{ item.active }} -->
           </td>
         </tr>
       </template>
@@ -65,56 +91,70 @@
 
 <script>
 import { mapState } from "vuex";
+import Swal from "sweetalert2";
 
 export default {
   data: () => ({
     headers: [
       {
         title: "No.",
-        align: "start",
+        align: "center",
         value: "id",
+        width: '20px',
       },
       {
-        title: "createdAt",
+        title: "CreatedAt",
         align: "start",
         value: "createdAt",
+        width: '20px'
       },
       {
-        title: "fName",
+        title: "First Name",
         align: "start",
         value: "fname",
+        width: '20px'
       },
       {
-        title: "lName",
+        title: "Last Name",
         align: "start",
         value: "lname",
+        width: '20px'
       },
       {
         title: "Email",
         align: "start",
         value: "email",
+        width: '20px'
       },
       {
-        title: "phone",
+        title: "Tel.",
         align: "start",
         value: "phone",
+        width: '20px'
       },
       {
-        title: "status",
+        title: "Status",
         align: "center",
         value: "active",
+        width: '20px'
       },
     ],
     users: [],
+    status: [
+      'true',
+      'false',
+    ],
+
   }),
 
   computed: {
     ...mapState({
       user: (state) => state.user.user,
+      status: (state) => state.user.status,
     }),
   },
   watch: {
-    user(newVal) {
+    users(newVal) {
       return newVal;
     },
   },
@@ -124,7 +164,36 @@ export default {
   methods: {
     async getData() {
       await this.$store.dispatch("user/getUser");
-      this.users = this.user
+      this.users = this.user;
+      console.log("this.users", this.users);
+
+    },
+    async updateUser(item) {
+      const payload = {
+        id: item.id,
+        active: item.active == 'true' ? true : false
+      }
+      const { isConfirmed } = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Change status!'
+      })
+      if (isConfirmed) {
+        await this.$store.dispatch("user/updateStatus", payload);
+        Swal.fire({
+          title: 'Changed!',
+          text: 'Status changed.',
+          icon: 'success'
+        })
+      }
+      // await this.$store.dispatch("user/updateStatus", payload);
+    },
+    formatDate(date) {
+      return new Date(date).toLocaleString();
     },
   },
 };
@@ -136,5 +205,15 @@ export default {
   color: rgb(11, 94, 188);
   border-bottom: 1px solid #d9d9d9;
   font-style: italic;
+}
+
+.green-btn {
+  background-color: green;
+  color: white;
+}
+
+.red-btn {
+  background-color: red;
+  color: white;
 }
 </style>
