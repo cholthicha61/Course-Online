@@ -12,9 +12,10 @@
       <!-- </router-link> -->
     </div>
     <v-data-table-virtual :headers="headers" :items="course" height="700">
-      <!-- <template v-slot:[`item.no`]="{ index }">
+
+      <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
-      </template> -->
+      </template>
 
 
       <template #item="{ item ,index}">
@@ -81,8 +82,12 @@
             <v-select :items="courses.map((course) => course.priority)" variant="underlined" v-model="item.priority"
               return-object @update:modelValue="updatePriority(item)">
             </v-select>
+            <!-- <v-select :items="priorityItems" variant="underlined" v-model="item.priority" return-object
+              @update:modelValue="handleUpdate">
+            </v-select> -->
 
-            {{ item.priority }}
+
+            <!-- {{ item.priority }} -->
           </td>
           <td style="
         width: 200px;
@@ -186,7 +191,23 @@ export default {
       console.log("sssssss", payload);
       console.log("====================================");
       await this.$store.dispatch("course/updatePriority", payload);
+      await this.getCourse();
+
     },
+    // handleUpdate(newValue) {
+    //   this.item.priority = newValue;
+    //   this.refreshData();
+    // },
+    // async refreshData() {
+    //   // โหลดข้อมูล courses จากแหล่งข้อมูล (เช่น API)
+    //   try {
+    //     // const response = await axios.get(`${ENDPOINT.COURSE}/update-priority/${payload.id}`);
+
+    //     this.priorityItems = response.data.map(course => course.priority);
+    //   } catch (error) {
+    //     console.error('เกิดข้อผิดพลาดในการโหลดข้อมูล: ', error);
+    //   }
+    // },
   },
 
   // async EditCourse(item) {

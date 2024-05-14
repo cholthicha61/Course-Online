@@ -112,15 +112,45 @@ const actions = {
       console.error("Failed to update course", error);
     }
   },
-  async updatePriority({ commit }, payload) {
+  // async updatePriority({ commit }, payload) {
+  //   try {
+  //     // await this.dispatch("course/getCourse");
+
+  //     const url = `${ENDPOINT.COURSE}/update-priority/${payload.id}`;
+  //     const res = await axios(configAxios("patch", url, payload));
+  //     console.log("response", res);
+
+  //     await this.dispatch("course/getCourse");
+  //   } catch (error) {
+  //     console.log("this", error);
+  //   }
+  // },
+  async updatePriority({ commit, dispatch }, payload) {
     try {
       const url = `${ENDPOINT.COURSE}/update-priority/${payload.id}`;
       const res = await axios(configAxios("patch", url, payload));
-      console.log("response", res);
-
-      await this.dispatch("course/getCourse");
+      if (res.status === 200) {
+        // ปรับปรุงค่าของ course ใน state
+        const updatedCourse = res.data.updatedCourse;
+        commit("SET_COURSE", updatedCourse);
+        // แจ้งเตือนการปรับปรุงเรียบร้อย
+        Swal.fire({
+          icon: "success",
+          title: "อัพเดทความสำเร็จ",
+          text: "การอัพเดทลำดับคอร์สเรียบร้อยแล้ว",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        // อัพเดทรายการคอร์ส
+        await dispatch("getCourse");
+      }
     } catch (error) {
-      console.log("this", error);
+      console.error("เกิดข้อผิดพลาดในการอัพเดทลำดับ:", error);
+      Swal.fire({
+        icon: "error",
+        title: "เกิดข้อผิดพลาด",
+        text: "ไม่สามารถอัพเดทลำดับได้ กรุณาลองใหม่ภายหลัง",
+      });
     }
   },
 };
