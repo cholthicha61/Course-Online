@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto mt-4">
-    <h2 class="text-3xl font-bold text-center">Edit Profile</h2>
+    <h2 class="text-3xl font-bold text-center m-9 ">Edit Profile</h2>
 
     <div
       class="flex items-center flex flex-col w-full px-96 py-3 border-gray-200 rounded-lg"
