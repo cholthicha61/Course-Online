@@ -15,6 +15,7 @@ const actions = {
     try {
         const url = `${ENDPOINT.COURSE}`;
         const res = await axios(configAxios("get", url));
+        console.log('SET_COURSE', res.data);
         commit('SET_COURSE', res.data)
     } catch (error) {
         throw new Error

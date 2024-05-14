@@ -8,7 +8,7 @@
       </svg>
       <transition name="fade" appear>
         <div class="sub-menu" v-if="isOpen">
-          <div v-for="(item, i) in items" :key="i" class="menu-item py-3 px-3 hover:text-sky-700 hover:bg-sky-500 bg-sky-200">
+          <div v-for="(item, i) in items" :key="i" class="menu-item py-3 px-3 hover:text-sky-800 hover:bg-sky-300 bg-sky-200">
             <a :href="item.link" @click="logout(item)">{{ item.title }}</a>
           </div>
         </div>
