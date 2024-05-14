@@ -255,6 +255,7 @@ export class CourseService {
         price: createCourseDto.price,
         priority: newPriority,
         images: saveImgs,
+        categorys: findCategory
       });
       return await this.courseRepository.save(courseImage);
     } catch (error) {
