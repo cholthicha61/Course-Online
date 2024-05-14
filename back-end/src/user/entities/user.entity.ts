@@ -1,9 +1,10 @@
 import { BaseEntity } from 'src/entity/base.entity';
 import { Role } from 'src/role/entities/role.entity';
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Order } from "src/order/entities/order.entity";
-import { Question } from "src/question/entities/question.entity";
+import { Order } from 'src/order/entities/order.entity';
+import { Question } from 'src/question/entities/question.entity';
+import { Course } from 'src/course/entities/course.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -37,7 +38,14 @@ export class User extends BaseEntity {
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   orders: Order[];
 
-  @OneToMany(() => Question, (question) => question.user, {cascade:true})
+  @OneToMany(() => Question, (question) => question.user, { cascade: true })
   questions: Question[];
 
+  @ManyToMany(() => Course, course => course.favoriteByUsers)
+  @JoinTable({
+    name: 'user_favorite_courses',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'fav_course_id', referencedColumnName: 'id' },
+  })
+  favoriteCourses: Course[];
 }
