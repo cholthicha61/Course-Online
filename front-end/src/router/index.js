@@ -42,8 +42,8 @@ const routes =  [
           meta: { requiresAuth: true },
         },
         {
-          path: "/allconfriem",
-          name: "allconfriem",
+          path: "/allconfirm",
+          name: "allconfirm",
           component: () => import("../views/AllconfrimedCourse.vue"),
           meta: { requiresAuth: true },
         },

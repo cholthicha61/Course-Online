@@ -1,6 +1,15 @@
 <template>
   <div class="container mx-auto px-96 mt-8">
+    <div>
+      <button
+        class="bg-blue-500 text-white px-4 py-2 rounded -ml-96"
+        @click="goToCoursePage"
+      >
+        Back
+      </button>
+    </div>
     <h1 class="text-3xl font-bold mb-10 text-left">Add Course</h1>
+
     <div class="mb-4 flex items-center">
       <label for="name" class="block w-1/4 mr-4">Name:</label>
       <input
@@ -42,18 +51,19 @@
       </select>
     </div>
     <div class="mb-4 flex items-center">
-  <label for="category" class="block w-1/4 mr-4">Category:</label>
-  <select
-  id="category"
-  v-model="course.category"
-  class="w-3/4 p-2 border border-gray-300 rounded"
-  @change="categoryChangeHandler"
->
-  <option value="" disabled>Select category</option>
-  <option v-for="option in category" :value="option.id">{{ option.name }}</option>
-</select>
-</div>
-
+      <label for="category" class="block w-1/4 mr-4">Category:</label>
+      <select
+        id="category"
+        v-model="course.category"
+        class="w-3/4 p-2 border border-gray-300 rounded"
+        @change="categoryChangeHandler"
+      >
+        <option value="" disabled>Select category</option>
+        <option v-for="option in category" :value="option.id">
+          {{ option.name }}
+        </option>
+      </select>
+    </div>
 
     <div class="mb-2 flex items-center">
       <div class="w-1/4 mr-4">
@@ -126,7 +136,6 @@
       >
         Cancel
       </button>
-      
     </div>
   </div>
 </template>
@@ -134,6 +143,7 @@
 <script>
 import axios from "axios"; // เพิ่มการนำเข้า Axios
 import { mapState } from "vuex";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -207,33 +217,49 @@ export default {
       reader.readAsDataURL(event.target.files[0]);
     },
     submitCourse() {
-  if (
-    !this.course.name ||
-    !this.course.price ||
-    !this.course.detail ||
-    !this.course.status ||
-    !this.course.category ||
-    this.course.images.filter((image) => image).length === 0
-  ) {
-    alert("Please fill in all required fields");
-    return;
-  }
+      if (
+        !this.course.name ||
+        !this.course.price ||
+        !this.course.detail ||
+        !this.course.status ||
+        !this.course.category ||
+        this.course.images.filter((image) => image).length === 0
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please fill in all required fields!",
+        });
+        return;
+      }
 
-  const confirmed = window.confirm("Are you sure you want to submit?");
-  if (confirmed) {
-    this.$store.dispatch("course/addCourse", this.course)
-      .then(() => {
-        this.showConfirmationDialog = true;
-        alert(" Add Course succress!")
-        console.log("Course added successfully");
-      })
-      .catch((error) => {
-        console.error("Failed to add course", error);
-      });
-  } else {
-    console.log("User canceled submission");
-  }
-},
+      const confirmed = window.confirm("Are you sure you want to submit?");
+      if (confirmed) {
+        this.$store
+          .dispatch("course/addCourse", this.course)
+          .then(() => {
+            this.showConfirmationDialog = true;
+            Swal.fire({
+              icon: "success",
+              title: "Success!",
+              text: "Course added successfully!",
+            }).then(() => {
+              this.$router.go();
+            });
+            console.log("Course added successfully");
+          })
+          .catch((error) => {
+            console.error("Failed to add course", error);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Failed to add course!",
+            });
+          });
+      } else {
+        console.log("User canceled submission");
+      }
+    },
 
     uploadImage() {
       axios
@@ -245,6 +271,9 @@ export default {
         .catch((error) => {
           console.error("Failed to add course", error);
         });
+    },
+    goToCoursePage() {
+      this.$router.push({ name: "coursemanage" });
     },
     cancel() {
       this.course = {
