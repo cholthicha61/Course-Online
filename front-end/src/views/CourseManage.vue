@@ -6,7 +6,6 @@
   </div>
   <div>
     <div style="display: flex; justify-content: flex-end">
-      <!-- <router-link to="/addcourse" class="mt-5 ma-5" style="color: #fff; text-decoration: none"> -->
       <v-btn
         @click="goTo('addcourse')"
         color="#0284C7"
@@ -14,7 +13,6 @@
         style="color: #fff; text-decoration: none"
         >Add Course</v-btn
       >
-      <!-- </router-link> -->
     </div>
     <v-data-table-virtual :headers="headers" :items="course" height="700">
       <template v-slot:[`item.no`]="{ index }">
@@ -42,13 +40,7 @@
               text-align: start;
               word-wrap: break-word;
             "
-          >
-            <!-- <v-select :items="categorys" v-model="item.categoryId" variant="underlined" return-object
-              @update:modelValue="updateUser(item)">
-              {{ item.category }}
-            </v-select> -->
-            {{ item.categorys.name }}
-          </td>
+          ></td>
           <td
             style="
               width: 400px;
@@ -93,12 +85,12 @@
           >
             <v-btn
               color="warning"
-              @click="EditCourse()"
+              @click="EditCourse(item.id)"
               style="margin-right: 8px"
             >
               edit</v-btn
             >
-            <v-btn color="" @click="deleteCourse(item)">delete</v-btn>
+            <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
       </template>
@@ -108,6 +100,7 @@
 
 <script>
 import { mapState } from "vuex";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -121,7 +114,6 @@ export default {
         { title: "Action", align: "center" },
       ],
       courses: [],
-      // categorys: [],
     };
   },
   computed: {
@@ -133,8 +125,7 @@ export default {
   async mounted() {
     this.getCourse();
     this.getCatagory();
-    console.log("getCourse",getCourse);
-    console.log("getCatagory",getCatagory);
+    console.log("getCourse", this.getCourse);
   },
   methods: {
     async getCatagory() {
@@ -150,22 +141,27 @@ export default {
     addCourse() {
       console.log("Add Course button clicked!");
     },
-    EditCourse() {
-      console.log("Edit Course button clicked!");
-    },
-    async deleteCourse(item) {
-      console.log("Delete:", item);
-
-      await this.$store.dispatch("course/deleteCourse", item.id);
+    async deleteCourse(courseId) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await this.$store.dispatch("course/deleteCourse", courseId);
+        }
+      });
     },
     async goTo(path) {
       await this.$router.push(`/${path}`);
     },
-    // async EditCourse(item) {
-    //   console.log("Edit:", item);
-
-    //   await this.$store.dispatch("course/editCourse", item);
-    // }
+    async EditCourse(id) {
+      this.$router.push({ name: "EditCourse", params: { id: id } });
+    },
   },
 };
 </script>

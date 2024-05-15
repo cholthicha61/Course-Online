@@ -2,11 +2,11 @@
   <div class="container mx-auto px-96 mt-8">
     <h1 class="text-3xl font-bold mb-10 text-left">Edit Course</h1>
     <div class="mb-4 flex items-center">
-      <label for="name" class="block w-1/4 mr-4">Name:</label>
+      <label for="courseName" class="block w-1/4 mr-4">Name:</label>
       <input
         type="text"
-        id="name"
-        v-model="course.name"
+        id="courseName"
+        v-model="course.courseName"
         class="w-3/4 p-2 border border-gray-300 rounded"
       />
     </div>
@@ -20,10 +20,10 @@
       />
     </div>
     <div class="mb-4 flex items-center">
-      <label for="detail" class="block w-1/4 mr-4">Detail:</label>
+      <label for="description" class="block w-1/4 mr-4">Detail:</label>
       <textarea
-        id="detail"
-        v-model="course.detail"
+        id="description"
+        v-model="course.description"
         class="w-3/4 p-2 border border-gray-300 rounded"
       ></textarea>
     </div>
@@ -34,7 +34,7 @@
         v-model="course.status"
         class="w-3/4 p-2 border border-gray-300 rounded"
       >
-        <option value="" disabled selected>Select status</option>
+        <option value="" disabled>Select status</option>
         <option value="New">New</option>
         <option value="Recommand">Recommand</option>
         <option value="General">General</option>
@@ -42,24 +42,29 @@
       </select>
     </div>
     <div class="mb-4 flex items-center">
-  <label for="category" class="block w-1/4 mr-4">Category:</label>
-  <select
-  id="category"
-  v-model="course.category"
-  class="w-3/4 p-2 border border-gray-300 rounded"
-  @change="categoryChangeHandler"
->
-  <option value="" disabled>Select category</option>
-  <option v-for="option in category" :value="option.id">{{ option.name }}</option>
-</select>
-</div>
+      <label for="categoryId" class="block w-1/4 mr-4">Category:</label>
+      <select
+        id="category"
+        v-model="course.category"
+        class="w-3/4 p-2 border border-gray-300 rounded"
+        @change="categoryChangeHandler"
+      >
+        <option value="" disabled>Select category</option>
+        <option
+          v-for="option in categories"
+          :key="option.id"
+          :value="option.id"
+        >
+          {{ option.name }}
+        </option>
+      </select>
+    </div>
 
-    <div class="mb-2 flex items-center">
+    <div class="mb-4 flex items-center">
       <div class="w-1/4 mr-4">
         <label class="block">Upload image :</label>
       </div>
       <div class="flex items-center ml-13">
-        <!-- <div class="flex justify-center max-w-42 max-h-36 text-nowrap"> -->
         <div
           id="image-preview-1"
           class="max-w-sm p-6 mb-4 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer mr-4 overflow-scroll-y"
@@ -70,7 +75,7 @@
             class="hidden"
             accept=".jpg,.png,.gif"
             multiple
-            @change="handleFileUpload($event)"
+            @change="handleFileUpload"
           />
           <label
             v-if="course.images.length == 0"
@@ -106,14 +111,13 @@
           <div v-for="(item, i) in course.images" :key="i">
             <span class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
           </div>
-          <!-- </div> -->
         </div>
       </div>
     </div>
 
     <div class="flex justify-center mt-10 ml-10">
       <button
-        @click="submitCourse"
+        @click="confirmSave"
         class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800"
       >
         Save
@@ -130,39 +134,46 @@
 </template>
 
 <script>
-import axios from "axios"; // เพิ่มการนำเข้า Axios
+// import configAxios from "@/axios/configAxios";
+// import course from "@/store/modules/course";
+// import axios from "axios";
+// import { update } from "lodash";
+import Swal from "sweetalert2";
 import { mapState } from "vuex";
 
 export default {
   data() {
     return {
       course: {
-        name: "",
+        courseName: "",
         price: "",
-        detail: "",
+        description: "",
         status: "",
         category: "",
         images: [],
-        // categoryOptions: ["toeic", "toefl"],
-        // newCategory: "",
       },
-      // showNewCategoryInput: false,
     };
-  },
-
-  watch: {
-    category(newVal) {
-      return newVal;
-    },
   },
 
   computed: {
     ...mapState({
-      category: (state) => state.category.names,
+      categories: (state) => state.category.names,
+      courseFromStore: (state) => state.course.selectedCourse,
     }),
+  },
+  watch: {
+    courseName(newVal) {
+      return newVal;
+    },
   },
 
   async mounted() {
+    const courseId = this.$route.params.id;
+    await this.$store.dispatch("course/getCourseById", courseId);
+    const courseData = this.courseFromStore;
+    if (courseData) {
+      this.course = { ...courseData };
+    }
     await this.$store.dispatch("category/getCategory");
   },
 
@@ -174,72 +185,41 @@ export default {
         this.showNewCategoryInput = false;
       }
     },
-    addNewCategory() {
-      if (this.newCategory.trim() === "") {
-        alert("Please enter a category name.");
-        return;
-      }
-      if (!this.course.categoryOptions.includes(this.newCategory)) {
-        this.course.categoryOptions.push(this.newCategory);
-      }
-      this.course.category = this.newCategory;
-      this.newCategory = "";
-    },
     handleFileUpload(event) {
-      console.log("Hello event", event);
-
       for (const item of event.target.files) {
         this.course.images.push(item);
       }
-      console.log("SSSS", this.course.images);
-
-      console.log("pppp", event.target.result);
-
-      const reader = new FileReader();
-      // reader.onload = (e) => {
-      //   const imagePreview = document.getElementById(`image-preview-${index}`);
-      //   imagePreview.innerHTML = `<img src="${event.target.files[0].name}" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
-      //   imagePreview.classList.remove("border-dashed", "border-2", "border-gray-400");
-      // };
-
-      reader.readAsDataURL(event.target.files[0]);
     },
-    submitCourse() {
-      if (
-        !this.course.name ||
-        !this.course.price ||
-        !this.course.detail ||
-        !this.course.status ||
-        !this.course.category ||
-        this.course.images.filter((image) => image).length === 0
-      ) {
-        alert("Please fill in all required fields");
-        return;
+    async confirmSave() {
+      const confirmResult = await Swal.fire({
+        title: "ยืนยันการแก้ไข",
+        text: "คุณแน่ใจหรือไม่ที่จะบันทึกการเปลี่ยนแปลง?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "ใช่",
+        cancelButtonText: "ไม่",
+      });
+
+      if (confirmResult.isConfirmed) {
+        const courseId = this.$route.params.id;
+        // course
+        const payload = {
+          id: courseId,
+          updateData: {
+            courseName: this.course?.courseName,
+            price: this.course?.price,
+            description: this.course?.description,
+            status: this.course?.status,
+            categoryId: this.course?.category,
+            images: this.course?.images,
+          },
+        };
+        await this.$store.dispatch("course/updateCourse", payload);
       }
+    },
 
-      // console.log("Course submission logic goes here");
-      this.$store.dispatch("course/addCourse", this.course);
-    },
-    uploadImage() {
-      axios
-        .post("addcourse/addCourse", formData)
-        .then((response) => {
-          console.log("Course added successfully", response);
-          // this.$store.dispatch("addCourse", response.data);
-        })
-        .catch((error) => {
-          console.error("Failed to add course", error);
-        });
-    },
     cancel() {
-      this.course = {
-        name: "",
-        price: "",
-        detail: "",
-        status: "",
-        category: "",
-        images: [],
-      };
+      this.$router.push({ name: "coursemanage" });
     },
   },
 };

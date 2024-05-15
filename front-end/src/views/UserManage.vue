@@ -190,7 +190,6 @@ export default {
           icon: 'success'
         })
       }
-      // await this.$store.dispatch("user/updateStatus", payload);
     },
     formatDate(date) {
       return new Date(date).toLocaleString();

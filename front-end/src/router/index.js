@@ -49,7 +49,13 @@ const routes =  [
         },
         {
           path: "/editcourse",
-          name: "editcourse",
+          name: "Editcourse",
+          component: () => import("../components/EditCourse.vue"),
+          meta: { requiresAuth: true },
+        },
+        {
+          path: '/editcourse/:id',
+          name: 'EditCourse',
           component: () => import("../components/EditCourse.vue"),
           meta: { requiresAuth: true },
         },
@@ -126,6 +132,7 @@ const isAuthenticated = () => {
   console.log("token",token);
   return token !== null && token !== undefined;
 };
+
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated()) {
