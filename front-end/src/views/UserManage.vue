@@ -86,11 +86,6 @@
         text-align: center;
       "
     >
-      <!-- <v-btn
-              :class="{ 'green-btn': item.active, 'red-btn': !item.active }"
-              @click="updateUser(item.id)"
-              >Click</v-btn
-            > -->
       <v-select
         :items="status"
         variant="underlined"
@@ -99,7 +94,6 @@
         @update:modelValue="updateUser(item)"
       >
       </v-select>
-      <!-- {{ item.active }} -->
     </td>
   </tr>
 </template>
@@ -123,31 +117,37 @@ export default {
         title: "CreatedAt",
         align: "start",
         value: "createdAt",
+        sortable: true,
       },
       {
         title: "First Name",
         align: "start",
         value: "fname",
+        sortable: true,
       },
       {
         title: "Last Name",
         align: "start",
         value: "lname",
+        sortable: true,
       },
       {
         title: "Email",
         align: "start",
         value: "email",
+        sortable: true,
       },
       {
         title: "Tel.",
         align: "start",
         value: "phone",
+        sortable: true,
       },
       {
         title: "Status",
         align: "center",
         value: "active",
+        sortable: true,
       },
     ],
     users: [],

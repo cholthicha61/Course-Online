@@ -79,6 +79,15 @@
         text-align: center;
         word-wrap: break-word;
       ">
+            {{ item.status }}
+          </td>
+          <td style="
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+        text-align: center;
+        word-wrap: break-word;
+      ">
             <v-select :items="courses.map((course) => course.priority)" variant="underlined" v-model="item.priority"
               return-object @update:modelValue="updatePriority(item)">
             </v-select>
@@ -115,12 +124,12 @@ export default {
     return {
       headers: [
         { title: "No.", align: "center", value: "id" },
-        { title: "Course Name", align: "start", value: "courseName" },
-        { title: "Category", align: "start", value: "category" },
-        { title: "Detail", align: "start", value: "description" },
-        { title: "Price", align: "start", value: "price" },
-        { title: "Piority", align: "center", value: "priority" },
-        // { title: "Type", align: "center", value: "priority" },
+        { title: "Course Name", align: "start", value: "courseName", sortable: true },
+        { title: "Category", align: "start", value: "category", sortable: true },
+        { title: "Detail", align: "start", value: "description", sortable: true },
+        { title: "Price", align: "start", value: "price", sortable: true },
+        { title: "Type", align: "center", value: "priority", sortable: true },
+        { title: "Piority", align: "center", value: "priority", sortable: true },
         { title: "Action", align: "center" },
       ],
       courses: [],
