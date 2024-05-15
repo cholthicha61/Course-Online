@@ -1,7 +1,8 @@
 export const RolesUser = {
   Admin: 'admin',
   User: 'user',
-}
+  Teacher: 'teacher',
+};
 
 export const UserInit = {
   fname: 'fAdmin',
@@ -10,4 +11,4 @@ export const UserInit = {
   email: 'emailAdmin@gmail.com',
   password: '!admin',
   roles: RolesUser.Admin,
-}
+};

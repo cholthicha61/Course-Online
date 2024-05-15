@@ -11,6 +11,8 @@ import { response } from 'express';
 import { FindAllUserDto } from './dto/find-all-dto';
 import { RolesUser, UserInit } from 'src/constant/init-user';
 import { Course } from 'src/course/entities/course.entity';
+import { CreateTeacherProfileDto } from './dto/create-teacher-profile.dto';
+import { Image } from 'src/image/entities/image.entity';
 
 @Injectable()
 export class UserService {
@@ -68,10 +70,9 @@ export class UserService {
     try {
       console.log('keyword', keyword);
 
-      const findAllUsers = await this.userRepository
-        .createQueryBuilder('user')
-        // .leftJoinAndSelect('user.favoriteCourses', 'favoriteCourses')
-        // .leftJoinAndSelect('user.orders', 'orders')
+      const findAllUsers = await this.userRepository.createQueryBuilder('user');
+      // .leftJoinAndSelect('user.favoriteCourses', 'favoriteCourses')
+      // .leftJoinAndSelect('user.orders', 'orders')
 
       if (keyword?.role == 'true') {
         findAllUsers.leftJoinAndSelect('user.roles', 'roles');
@@ -125,7 +126,7 @@ export class UserService {
         relations: {
           questions: true,
           roles: true,
-          favoriteCourses:true
+          favoriteCourses: true,
         },
       });
       if (!user) {
@@ -207,7 +208,6 @@ export class UserService {
         user.favoriteCourses.push(course);
         await this.userRepository.save(user);
       }
-      
     } catch (error) {
       throw new HttpException(
         'An error occurred while marking the course as favorite',
@@ -265,7 +265,7 @@ export class UserService {
         relations: ['favoriteCourses'],
       });
 
-      return users.map(user => {
+      return users.map((user) => {
         const { password, ...userWithoutPassword } = user;
         return userWithoutPassword;
       });
@@ -276,40 +276,27 @@ export class UserService {
       );
     }
   }
-  // async getAllCoursesWithFavoriteUsers(): Promise<any[]> {
-  //   try {
-  //     console.log('Executing getAllCoursesWithFavoriteUsers method');
-  //     const courses = await this.courseRepository.createQueryBuilder('course')
-  //       .leftJoinAndSelect('course.favoriteByUsers', 'user')
-  //       .select([
-  //         'course.id',
-  //         'course.title',
-  //         'course.description',
-  //         'user.id',
-  //         'user.fname',
-  //         'user.lname',
-  //         'user.email',
-  //       ])
-  //       .getMany();
-  
-  //     console.log('Courses retrieved:', courses);
-  
-  //     return courses.map(course => {
-  //       const { favoriteByUsers, ...courseWithoutUsers } = course;
-  //       return {
-  //         ...courseWithoutUsers,
-  //         favoriteByUsers: favoriteByUsers.map(user => {
-  //           const { password, ...userWithoutPassword } = user;
-  //           return userWithoutPassword;
-  //         }),
-  //       };
-  //     });
-  //   } catch (error) {
-  //     console.error('Error retrieving courses with favorite users:', error);
-  //     throw new HttpException(
-  //       'An error occurred while retrieving courses with favorite users',
-  //       HttpStatus.INTERNAL_SERVER_ERROR
-  //     );
-  //   }
-  // }
+  async createTeacherProfile(files: any[], createTeacherProfileDto: CreateTeacherProfileDto) {
+    try {
+      const findRole = await this.roleRepository.findOne({
+        where: {
+          name: RolesUser.Teacher,
+        },
+      });
+
+      const createTeacherProfile = this.userRepository.create({
+        userImage: files[0].filename,
+        fname: createTeacherProfileDto.fname,
+        lname: createTeacherProfileDto.lname,
+        phone: createTeacherProfileDto.phone,
+        email: createTeacherProfileDto.email,
+        desc: createTeacherProfileDto.desc,
+        roles: findRole,
+      });
+
+      return await this.userRepository.save(createTeacherProfile);
+    } catch (error) {
+      throw error;
+    }
+  }
 }

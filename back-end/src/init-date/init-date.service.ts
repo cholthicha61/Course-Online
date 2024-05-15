@@ -13,29 +13,29 @@ export class InitDateService {
     @InjectRepository(Role)
     private roleRepository: Repository<Role>
   ) {
-    this.initUser()
+    this.initUser();
   }
 
   async initUser() {
     try {
-      const roleUser = await this.roleRepository.count()
+      const roleUser = await this.roleRepository.count();
       if (roleUser == 0) {
         const createRoleAdmin = this.roleRepository.create({
-          name: RolesUser.Admin
-        })
-        await this.roleRepository.save(createRoleAdmin)
+          name: RolesUser.Admin,
+        });
+        await this.roleRepository.save(createRoleAdmin);
         const createRoleUser = this.roleRepository.create({
-          name: RolesUser.User
-        })
-        await this.roleRepository.save(createRoleUser)
+          name: RolesUser.User,
+        });
+        await this.roleRepository.save(createRoleUser);
       }
-      const user = await this.userRepository.count()
+      const user = await this.userRepository.count();
       if (user == 0) {
         const role = await this.roleRepository.findOne({
           where: {
-            name: RolesUser.Admin
-          }
-        })
+            name: RolesUser.Admin,
+          },
+        });
         const hashPass = new User();
         const createUser = this.userRepository.create({
           fname: UserInit.fname,
@@ -47,10 +47,8 @@ export class InitDateService {
         });
         await this.userRepository.save(createUser);
       }
-
     } catch (error) {
-      throw error
+      throw error;
     }
   }
-
 }

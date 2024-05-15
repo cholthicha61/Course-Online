@@ -5,7 +5,7 @@ import * as fs from 'fs';
 @Injectable()
 export class AppService {
   constructor() {
-    this.createFolder()
+    this.createFolder();
   }
   createFolder() {
     // check folder
