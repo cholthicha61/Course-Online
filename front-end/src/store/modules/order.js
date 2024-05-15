@@ -1,11 +1,13 @@
 import axios from "axios";
-import { ENDPOINT } from "../../constants/endpoint";
 import Swal from "sweetalert2";
+import { ENDPOINT } from "../../constants/endpoint";
+import configAxios from "@/axios/configAxios";
 
 const state = {
   orders: [],
   showConfirmationDialog: false,
   confirmedOrders: [],
+  order: [],
 };
 
 const mutations = {
@@ -22,6 +24,9 @@ const mutations = {
   },
   HIDE_CONFIRMATION_DIALOG: (state) => {
     state.showConfirmationDialog = false;
+  },
+  SET_ORDER: (state, payload) => {
+    state.order = payload;
   },
 };
 
@@ -59,31 +64,26 @@ const actions = {
   hideConfirmationDialog({ commit }) {
     commit("HIDE_CONFIRMATION_DIALOG");
   },
-
-  async createOrder({ commit }, orders) {
-    console.log("orders:", orders);
+  async createOrder({ commit }, payload) {
+    console.log("payload", payload);
     try {
       const url = `${ENDPOINT.ORDER}`;
-      const res = await axios(configAxios("post", url, orders));
-      console.log("url", url);
-      console.log("res", res);
-
+      const res = await axios(configAxios("post", url, payload));
       if (res.status == 201) {
         Swal.fire({
           icon: "success",
           title: "สั่งซื้อสำเร็จ",
-          text: "รอยืนยันการยืนยัน",
+          text: "",
           showConfirmButton: false,
           timer: 2000,
         });
-        location.reload();
       }
     } catch (error) {
       console.log("error  >>> ", error);
-      if (error.response.status == 400) {
+      if (error.response.status == 404) {
         Swal.fire({
           icon: "warning",
-          title: "ซื้อไม่สำเร็จ ลองใหม่อีกครั้ง",
+          title: "ไม่สามารถสั่งซื้อได้",
           text: "",
           showConfirmButton: false,
           timer: 2000,
