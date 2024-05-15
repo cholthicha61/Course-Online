@@ -106,7 +106,7 @@ export default {
 
       const payload = {
         courseId: this.course.id,
-        userID: this.userEmail.id,
+        userId: this.userEmail.id,
       };
       await this.$store.dispatch('order/createOrder', payload);
       this.setClose();

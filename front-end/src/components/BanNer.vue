@@ -1,33 +1,47 @@
 <template>
   <div class="w-full">
-      <v-row >
-        <v-col cols="12">
-          <v-carousel
-            show-arrows
-            interval="3000"
-            cycle
-            hide-delimiter-background
-          >
-            <template v-slot:prev="{ props }">
-              <v-btn color="light-blue-darken-3" variant="elevated" @click="props.onClick">
-                <
-              </v-btn>
-            </template>
-            <template v-slot:next="{ props }">
-              <v-btn color="light-blue-darken-3" variant="elevated" @click="props.onClick"
-                > > </v-btn
+    <v-row>
+      <v-col cols="12">
+        <v-carousel show-arrows interval="3000" cycle hide-delimiter-background>
+          <template v-slot:prev="{ props }">
+            <v-btn
+              color="light-blue-darken-3"
+              variant="elevated"
+              @click="props.onClick"
+            >
+              <
+            </v-btn>
+          </template>
+          <template v-slot:next="{ props }">
+            <v-btn
+              color=""
+              variant="elevated"
+              @click="props.onClick"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6"
               >
-            </template>
-            <v-carousel-item
-              v-for="(item, index) in images"
-              :key="index"
-              :src="item.src"
-              cover
-              @click="showSingleImage(index)"
-            ></v-carousel-item>
-          </v-carousel>
-        </v-col>
-      </v-row>
+                <path
+                  fill-rule="evenodd"
+                  d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </v-btn>
+          </template>
+          <v-carousel-item
+            v-for="(item, index) in images"
+            :key="index"
+            :src="item.src"
+            cover
+            @click="showSingleImage(index)"
+          ></v-carousel-item>
+        </v-carousel>
+      </v-col>
+    </v-row>
     <v-dialog v-model="dialog" persistent max-width="500">
       <v-btn
         icon

@@ -23,8 +23,7 @@
       <v-row class="justify-start" no-gutters>
         <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
           <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i" 
-            :setOpenModal="setOpenModal"/>
+            <CardCourse :course="i" :setOpenModal="setOpenModal" />
           </v-sheet>
         </v-col>
       </v-row>
@@ -33,13 +32,28 @@
       <h1>All course</h1>
     </v-container>
     <v-container>
-      <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
-          <div class="ma-3 rounded-border">
-            <CardCourse :course="i" :setOpenModal="setOpenModal" />
-          </div>
-        </v-col>
-      </v-row>
+      <div v-for="item in category">
+        <div v-if="item?.courses">
+          {{ item.name }}
+        </div>
+        <div>
+          <v-row class="justify-start" no-gutters>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+              lg="3"
+              xl="2"
+              v-for="course in item?.courses"
+              fixed
+            >
+              <div class="ma-3 rounded-border">
+                <CardCourse :course="course" :setOpenModal="setOpenModal" />
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+      </div>
     </v-container>
   </div>
 </template>
@@ -77,13 +91,16 @@ export default {
   computed: {
     ...mapState({
       course: (state) => state.course.course,
+      category: (state) => state.category.names,
     }),
   },
   async mounted() {
     await this.$store.dispatch("course/getCourse");
+    await this.$store.dispatch("category/getCategory");
+    console.log("categorycategorycategory", this.category);
+
     console.log("coursecoursecourse", this.course);
   },
-
 };
 </script>
 

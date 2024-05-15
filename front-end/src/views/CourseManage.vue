@@ -16,7 +16,7 @@
       >
       <!-- </router-link> -->
     </div>
-    <v-data-table-virtual :headers="headers" :items="course" height="700">
+    <v-data-table-virtual :headers="headers" :items="course" height="570">
 
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}

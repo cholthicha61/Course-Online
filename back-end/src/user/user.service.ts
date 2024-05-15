@@ -68,7 +68,11 @@ export class UserService {
     try {
       console.log('keyword', keyword);
 
-      const findAllUsers = await this.userRepository.createQueryBuilder('user');
+      const findAllUsers = await this.userRepository
+        .createQueryBuilder('user')
+        // .leftJoinAndSelect('user.favoriteCourses', 'favoriteCourses')
+        // .leftJoinAndSelect('user.orders', 'orders')
+
       if (keyword?.role == 'true') {
         findAllUsers.leftJoinAndSelect('user.roles', 'roles');
       }

@@ -26,7 +26,7 @@
       <v-card-btn class="card-button pa-2 d-flex justify-between">
         <v-btn value="favorites">
           <!-- <v-icon>mdi-heart</v-icon> -->
-          <span>icon</span>
+          <span></span>
         </v-btn>
         <v-btn
           class="buy-button text-whit font-weight-regular mb-5"
