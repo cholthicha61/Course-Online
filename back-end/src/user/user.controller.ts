@@ -103,4 +103,34 @@ export class UserController {
     return course;
   }
 
+  @UseGuards(AuthGuard)
+  @Post('favorite/:userId/courses/:courseId')
+  async markCourseAsFavorite(
+    @Param('userId') userId: number,
+    @Param('courseId') courseId: number
+  ) {
+    return await this.userService.markCourseAsFavorite(userId, courseId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('favorite/:userId/courses/:courseId')
+  async unmarkCourseAsFavorite(
+    @Param('userId') userId: number,
+    @Param('courseId') courseId: number
+  ): Promise<void> {
+    return this.userService.unmarkCourseAsFavorite(userId, courseId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('favorite/:userId/courses')
+  async getFavoriteCourses(@Param('userId') userId: number) {
+    return await this.userService.getFavoriteCourses(userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('all/favorite-courses')
+  async getAllUsersWithFavoriteCourses() {
+    return await this.userService.getAllUsersWithFavoriteCourses();
+  }
+
 }

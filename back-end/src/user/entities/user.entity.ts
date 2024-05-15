@@ -1,10 +1,11 @@
 import { BaseEntity } from 'src/entity/base.entity';
 import { Role } from 'src/role/entities/role.entity';
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Order } from "src/order/entities/order.entity";
 import { Question } from "src/question/entities/question.entity";
 import { Image } from 'src/image/entities/image.entity';
+import { Course } from 'src/course/entities/course.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -50,4 +51,11 @@ export class User extends BaseEntity {
   @Column({ name: 'user_image', nullable: true })
   userImage: string;
 
+  @ManyToMany(() => Course, course => course.favoriteByUsers)
+  @JoinTable({
+    name: 'user_favorite_courses',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'fav_course_id', referencedColumnName: 'id' },
+  })
+  favoriteCourses: Course[];
 }

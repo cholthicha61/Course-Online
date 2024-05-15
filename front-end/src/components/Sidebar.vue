@@ -11,16 +11,16 @@
       >
         Course-online
       </div>
-      <div class="mt-8"> 
+      <div class="mt-8">
         <img
-        src="https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Editor.png"
-        v-show="!dataOpenSideBar"
-        class="2 p-1 w-8 h-8 rounded-full ring-2 ring-gray-100 dark:ring-gray-500"
-        alt="Avatar"
-      />
+          src="https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Editor.png"
+          v-show="!dataOpenSideBar"
+          class="2 p-1 w-8 h-8 rounded-full ring-2 ring-gray-100 dark:ring-gray-500"
+          alt="Avatar"
+        />
       </div>
     </div>
-    <div class="flex flex-col justify-between h-[calc(100vh-3rem)] bg-sky-600">
+    <div class="flex flex-col justify-between h-[calc(100vh-3rem)] bg-sky-600 ">
       <div class="menu-man text-left px-2 whitespace-nowrap">
         <div class="profile flex justify-center items-center text-center p-5">
           <div class="text-center text-white" v-show="dataOpenSideBar">
@@ -38,15 +38,16 @@
             <p class="text-white">Admin</p>
           </div>
         </div>
-        <div @click="$router.push('/Dashboard')"
+        <div
+          @click="$router.push('/Dashboard')"
           class="hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300 px-1"
         >
-          <div class="px-2 flex space-x-2 "
-            ><span v-tooltip.right="'Home'"></span>
+          <div class="px-2 flex space-x-2">
+            <span v-tooltip.right="'Home'"></span>
             <span class="absolute bottom left-9 px-4" v-show="dataOpenSideBar"
               >Home</span
-            ></div
-          >
+            >
+          </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -61,7 +62,8 @@
             />
           </svg>
         </div>
-        <div @click="$router.push('/Inbox')"
+        <div
+          @click="$router.push('/Inbox')"
           class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
           <router-link to="/Inbox" class="px-2 flex space-x-2"
@@ -84,7 +86,8 @@
             />
           </svg>
         </div>
-        <div @click="$router.push('/coursemanage')"
+        <div
+          @click="$router.push('/coursemanage')"
           class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
           <router-link to="/coursemanage" class="px-2 flex space-x-2"
@@ -104,7 +107,8 @@
             />
           </svg>
         </div>
-        <div @click="$router.push('/usermanage')"
+        <div
+          @click="$router.push('/usermanage')"
           class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
           <router-link to="/usermanage" class="px-2 flex space-x-2"
@@ -124,7 +128,8 @@
             />
           </svg>
         </div>
-        <div @click="$router.push('/category')"
+        <div
+          @click="$router.push('/category')"
           class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
         >
           <router-link to="/category" class="px-2 flex space-x-2"
@@ -143,6 +148,29 @@
             <path
               fill-rule="evenodd"
               d="M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 3.75a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div
+          @click="$router.push('/teacherprofile')"
+          class="px-1 hover:bg-sky-400 hover:text-sky-800 py-3 rounded-md cursor-pointer text-gray-300"
+        >
+          <router-link to="/teacherprofile" class="px-2 flex space-x-2"
+            ><span class="" v-tooltip.right="'teacherprofile'"></span>
+            <span class="absolute bottom left-9 px-4" v-show="dataOpenSideBar"
+              >Edit Profile
+            </span></router-link
+          >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
               clip-rule="evenodd"
             />
           </svg>
@@ -178,7 +206,7 @@ export default {
 }
 #side-bar {
   transition: 400ms;
-} 
+}
 .side-bar-close {
   width: 50px !important;
 }

@@ -8,6 +8,7 @@ import { UserService } from 'src/user/user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Role } from 'src/role/entities/role.entity';
+import { Course } from 'src/course/entities/course.entity';
 
 @Module({
   controllers: [AuthController],
@@ -19,7 +20,7 @@ import { Role } from 'src/role/entities/role.entity';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '30d' },
     }),
-    TypeOrmModule.forFeature([User,Role]),
+    TypeOrmModule.forFeature([User,Role,Course]),
   ],
 })
 export class AuthModule {}

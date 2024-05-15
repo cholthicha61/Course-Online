@@ -1,13 +1,18 @@
 <template lang="">
+  <ConfirmCourse
+    :openModal="openModal"
+    :course="itemCourse"
+    :setCloseModal="setCloseModal"
+  />
   <div>
     <div>
       <v-container class="flex justify-end">
-      <input
-        type="text"
-        placeholder="Search"
-        class="search-input w-64 px-4 py-2 border border-gray-300 rounded-full bg-white text-base text-gray-700"
-      />
-    </v-container>
+        <input
+          type="text"
+          placeholder="Search"
+          class="search-input w-64 px-4 py-2 border border-gray-300 rounded-full bg-white text-base text-gray-700"
+        />
+      </v-container>
     </div>
     <v-container class="head-course">
       <h1 class="mt-10">Recommended course</h1>
@@ -16,9 +21,9 @@
   <div>
     <v-container>
       <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in data" fixed>
+        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
           <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i"/>
+            <CardCourse :course="i" :setOpenModal="setOpenModal" />
           </v-sheet>
         </v-col>
       </v-row>
@@ -27,13 +32,28 @@
       <h1>All course</h1>
     </v-container>
     <v-container>
-      <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
-          <div class="ma-3 rounded-border">
-            <CardCourse :course="i"/>
-          </div>
-        </v-col>
-      </v-row>
+      <div v-for="item in category">
+        <div v-if="item?.courses">
+          {{ item.name }}
+        </div>
+        <div>
+          <v-row class="justify-start" no-gutters>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+              lg="3"
+              xl="2"
+              v-for="course in item?.courses"
+              fixed
+            >
+              <div class="ma-3 rounded-border">
+                <CardCourse :course="course" :setOpenModal="setOpenModal" />
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+      </div>
     </v-container>
   </div>
 </template>
@@ -41,37 +61,50 @@
 <script>
 import CardCourse from "@/components/CardCourse.vue";
 import { mapState } from "vuex";
+import ConfirmCourse from "@/views/ConfirmCourse.vue";
+
+// import { TYPE_COURSE } from "@/constants/type-course";
 export default {
   components: {
     CardCourse,
+    ConfirmCourse,
   },
   data() {
     return {
-      data: [1, 2, 3],
+      openModal: false,
+      itemCourse: {},
+
+      // data: [1, 2, 3],
       // course: [1, 2, 3, 4, 5],
     };
   },
+  methods: {
+    setOpenModal(item) {
+      this.itemCourse = item;
+      this.openModal = true;
+    },
+
+    setCloseModal() {
+      this.openModal = false;
+    },
+  },
   computed: {
-  ...mapState({
-    course: (state) => state.course.course,
+    ...mapState({
+      course: (state) => state.course.course,
+      category: (state) => state.category.names,
     }),
   },
   async mounted() {
-    await this.$store.dispatch('course/getCourse')
-    console.log('coursecoursecourse', this.course);
-  }
-  // computed: {
-  //   courseList() {
-  //     if(this.searchValue.trim().lenght > 0) {
-  //       return this.users.filter((course) => course.Name == this.searchValue.trim())
-  //     }
-  //     return this.course
-  //   }
-  // }
+    await this.$store.dispatch("course/getCourse");
+    await this.$store.dispatch("category/getCategory");
+    console.log("categorycategorycategory", this.category);
+
+    console.log("coursecoursecourse", this.course);
+  },
 };
 </script>
 
-<style scoped>
+<style>
 .head-course h1 {
   font-size: 30px;
   color: black;
@@ -80,5 +113,12 @@ export default {
 }
 .rounded-border {
   border-radius: 20px;
+}
+.buy-button {
+  background-color: #098ad0;
+  color: #fff;
+}
+.buy-button:hover {
+  background-color: #045190;
 }
 </style>

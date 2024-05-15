@@ -7,6 +7,7 @@ import user from './modules/user'
 import inbox from './modules/inbox'
 import category from './modules/category'
 import course from './modules/course'
+import order from './modules/order'
 
 
 export default createStore({
@@ -24,7 +25,8 @@ export default createStore({
     user,
     inbox,
     category,
-    course
+    course,
+    order,
   }
 })
 

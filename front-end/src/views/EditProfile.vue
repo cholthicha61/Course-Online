@@ -3,7 +3,7 @@
     <h2 class="text-3xl font-bold text-center m-9 ">Edit Profile</h2>
 
     <div
-      class="flex items-center flex flex-col w-full px-96 py-3 border-gray-200 rounded-lg"
+      class="flex items-center flex-col w-full px-96 py-3 border-gray-200 rounded-lg"
     >
       <div class="flex flex-col mb-4">
         <label class="mb-2 text-gray-700">Firstname</label>
@@ -33,7 +33,7 @@
         />
       </div>
 
-      <div class="flex flex-col mb-4">
+      <div class="flex flex-col mb-4 ">
         <label class="mb-2 text-gray-700">Phone</label>
         <input
           type="tel"
@@ -41,12 +41,15 @@
           v-model="user.phone"
         />
       </div>
+     <div class="mt-8"> 
       <button
         @click="updateUser()"
-        class="w-96 bg-sky-600 text-white font-bold py-2 px-4 rounded-md hover:bg-sky-800"
+        class="w-96  bg-sky-600 text-white font-bold py-2 px-10 rounded-md hover:bg-sky-800"
       >
         Save
       </button>
+      
+     </div>
     </div>
   </div>
 </template>
@@ -73,13 +76,6 @@ export default {
   methods: {
     
     async updateUser() {
-      // this.payload = {
-      //   fname: this.user.fname,
-      //   lname: this.user.lname,
-      //   email: this.user.email,
-      //   phone: this.user.phone,
-      // };
-      // console.log("userId :", userId);
       console.log("this.payload :", this.user);
 
       await this.$store.dispatch("user/updateUser", {
@@ -93,7 +89,6 @@ export default {
   mounted() {
     this.user = JSON.parse(localStorage.getItem('user'))
     console.log('user', this.user);
-
   },
 };
 </script>

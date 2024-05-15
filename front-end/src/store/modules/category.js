@@ -55,19 +55,7 @@ const actions = {
     } catch (error) {
       console.log('error', error);
     }
-    // if (!_.isEmpty(payload)) {
-    //   if (payload?.category) {
-    //     url = `${url}?category=${payload?.category}`;
-    //   }
-    //   try {
-    //     const res = await axios(configAxios("get", url));
-    //     if (res.status == 200) {
-    //       console.log('res cate?', res);
-    //       commit("SET_NAMES", res.data);
-    //     }
-    //   } catch (error) {}
-    // }
-    // console.log("payload", payload);
+
   },
   async deleteCategory({ commit }, categoryId) {
     try {
