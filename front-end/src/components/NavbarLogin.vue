@@ -1,7 +1,7 @@
 <template>
   <nav class=" px-5 flex items-center justify-end text-lg bg-sky-200">
-    <div class="menu-item "><a href="/home">Home</a></div>
-    <div class="menu-item "><a href="/allcourse">All Course</a></div>
+    <div @click="$router.push('/home')" class="menu-item "><a >Home</a></div>
+    <div @click="$router.push('/allcourse')" class="menu-item "><a >All Course</a></div>
 
     <DropdownLogin
       class="hover:text-sky-800 px-4"
@@ -9,6 +9,7 @@
       :items="services"
       style="z-index: 99"
     />
+
   </nav>
 </template>
 

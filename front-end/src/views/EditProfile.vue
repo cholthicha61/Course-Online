@@ -73,13 +73,6 @@ export default {
   methods: {
     
     async updateUser() {
-      // this.payload = {
-      //   fname: this.user.fname,
-      //   lname: this.user.lname,
-      //   email: this.user.email,
-      //   phone: this.user.phone,
-      // };
-      // console.log("userId :", userId);
       console.log("this.payload :", this.user);
 
       await this.$store.dispatch("user/updateUser", {
@@ -93,7 +86,6 @@ export default {
   mounted() {
     this.user = JSON.parse(localStorage.getItem('user'))
     console.log('user', this.user);
-
   },
 };
 </script>
