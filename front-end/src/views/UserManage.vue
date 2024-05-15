@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="mt-9">
-    <v-data-table-virtual :headers="headers" :items="users" height="560">
+    <v-data-table-virtual :headers="headers" :items="users" >
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
@@ -80,9 +80,9 @@
     </td>
     <td
       style="
-        width: 150px;
-        min-width: 150px;
-        max-width: 150px;
+        width: 50px;
+        min-width: 50px;
+        max-width: 50px;
         text-align: center;
       "
     >
@@ -210,15 +210,5 @@ export default {
   color: rgb(11, 94, 188);
   border-bottom: 1px solid #d9d9d9;
   font-style: italic;
-}
-
-.green-btn {
-  background-color: green;
-  color: white;
-}
-
-.red-btn {
-  background-color: red;
-  color: white;
 }
 </style>
