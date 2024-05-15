@@ -103,12 +103,7 @@ export default {
       this.dialog = false;
     },
     async createOrder() {
-      // const payload = {
-      //   courseName: this.course.courseName,
-      //   price: this.course.price,
-      //   description: this.course.description,
-      //   email: this.userEmail.email,
-      // };
+
       const payload = {
         courseId: this.course.id,
         userID: this.userEmail.id,
@@ -116,14 +111,18 @@ export default {
       await this.$store.dispatch('order/createOrder', payload);
       this.setClose();
       console.log("payload : ",payload);
+      
     },
   },
   mounted() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      this.userEmail.email = user.email;
-      this.userEmail.id = user.id;
-    }
-  },
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log("User from localStorage:", user);
+  if (user) {
+    this.userEmail.email = user.email;
+    this.userEmail.id = user.id;
+    console.log("userEmail after setting:", this.userEmail);
+  }
+}
+
 };
 </script>

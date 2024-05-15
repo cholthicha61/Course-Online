@@ -71,11 +71,13 @@ const actions = {
       const res = await axios(configAxios("post", url, payload));
       if (res.status == 201) {
         Swal.fire({
-          icon: "success",
-          title: "สั่งซื้อสำเร็จ",
+          title: "คุณต้องการซื้อคอร์สนี้หรือไม่",
           text: "",
-          showConfirmButton: false,
-          timer: 2000,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "ยืนยันการซื้อคอร์ส",
         });
       }
     } catch (error) {
