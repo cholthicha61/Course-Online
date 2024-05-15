@@ -10,6 +10,8 @@ import { Role } from 'src/role/entities/role.entity';
 import { response } from 'express';
 import { FindAllUserDto } from './dto/find-all-dto';
 import { RolesUser, UserInit } from 'src/constant/init-user';
+import { Image } from 'src/image/entities/image.entity';
+import { CreateTeacherProfileDto } from './dto/create-teacher-profile.dto';
 
 @Injectable()
 export class UserService {
@@ -175,6 +177,30 @@ export class UserService {
       const { password, ...response } = updatedUser;
       return response;
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async createTeacherProfile(files: any[], createTeacherProfileDto: CreateTeacherProfileDto){
+    try{
+      const findRole = await this.roleRepository.findOne({
+        where: {
+          name: RolesUser.Teacher,
+        },
+      });
+
+      const createTeacherProfile = this.userRepository.create({
+        userImage: files[0].filename,
+        fname: createTeacherProfileDto.fname,
+        lname: createTeacherProfileDto.lname,
+        phone: createTeacherProfileDto.phone,
+        email: createTeacherProfileDto.email,
+        desc: createTeacherProfileDto.desc,
+        roles: findRole,
+      });
+
+      return await this.userRepository.save(createTeacherProfile);
+    } catch (error){
       throw error;
     }
   }

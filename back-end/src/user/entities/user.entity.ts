@@ -4,6 +4,7 @@ import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGe
 import * as bcrypt from 'bcrypt';
 import { Order } from "src/order/entities/order.entity";
 import { Question } from "src/question/entities/question.entity";
+import { Image } from 'src/image/entities/image.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -19,7 +20,7 @@ export class User extends BaseEntity {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @Column({ default: true })
@@ -37,7 +38,16 @@ export class User extends BaseEntity {
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   orders: Order[];
 
-  @OneToMany(() => Question, (question) => question.user, {cascade:true})
+  @OneToMany(() => Question, (question) => question.user, { cascade: true })
   questions: Question[];
+
+  @Column({ nullable: true })
+  desc: string;
+
+  @OneToMany(() => Image, (image) => image.user, { cascade: true })
+  images: Image[];
+
+  @Column({ name: 'user_image', nullable: true })
+  userImage: string;
 
 }
