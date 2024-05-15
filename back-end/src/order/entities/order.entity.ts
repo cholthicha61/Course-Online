@@ -8,10 +8,10 @@ export class Order extends BaseEntity {
   @Column({ nullable: true })
   status: string;
 
-  @Column()
+  @Column({ nullable: true })
   startdate: string;
 
-  @Column()
+  @Column({ nullable: true })
   enddate: string;
 
   @ManyToOne(() => User, (user) => user.id)

@@ -7,13 +7,13 @@ export class CreateCourseDto {
   courseImage?: string;
   description?: string;
 
-    @IsNotEmpty()
-    // @IsNumber()
-    price?: number;
+  @IsNotEmpty()
+  // @IsNumber()
+  price?: number;
 
-    status?: boolean;
-    // @IsNumber()
-    priority?: number;
+  status?: string;
+  // @IsNumber()
+  priority?: number;
 
-    categoryId?: number;
+  categoryId?: number;
 }
