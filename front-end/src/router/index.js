@@ -118,7 +118,12 @@ const routes =  [
           component: () => import("../views/EditProfile.vue"),
           meta: { requiresAuth: true },
         },
-        
+        {
+        path: "/datailcourse",
+          name: "datailcourse",
+          component: () => import("../views/DatailCourse.vue"),
+          meta: { requiresAuth: true },
+        },
       ],
     },
     {
