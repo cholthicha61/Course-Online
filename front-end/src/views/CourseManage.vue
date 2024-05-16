@@ -1,4 +1,4 @@
-<template>
+<template lang="">
   <div class="px-8 mt-8">
     <div class="head-course">
       <h1>Manage Course</h1>
