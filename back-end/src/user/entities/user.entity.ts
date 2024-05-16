@@ -11,10 +11,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Order } from 'src/order/entities/order.entity';
-import { Question } from 'src/question/entities/question.entity';
-import { Course } from 'src/course/entities/course.entity';
+import { Order } from "src/order/entities/order.entity";
+import { Question } from "src/question/entities/question.entity";
 import { Image } from 'src/image/entities/image.entity';
+import { Course } from 'src/course/entities/course.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
