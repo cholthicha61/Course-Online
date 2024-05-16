@@ -5,28 +5,20 @@
     </div>
   </div>
   <div>
-    <div class="add-category-btn">
-      <AddCategory  />
+    <div class="add-category-btn" style="display: flex; justify-content: flex-end; margin-top: 15px;">
+      <AddCategory />
     </div>
 
-    
-      <EditCategory v-if="isEditCategory" :isEditCategory="isEditCategory" :selectCategory="selectCategory" :onCloseEdit="onCloseEdit"/>
- 
-    <v-data-table-virtual
-      :headers="headers"
-      :items="names"
-      height="400"
-      item-value="name"
-    >
+
+    <EditCategory v-if="isEditCategory" :isEditCategory="isEditCategory" :selectCategory="selectCategory"
+      :onCloseEdit="onCloseEdit" />
+
+    <v-data-table-virtual :headers="headers" :items="names" height="400" item-value="name">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
       <template v-slot:[`item.update`]="{ item }">
-        <v-btn
-          color="blue"
-          @click="updateCategory(item)"
-          style="margin-right: 8px"
-        >
+        <v-btn color="blue" @click="updateCategory(item)" style="margin-right: 8px">
           Edit
         </v-btn>
       </template>
@@ -93,7 +85,7 @@ export default {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!"
-      }).then(async(result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("category/deleteCategory", categoryId);
         }
@@ -104,7 +96,7 @@ export default {
       this.isEditCategory = true;
       this.selectCategory = item
     },
-    onCloseEdit(isClose){
+    onCloseEdit(isClose) {
       this.isEditCategory = false;
     }
   },
@@ -117,7 +109,8 @@ export default {
   border-bottom: 1px solid #d9d9d9;
   font-style: italic;
 }
-.add-category-btn {
+
+/* .add-category-btn {
   margin-left: 1225px;
-}
+} */
 </style>
