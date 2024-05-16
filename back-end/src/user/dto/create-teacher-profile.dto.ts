@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateTeacherProfileDto {
-    //edit update too
+
     @IsNotEmpty()
     @IsString()
     fname?: string;
@@ -17,7 +17,7 @@ export class CreateTeacherProfileDto {
     @IsNotEmpty()
     @IsString()
     email?: string;
-    
+
     userImage?: string;
 
     @IsString()

@@ -13,6 +13,7 @@ import { RolesUser, UserInit } from 'src/constant/init-user';
 import { Image } from 'src/image/entities/image.entity';
 import { CreateTeacherProfileDto } from './dto/create-teacher-profile.dto';
 import { Course } from 'src/course/entities/course.entity';
+import { UpdateTeacherDto } from './dto/update-teacher.dto';
 
 @Injectable()
 export class UserService {
@@ -23,7 +24,7 @@ export class UserService {
     private roleRepository: Repository<Role>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>
-  ) {}
+  ) { }
   async create(createUserDto: CreateUserDto) {
     try {
       const findByEmail = await this.userRepository.findOne({
@@ -72,8 +73,8 @@ export class UserService {
 
       const findAllUsers = await this.userRepository
         .createQueryBuilder('user')
-        // .leftJoinAndSelect('user.favoriteCourses', 'favoriteCourses')
-        // .leftJoinAndSelect('user.orders', 'orders')
+      // .leftJoinAndSelect('user.favoriteCourses', 'favoriteCourses')
+      // .leftJoinAndSelect('user.orders', 'orders')
 
       if (keyword?.role == 'true') {
         findAllUsers.leftJoinAndSelect('user.roles', 'roles');
@@ -127,7 +128,7 @@ export class UserService {
         relations: {
           questions: true,
           roles: true,
-          favoriteCourses:true
+          favoriteCourses: true
         },
       });
       if (!user) {
@@ -190,29 +191,31 @@ export class UserService {
     }
   }
 
-  async createTeacherProfile(files: any[], createTeacherProfileDto: CreateTeacherProfileDto){
-    try{
-      const findRole = await this.roleRepository.findOne({
-        where: {
-          name: RolesUser.Teacher,
-        },
-      });
+  async updateTeacherProfile(file, updateTeacherDto: UpdateTeacherDto) {
+    try {
+      const teacher = await this.userRepository.createQueryBuilder('user')
+        .leftJoinAndSelect('user.roles', 'roles')
+        .where('roles.name = :roleName', { roleName: RolesUser.Teacher })
+        .getOne();
+      if (!teacher) {
+        throw new HttpException('Teacher not found', HttpStatus.NOT_FOUND);
+      }
 
-      const createTeacherProfile = this.userRepository.create({
-        userImage: files[0].filename,
-        fname: createTeacherProfileDto.fname,
-        lname: createTeacherProfileDto.lname,
-        phone: createTeacherProfileDto.phone,
-        email: createTeacherProfileDto.email,
-        desc: createTeacherProfileDto.desc,
-        roles: findRole,
-      });
+        teacher.userImage = file.filename;
+        teacher.fname = updateTeacherDto.fname;
+        teacher.lname = updateTeacherDto.lname;
+        teacher.phone = updateTeacherDto.phone;
+        teacher.email = updateTeacherDto.email;
+        teacher.desc = updateTeacherDto.desc;
 
-      return await this.userRepository.save(createTeacherProfile);
-    } catch (error){
+      const updateTeacher = await this.userRepository.save(teacher);
+
+      return updateTeacher;
+    } catch (error) {
       throw error;
     }
   }
+
   async markCourseAsFavorite(userId: number, courseId: number): Promise<void> {
     try {
       const user = await this.userRepository.findOne({
@@ -233,7 +236,7 @@ export class UserService {
         user.favoriteCourses.push(course);
         await this.userRepository.save(user);
       }
-      
+
     } catch (error) {
       throw new HttpException(
         'An error occurred while marking the course as favorite',
