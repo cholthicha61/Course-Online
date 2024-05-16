@@ -1,26 +1,25 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateTeacherProfileDto {
 
-    @IsNotEmpty()
-    @IsString()
-    fname?: string;
+  @IsNotEmpty()
+  @IsString()
+  fname?: string;
 
-    @IsNotEmpty()
-    @IsString()
-    lname?: string;
+  @IsNotEmpty()
+  @IsString()
+  lname?: string;
 
-    @IsNotEmpty()
-    @IsString()
-    phone?: string;
+  @IsNotEmpty()
+  @IsString()
+  phone?: string;
 
-    @IsNotEmpty()
-    @IsString()
-    email?: string;
+  @IsNotEmpty()
+  @IsString()
+  email?: string;
 
-    userImage?: string;
+  userImage?: string;
 
-    @IsString()
-    desc?: string;
-
+  @IsString()
+  desc?: string;
 }

@@ -20,7 +20,7 @@ import { Course } from 'src/course/entities/course.entity';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '30d' },
     }),
-    TypeOrmModule.forFeature([User,Role,Course]),
+    TypeOrmModule.forFeature([User, Role, Course]),
   ],
 })
 export class AuthModule {}

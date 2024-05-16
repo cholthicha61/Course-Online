@@ -236,7 +236,6 @@ export class UserService {
         user.favoriteCourses.push(course);
         await this.userRepository.save(user);
       }
-
     } catch (error) {
       throw new HttpException(
         'An error occurred while marking the course as favorite',
@@ -294,7 +293,7 @@ export class UserService {
         relations: ['favoriteCourses'],
       });
 
-      return users.map(user => {
+      return users.map((user) => {
         const { password, ...userWithoutPassword } = user;
         return userWithoutPassword;
       });

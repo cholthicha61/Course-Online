@@ -1,8 +1,8 @@
 export const RolesUser = {
   Admin: 'admin',
   User: 'user',
-  Teacher: 'teacher'
-}
+  Teacher: 'teacher',
+};
 
 export const UserInit = [
   {

@@ -16,11 +16,11 @@ import { UpdateTeacherDto } from './dto/update-teacher.dto';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    console.log("createUserDto >>>", createUserDto);
+    console.log('createUserDto >>>', createUserDto);
     return await this.userService.create(createUserDto);
   }
 

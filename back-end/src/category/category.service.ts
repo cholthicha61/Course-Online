@@ -34,7 +34,7 @@ export class CategoryService {
 
       const findAllCategory = this.categoryRepository
         .createQueryBuilder('category')
-        .leftJoinAndSelect('category.courses', 'courses')
+        .leftJoinAndSelect('category.courses', 'courses');
 
       findAllCategory.where('1=1');
       if (keyword?.name) {
@@ -47,7 +47,7 @@ export class CategoryService {
         findAllCategory.orderBy('category.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`);
       }
       if (keyword?.limit) {
-        findAllCategory.take(+keyword?.limit)
+        findAllCategory.take(+keyword?.limit);
       }
 
       return await findAllCategory.getMany();
@@ -63,7 +63,7 @@ export class CategoryService {
         .leftJoinAndSelect('category.courses', 'courses')
         .where('category.id = :id', { id })
         .getOne();
-        
+
       if (!category) {
         throw new NotFoundException(`Category with ID ${id} not found`);
       }

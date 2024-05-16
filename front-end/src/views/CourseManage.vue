@@ -17,39 +17,43 @@
       <!-- </router-link> -->
     </div>
     <v-data-table-virtual :headers="headers" :items="course" height="570">
-
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
 
-
-      <template #item="{ item ,index}">
+      <template #item="{ item, index }">
         <tr :key="item.coursename">
-          <td style="
-        width: 150px;
-        min-width: 150px;
-        max-width: 150px;
-        text-align: center;
-        word-wrap: break-word;
-      ">
+          <td
+            style="
+              width: 150px;
+              min-width: 150px;
+              max-width: 150px;
+              text-align: center;
+              word-wrap: break-word;
+            "
+          >
             {{ index + 1 }}
           </td>
-          <td style="
-        width: 300px;
-        min-width: 300px;
-        max-width: 300px;
-        text-align: start;
-        word-wrap: break-word;
-      ">
+          <td
+            style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            "
+          >
             {{ item.courseName }}
           </td>
-          <td style="
-        width: 300px;
-        min-width: 300px;
-        max-width: 300px;
-        text-align: start;
-        word-wrap: break-word;
-      ">
+          <td
+            style="
+              width: 300px;
+              min-width: 300px;
+              max-width: 300px;
+              text-align: start;
+              word-wrap: break-word;
+            "
+          >
             <!-- <v-select :items="categorys" v-model="item.categoryId" variant="underlined" return-object
               @update:modelValue="updateUser(item)">
               {{ item.category }}
@@ -59,59 +63,78 @@
             </v-select> -->
             {{ item.categorys.name }}
           </td>
-          <td style="
-        width: 400px;
-        min-width: 400px;
-        max-width: 400px;
-        text-align: start;
-        word-wrap: break-word;
-      ">
+          <td
+            style="
+              width: 400px;
+              min-width: 400px;
+              max-width: 400px;
+              text-align: start;
+              word-wrap: break-word;
+            "
+          >
             {{ item.description }}
           </td>
-          <td style="
-        width: 200px;
-        min-width: 200px;
-        max-width: 200px;
-        text-align: start;
-        word-wrap: break-word;
-      ">
+          <td
+            style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: start;
+              word-wrap: break-word;
+            "
+          >
             {{ item.price }}
           </td>
-          <td style="
-        width: 200px;
-        min-width: 200px;
-        max-width: 200px;
-        text-align: center;
-        word-wrap: break-word;
-      ">
+          <td
+            style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: center;
+              word-wrap: break-word;
+            "
+          >
             {{ item.status }}
           </td>
-          <td style="
-        width: 100px;
-        min-width: 100px;
-        max-width: 100px;
-        text-align: center;
-        word-wrap: break-word;
-      ">
-            <v-select :items="courses.map((course) => course.priority)" variant="underlined" v-model="item.priority"
-              return-object @update:modelValue="updatePriority(item)">
+          <td
+            style="
+              width: 100px;
+              min-width: 100px;
+              max-width: 100px;
+              text-align: center;
+              word-wrap: break-word;
+            "
+          >
+            <v-select
+              :items="courses.map((course) => course.priority)"
+              variant="underlined"
+              v-model="item.priority"
+              return-object
+              @update:modelValue="updatePriority(item)"
+            >
             </v-select>
             <!-- <v-select :items="priorityItems" variant="underlined" v-model="item.priority" return-object
               @update:modelValue="handleUpdate">
             </v-select> -->
 
-
             <!-- {{ item.priority }} -->
           </td>
-          <td style="
-        width: 200px;
-        min-width: 200px;
-        max-width: 200px;
-        text-align: center;
-        word-wrap: break-word;
-      ">
-            <v-btn color="warning" @click="EditCourse()" style="margin-right: 8px">
-              edit</v-btn>
+          <td
+            style="
+              width: 200px;
+              min-width: 200px;
+              max-width: 200px;
+              text-align: center;
+              word-wrap: break-word;
+            "
+          >
+            <v-btn
+              color="warning"
+              @click="EditCourse()"
+              style="margin-right: 8px"
+            >
+              edit</v-btn
+            >
             <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
@@ -129,12 +152,32 @@ export default {
     return {
       headers: [
         { title: "No.", align: "center", value: "id" },
-        { title: "Course Name", align: "start", value: "courseName", sortable: true },
-        { title: "Category", align: "start", value: "category", sortable: true },
-        { title: "Detail", align: "start", value: "description", sortable: true },
+        {
+          title: "Course Name",
+          align: "start",
+          value: "courseName",
+          sortable: true,
+        },
+        {
+          title: "Category",
+          align: "start",
+          value: "category",
+          sortable: true,
+        },
+        {
+          title: "Detail",
+          align: "start",
+          value: "description",
+          sortable: true,
+        },
         { title: "Price", align: "start", value: "price", sortable: true },
         { title: "Type", align: "center", value: "priority", sortable: true },
-        { title: "Piority", align: "center", value: "priority", sortable: true },
+        {
+          title: "Piority",
+          align: "center",
+          value: "priority",
+          sortable: true,
+        },
         { title: "Action", align: "center" },
       ],
       courses: [],
@@ -206,7 +249,6 @@ export default {
       console.log("====================================");
       await this.$store.dispatch("course/updatePriority", payload);
       await this.getCourse();
-
     },
     // handleUpdate(newValue) {
     //   this.item.priority = newValue;

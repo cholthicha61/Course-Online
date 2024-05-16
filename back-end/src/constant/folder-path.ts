@@ -1,4 +1,4 @@
-export  const FOLDERPATH = {
-    Public: 'public',
-    Imgs: 'public/images',
-}
+export const FOLDERPATH = {
+  Public: 'public',
+  Imgs: 'public/images',
+};

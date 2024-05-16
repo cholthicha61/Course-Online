@@ -14,17 +14,17 @@ export class InitDateService {
     @InjectRepository(Role)
     private roleRepository: Repository<Role>
   ) {
-    this.initUser()
+    this.initUser();
   }
 
   async initUser() {
     try {
-      const roleUser = await this.roleRepository.count()
+      const roleUser = await this.roleRepository.count();
       if (roleUser == 0) {
         const createRoleAdmin = this.roleRepository.create({
-          name: RolesUser.Admin
-        })
-        await this.roleRepository.save(createRoleAdmin)
+          name: RolesUser.Admin,
+        });
+        await this.roleRepository.save(createRoleAdmin);
         const createRoleUser = this.roleRepository.create({
           name: RolesUser.User
         })
@@ -69,10 +69,8 @@ export class InitDateService {
           }
         }
       }
-
     } catch (error) {
-      throw error
+      throw error;
     }
   }
-
 }
