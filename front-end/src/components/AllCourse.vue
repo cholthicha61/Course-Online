@@ -100,6 +100,14 @@ export default {
       category: (state) => state.category.names,
     }),
   },
+  watch: {
+    course(newVal) {
+      return newVal
+    },
+    category(newVal) {
+      return newVal
+    }
+  },
   async mounted() {
     await this.$store.dispatch("course/getCourse");
     await this.$store.dispatch("category/getCategory");

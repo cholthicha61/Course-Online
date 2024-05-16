@@ -48,14 +48,13 @@ const actions = {
     let url = `${ENDPOINT.CATEGORY}`;
     try {
       const res = await axios(configAxios("get", url));
-        if (res.status == 200) {
-          console.log('res cate?', res.data);
-          commit("SET_NAMES", res.data);
-        }
+      if (res.status == 200) {
+        console.log("res cate?", res.data);
+        commit("SET_NAMES", res.data);
+      }
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
     }
-
   },
   async deleteCategory({ commit }, categoryId) {
     try {

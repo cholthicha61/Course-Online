@@ -34,9 +34,9 @@ export class CategoryService {
 
       const findAllCategory = this.categoryRepository
         .createQueryBuilder('category')
-        .leftJoinAndSelect('category.courses', 'courses');
+        .leftJoinAndSelect('category.courses', 'courses')
+        .leftJoinAndSelect('courses.favoriteByUsers', 'favoriteByUsers')
 
-      findAllCategory.where('1=1');
       if (keyword?.name) {
         findAllCategory.andWhere('category.name like :name', { name: `%${keyword?.name}%` });
       }
