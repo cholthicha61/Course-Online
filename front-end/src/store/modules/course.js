@@ -64,7 +64,7 @@ const actions = {
   },
 
   async addCourse({ commit }, addcourse) {
-    const url = `${ENDPOINT.COURSE}/uploads`;
+    const url = `${ENDPOINT.COURSE}/`;
     console.log("Dai mai", addcourse);
     const formData = new FormData();
     formData.append("courseName", addcourse.name);
@@ -136,7 +136,7 @@ const actions = {
         // แจ้งเตือนการปรับปรุงเรียบร้อย
         Swal.fire({
           icon: "success",
-          title: "อัพเดทความสำเร็จ",
+          title: "อัพเดทสำเร็จ",
           text: "การอัพเดทลำดับคอร์สเรียบร้อยแล้ว",
           showConfirmButton: false,
           timer: 2000,
