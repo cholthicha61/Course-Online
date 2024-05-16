@@ -44,8 +44,8 @@
     <div class="mb-4 flex items-center">
       <label for="categoryId" class="block w-1/4 mr-4">Category:</label>
       <select
-        id="category"
-        v-model="course.category"
+        id="categoryId"
+        v-model="category"
         class="w-3/4 p-2 border border-gray-300 rounded"
         @change="categoryChangeHandler"
       >
@@ -138,6 +138,7 @@
 // import course from "@/store/modules/course";
 // import axios from "axios";
 // import { update } from "lodash";
+import category from "@/store/modules/category";
 import Swal from "sweetalert2";
 import { mapState } from "vuex";
 
@@ -149,9 +150,10 @@ export default {
         price: "",
         description: "",
         status: "",
-        category: "",
+        categorys: null,
         images: [],
       },
+      category:null,
     };
   },
 
@@ -166,6 +168,7 @@ export default {
       return newVal;
     },
   },
+  
 
   async mounted() {
     const courseId = this.$route.params.id;
@@ -174,6 +177,8 @@ export default {
     if (courseData) {
       this.course = { ...courseData };
     }
+    console.log('this.course',this.course.categorys);
+    this.category = this.course.categorys.id  
     await this.$store.dispatch("category/getCategory");
   },
 
@@ -211,10 +216,11 @@ export default {
             description: this.course?.description,
             status: this.course?.status,
             categoryId: this.course?.category,
-            images: this.course?.images,
+            files: this.course?.images,
           },
         };
         await this.$store.dispatch("course/updateCourse", payload);
+      console.log("image",course.images)
       }
     },
 

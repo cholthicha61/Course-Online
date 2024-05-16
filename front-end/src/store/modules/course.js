@@ -25,9 +25,11 @@ const actions = {
     }
   },
   async getCourseById({ commit }, id) { 
+    console.log("id",id);
     let url = `${ENDPOINT.COURSE}/${id}`;
     try {
       const res = await axios(configAxios("get", url));
+      console.log("resdata",res.data);
       commit("SET_SELECTED_COURSE", res.data);
     } catch (error) {
       throw new Error();
@@ -44,15 +46,20 @@ const actions = {
   },
 
   async addCourse({ commit }, addcourse) {
-    const url = `${ENDPOINT.COURSE}/uploads`;
+    const url = `${ENDPOINT.COURSE}`;
     const formData = new FormData();
+    console.log("addcourse",addcourse);
     formData.append("courseName", addcourse.name);
     formData.append("price", addcourse.price);
     formData.append("description", addcourse.detail);
     formData.append("categoryId", addcourse.category);
     for (const item of addcourse.images) {
-      formData.append("files", item);
+      formData.append("files", item); 
     }
+    for (const value of formData.values()) {
+      console.log(value);
+    }
+
     try {
       const res = await axios(configAxios("post", url, formData));
       commit("ADD_COURSE", res.data);

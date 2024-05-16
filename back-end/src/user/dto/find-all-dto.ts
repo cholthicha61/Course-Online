@@ -8,7 +8,7 @@ export class FindAllUserDto{
     role?: 'true' | 'false';
     orders?: 'true' | 'false';  
     questions?: 'true' | 'false';
-
+    favoriteCourses?: 'true' | 'false'
 }
 
 export class FindAllOrderDto {

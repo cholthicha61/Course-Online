@@ -19,7 +19,7 @@ export class OrderService {
     private userRepository: Repository<User>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>
-  ) { }
+  ) {}
 
   async create(createOrderDto: CreateOrderDto) {
     try {
@@ -42,8 +42,6 @@ export class OrderService {
 
       const createOrder = this.orderRepository.create({
         status: StatusOrder.Waiting,
-        startdate: createOrderDto.startdate,
-        enddate: createOrderDto.enddate,
         user: findUser,
         course: findCourse,
       });
@@ -63,7 +61,7 @@ export class OrderService {
         .leftJoinAndSelect('order.course', 'course')
         .leftJoinAndSelect('order.user', 'user')
         .leftJoinAndSelect('course.categorys', 'categorys')
-        .leftJoinAndSelect('course.images', 'images')
+        .leftJoinAndSelect('course.images', 'images');
       findAllOrders.where('1=1');
       if (keyword?.status) {
         findAllOrders.andWhere('order.status like :status', { status: `%${keyword?.status}%` });
@@ -135,8 +133,6 @@ export class OrderService {
 
       order.startdate = updateOrderDto.startdate;
       order.enddate = updateOrderDto.enddate;
-      order.user = findUser;
-      order.course = findCourse;
 
       const updateOrder = await this.orderRepository.save(order);
       return updateOrder;

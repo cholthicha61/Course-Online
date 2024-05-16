@@ -6,12 +6,16 @@
   </div>
   <div>
     <div class="add-category-btn">
-      <AddCategory  />
+      <AddCategory />
     </div>
 
-    
-      <EditCategory v-if="isEditCategory" :isEditCategory="isEditCategory" :selectCategory="selectCategory" :onCloseEdit="onCloseEdit"/>
- 
+    <EditCategory
+      v-if="isEditCategory"
+      :isEditCategory="isEditCategory"
+      :selectCategory="selectCategory"
+      :onCloseEdit="onCloseEdit"
+    />
+
     <v-data-table-virtual
       :headers="headers"
       :items="names"
@@ -42,13 +46,13 @@
 import { mapState } from "vuex";
 import AddCategory from "../components/AddCategory.vue";
 import category from "@/store/modules/category";
-import EditCategory from "../components/EditCategory.vue"
+import EditCategory from "../components/EditCategory.vue";
 import Swal from "sweetalert2";
 
 export default {
   components: {
     AddCategory,
-    EditCategory
+    EditCategory,
   },
   data() {
     return {
@@ -60,7 +64,7 @@ export default {
       ],
       categorys: [],
       isEditCategory: false,
-      selectCategory: {}
+      selectCategory: {},
     };
   },
   computed: {
@@ -86,27 +90,26 @@ export default {
     },
     async deleteCategory(categoryId) {
       Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "คุณต้องการลบหรือไม่",
+        text: "ลบแล้วจะไม่สามารถกลับมาแก้ไขใหม่ได้",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then(async(result) => {
+        confirmButtonText: "ยืนยันการลบ",
+      }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("category/deleteCategory", categoryId);
         }
       });
-
     },
     async updateCategory(item) {
       this.isEditCategory = true;
-      this.selectCategory = item
+      this.selectCategory = item;
     },
-    onCloseEdit(isClose){
+    onCloseEdit(isClose) {
       this.isEditCategory = false;
-    }
+    },
   },
 };
 </script>

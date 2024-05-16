@@ -29,13 +29,6 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   @UseGuards(AuthGuard)
-  @Post()
-  async create(@Body() createCourseDto: CreateCourseDto) {
-    console.log(createCourseDto);
-    return await this.courseService.create(createCourseDto);
-  }
-
-  @UseGuards(AuthGuard)
   @Get()
   async findAll(@Query() keyword) {
     return await this.courseService.findAll(keyword);
@@ -55,8 +48,8 @@ export class CourseController {
 
   @UseGuards(AuthGuard)
   @Patch('update-status/:id')
-  async updateStatusCourse(@Param('id') id: number, @Body() updateCourseDto: UpdateCourseDto) {
-    return await this.courseService.updateStatusCourse(id, updateCourseDto);
+  async updateStatus(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
+    return this.courseService.updateStatusCourse(+id, updateCourseDto);
   }
 
   @UseGuards(AuthGuard)
@@ -66,14 +59,13 @@ export class CourseController {
   }
 
   @UseGuards(AuthGuard)
-  @Post('/uploads')
+  @Post()
   @UseInterceptors(
     FilesInterceptor('files', 10, {
       storage: diskStorage({
         destination: FOLDERPATH.Imgs, // แก้เป็น path ที่ต้องการเก็บไฟล์
         filename: (req, file, cb) => {
           console.log('file is ', file);
-
           const uniqueSuffix = uniqueSuffixString();
           const extension = path.extname(file.originalname);
           const filename = `${uniqueSuffix}${extension}`;
