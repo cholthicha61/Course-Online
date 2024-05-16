@@ -8,7 +8,7 @@ const routes =  [
         {
           path: "/homepage",
           name: "homepage",
-          component: () => import("../views/Main.vue"),
+          component: () => import("../views/HomePage.vue"),
           meta: { requiresGuest: true },
         },
         {
