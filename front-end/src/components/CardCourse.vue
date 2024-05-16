@@ -6,25 +6,20 @@
       @mouseenter="isHover = true"
       @mouseleave="isHover = false"
     >
-      <v-img
-        height="200px"
-        src="https://pbs.twimg.com/media/FaL6vmQaAAA63UG.jpg"
-        cover
-      >
+      <v-img height="200px" :src="`${img}/${this.course.courseImage}`" cover>
       </v-img>
 
       <v-card-text>
         <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
-          TOEIC
+          {{ course.courseName }}
         </h1>
         <div class="description-course mt-1">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit, reiciendis.
+            {{ course.description }}
           </p>
         </div>
         <div class="text-end">
-          <h2 class="mt-13">฿2,500.00</h2>
+          <h2 class="mt-13">{{ course.price }} บาท</h2>
         </div>
       </v-card-text>
 
@@ -33,24 +28,49 @@
           <!-- <v-icon>mdi-heart</v-icon> -->
           <span>icon</span>
         </v-btn>
-        <v-btn class="btn-buy"> Buy </v-btn>
+        <v-btn
+          class="buy-button text-whit font-weight-regular mb-5"
+          text="BUY"
+          variant="tonal"
+          @click="setOpenModal(course)"
+        ></v-btn>
+        <!-- <button @click="ff" class="btn-buy rounded-md "> 
+           Buy 
+        </button> -->
       </v-card-btn>
     </v-card>
   </div>
 </template>
 
 <script>
+import { ENDPOINT } from "@/constants/endpoint";
 export default {
   name: "CardCourse",
   data() {
     return {
       isHover: false,
+      img: ENDPOINT.IMG,
     };
+  },
+  props: {
+    course: {},
+    setOpenModal: {
+      type:Function,
+    },
+  },
+  watch: {
+    course(newVal) {
+      console.log("card course", newVal);
+    },
+  },
+  mounted() {
+    console.log("ppppppp", `${this.img}/${this.course.courseImage}`);
   },
   methods: {
     toggleShadow() {
       this.isHover = !this.isHover;
     },
+
   },
 };
 </script>
@@ -71,10 +91,11 @@ export default {
 }
 .btn-buy {
   color: #fff;
-  background-color: #075985;
-  border-color: #075985;
+  background-color: #098ad0;
+  border-color: #0982c4;
   width: 120px;
 }
+
 .text-end h2 {
   font-size: 24px;
   color: #fc5d19;
@@ -85,5 +106,13 @@ export default {
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.v-btn {
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  bottom: -18px;
 }
 </style>

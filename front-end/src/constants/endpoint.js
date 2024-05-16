@@ -1,4 +1,4 @@
-import baseURL from "@/axios/baseURL";
+import { base, baseURL } from "@/axios/baseURL"; // base => for img
 export const ENDPOINT = {
     //------------- auth -----------
     LOGIN: `${baseURL}/auth/login`,
@@ -6,6 +6,8 @@ export const ENDPOINT = {
     COURSE: `${baseURL}/course`,     
     INBOX: `${baseURL}/question`,
     CATEGORY: `${baseURL}/category`,
+    IMG: `${base}/public/images/`,
+    ORDER: `${baseURL}/order`
 
         
      

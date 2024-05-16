@@ -5,8 +5,19 @@
     </div>
   </div>
   <div>
+<<<<<<< HEAD
     <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
       <v-btn @click="goTo('addcourse')" color="#0284C7" class="ma-5" style="color: #fff; text-decoration: none">Add Course</v-btn>
+=======
+    <div style="display: flex; justify-content: flex-end">
+      <v-btn
+        @click="goTo('addcourse')"
+        color="#0284C7"
+        class="mt-5 ma-5"
+        style="color: #fff; text-decoration: none"
+        >Add Course</v-btn
+      >
+>>>>>>> origin/aiau-dev
     </div>
 
     <v-data-table-virtual :headers="headers" :items="course" height="">
