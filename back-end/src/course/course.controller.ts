@@ -66,7 +66,6 @@ export class CourseController {
         destination: FOLDERPATH.Imgs, // แก้เป็น path ที่ต้องการเก็บไฟล์
         filename: (req, file, cb) => {
           console.log('file is ', file);
-
           const uniqueSuffix = uniqueSuffixString();
           const extension = path.extname(file.originalname);
           const filename = `${uniqueSuffix}${extension}`;

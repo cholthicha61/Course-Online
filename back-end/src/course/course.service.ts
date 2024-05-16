@@ -83,7 +83,7 @@ export class CourseService {
       });
       if (_.isEmpty(course)) {
         throw new HttpException('course not found', HttpStatus.NOT_FOUND);
-      }
+      }      
       return course;
     } catch (error) {
       throw error;
