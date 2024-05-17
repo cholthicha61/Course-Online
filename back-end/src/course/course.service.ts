@@ -45,7 +45,9 @@ export class CourseService {
         .createQueryBuilder('course')
         .leftJoinAndSelect('course.categorys', 'category')
         .leftJoinAndSelect('course.images', 'images')
-        .leftJoinAndSelect('course.orders', 'orders');
+        .leftJoinAndSelect('course.orders', 'orders')
+        .leftJoinAndSelect('course.favoriteByUsers', 'favoriteByUsers')
+
       if (keyword?.categorys == 'true') {
         findAllCourse.leftJoinAndSelect('course.categorys', 'category');
       }
@@ -83,7 +85,7 @@ export class CourseService {
       });
       if (_.isEmpty(course)) {
         throw new HttpException('course not found', HttpStatus.NOT_FOUND);
-      }
+      }      
       return course;
     } catch (error) {
       throw error;

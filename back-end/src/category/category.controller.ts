@@ -16,19 +16,19 @@ export class CategoryController {
     return await this.categoryService.create(createCategoryDto);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get()
   async findAll(@Query() keyword) {
     return await this.categoryService.findAll(keyword);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Category> {
     return await this.categoryService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get('/name/:name')
   async findByName(@Param('name') name: string) {
     return this.categoryService.findByName(name);

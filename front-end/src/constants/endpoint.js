@@ -7,7 +7,9 @@ export const ENDPOINT = {
     INBOX: `${baseURL}/question`,
     CATEGORY: `${baseURL}/category`,
     IMG: `${base}/public/images/`,
-    ORDER: `${baseURL}/order`
+    ORDER: `${baseURL}/order`,
+    FAVORITE: `${baseURL}/user/favorite`
+
 
         
      

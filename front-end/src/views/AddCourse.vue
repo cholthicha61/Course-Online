@@ -233,32 +233,29 @@ export default {
         return;
       }
 
-      const confirmed = window.confirm("Are you sure you want to submit?");
-      if (confirmed) {
-        this.$store
-          .dispatch("course/addCourse", this.course)
-          .then(() => {
-            this.showConfirmationDialog = true;
-            Swal.fire({
-              icon: "success",
-              title: "Success!",
-              text: "Course added successfully!",
-            }).then(() => {
-              this.$router.go();
-            });
-            console.log("Course added successfully");
-          })
-          .catch((error) => {
-            console.error("Failed to add course", error);
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Failed to add course!",
-            });
+      this.$store
+        .dispatch("course/addCourse", this.course)
+        .then(() => {
+          this.showConfirmationDialog = true;
+          Swal.fire({
+          icon: "success",
+          title: "เพิ่มคอร์สสำเร็จ",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+            this.$router.go();
           });
-      } else {
-        console.log("User canceled submission");
-      }
+          console.log("Course added successfully");
+        })
+        .catch((error) => {
+          console.error("Failed to add course", error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Failed to add course!",
+          });
+        });
     },
 
     uploadImage() {

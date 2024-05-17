@@ -5,7 +5,7 @@
     </div>
 
     <div class="">
-      <AllCourse />
+      <AllCourse/>
     </div>
 
     <v-container>
@@ -18,28 +18,26 @@
     </div>
 
     <div class="">
-      <QuestionPopup />
     </div>
   </div>
-  <!-- </v-container> -->
 </template>
 
 <script>
 import Banner from "@/components/BanNer.vue";
 import ProfileCard from "../components/ProFile.vue";
-import QuestionPopup from "@/components/QuestionPopup.vue";
 import AllCourse from "../components/AllCourse.vue";
 import Login from "../components/Login.vue";
 import Register from "../views/Register.vue";
+import NavbarLogin from "@/components/NavbarLogin.vue";
 
 export default {
   components: {
     Banner,
     ProfileCard,
-    QuestionPopup,
     AllCourse,
     Login,
     Register,
+    NavbarLogin,
   },
 };
 </script>

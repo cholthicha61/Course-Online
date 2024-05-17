@@ -6,7 +6,6 @@
   </div>
   <div>
     <div style="display: flex; justify-content: flex-end">
-      <!-- <router-link to="/addcourse" class="mt-5 ma-5" style="color: #fff; text-decoration: none"> -->
       <v-btn
         @click="goTo('addcourse')"
         color="#0284C7"
@@ -14,7 +13,6 @@
         style="color: #fff; text-decoration: none"
         >Add Course</v-btn
       >
-      <!-- </router-link> -->
     </div>
     <v-data-table-virtual :headers="headers" :items="course" height="570">
       <template v-slot:[`item.no`]="{ index }">
@@ -130,7 +128,7 @@
           >
             <v-btn
               color="warning"
-              @click="EditCourse()"
+              @click="EditCourse(item.id)"
               style="margin-right: 8px"
             >
               edit</v-btn
@@ -181,7 +179,6 @@ export default {
         { title: "Action", align: "center" },
       ],
       courses: [],
-      // categorys: [],
     };
   },
   computed: {
@@ -236,6 +233,7 @@ export default {
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("course/deleteCourse", courseId);
+          await this.dispatch("course/getCourse");
         }
       });
     },
@@ -265,12 +263,6 @@ export default {
     //   }
     // },
   },
-
-  // async EditCourse(item) {
-  //   console.log("Edit:", item);
-
-  //   await this.$store.dispatch("course/editCourse", item);
-  // }
 };
 </script>
 

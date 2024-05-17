@@ -10,13 +10,19 @@
                 label="Course Name"
                 required
                 v-model="course.courseName"
+                readonly
               ></v-text-field>
             </v-col>
 
             <v-col cols="12" md="12" sm="6"> </v-col>
             <v-col cols="12" md="12" sm="6"> </v-col>
             <v-col cols="12" md="12" sm="6">
-              <v-text-field label="Price" required v-model="course.price">
+              <v-text-field
+                label="Price"
+                required
+                v-model="course.price"
+                readonly
+              >
               </v-text-field>
             </v-col>
 
@@ -29,6 +35,7 @@
                 label="Description"
                 required
                 v-model="course.description"
+                readonly
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="12" sm="6"> </v-col>
@@ -37,6 +44,7 @@
               <v-text-field
                 label="Email"
                 v-model="userEmail.email"
+                readonly
                 required
               ></v-text-field>
             </v-col>
@@ -83,7 +91,7 @@ export default {
       dialog: this.openModal,
       userEmail: {
         email: "",
-        id: Number
+        id: Number,
       },
     };
   },
@@ -103,26 +111,23 @@ export default {
       this.dialog = false;
     },
     async createOrder() {
-
       const payload = {
         courseId: this.course.id,
         userId: this.userEmail.id,
       };
-      await this.$store.dispatch('order/createOrder', payload);
+      await this.$store.dispatch("order/createOrder", payload);
       this.setClose();
-      console.log("payload : ",payload);
-      
+      console.log("payload : ", payload);
     },
   },
   mounted() {
-  const user = JSON.parse(localStorage.getItem("user"));
-  console.log("User from localStorage:", user);
-  if (user) {
-    this.userEmail.email = user.email;
-    this.userEmail.id = user.id;
-    console.log("userEmail after setting:", this.userEmail);
-  }
-}
-
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log("User from localStorage:", user);
+    if (user) {
+      this.userEmail.email = user.email;
+      this.userEmail.id = user.id;
+      console.log("userEmail after setting:", this.userEmail);
+    }
+  },
 };
 </script>

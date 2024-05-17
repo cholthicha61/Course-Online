@@ -33,11 +33,17 @@
     </v-container>
     <v-container>
       <div v-for="item in category">
-        <div v-if="item?.courses">
-          {{ item.name }}
+        <div v-if="item?.courses && item.courses.length > 0">
+          <v-container class="head">
+            <h1>{{ item.name }}</h1>
+          </v-container>
         </div>
         <div>
-          <v-row class="justify-start" no-gutters>
+          <v-row
+            class="justify-start"
+            no-gutters
+            v-if="item?.courses && item.courses.length > 0"
+          >
             <v-col
               cols="12"
               sm="6"
@@ -94,6 +100,14 @@ export default {
       category: (state) => state.category.names,
     }),
   },
+  watch: {
+    course(newVal) {
+      return newVal
+    },
+    category(newVal) {
+      return newVal
+    }
+  },
   async mounted() {
     await this.$store.dispatch("course/getCourse");
     await this.$store.dispatch("category/getCategory");
@@ -106,8 +120,14 @@ export default {
 
 <style>
 .head-course h1 {
-  font-size: 30px;
-  color: black;
+  font-size: 35px;
+  color: rgb(0, 0, 0);
+  border-bottom: 1px solid #000000;
+  font-style: italic;
+}
+.head h1 {
+  font-size: 22px;
+  color: rgb(6, 6, 6);
   border-bottom: 1px solid #9e9e9e;
   font-style: italic;
 }

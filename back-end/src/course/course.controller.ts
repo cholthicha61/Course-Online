@@ -28,13 +28,13 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get()
   async findAll(@Query() keyword) {
     return await this.courseService.findAll(keyword);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.courseService.findOne(+id);
@@ -66,7 +66,6 @@ export class CourseController {
         destination: FOLDERPATH.Imgs, // แก้เป็น path ที่ต้องการเก็บไฟล์
         filename: (req, file, cb) => {
           console.log('file is ', file);
-
           const uniqueSuffix = uniqueSuffixString();
           const extension = path.extname(file.originalname);
           const filename = `${uniqueSuffix}${extension}`;
