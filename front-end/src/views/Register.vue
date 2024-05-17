@@ -6,61 +6,78 @@
       class="flex items-center flex flex-col w-full px-96 py-10 border-gray-200 rounded-lg"
     >
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">Firstname</label>
+        <label class="mb-2 text-gray-700">
+          First name <span class="text-red-600">*</span>
+        </label>
         <input
           type="text"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="fname"
         />
-        <span class="text-blue-100">{{ fnameError }}</span>
+        <span class="text-red-600">{{ fnameError }}</span>
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">Lastname</label>
+        <label class="mb-2 text-gray-700">
+          Last name <span class="text-red-600">*</span>
+        </label>
         <input
           type="text"
-          class="form-input border border-l-gray-300 rounded-md px-2 py-2 w-96"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="lname"
         />
+        <span class="text-red-600">{{ lnameError }}</span>
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">Email</label>
+        <label class="mb-2 text-gray-700">
+          Email <span class="text-red-600">*</span>
+        </label>
         <input
           type="email"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="email"
         />
+        <span class="text-red-600">{{ emailError }}</span>
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">Password</label>
+        <label class="mb-2 text-gray-700">
+          Password <span class="text-red-600">*</span>
+        </label>
         <input
           type="password"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="password"
         />
+        <span class="text-red-600">{{ passwordError }}</span>
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">Confirm Password</label>
+        <label class="mb-2 text-gray-700">
+          Confirm password <span class="text-red-600">*</span>
+        </label>
         <input
           type="password"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="confirmPassword"
         />
+        <span class="text-red-600">{{ confirmPasswordError }}</span>
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">Phone</label>
+        <label class="mb-2 text-gray-700">
+          Tel. <span class="text-red-600">*</span>
+        </label>
         <input
           type="tel"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="phone"
         />
+        <span class="text-red-600">{{ phoneError }}</span>
       </div>
       <button
-        @click="createUser()"
+        @click="handleSubmit"
         class="w-96 bg-sky-600 text-white font-bold py-2 px-4 rounded-md hover:bg-sky-800"
       >
         Create Account
@@ -68,6 +85,7 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -78,23 +96,12 @@ export default {
       password: "",
       confirmPassword: "",
       phone: "",
-      agree: false,
       fnameError: null,
       lnameError: null,
       emailError: null,
       passwordError: null,
       confirmPasswordError: null,
       phoneError: null,
-      termsError: null,
-
-      payload: {
-        fname: "",
-        lname: "",
-        phone: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      },
     };
   },
   computed: {
@@ -104,7 +111,7 @@ export default {
   },
   methods: {
     handleSubmit(event) {
-      // ตรวจสอบข้อมูลก่อน submit
+      event.preventDefault();
       this.validateForm();
 
       if (
@@ -114,28 +121,15 @@ export default {
         this.passwordError ||
         this.confirmPasswordError ||
         this.phoneError ||
-        this.termsError ||
         !this.passwordMatch
       ) {
-        return; // หยุดการ submit ถ้ามีข้อผิดพลาด
+        return; // Stop form submission if there are errors
       }
 
-      console.log("Submitting registration data...");
-
-      event.preventDefault();
-
-      console.log(
-        "register submitted:",
-        this.fname,
-        this.lname,
-        this.phone,
-        this.email,
-        this.password,
-        this.roleId
-      );
+      this.createUser();
     },
     async createUser() {
-      this.payload = {
+      const payload = {
         fname: this.fname,
         lname: this.lname,
         email: this.email,
@@ -144,62 +138,63 @@ export default {
         phone: this.phone,
         roleId: 2,
       };
-      await this.$store.dispatch("user/createUser", this.payload);
-      console.log("payload", this.payload);
+      await this.$store.dispatch("user/createUser", payload);
+      console.log("payload", payload);
     },
     validateForm() {
-      // ตรวจสอบชื่อ
+      // Validate first name
       if (!this.fname.trim()) {
-        this.fnameError = "กรุณากรอกชื่อ";
+        this.fnameError = "Please enter first name";
       } else {
         this.fnameError = null;
       }
 
-      // ตรวจสอบนามสกุล
+      // Validate last name
       if (!this.lname.trim()) {
-        this.lnameError = "กรุณากรอกนามสกุล";
+        this.lnameError = "Please enter last name";
       } else {
         this.lnameError = null;
       }
 
-      // ตรวจสอบอีเมลล์
+      // Validate email
       const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!this.email.trim()) {
-        this.emailError = "กรุณากรอกอีเมลล์";
+        this.emailError = "Please enter an email";
       } else if (!emailPattern.test(this.email)) {
-        this.emailError = "รูปแบบอีเมลล์ไม่ถูกต้อง";
+        this.emailError = "Invalid email";
       } else {
         this.emailError = null;
       }
 
-      // ตรวจสอบรหัสผ่าน
+      // Validate password
       if (!this.password.trim()) {
-        this.passwordError = "กรุณากรอกรหัสผ่าน";
+        this.passwordError = "Please enter a password";
       } else if (this.password.length < 6) {
-        this.passwordError = "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร";
+        this.passwordError = "Password must be at least 6 characters";
       } else {
         this.passwordError = null;
       }
 
-      // ตรวจสอบการยืนยันรหัสผ่าน
+      // Validate confirm password
       if (!this.confirmPassword.trim()) {
-        this.confirmPasswordError = "กรุณายืนยันรหัสผ่าน";
+        this.confirmPasswordError = "Please confirm your password";
       } else if (this.password !== this.confirmPassword) {
-        this.confirmPasswordError = "รหัสผ่านไม่ตรงกัน";
+        this.confirmPasswordError = "Confirm password incorrect";
       } else {
         this.confirmPasswordError = null;
       }
 
-      // ตรวจสอบเบอร์โทรศัพท์
-      const phonePattern = /^[0-9]+$/;
+      // Validate phone
+      const phonePattern = /^\d{10}$/;
       if (!this.phone.trim()) {
-        this.phoneError = "กรุณากรอกเบอร์โทรศัพท์";
+        this.phoneError = "Please enter a phone number.";
+      } else if (this.phone.length !== 10) {
+        this.phoneError = "Phone number must be exactly 10 digits";
       } else if (!phonePattern.test(this.phone)) {
-        this.phoneError = "เบอร์โทรศัพท์ไม่ถูกต้อง";
+        this.phoneError = "Invalid phone number";
       } else {
         this.phoneError = null;
       }
-
     },
   },
 };
