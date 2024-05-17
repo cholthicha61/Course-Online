@@ -22,8 +22,7 @@
           <h2 class="mt-13">{{ course.price }} บาท</h2>
         </div>
       </v-card-text>
-
-      <!-- <div waitting>
+       <!-- <div waitting>
         <div class="border-t-4"></div>
 
         <div class="text-center mt-5">
@@ -171,6 +170,8 @@ export default {
       this.isHover = !this.isHover;
     },
     async toggleFavorite(course) {
+      this.isFavorite = !this.isFavorite;
+
       const payload = {
         userId: this.user.id,
         courseId: course.id,
@@ -190,9 +191,9 @@ export default {
       } else {
         console.log("favorite/updateFavorite2");
         await this.$store.dispatch("favorite/updateFavorite", payload);
+      } else {
+        await this.$store.dispatch("favorite/deleteFavorite", payload);
       }
-
-      // }
     },
   },
 };

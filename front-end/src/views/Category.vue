@@ -7,11 +7,19 @@
       <AddCategory />
     </div>
 
+    <EditCategory
+      v-if="isEditCategory"
+      :isEditCategory="isEditCategory"
+      :selectCategory="selectCategory"
+      :onCloseEdit="onCloseEdit"
+    />
 
-    <EditCategory v-if="isEditCategory" :isEditCategory="isEditCategory" :selectCategory="selectCategory"
-      :onCloseEdit="onCloseEdit" />
-
-    <v-data-table-virtual :headers="headers" :items="names" height="400" item-value="name">
+    <v-data-table-virtual
+      :headers="headers"
+      :items="names"
+      height="400"
+      item-value="name"
+    >
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
