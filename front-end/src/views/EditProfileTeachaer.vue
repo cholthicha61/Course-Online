@@ -1,8 +1,8 @@
 <template>
   <div class="container mx-auto">
-    <h2 class="text-3xl font-bold text-center m-9">Edit Profile Teacher</h2>
+    <h2 class="text-3xl font-bold text-center m-5">Edit Profile Teacher</h2>
     <div
-      class="flex items-center flex-col w-full px-96 py-3 border-gray-200 rounded-lg"
+      class="flex items-center flex-col w-full px-96 border-gray-200 rounded-lg"
     >
       <div class="flex flex-col">
         <label class="mb-2 text-gray-700">ชื่อ</label>
@@ -53,10 +53,10 @@
         class="mr-8"
       >
       </v-file-input>
-      <div class="mt-3">
+      <div class="">
         <button
           @click="updateUser()"
-          class="w-96 bg-sky-600 text-white font-bold py-2 px-10 rounded-md hover:bg-sky-800"
+          class="w-96 bg-sky-600 text-white font-bold py-2  rounded-md hover:bg-sky-800"
         >
           Save
         </button>
@@ -83,7 +83,7 @@ export default {
 </script>
 <style scoped>
 .picture {
-  margin-right:50%;
+  margin-right:67%;
   
 }
 </style>

@@ -25,7 +25,7 @@
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-      <template v-slot:[`item.update`]="{ item }">
+      <template v-slot:[`item.actions`]="{ item }">
         <v-btn
           color="blue"
           @click="updateCategory(item)"
@@ -33,10 +33,7 @@
         >
           Edit
         </v-btn>
-      </template>
-
-      <template v-slot:[`item.delet`]="{ item }">
-        <v-btn color="warning" @click="deleteCategory(item.id)">delete</v-btn>
+        <v-btn color="warning" @click="deleteCategory(item.id)">Delete</v-btn>
       </template>
     </v-data-table-virtual>
   </div>
@@ -59,8 +56,7 @@ export default {
       headers: [
         { title: "No.", align: "center", value: "no" },
         { title: "Category Name", align: "center", value: "name" },
-        { title: "Action", align: "center", value: "update" },
-        { title: "Action", align: "center", value: "delet" },
+        { title: "Actions", align: "center", value: "actions" },
       ],
       categorys: [],
       isEditCategory: false,
@@ -113,6 +109,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .head-course h1 {
   font-size: 30px;
