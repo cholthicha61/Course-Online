@@ -4,11 +4,12 @@
     <div
       class="flex items-center flex-col w-full px-96 border-gray-200 rounded-lg"
     >
-      <div class="flex flex-col">
+      <div class="flex flex-col ">
         <label class="mb-2 text-gray-700">ชื่อ</label>
         <input
           type="text"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
+          v-model="teacher.fname"
         />
         <span class="text-blue-100">{{ fnameError }}</span>
       </div>
@@ -18,6 +19,7 @@
         <input
           type="text"
           class="form-input border border-l-gray-300 rounded-md px-2 py-2 w-96"
+          v-model="teacher.lname"
         />
       </div>
 
@@ -28,7 +30,7 @@
         <input
           type="email"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
-          v-model="user.email"
+          v-model="teacher.email"
         />
       </div>
 
@@ -37,6 +39,7 @@
         <input
           type="tel"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
+          v-model="teacher.phone"
         />
       </div>
       <div class="flex flex-col mb-4">
@@ -44,17 +47,19 @@
         <input
           type="tel"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
+          v-model="teacher.desc"
         />
       </div>
-      <label class="picture mb-2 text-gray-700">รูปภาพ</label>
+      <label  class="picture mb-2 text-gray-700" >รูปภาพ</label>
       <v-file-input
         :rules="rules"
         accept="image/png, image/jpeg, image/bmp"
         label="เพิ่มรูปภาพที่นี่"
         placeholder="Pick an avatar"
         style="width: 430px"
-        class="mr-4"
-      >
+        class="mr-4"      
+        v-model="teacher.file"
+        >
       </v-file-input>
       <div class="">
         <button
@@ -69,41 +74,29 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
-      user: {},
-      fname: "",
-      lname: "",
-      email: "",
-      phone: "",
-      payload: {
-        fname: "",
-        lname: "",
-        phone: "",
-        email: "",
-      },
+      teacher: [],
     };
   },
   computed: {
-   
+    ...mapState({
+      user: (state) => state.user.user,
+     
+    }),
+  },  
+  async mounted() {
+    this.getTeacher();
   },
   methods: {
-    
-    async updateUser() {
-      console.log("this.payload :", this.user);
-
-      await this.$store.dispatch("user/updateUser", {
-        userId: this.user.id,
-        newData: this.user,
-      });
-
-      console.log("payload", this.user);
+    async getTeacher() {
+      await this.$store.dispatch("user/getTeacher");
+      this.teacher = this.user;
+      console.log("teacher", this.teacher);
     },
-  },
-  mounted() {
-    this.user = JSON.parse(localStorage.getItem('user'))
-    console.log('user', this.user);
   },
 };
 </script>

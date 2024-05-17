@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container px-8 mt-8">
     <div class="head-course">
       <h1>Manage Category</h1>
     </div>
