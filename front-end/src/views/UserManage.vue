@@ -15,20 +15,12 @@
           <td>{{ item.email }}</td>
           <td>{{ item.phone }}</td>
           <td class="switch-td">
-            <!-- <v-select
-              :items="status"
-              variant="underlined"
-              v-model="item.active"
-              return-object
-              @update:modelValue="updateUser(item)"
-            >
-            </v-select> -->
             <v-switch
               v-model="item.active"
-              @change="updateUser(item)"
+              @update:modelValue="updateUser(item)"
+              :label="getStatusLabel(item.active)"
               inset
               color="info"
-              :label="getStatusLabel(item.active)"
             ></v-switch>
           </td>
         </tr>
@@ -73,17 +65,22 @@ export default {
     async updateUser(item) {
       const payload = {
         id: item.id,
-        active: item.active === "true",
+        active: item.active,
       };
+      console.log('====================================');
+      console.log(payload);
+      console.log('====================================');
 
       const { isConfirmed } = await Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "ต้องการเปลี่ยนสถาณะผู้ใช้หรือไม่",
+        text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, Change status!",
+        confirmButtonText: "ใช่, ต้องการเปลี่ยน!",
+        cancelButtonText: "ยกเลิก",
+
       });
 
       if (isConfirmed) {
@@ -92,9 +89,11 @@ export default {
           title: "Changed!",
           text: "Status changed.",
           icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
         });
       } else {
-        window.location.reload();
+        item.active = !item.active;
 
       }
     },
@@ -128,7 +127,7 @@ export default {
 }
 
 .switch-td {
-  min-width: 160px; /* กำหนดความกว้างของ td */
+  min-width: 160px;
+  /* กำหนดความกว้างของ td */
 }
-
 </style>
