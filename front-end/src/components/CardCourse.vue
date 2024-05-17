@@ -22,8 +22,7 @@
           <h2 class="mt-13">{{ course.price }} บาท</h2>
         </div>
       </v-card-text>
-
-      <!-- <div waitting>
+       <!-- <div waitting>
         <div class="border-t-4"></div>
 
         <div class="text-center mt-5">
@@ -147,7 +146,7 @@ export default {
     course(newVal) {
       // newVal.push({isFavorite : false})
       console.log("card course", newVal);
-      return newVal
+      return newVal;
     },
     isFavorite(newVal) {
       return newVal;
@@ -171,35 +170,18 @@ export default {
       this.isHover = !this.isHover;
     },
     async toggleFavorite(course) {
+      this.isFavorite = !this.isFavorite;
+
       const payload = {
         userId: this.user.id,
         courseId: course.id,
       };
-      // console.log("favorite: ", this.favorite);
-      console.log("toggleFavorite", course);
-      // await this.$store.dispatch("favorite/updateFavorite", payload);
 
-      // if (!course?.favoriteByUsers) {
-      //   console.log("favorite/updateFavorite");
-      //   await this.$store.dispatch("favorite/updateFavorite", payload);
-      // } else {
-      // console.log("in else");
-      if (course?.favoriteByUsers.length != 0) {
-        _.map(course?.favoriteByUsers, async (fav) => {
-          if (fav?.id == this.user.id) {
-            console.log("favorite/deleteFavorite");
-            await this.$store.dispatch("favorite/deleteFavorite", payload);
-          } else {
-            console.log("favorite/updateFavorite1");
-            await this.$store.dispatch("favorite/updateFavorite", payload);
-          }
-        });
-      } else {
-        console.log("favorite/updateFavorite2");
+      if (this.isFavorite) {
         await this.$store.dispatch("favorite/updateFavorite", payload);
+      } else {
+        await this.$store.dispatch("favorite/deleteFavorite", payload);
       }
-
-      // }
     },
   },
 };
