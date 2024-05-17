@@ -81,6 +81,8 @@ export default {
       };
       console.log("payload",payload);
       await this.$store.dispatch("inbox/addEmails", payload); 
+      this.message = "";
+
     },
   },
   mounted() {
