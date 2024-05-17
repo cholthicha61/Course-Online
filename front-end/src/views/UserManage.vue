@@ -14,15 +14,22 @@
           <td>{{ item.lname }}</td>
           <td>{{ item.email }}</td>
           <td>{{ item.phone }}</td>
-          <td>
-            <v-select
+          <td class="switch-td">
+            <!-- <v-select
               :items="status"
               variant="underlined"
               v-model="item.active"
               return-object
               @update:modelValue="updateUser(item)"
             >
-            </v-select>
+            </v-select> -->
+            <v-switch
+              v-model="item.active"
+              @change="updateUser(item)"
+              inset
+              color="info"
+              :label="getStatusLabel(item.active)"
+            ></v-switch>
           </td>
         </tr>
       </template>
@@ -86,11 +93,17 @@ export default {
           text: "Status changed.",
           icon: "success",
         });
+      } else {
+        window.location.reload();
+
       }
     },
 
     formatDate(date) {
       return new Date(date).toLocaleString();
+    },
+    getStatusLabel(active) {
+      return active ? "active" : "inactive";
     },
   },
 };
@@ -113,4 +126,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.switch-td {
+  min-width: 160px; /* กำหนดความกว้างของ td */
+}
+
 </style>
