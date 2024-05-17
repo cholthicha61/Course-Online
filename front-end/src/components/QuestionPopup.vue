@@ -38,6 +38,7 @@
           v-model="userEmail.email"
           type="email"
           placeholder="Email"
+          readonly
           class="border border-gray-300 rounded-md mb-4 w-full px-3 py-2"
         />
         <textarea

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEmpty, isEmpty, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateUserDto {
   //edit update too
@@ -28,6 +28,6 @@ export class CreateUserDto {
 
   userImage?: string;
 
-  @IsString()
+  @IsEmpty()
   desc?: string;
 }

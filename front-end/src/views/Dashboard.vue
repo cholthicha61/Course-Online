@@ -1,9 +1,9 @@
 <template>
-  <div class="py-8 px-8">
+  <div class="py-8 px-4 md:px-8">
     <div class="head-course">
       <h1>Dashboard</h1>
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8"
       >
         <div class="py-8">
           <DashboardUser />
@@ -22,7 +22,7 @@
           <DashboardInbox />
         </div>
       </div>
-      <div class="">
+      <div class="mt-8">
         <AllSales />
       </div>
       <!-- <div class="">
@@ -35,14 +35,12 @@
 <script>
 import DashboardUser from "@/components/card/DashboardUser.vue";
 import DashboarCourse from "@/components/card/DashboardCourse.vue";
-import DashboarConfirme from "../components/card/DashboardConfirm.vue";
+import DashboarConfirme from "@/components/card/DashboardConfirm.vue";
 import DashboardInbox from "@/components/card/DashboardInbox.vue";
-import Sale from "../components/card/Sales.vue";
-import AllSales from "../components/card/AllSales.vue";
+import Sale from "@/components/card/Sales.vue";
+import AllSales from "@/components/card/AllSales.vue";
 
 export default {
-  data: () => ({ review: "30%" }),
-
   components: {
     DashboardUser,
     DashboarCourse,
