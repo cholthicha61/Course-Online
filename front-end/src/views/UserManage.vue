@@ -5,98 +5,26 @@
     </div>
   </div>
   <div class="mt-9">
-    <v-data-table-virtual :headers="headers" :items="users" >
-      <template v-slot:[`item.no`]="{ index }">
-        {{ index + 1 }}
+    <v-data-table-virtual :headers="headers" :items="users">
+      <template #item="{ item, index }">
+        <tr :key="index">
+          <td>{{ index + 1 }}</td>
+          <td>{{ formatDate(item.createdAt) }}</td>
+          <td>{{ item.fname }}</td>
+          <td>{{ item.lname }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.phone }}</td>
+          <td class="switch-td">
+            <v-switch
+              v-model="item.active"
+              @update:modelValue="updateUser(item)"
+              :label="getStatusLabel(item.active)"
+              inset
+              color="info"
+            ></v-switch>
+          </td>
+        </tr>
       </template>
-
-<template #item="{ item, index }">
-  <tr :key="index">
-    <td
-      style="
-        width: 150px;
-        min-width: 150px;
-        max-width: 150px;
-        text-align: center;
-        word-wrap: break-word;
-      "
-    >
-      {{ index + 1 }}
-    </td>
-    <td
-      style="
-        width: 250px;
-        min-width: 250px;
-        max-width: 250px;
-        text-align: start;
-        word-wrap: break-word;
-      "
-    >
-      {{ formatDate(item.createdAt) }}
-    </td>
-    <td
-      style="
-        width: 300px;
-        min-width: 300px;
-        max-width: 300px;
-        text-align: start;
-        word-wrap: break-word;
-      "
-    >
-      {{ item.fname }}
-    </td>
-    <td
-      style="
-        width: 300px;
-        min-width: 300px;
-        max-width: 300px;
-        text-align: start;
-        word-wrap: break-word;
-      "
-    >
-      {{ item.lname }}
-    </td>
-    <td
-      style="
-        width: 300px;
-        min-width: 300px;
-        max-width: 300px;
-        text-align: start;
-        word-wrap: break-word;
-      "
-    >
-      {{ item.email }}
-    </td>
-    <td
-      style="
-        width: 200px;
-        min-width: 200px;
-        max-width: 200px;
-        text-align: start;
-        word-wrap: break-word;
-      "
-    >
-      {{ item.phone }}
-    </td>
-    <td
-      style="
-        width: 50px;
-        min-width: 50px;
-        max-width: 50px;
-        text-align: center;
-      "
-    >
-      <v-select
-        :items="status"
-        variant="underlined"
-        v-model="item.active"
-        return-object
-        @update:modelValue="updateUser(item)"
-      >
-      </v-select>
-    </td>
-  </tr>
-</template>
 </v-data-table-virtual>
 </div>
 </template>
@@ -108,97 +36,73 @@ import Swal from "sweetalert2";
 export default {
   data: () => ({
     headers: [
-      {
-        title: "No.",
-        align: "center",
-        value: "id",
-      },
-      {
-        title: "CreatedAt",
-        align: "start",
-        value: "createdAt",
-        sortable: true,
-      },
-      {
-        title: "First Name",
-        align: "start",
-        value: "fname",
-        sortable: true,
-      },
-      {
-        title: "Last Name",
-        align: "start",
-        value: "lname",
-        sortable: true,
-      },
-      {
-        title: "Email",
-        align: "start",
-        value: "email",
-        sortable: true,
-      },
-      {
-        title: "Tel.",
-        align: "start",
-        value: "phone",
-        sortable: true,
-      },
-      {
-        title: "Status",
-        align: "center",
-        value: "active",
-        sortable: true,
-      },
+      { title: "No.", align: "start", value: "index" },
+      { title: "CreatedAt", align: "start", value: "createdAt", sortable: true },
+      { title: "First Name", align: "start", value: "fname", sortable: true },
+      { title: "Last Name", align: "start", value: "lname", sortable: true },
+      { title: "Email", align: "start", value: "email", sortable: true },
+      { title: "Tel.", align: "start", value: "phone", sortable: true },
+      { title: "Status", align: "start", value: "active", sortable: true },
     ],
     users: [],
     status: ["true", "false"],
   }),
 
-  computed: {
-    ...mapState({
-      user: (state) => state.user.user,+
-      status: (state) => state.user.status,
-    }),
-  },
-  watch: {
-    users(newVal) {
-      return newVal;
-    },
-  },
+  computed: mapState({
+    user: (state) => state.user.user,
+  }),
+
   async mounted() {
-    this.getData();
+    await this.getData();
   },
+
   methods: {
     async getData() {
       await this.$store.dispatch("user/getUser");
-      this.users = this.user;
-      console.log("this.users", this.users);
+      this.users = this.user.map((item, index) => ({ ...item, index: index + 1 }));
     },
+
     async updateUser(item) {
       const payload = {
         id: item.id,
-        active: item.active == "true" ? true : false,
+        active: item.active,
       };
+      console.log('====================================');
+      console.log(payload);
+      console.log('====================================');
+
       const { isConfirmed } = await Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "คุณต้องการเปลี่ยนสถานะผู้ใช้หรือไม่",
+        // text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, Change status!",
+        confirmButtonText: "ใช่, ต้องการเปลี่ยน",
+        cancelButtonText: "ยกเลิก",
+
       });
+
       if (isConfirmed) {
         await this.$store.dispatch("user/updateStatus", payload);
         Swal.fire({
-          title: "Changed!",
-          text: "Status changed.",
+          title: "เปลี่ยนสถานะสำเร็จ",
+          // text: "เปลี่ยนสถานะสำเร็จ",
           icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
         });
+      } else {
+        item.active = !item.active;
+
       }
     },
+
     formatDate(date) {
       return new Date(date).toLocaleString();
+    },
+    getStatusLabel(active) {
+      return active ? "active" : "inactive";
     },
   },
 };
@@ -210,5 +114,20 @@ export default {
   color: rgb(11, 94, 188);
   border-bottom: 1px solid #d9d9d9;
   font-style: italic;
+}
+
+/* .v-data-table {
+  overflow-x: auto;
+} */
+
+.v-data-table th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.switch-td {
+  min-width: 160px;
+  /* กำหนดความกว้างของ td */
 }
 </style>

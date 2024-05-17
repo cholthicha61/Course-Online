@@ -3,32 +3,22 @@
     <div class="head-course">
       <h1>Manage Category</h1>
     </div>
-    <div class="add-category-btn">
+  </div>
+  <div>
+    <div class="add-category-btn" style="display: flex; justify-content: flex-end; margin-top: 15px;">
       <AddCategory />
     </div>
 
-    <EditCategory
-      v-if="isEditCategory"
-      :isEditCategory="isEditCategory"
-      :selectCategory="selectCategory"
-      :onCloseEdit="onCloseEdit"
-    />
 
-    <v-data-table-virtual
-      :headers="headers"
-      :items="names"
-      height="400"
-      item-value="name"
-    >
+    <EditCategory v-if="isEditCategory" :isEditCategory="isEditCategory" :selectCategory="selectCategory"
+      :onCloseEdit="onCloseEdit" />
+
+    <v-data-table-virtual :headers="headers" :items="names" height="400" item-value="name">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-      <template v-slot:[`item.actions`]="{ item }">
-        <v-btn
-          color="blue"
-          @click="updateCategory(item)"
-          style="margin-right: 8px"
-        >
+      <template v-slot:[`item.update`]="{ item }">
+        <v-btn color="blue" @click="updateCategory(item)" style="margin-right: 8px">
           Edit
         </v-btn>
         <v-btn color="warning" @click="deleteCategory(item.id)">Delete</v-btn>

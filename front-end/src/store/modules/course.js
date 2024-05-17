@@ -1,6 +1,7 @@
 import axios from "axios";
 import configAxios from "../../axios/configAxios";
 import { ENDPOINT } from "../../constants/endpoint";
+import Swal from "sweetalert2";
 
 const state = {
   course: [],
@@ -102,7 +103,7 @@ const actions = {
         // แจ้งเตือนการปรับปรุงเรียบร้อย
         Swal.fire({
           icon: "success",
-          title: "อัพเดทความสำเร็จ",
+          title: "อัพเดทสำเร็จ",
           text: "การอัพเดทลำดับคอร์สเรียบร้อยแล้ว",
           showConfirmButton: false,
           timer: 2000,
