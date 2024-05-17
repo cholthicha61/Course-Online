@@ -58,6 +58,7 @@ export class User extends BaseEntity {
     inverseJoinColumn: { name: 'fav_course_id', referencedColumnName: 'id' },
   })
   favoriteCourses: Course[];
+  
   @Column({ nullable: true })
   desc: string;
 

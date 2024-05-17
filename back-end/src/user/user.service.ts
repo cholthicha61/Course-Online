@@ -55,6 +55,7 @@ export class UserService {
         favoriteCourses: [],
         password: await hashPass.hashPassword(createUserDto.password, 10),
         roles: findRole,
+        desc: null,
       });
 
       const userSave = await this.userRepository.save(createUser);
