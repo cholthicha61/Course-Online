@@ -8,7 +8,7 @@
       <div>
         <RouterView />
       </div>
-      <Footers />
+      <Footers class="footer"/>
     </div>
   </div>
 </template>
@@ -37,5 +37,8 @@ export default {
   },
 };
 </script>
-
-<style></style>
+<style scoped>
+.footer {
+  margin-top: 92px; 
+}
+</style>

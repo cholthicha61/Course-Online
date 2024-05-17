@@ -16,7 +16,7 @@ const mutations = {
 
 const actions = {
   async addCourse({ commit }, addcourse) {
-    const url = `${ENDPOINT.COURSE}/uploads`;
+    const url = `${ENDPOINT.COURSE}`;
     console.log("Dai mai",addcourse);
     const formData = new FormData();
     formData.append("courseName", addcourse.name);

@@ -23,20 +23,96 @@
         </div>
       </v-card-text>
 
-      <v-card-btn class="card-button pa-2 d-flex justify-between">
-        <v-btn value="favorites">
-          <!-- <v-icon>mdi-heart</v-icon> -->
-          <span>icon</span>
-        </v-btn>
+      <!-- <div waitting>
+        <div class="border-t-4"></div>
+
+        <div class="text-center mt-5">
+          <div class="text-center mt-5">
+            <button
+              class="bg-sky-400 text-white py-4 px-5 hover:bg-primary-dark rounded-lg text-lg"
+              type="button"
+            >
+              Waiting for confirmation
+            </button>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div confirm>
+        <div class="border-t-4"></div>
+
+        <div class="text-center">
+          <div class="text-center mt-5">
+            <button
+              class="bg-green-400 text-white px-20 hover:bg-primary-dark rounded-lg text-lg"
+              type="button"
+            >
+              confirmed
+            </button>
+            <div class="mt-4">
+              <p class="text-lg">start 16/05/67</p>
+              <p class="text-lg">end 16/05/67</p>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <v-card-btn
+        class="card-button pa-2 d-flex align-items-center justify-between"
+      >
         <v-btn
-          class="buy-button text-whit font-weight-regular mb-5"
+          value="favorites"
+          class="rounded-circle"
+          @click="toggleFavorite(course)"
+          style="
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 50%;
+            padding: 0;
+            margin: 0;
+          "
+        >
+          <template v-if="!isFavorite">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-6 h-6"
+            >
+              <path
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+              />
+            </svg>
+          </template>
+          <template v-else>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#fc0345"
+              class="w-6 h-6"
+            >
+              <path
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+              />
+            </svg>
+          </template>
+        </v-btn>
+
+        <v-btn
+          class="buy-button text-white font-weight-regular mb-5"
+          style="height: 40px; display: flex; align-items: center"
           text="BUY"
           variant="tonal"
           @click="setOpenModal(course)"
         ></v-btn>
-        <!-- <button @click="ff" class="btn-buy rounded-md "> 
-           Buy 
-        </button> -->
       </v-card-btn>
     </v-card>
   </div>
@@ -44,33 +120,87 @@
 
 <script>
 import { ENDPOINT } from "@/constants/endpoint";
+import _ from "lodash";
+import { mapState } from "vuex";
 export default {
   name: "CardCourse",
   data() {
     return {
       isHover: false,
+      isFavorite: false,
       img: ENDPOINT.IMG,
+      user: JSON.parse(localStorage.getItem("user")),
     };
+  },
+  computed: {
+    ...mapState({
+      favorite: (state) => state.favorite.favorite,
+    }),
   },
   props: {
     course: {},
     setOpenModal: {
-      type:Function,
+      type: Function,
     },
   },
   watch: {
     course(newVal) {
+      // newVal.push({isFavorite : false})
       console.log("card course", newVal);
+      return newVal
+    },
+    isFavorite(newVal) {
+      return newVal;
     },
   },
   mounted() {
-    console.log("ppppppp", `${this.img}/${this.course.courseImage}`);
+    // console.log("ppppppp", `${this.img}/${this.course.courseImage}`);
+    this.checkFavorite(this.course, this.user);
+    // console.log('ssss', this.course);
   },
   methods: {
+    checkFavorite(course, user) {
+      _.map(course?.favoriteByUsers, (fav) => {
+        // console.log('newVal.favoriteByUsers,', fav);
+        if (fav?.id == user.id) {
+          this.isFavorite = true;
+        }
+      });
+    },
     toggleShadow() {
       this.isHover = !this.isHover;
     },
+    async toggleFavorite(course) {
+      const payload = {
+        userId: this.user.id,
+        courseId: course.id,
+      };
+      // console.log("favorite: ", this.favorite);
+      console.log("toggleFavorite", course);
+      // await this.$store.dispatch("favorite/updateFavorite", payload);
 
+      // if (!course?.favoriteByUsers) {
+      //   console.log("favorite/updateFavorite");
+      //   await this.$store.dispatch("favorite/updateFavorite", payload);
+      // } else {
+      // console.log("in else");
+      if (course?.favoriteByUsers.length != 0) {
+        _.map(course?.favoriteByUsers, async (fav) => {
+          if (fav?.id == this.user.id) {
+            console.log("favorite/deleteFavorite");
+            await this.$store.dispatch("favorite/deleteFavorite", payload);
+          } else {
+            console.log("favorite/updateFavorite1");
+            await this.$store.dispatch("favorite/updateFavorite", payload);
+          }
+        });
+      } else {
+        console.log("favorite/updateFavorite2");
+        await this.$store.dispatch("favorite/updateFavorite", payload);
+      }
+
+      // }
+    },
   },
 };
 </script>

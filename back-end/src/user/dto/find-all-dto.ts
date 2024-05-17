@@ -1,14 +1,14 @@
-export class FindAllUserDto{
-    orderById?: 'DESC' | 'ASC';
-    limit?: string;
-    fname?: string;
-    lname?: string;
-    phone?: string;
-    email?: string;
-    role?: 'true' | 'false';
-    orders?: 'true' | 'false';  
-    questions?: 'true' | 'false';
-    favoriteCourses?: 'true' | 'false'
+export class FindAllUserDto {
+  orderById?: 'DESC' | 'ASC';
+  limit?: string;
+  fname?: string;
+  lname?: string;
+  phone?: string;
+  email?: string;
+  role?: 'true' | 'false';
+  orders?: 'true' | 'false';
+  questions?: 'true' | 'false';
+  favoriteCourses?: 'true' | 'false';
 }
 
 export class FindAllOrderDto {
@@ -17,7 +17,7 @@ export class FindAllOrderDto {
   status: string;
   startdate: string;
   enddate: string;
-  user: 'true' | 'false'; 
+  user: 'true' | 'false';
   course: 'true' | 'false';
   categorys: 'true' | 'false';
   images: 'true' | 'false';
@@ -32,4 +32,5 @@ export class FindAllCategoryDto {
   name: string;
   type: string;
   course: 'true' | 'false';
+  userId: number;
 }

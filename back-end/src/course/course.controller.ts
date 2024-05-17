@@ -28,13 +28,13 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get()
   async findAll(@Query() keyword) {
     return await this.courseService.findAll(keyword);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.courseService.findOne(+id);

@@ -109,6 +109,7 @@ export default {
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("course/deleteCourse", courseId);
+          await this.dispatch("course/getCourse");
         }
       });
     },

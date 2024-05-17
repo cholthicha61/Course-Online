@@ -45,7 +45,9 @@ export class CourseService {
         .createQueryBuilder('course')
         .leftJoinAndSelect('course.categorys', 'category')
         .leftJoinAndSelect('course.images', 'images')
-        .leftJoinAndSelect('course.orders', 'orders');
+        .leftJoinAndSelect('course.orders', 'orders')
+        .leftJoinAndSelect('course.favoriteByUsers', 'favoriteByUsers')
+
       if (keyword?.categorys == 'true') {
         findAllCourse.leftJoinAndSelect('course.categorys', 'category');
       }

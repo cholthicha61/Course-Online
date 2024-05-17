@@ -14,7 +14,7 @@ import { Image } from './entities/image.entity';
 import * as _ from 'lodash';
 
 @Injectable()
-export class ImageService  {
+export class ImageService {
   constructor(
     @InjectRepository(Image)
     private readonly imageRepository: Repository<Image>
@@ -98,5 +98,4 @@ export class ImageService  {
       throw error;
     }
   }
-
 }

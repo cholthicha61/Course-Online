@@ -8,7 +8,7 @@ const routes =  [
         {
           path: "/homepage",
           name: "homepage",
-          component: () => import("../views/Main.vue"),
+          component: () => import("../views/HomePage.vue"),
           meta: { requiresGuest: true },
         },
         {
@@ -75,6 +75,11 @@ const routes =  [
           path: "/courseorder",
           name: "courseorder",
           component: () => import("../components/CourseOrder.vue")
+        },
+        {
+          path: "/teacherprofile",
+          name: "teacherprofile",
+          component: () => import("../views/EditProfileTeachaer.vue")
         }
       ],
     },
@@ -119,7 +124,12 @@ const routes =  [
           component: () => import("../views/EditProfile.vue"),
           meta: { requiresAuth: true },
         },
-        
+        {
+        path: "/datailcourse",
+          name: "datailcourse",
+          component: () => import("../views/DatailCourse.vue"),
+          meta: { requiresAuth: true },
+        },
       ],
     },
     {

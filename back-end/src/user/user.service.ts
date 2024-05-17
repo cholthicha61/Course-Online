@@ -10,7 +10,10 @@ import { Role } from 'src/role/entities/role.entity';
 import { response } from 'express';
 import { FindAllUserDto } from './dto/find-all-dto';
 import { RolesUser, UserInit } from 'src/constant/init-user';
+import { Image } from 'src/image/entities/image.entity';
+import { CreateTeacherProfileDto } from './dto/create-teacher-profile.dto';
 import { Course } from 'src/course/entities/course.entity';
+import { UpdateTeacherDto } from './dto/update-teacher.dto';
 
 @Injectable()
 export class UserService {
@@ -21,7 +24,7 @@ export class UserService {
     private roleRepository: Repository<Role>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>
-  ) {}
+  ) { }
   async create(createUserDto: CreateUserDto) {
     try {
       const findByEmail = await this.userRepository.findOne({
@@ -68,7 +71,11 @@ export class UserService {
     try {
       console.log('keyword', keyword);
 
-      const findAllUsers = await this.userRepository.createQueryBuilder('user');
+      const findAllUsers = await this.userRepository
+        .createQueryBuilder('user')
+      // .leftJoinAndSelect('user.favoriteCourses', 'favoriteCourses')
+      // .leftJoinAndSelect('user.orders', 'orders')
+
       if (keyword?.role == 'true') {
         findAllUsers.leftJoinAndSelect('user.roles', 'roles');
       }
@@ -121,7 +128,7 @@ export class UserService {
         relations: {
           questions: true,
           roles: true,
-          favoriteCourses:true
+          favoriteCourses: true
         },
       });
       if (!user) {
@@ -183,6 +190,32 @@ export class UserService {
       throw error;
     }
   }
+
+  async updateTeacherProfile(file, updateTeacherDto: UpdateTeacherDto) {
+    try {
+      const teacher = await this.userRepository.createQueryBuilder('user')
+        .leftJoinAndSelect('user.roles', 'roles')
+        .where('roles.name = :roleName', { roleName: RolesUser.Teacher })
+        .getOne();
+      if (!teacher) {
+        throw new HttpException('Teacher not found', HttpStatus.NOT_FOUND);
+      }
+
+        teacher.userImage = file.filename;
+        teacher.fname = updateTeacherDto.fname;
+        teacher.lname = updateTeacherDto.lname;
+        teacher.phone = updateTeacherDto.phone;
+        teacher.email = updateTeacherDto.email;
+        teacher.desc = updateTeacherDto.desc;
+
+      const updateTeacher = await this.userRepository.save(teacher);
+
+      return updateTeacher;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async markCourseAsFavorite(userId: number, courseId: number): Promise<void> {
     try {
       const user = await this.userRepository.findOne({
@@ -203,7 +236,6 @@ export class UserService {
         user.favoriteCourses.push(course);
         await this.userRepository.save(user);
       }
-      
     } catch (error) {
       throw new HttpException(
         'An error occurred while marking the course as favorite',
@@ -224,6 +256,9 @@ export class UserService {
 
       const course = await this.courseRepository.findOne({
         where: { id: courseId },
+        relations: {
+          favoriteByUsers: true
+        },
       });
 
       if (!course) {
@@ -241,10 +276,12 @@ export class UserService {
 
   async getFavoriteCourses(userId: number): Promise<Course[]> {
     try {
-      const user = await this.userRepository.findOne({
-        where: { id: userId },
-        relations: ['favoriteCourses'],
-      });
+      const user = await this.userRepository
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.favoriteCourses", "favoriteCourses")
+      .leftJoinAndSelect("favoriteCourses.favoriteByUsers", "favoriteByUsers")
+      .where("user.id = :userId", { userId })
+      .getOne();
 
       if (!user) {
         throw new NotFoundException('User not found.');
@@ -261,7 +298,7 @@ export class UserService {
         relations: ['favoriteCourses'],
       });
 
-      return users.map(user => {
+      return users.map((user) => {
         const { password, ...userWithoutPassword } = user;
         return userWithoutPassword;
       });
@@ -272,40 +309,4 @@ export class UserService {
       );
     }
   }
-  // async getAllCoursesWithFavoriteUsers(): Promise<any[]> {
-  //   try {
-  //     console.log('Executing getAllCoursesWithFavoriteUsers method');
-  //     const courses = await this.courseRepository.createQueryBuilder('course')
-  //       .leftJoinAndSelect('course.favoriteByUsers', 'user')
-  //       .select([
-  //         'course.id',
-  //         'course.title',
-  //         'course.description',
-  //         'user.id',
-  //         'user.fname',
-  //         'user.lname',
-  //         'user.email',
-  //       ])
-  //       .getMany();
-  
-  //     console.log('Courses retrieved:', courses);
-  
-  //     return courses.map(course => {
-  //       const { favoriteByUsers, ...courseWithoutUsers } = course;
-  //       return {
-  //         ...courseWithoutUsers,
-  //         favoriteByUsers: favoriteByUsers.map(user => {
-  //           const { password, ...userWithoutPassword } = user;
-  //           return userWithoutPassword;
-  //         }),
-  //       };
-  //     });
-  //   } catch (error) {
-  //     console.error('Error retrieving courses with favorite users:', error);
-  //     throw new HttpException(
-  //       'An error occurred while retrieving courses with favorite users',
-  //       HttpStatus.INTERNAL_SERVER_ERROR
-  //     );
-  //   }
-  // }
 }

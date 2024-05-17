@@ -47,7 +47,6 @@ export class Course extends BaseEntity {
   //   inverseJoinColumn: { name: 'user_course_id', referencedColumnName: 'id' },
   // })
   // users: User[];
-  @ManyToMany(() => User, user => user.favoriteCourses)
+  @ManyToMany(() => User, (user) => user.favoriteCourses)
   favoriteByUsers: User[];
-
 }

@@ -1,18 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { FindAllUserDto } from './dto/find-all-dto';
+import * as path from 'path';
+import { FOLDERPATH } from 'src/constant/folder-path';
+import { unlink } from 'fs/promises';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { uniqueSuffixString } from 'src/func/unique-string';
+import { CreateTeacherProfileDto } from './dto/create-teacher-profile.dto';
+import { UpdateTeacherDto } from './dto/update-teacher.dto';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    console.log("createUserDto >>>", createUserDto);
+    console.log('createUserDto >>>', createUserDto);
     return await this.userService.create(createUserDto);
   }
 
@@ -29,10 +37,41 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard)
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    const roleId = updateUserDto.roleId;
-    return await this.userService.update(+id, updateUserDto, roleId);
+  @Patch('teacher-profile')
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: FOLDERPATH.Imgs, // แก้เป็น path ที่ต้องการเก็บไฟล์
+      filename: (req, file, cb) => {
+        const uniqueSuffix = uniqueSuffixString();
+
+        const extension = path.extname(file.originalname);
+        const filename = `${uniqueSuffix}${extension}`;
+        cb(null, filename);
+      },
+    }),
+  }))
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() updateTeacherDto: UpdateTeacherDto) {
+    // ตรวจสอบประเภทไฟล์ก่อนอัพโหลด
+    const allowedFileTypes = ['.png', '.jpeg', '.jpg'];
+    const fileExt = path.extname(file.originalname).toLowerCase();
+    if (!allowedFileTypes.includes(fileExt)) {
+      const filePath = `${FOLDERPATH.Imgs}/${file.filename}`
+      try {
+        await unlink(filePath); // ใช้ unlink เพื่อลบไฟล์
+        console.log(`File ${filePath} deleted successfully`);
+      } catch (error) {
+        console.error(`Error deleting file ${filePath}:`, error);
+        throw new Error(`Failed to delete file ${filePath}`);
+      }
+      throw new BadRequestException('Invalid file type');
+    }
+    // ทำสิ่งที่ต้องการกับไฟล์ที่อัพโหลด
+    // เช่น เก็บข้อมูลในฐานข้อมูลหรือประมวลผลไฟล์
+    // ส่งคืนข้อมูลหรือตอบกลับตามที่ต้องการ
+    console.log('File uploaded successfully', file.filename);
+    
+    const teacher = await this.userService.updateTeacherProfile(file, updateTeacherDto);
+    return teacher;
   }
 
   @UseGuards(AuthGuard)
@@ -44,6 +83,14 @@ export class UserController {
   ) {
     return await this.userService.updateStatusUser(id, updateUserDto, active);
   }
+
+  @UseGuards(AuthGuard)
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    const roleId = updateUserDto.roleId;
+    return await this.userService.update(+id, updateUserDto, roleId);
+  }
+
   @UseGuards(AuthGuard)
   @Post('favorite/:userId/courses/:courseId')
   async markCourseAsFavorite(
@@ -74,9 +121,4 @@ export class UserController {
     return await this.userService.getAllUsersWithFavoriteCourses();
   }
 
-  // @UseGuards(AuthGuard)
-  // @Get('all/favorite-users')
-  // async getAllCoursesWithFavoriteUsers() {
-  //   return this.userService.getAllCoursesWithFavoriteUsers();
-  // }
 }
