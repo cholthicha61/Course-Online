@@ -33,6 +33,7 @@ import {
   nextTick,
   reactive
 } from "./chunk-5A4OAFVX.js";
+import "./chunk-P2LSHJDD.js";
 
 // node_modules/vuetify/lib/framework.mjs
 function createVuetify() {
