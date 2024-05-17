@@ -58,11 +58,15 @@ export class QuestionService {
       });
 
       const response = question.map(question => {
-        const { password, ...filteredUser } = question.user;
-        return {
-          ...question,
-          user: filteredUser,
-        };
+        if (question.user) {
+          const { password, ...filteredUser } = question.user;
+          return {
+            ...question,
+            user: filteredUser,
+          };
+        } else {
+          return question;
+        }
       });
 
       return response
@@ -108,8 +112,9 @@ export class QuestionService {
     try {
       const question = this.questionRepository.create({
         message: createQuestionNonLoginDto.message,
+        email: createQuestionNonLoginDto.email,
       });
-      
+
       const questionSave = await this.questionRepository.save(question);
 
       return questionSave;
