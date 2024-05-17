@@ -18,7 +18,7 @@
     </div>
 
     <div class="">
-      <QuestionPopup />
+      <Question />
     </div>
   </div>
   <!-- </v-container> -->
@@ -27,19 +27,19 @@
 <script>
 import Banner from "@/components/BanNer.vue";
 import ProfileCard from "../components/ProFile.vue";
-import QuestionPopup from "@/components/QuestionPopup.vue";
 import AllCourse from "../components/AllCourse.vue";
 import Login from "../components/Login.vue";
 import Register from "../views/Register.vue";
+import Question from "@/components/Question.vue";
 
 export default {
   components: {
     Banner,
     ProfileCard,
-    QuestionPopup,
     AllCourse,
     Login,
     Register,
+    Question
   },
 };
 </script>

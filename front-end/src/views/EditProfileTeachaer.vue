@@ -22,10 +22,13 @@
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">อีเมล</label>
+        <label 
+        class="mb-2 text-gray-700" >อีเมล</label>
+        
         <input
           type="email"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
+          v-model="user.email"
         />
       </div>
 
@@ -50,7 +53,7 @@
         label="เพิ่มรูปภาพที่นี่"
         placeholder="Pick an avatar"
         style="width: 430px"
-        class="mr-8"
+        class="mr-4"
       >
       </v-file-input>
       <div class="">
@@ -67,20 +70,44 @@
 
 <script>
 export default {
-  data: () => ({
-    rules: [
-      (value) => {
-        return (
-          !value ||
-          !value.length ||
-          value[0].size < 2000000 ||
-          "Avatar size should be less than 2 MB!"
-        );
+  data() {
+    return {
+      user: {},
+      fname: "",
+      lname: "",
+      email: "",
+      phone: "",
+      payload: {
+        fname: "",
+        lname: "",
+        phone: "",
+        email: "",
       },
-    ],
-  }),
+    };
+  },
+  computed: {
+   
+  },
+  methods: {
+    
+    async updateUser() {
+      console.log("this.payload :", this.user);
+
+      await this.$store.dispatch("user/updateUser", {
+        userId: this.user.id,
+        newData: this.user,
+      });
+
+      console.log("payload", this.user);
+    },
+  },
+  mounted() {
+    this.user = JSON.parse(localStorage.getItem('user'))
+    console.log('user', this.user);
+  },
 };
 </script>
+
 <style scoped>
 .picture {
   margin-right:67%;

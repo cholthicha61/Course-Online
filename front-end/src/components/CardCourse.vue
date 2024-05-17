@@ -147,7 +147,7 @@ export default {
     course(newVal) {
       // newVal.push({isFavorite : false})
       console.log("card course", newVal);
-      return newVal
+      return newVal;
     },
     isFavorite(newVal) {
       return newVal;
@@ -175,15 +175,8 @@ export default {
         userId: this.user.id,
         courseId: course.id,
       };
-      // console.log("favorite: ", this.favorite);
       console.log("toggleFavorite", course);
-      // await this.$store.dispatch("favorite/updateFavorite", payload);
 
-      // if (!course?.favoriteByUsers) {
-      //   console.log("favorite/updateFavorite");
-      //   await this.$store.dispatch("favorite/updateFavorite", payload);
-      // } else {
-      // console.log("in else");
       if (course?.favoriteByUsers.length != 0) {
         _.map(course?.favoriteByUsers, async (fav) => {
           if (fav?.id == this.user.id) {

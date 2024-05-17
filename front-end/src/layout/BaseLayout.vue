@@ -11,7 +11,7 @@
         </div>
       </div>
     </div>
-    <Footers />
+    <Footers v-if="role !== 'admin'" class="mt-auto" />
   </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
     };
   },
   mounted() {
-    console.log("ff", this.role);
+    console.log("Role:", this.role);
   },
 };
 </script>
