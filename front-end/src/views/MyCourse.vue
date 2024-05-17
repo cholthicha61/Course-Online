@@ -2,12 +2,10 @@
   <v-container class="head-course">
     <h1 class="mt-10">My Course</h1>
     </v-container>
-<CardCourseWait/>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import CardCourseWait from "@/components/CardCourseWait.vue";
 export default {
   data(){
     return{     
@@ -16,7 +14,6 @@ export default {
     }
   },
   components: {
-    CardCourseWait
   },
   // computed: {
   //   ...mapState({

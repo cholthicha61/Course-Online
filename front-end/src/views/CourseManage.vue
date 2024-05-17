@@ -34,8 +34,8 @@
             </v-select> -->
           <!-- </td> -->
           <td class="table-cell" style="text-align: center;">
-            <v-btn color="warning" @click="EditCourse(item)" style="margin-right: 10px;">edit</v-btn>
-            <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
+            <v-btn color="blue" @click="EditCourse(item)" style="margin-right: 10px;">edit</v-btn>
+            <v-btn color="warning" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
       </template>

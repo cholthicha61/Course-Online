@@ -72,6 +72,7 @@
         </v-col>
       </v-row>
     </v-container>
+    <QuestionPopup/>
   </div>
 </template>
 
@@ -79,12 +80,13 @@
 import CardCourse from "@/components/CardCourse.vue";
 import { mapState } from "vuex";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
-
+import QuestionPopup from "./QuestionPopup.vue";
 // import { TYPE_COURSE } from "@/constants/type-course";
 export default {
   components: {
     CardCourse,
     ConfirmCourse,
+    QuestionPopup,
   },
   data() {
     return {

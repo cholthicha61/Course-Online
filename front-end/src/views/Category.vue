@@ -76,13 +76,13 @@ export default {
     },
     async deleteCategory(categoryId) {
       Swal.fire({
-        title: "คุณต้องการลบหรือไม่",
-        text: "ลบแล้วจะไม่สามารถกลับมาแก้ไขใหม่ได้",
+        title: "Do you want to delete it?",
+        text: "Once deleted, it cannot be edited again.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "ยืนยันการลบ",
+        confirmButtonText: "Confirm deletion",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("category/deleteCategory", categoryId);

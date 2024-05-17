@@ -5,7 +5,7 @@
       class="flex items-center flex-col w-full px-96 border-gray-200 rounded-lg"
     >
       <div class="flex flex-col ">
-        <label class="mb-2 text-gray-700">ชื่อ</label>
+        <label class="mb-2 text-gray-700">Fristname</label>
         <input
           type="text"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
@@ -15,7 +15,7 @@
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">นามสกุล</label>
+        <label class="mb-2 text-gray-700">Lastname</label>
         <input
           type="text"
           class="form-input border border-l-gray-300 rounded-md px-2 py-2 w-96"
@@ -25,7 +25,7 @@
 
       <div class="flex flex-col mb-4">
         <label 
-        class="mb-2 text-gray-700" >อีเมล</label>
+        class="mb-2 text-gray-700" >Email</label>
         
         <input
           type="email"
@@ -35,7 +35,7 @@
       </div>
 
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">โทรศัพท์</label>
+        <label class="mb-2 text-gray-700">Phone</label>
         <input
           type="tel"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
@@ -43,14 +43,14 @@
         />
       </div>
       <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">ประวัติผู้สอน</label>
+        <label class="mb-2 text-gray-700">Information</label>
         <input
           type="tel"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="teacher.desc"
         />
       </div>
-      <label  class="picture mb-2 text-gray-700" >รูปภาพ</label>
+      <label  class="picture mb-2 text-gray-700" >Picture</label>
       <v-file-input
         :rules="rules"
         accept="image/png, image/jpeg, image/bmp"

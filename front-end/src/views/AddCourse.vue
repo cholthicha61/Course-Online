@@ -239,7 +239,7 @@ export default {
           this.showConfirmationDialog = true;
           Swal.fire({
           icon: "success",
-          title: "เพิ่มคอร์สสำเร็จ",
+          title: "Successfully added course",
           text: "",
           showConfirmButton: false,
           timer: 2000,
