@@ -13,33 +13,34 @@
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-      <template #item="{ item ,index}">
+<template #item="{ item ,index}">
         <tr :key="item.coursename">
           <td class="table-cell"> {{ index + 1 }} </td>
           <td class="table-cell"> {{ formatDate(item.createdAt)}} </td>
           <td class="table-cell"> {{ item.courseName }} </td>
-          <td class="table-cell"> {{ item.categorys.name }} </td>
+          <td class="table-cell" v-if="item.categorys"> {{ item.categorys.name }} </td>
+          <td class="table-cell" v-else> N/A </td>
           <td class="table-cell"> {{ item.description }} </td>
           <td class="table-cell"> {{ item.price }} </td>
           <td class="table-cell"> {{ item.status }} </td>
-          <td class="table-cell" >
-            <v-select
+          <!-- <td class="table-cell" > -->
+            <!-- <v-select
               :items="courses.map((course) => course.priority)"
               variant="underlined"
               v-model="item.priority"
               return-object
               @update:modelValue="updatePriority(item)"
             >
-            </v-select>
-          </td>
+            </v-select> -->
+          <!-- </td> -->
           <td class="table-cell" style="text-align: center;">
             <v-btn color="warning" @click="EditCourse(item)" style="margin-right: 10px;">edit</v-btn>
             <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
       </template>
-    </v-data-table-virtual>
-  </div>
+</v-data-table-virtual>
+</div>
 </template>
 
 <script>
@@ -72,12 +73,12 @@ export default {
         },
         { title: "Price", align: "start", value: "price", sortable: true },
         { title: "Type", align: "start", value: "priority", sortable: true },
-        {
-          title: "Priority",
-          align: "start",
-          value: "priority",
-          sortable: true,
-        },
+        // {
+        //   title: "Priority",
+        //   align: "start",
+        //   value: "priority",
+        //   sortable: true,
+        // },
         { title: "Action", align: "center" },
       ],
       courses: [],
@@ -99,20 +100,29 @@ export default {
     },
     async deleteCourse(courseId) {
       Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "ต้องการลบคอร์สหรือไม่",
+        text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "ใช่, ต้องการลบ!",
+        cancelButtonText: "ยกเลิก",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("course/deleteCourse", courseId);
-          await this.dispatch("course/getCourse");
+          await this.$store.dispatch("course/getCourse");
+          Swal.fire({
+            icon: "success",
+            title: "อัพเดทสำเร็จ",
+            text: "การลบคอร์สเรียบร้อยแล้ว",
+            showConfirmButton: false,
+            timer: 2000,
+          });
         }
       });
     },
+
     async updatePriority(item) {
       const payload = {
         id: item.id,
@@ -148,5 +158,4 @@ export default {
   word-wrap: break-word;
   white-space: normal;
 }
-
 </style>
