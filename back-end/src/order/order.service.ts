@@ -164,4 +164,19 @@ export class OrderService {
       throw error;
     }
   }
+  async checkOrderExistence(userId: number, courseId: number): Promise<boolean> {
+    try {
+      const order = await this.orderRepository.findOne({
+        where: {
+          user: { id: userId },
+          course: { id: courseId },
+        },
+        relations: ['user', 'course'],
+      });
+  
+      return !_.isEmpty(order);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
