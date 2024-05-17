@@ -56,7 +56,7 @@ export class InitDateService {
             });
             await this.userRepository.save(createUser);
           } else {
-            const createUser = this.userRepository.create({
+            const createTeacher = this.userRepository.create({
               fname: user.fname,
               lname: user.lname,
               phone: user.phone,
@@ -65,7 +65,7 @@ export class InitDateService {
               desc: user.desc,
               userImage: user.userImage
             });
-            await this.userRepository.save(createUser);
+            await this.userRepository.save(createTeacher);
           }
         }
       }
