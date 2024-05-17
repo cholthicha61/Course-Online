@@ -8,3 +8,9 @@ export class CreateQuestionDto {
   @IsNumber()
   userId?: number;
 }
+
+export class CreateQuestionNonLoginDto{
+  
+  @IsString()
+  message?: string;
+}
