@@ -13,4 +13,8 @@ export class CreateQuestionNonLoginDto{
   
   @IsString()
   message?: string;
+
+  @IsNotEmpty()
+  @IsString()
+  email?: string;
 }

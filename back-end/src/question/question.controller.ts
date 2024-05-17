@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto, CreateQuestionNonLoginDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
