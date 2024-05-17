@@ -1,10 +1,8 @@
 <template>
-  <div class="px-8 mt-8">
+  <div class="container">
     <div class="head-course">
       <h1>Manage Category</h1>
     </div>
-  </div>
-  <div>
     <div class="add-category-btn">
       <AddCategory />
     </div>
@@ -111,13 +109,38 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.head-course {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .head-course h1 {
   font-size: 30px;
   color: rgb(11, 94, 188);
   border-bottom: 1px solid #d9d9d9;
   font-style: italic;
+  width: 100%;
+  margin-bottom: 16px;
 }
+
 .add-category-btn {
-  margin-left: 1225px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  width: 100%;
 }
+
+.v-data-table-virtual {
+  width: 100%;
+}
+
 </style>
