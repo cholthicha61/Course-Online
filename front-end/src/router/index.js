@@ -80,7 +80,12 @@ const routes =  [
           path: "/teacherprofile",
           name: "teacherprofile",
           component: () => import("../views/EditProfileTeachaer.vue")
-        }
+        },
+        // {
+        //   path: "/teacherprofiles",
+        //   name: "teacherprofiles",
+        //   component: () => import("../views/ProFile.vue")
+        // }
       ],
     },
     {
