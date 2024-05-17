@@ -1,6 +1,7 @@
 import axios from "axios";
 import configAxios from "../../axios/configAxios";
 import { ENDPOINT } from "../../constants/endpoint";
+import Swal from "sweetalert2";
 
 const state = {
   course: [],

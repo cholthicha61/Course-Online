@@ -26,8 +26,8 @@
           </td>
         </tr>
       </template>
-    </v-data-table-virtual>
-  </div>
+</v-data-table-virtual>
+</div>
 </template>
 
 <script>
@@ -104,16 +104,10 @@ export default {
   font-style: italic;
 }
 
-/* Adjusting table styles for responsiveness */
-.v-data-table {
+/* .v-data-table {
   overflow-x: auto;
-}
+} */
 
-.v-data-table table {
-  width: 100%;
-}
-
-.v-data-table td,
 .v-data-table th {
   white-space: nowrap;
   overflow: hidden;

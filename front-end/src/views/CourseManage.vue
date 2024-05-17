@@ -5,28 +5,18 @@
     </div>
   </div>
   <div>
-<<<<<<< HEAD
     <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
       <v-btn @click="goTo('addcourse')" color="#0284C7" class="ma-5" style="color: #fff; text-decoration: none">Add Course</v-btn>
-=======
-    <div style="display: flex; justify-content: flex-end">
-      <v-btn
-        @click="goTo('addcourse')"
-        color="#0284C7"
-        class="mt-5 ma-5"
-        style="color: #fff; text-decoration: none"
-        >Add Course</v-btn
-      >
->>>>>>> origin/aiau-dev
     </div>
 
-    <v-data-table-virtual :headers="headers" :items="course" height="">
+    <v-data-table-virtual :headers="headers" :items="course" height="100hv">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
       <template #item="{ item ,index}">
         <tr :key="item.coursename">
           <td class="table-cell"> {{ index + 1 }} </td>
+          <td class="table-cell"> {{ formatDate(item.createdAt)}} </td>
           <td class="table-cell"> {{ item.courseName }} </td>
           <td class="table-cell"> {{ item.categorys.name }} </td>
           <td class="table-cell"> {{ item.description }} </td>
@@ -61,6 +51,7 @@ export default {
     return {
       headers: [
         { title: "No.", align: "start", value: "id" },
+        { title: "CreateAt", align: "start", value: "createdAt", sortable: true },
         {
           title: "Course Name",
           align: "start",
@@ -70,7 +61,7 @@ export default {
         {
           title: "Category",
           align: "start",
-          value: "category",
+          value: "categorys.name",
           sortable: true,
         },
         {
@@ -135,6 +126,9 @@ export default {
     },
     async goTo(path) {
       await this.$router.push(`/${path}`);
+    },
+    formatDate(date) {
+      return new Date(date).toLocaleString();
     },
   },
 };
