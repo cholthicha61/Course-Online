@@ -92,7 +92,6 @@ const actions = {
       } catch (error) {
         throw error;
       }
-      console.log("payload", payload);
     }
   },
   async updateUser({ commit }, { userId, newData }) {

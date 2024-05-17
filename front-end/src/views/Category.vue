@@ -3,7 +3,12 @@
     <div class="head-course">
       <h1>Manage Category</h1>
     </div>
-    <div class="add-category-btn">
+  </div>
+  <div>
+    <div
+      class="add-category-btn"
+      style="display: flex; justify-content: flex-end; margin-top: 15px"
+    >
       <AddCategory />
     </div>
 
@@ -23,7 +28,7 @@
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-      <template v-slot:[`item.actions`]="{ item }">
+      <template v-slot:[`item.update`]="{ item }">
         <v-btn
           color="blue"
           @click="updateCategory(item)"
@@ -132,15 +137,7 @@ export default {
   margin-bottom: 16px;
 }
 
-.add-category-btn {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-  width: 100%;
-}
-
-.v-data-table-virtual {
-  width: 100%;
-}
-
+/* .add-category-btn {
+  margin-left: 1225px;
+} */
 </style>
