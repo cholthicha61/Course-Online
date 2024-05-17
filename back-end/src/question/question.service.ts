@@ -6,6 +6,7 @@ import { Question } from './entities/question.entity';
 import { Repository } from 'typeorm';
 import * as _ from 'lodash';
 import { User } from 'src/user/entities/user.entity';
+import { response } from 'express';
 @Injectable()
 export class QuestionService {
   constructor(
@@ -13,9 +14,9 @@ export class QuestionService {
     private questionRepository: Repository<Question>,
     @InjectRepository(User)
     private userRepository: Repository<User>
-  ) {}
+  ) { }
 
-  async create(createQuestionDto: CreateQuestionDto, userId: number): Promise<Question> {
+  async create(createQuestionDto: CreateQuestionDto, userId: number): Promise<Omit<Question, 'user'>> {
     console.log('createQuestionDto', createQuestionDto);
     console.log('userId', userId);
 
@@ -35,45 +36,63 @@ export class QuestionService {
         user: user,
       });
 
-      return await this.questionRepository.save(question);
+      const questionSave = await this.questionRepository.save(question);
+
+      const { password, ...filteredUser } = user;
+      const response = {
+        ...questionSave,
+        user: filteredUser,
+      };
+
+
+      return response
     } catch (error) {
       throw error;
     }
   }
 
-  async findAll(): Promise<Question[]> {
+  async findAll(): Promise<Omit<Question, 'user'>[]> {
     try {
-      return this.questionRepository.find();
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async findOne(id: number): Promise<Question> {
-    try {
-      const findById = await this.questionRepository.findOne({
-        where: { id: id },
+      const question = await this.questionRepository.find({
+        relations: ['user'],
       });
-      if (_.isEmpty(findById)) {
+
+      const response = question.map(question => {
+        const { password, ...filteredUser } = question.user;
+        return {
+          ...question,
+          user: filteredUser,
+        };
+      });
+
+      return response
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findOne(id: number): Promise<Omit<Question, 'user'> | null> {
+    try {
+      const question = await this.questionRepository.findOne({
+        where: { id },
+        relations: ['user'],
+      });
+      
+      if (_.isEmpty(question)) {
         throw new HttpException('Question not found', HttpStatus.NOT_FOUND);
       }
-      return findById;
+
+      const { password, ...filteredUser } = question.user;
+      const response = {
+        ...question,
+        user: filteredUser,
+      };
+
+      return response;
     } catch (error) {
       throw error;
     }
   }
-
-  // async findByUserId(id: number): Promise<Question> {
-  //   try {
-  //     const findByUserId = await this.questionRepository.findOne({ where: { id } });
-  //     if (_.isEmpty(findByUserId)) {
-  //       throw new HttpException('User ID not found', HttpStatus.NOT_FOUND);
-  //     }
-  //     return findByUserId;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
 
   async remove(id: number) {
     try {

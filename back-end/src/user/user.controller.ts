@@ -18,6 +18,11 @@ import { UpdateTeacherDto } from './dto/update-teacher.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get('get-teacher-profile')
+  async getTeacherProfile() {
+    return this.userService.getTeacherProfile();
+  }
+  
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     console.log('createUserDto >>>', createUserDto);
@@ -36,7 +41,7 @@ export class UserController {
     return await this.userService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Patch('teacher-profile')
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
