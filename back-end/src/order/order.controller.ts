@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, UseGuards, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -38,5 +38,15 @@ export class OrderController {
   @Patch('update-status/:id')
   async updateStatus(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.updateStatus(+id, updateOrderDto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('check')
+  async checkOrder(@Body('userId') userId: number, @Body('courseId') courseId: number) {
+    const exists = await this.orderService.checkOrderExistence(userId, courseId);
+    if (exists) {
+      throw new HttpException('Course already bought', HttpStatus.CONFLICT);
+    }
+    return { message: 'Course not bought yet' };
   }
 }
