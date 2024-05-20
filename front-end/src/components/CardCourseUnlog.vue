@@ -46,7 +46,7 @@
           style="height: 40px; display: flex; align-items: center"
           text="BUY"
           variant="tonal"
-          @click.stop="setOpenModal(course)"
+          @click.stop="handleBuyClick(course)"
         ></v-btn>
       </v-card-btn>
     </v-card>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import { ENDPOINT } from "@/constants/endpoint";
 import _ from "lodash";
 import { mapState } from "vuex";
@@ -89,6 +90,15 @@ export default {
       this.isHover = !this.isHover;
     },
     async toggleFavorite(course) {
+      if (!this.user) {
+        Swal.fire({
+          icon: "warning",
+          title: "You must login first",
+          showConfirmButton: true,
+          confirmButtonText: "OK"
+        });
+        return;
+      }
       this.isFavorite = !this.isFavorite;
       const payload = {
         userId: this.user.id,
@@ -105,6 +115,18 @@ export default {
         console.error("Error updating favorite status:", error);
         this.isFavorite = !this.isFavorite; // Revert the favorite state if there's an error
       }
+    },
+    handleBuyClick(course) {
+      if (!this.user) {
+        Swal.fire({
+          icon: "warning",
+          title: "You must login first",
+          showConfirmButton: true,
+          confirmButtonText: "OK"
+        });
+        return;
+      }
+      this.setOpenModal(course);
     },
   },
 };
