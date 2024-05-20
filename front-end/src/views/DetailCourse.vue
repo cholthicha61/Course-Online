@@ -7,28 +7,58 @@
     :course="itemCourse"
     :setCloseModal="setCloseModal"
   />
-
   <div class="carousel-container mt-5 my-10 w-50 ml-64">
     <v-carousel hide-delimiters>
+      <v-carousel-item
+        v-if="coursebyid && coursebyid.courseImage"
+        :key="coursebyid.courseImage"
+        cover
+      >
+        <v-responsive aspect-ratio="16/9">
+          <div @click="moveImageWrapperLeft(0)" class="image-wrapper">
+            <img
+              :src="`${img}/${coursebyid.courseImage}`"
+              :alt="coursebyid.courseName"
+              class="rounded-xl"
+            />
+          </div>
+        </v-responsive>
+      </v-carousel-item>
       <v-carousel-item v-for="(item, i) in items" :key="i" cover>
         <v-responsive aspect-ratio="16/9">
-          <div @click="moveImageWrapperLeft(i)" class="image-wrapper">
-            <img :src="item.src" alt="Item Image" class="rounded-xl" />
+          <div @click="moveImageWrapperLeft(i + 1)" class="image-wrapper">
+            <img :src="item.src" :alt="`Image ${i + 1}`" class="rounded-xl" />
           </div>
         </v-responsive>
       </v-carousel-item>
     </v-carousel>
-    <div class="box-border absolute right-48 rounded-xl bg-sky-50 py-2">
-      <h1 class="text-2xl px-8 mt-10">
+
+    <div
+      v-if="coursebyid"
+      class="box-border z- absolute right-48 rounded-xl bg-sky-50 py-2"
+    >
+      <h1 class="text-2xl mx-4 mt-10">
         <strong style="overflow: hidden; word-wrap: break-word">
-          English Interview to Get a Job ฝึกตอบสัมภาษณ์ให้ได้งาน
+          <b
+            class="text-sm text-sky-500"
+            style="display: block; margin-bottom: 0.5rem"
+            >Online Course</b
+          >
+          {{ coursebyid.courseName }}
         </strong>
       </h1>
-      <h2 class="text-4xl font-bold text-orange-500 mt-8 ml-8">฿2500.00</h2>
+
+      <h2
+        v-if="coursebyid"
+        class="text-4xl font-bold text-orange-500 mt-8 ml-8"
+      >
+        ฿{{ coursebyid.price }} บาท
+      </h2>
+      
       <div class="flex justify-center">
         <div class="h-14 w-64 mt-10 rounded-lg bg-sky-900 hover:bg-sky-600">
           <p
-            @click="setOpenModal(course)"
+            @click="setOpenModal(coursebyid)"
             class="text-white font-bold font-sans text-center text-2xl py-3 hover:text-cyan-900"
           >
             Buy
@@ -96,22 +126,10 @@
     </div>
   </div>
 
-  <div class="justify-start w-50 mt-5 my-16 ml-64">
+  <div v-if="coursebyid" class="justify-start w-50 mt-5 my-16 ml-64">
     <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
     <p class="text-base mt-2 indent-10 text-wrap">
-      คอร์สออนไลน์นี้
-      นำเนื้อหามาจากคอร์สออนไลน์ที่ผู้สอนเคยใช้สอนผู้เรียนที่เตรียมตัวไปสัมภาษณ์งานเป็นภาษาอังกฤษจริง
-      ๆ จนประสบความสำเร็จและได้งานนั้น
-      ผู้เขียนจึงนำสไลด์เหล่านั้นมาดัดแปลงเป็นฉบับวิดิโอ
-      เพื่อให้ผู้เรียนได้ความรู้ในด้านการสัมภาษณ์งานเป็นภาษาอังกฤษ
-      ซึ่งหากผู้เรียนกำลังเตรียมตัวจะสัมภาษณ์งาน
-      แต่ยังนึกภาพไม่ออกว่าจะเจอคำถามประเภทไหน
-      หรือไม่รู้ว่าจะเริ่มตอบอย่างไรหากเจอคำถามจากผู้สัมภาษณ์
-      ไม่ว่าจะเป็นการให้เราแนะนำตัว หรือถามรายละเอียดด้านงานเชิงลึก
-      คอร์สออนไลน์นี้จะเป็นคำตอบที่ดีให้แก่คุณครับ
-      ผู้เรียนควรแต่งประโยคภาษาอังกฤษง่าย ๆ ได้บ้าง
-      หรือผ่านการเรียนภาษาอังกฤษมาบ้าง
-      เพราะคอร์สนี้ไม่ได้ลงรายละเอียดของไวยากรณ์ขั้นพื้นฐาน
+      {{ coursebyid.description }}
     </p>
   </div>
 
@@ -121,11 +139,9 @@
         {{ teacher.fname }} {{ teacher.lname }}
       </h1>
       <div class="text-center text-sm mt-4">
-        <p>อีเมล: {{teacher.email}} </p>
-        <p>โทรศัพท์: {{teacher.phone}}</p>
-        <p>
-          ประวัติผู้สอน: {{teacher.desc}}
-        </p>
+        <p>อีเมล: {{ teacher.email }}</p>
+        <p>โทรศัพท์: {{ teacher.phone }}</p>
+        <p>ประวัติผู้สอน: {{ teacher.desc }}</p>
       </div>
     </div>
   </div>
@@ -135,6 +151,8 @@
 import _ from "lodash";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
 import { mapState } from "vuex";
+import { ENDPOINT } from "@/constants/endpoint";
+
 export default {
   data() {
     return {
@@ -147,8 +165,10 @@ export default {
       isHover: false,
       isFavorite: false,
       openModal: false,
+      img: ENDPOINT.IMG,
       itemCourse: {},
       teacher: [],
+      courses: [],
     };
   },
   components: {
@@ -157,9 +177,8 @@ export default {
   computed: {
     ...mapState({
       favorite: (state) => state.favorite.favorite,
-      course: (state) => state.course.course,
-      category: (state) => state.category.names,
       user: (state) => state.user.user,
+      coursebyid: (state) => state.course.selectedCourse,
     }),
   },
   watch: {
@@ -176,6 +195,7 @@ export default {
   },
   async mounted() {
     this.getTeacher();
+    await this.getCourse();
   },
   methods: {
     setOpenModal(item) {
@@ -190,6 +210,11 @@ export default {
       await this.$store.dispatch("user/getTeacher");
       this.teacher = this.user;
       console.log("teacher", this.teacher);
+    },
+    async getCourse() {
+      await this.$store.dispatch("course/getCourseById", this.$route.params.id);
+      this.courses = this.course;
+      console.log("getcourse", this.course);
     },
     checkFavorite(course, user) {
       _.map(course?.favoriteByUsers, (fav) => {
@@ -237,7 +262,8 @@ export default {
 
 .box-border {
   width: 300px;
-  height: 455px;
+  height: 509px;
+
 }
 
 .box-border-teacher {

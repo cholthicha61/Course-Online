@@ -58,16 +58,17 @@
           </v-row>
         </div>
       </div>
-      
     </v-container>
     <v-container class="head-all">
-      <h1>All course</h1>
+      <h1 class="mt-10">AllCourse </h1>
     </v-container>
+  </div>
+  <div>
     <v-container>
       <v-row class="justify-start" no-gutters>
         <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
           <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i" :setOpenModal="setOpenModal" />
+            <CardCourseUnlog :course="i" :setOpenModal="setOpenModal" />
           </v-sheet>
         </v-col>
       </v-row>

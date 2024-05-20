@@ -58,7 +58,6 @@
           </v-row>
         </div>
       </div>
-      
     </v-container>
     <v-container class="head-all">
       <h1>All course</h1>
