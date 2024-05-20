@@ -117,14 +117,14 @@
 
   <div class="flex justify-end my-16 px-48">
     <div class="box-border-teacher text-wrap rounded-xl bg-sky-50 py-14 -mt-64">
-      <h1 class="text-xl text-center">คุณครูเพ็ญศรี ตลก76ฉาก</h1>
+      <h1 class="text-xl text-center">
+        {{ teacher.fname }} {{ teacher.lname }}
+      </h1>
       <div class="text-center text-sm mt-4">
-        <p>อีเมล: example@example.com</p>
-        <p>โทรศัพท์: 123-456-7890</p>
+        <p>อีเมล: {{teacher.email}} </p>
+        <p>โทรศัพท์: {{teacher.phone}}</p>
         <p>
-          ประวัติผู้สอน: Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Duis suscipit ligula nec erat congue fermentum. Maecenas vitae
-          tellus vitae lacus accumsan eleifend.
+          ประวัติผู้สอน: {{teacher.desc}}
         </p>
       </div>
     </div>
@@ -148,6 +148,7 @@ export default {
       isFavorite: false,
       openModal: false,
       itemCourse: {},
+      teacher: [],
     };
   },
   components: {
@@ -156,13 +157,10 @@ export default {
   computed: {
     ...mapState({
       favorite: (state) => state.favorite.favorite,
+      course: (state) => state.course.course,
+      category: (state) => state.category.names,
+      user: (state) => state.user.user,
     }),
-  },
-  props: {
-    course: {},
-    setOpenModal: {
-      type: Function,
-    },
   },
   watch: {
     course(newVal) {
@@ -176,6 +174,9 @@ export default {
   mounted() {
     this.checkFavorite(this.course, this.user);
   },
+  async mounted() {
+    this.getTeacher();
+  },
   methods: {
     setOpenModal(item) {
       this.itemCourse = item;
@@ -185,9 +186,13 @@ export default {
     setCloseModal() {
       this.openModal = false;
     },
+    async getTeacher() {
+      await this.$store.dispatch("user/getTeacher");
+      this.teacher = this.user;
+      console.log("teacher", this.teacher);
+    },
     checkFavorite(course, user) {
       _.map(course?.favoriteByUsers, (fav) => {
-        // console.log('newVal.favoriteByUsers,', fav);
         if (fav?.id == user.id) {
           this.isFavorite = true;
         }

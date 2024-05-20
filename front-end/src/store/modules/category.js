@@ -29,7 +29,6 @@ const actions = {
           showConfirmButton: false,
           timer: 2000,
         });
-        location.reload();
       }
     } catch (error) {
       console.log("error  >>> ", error);
