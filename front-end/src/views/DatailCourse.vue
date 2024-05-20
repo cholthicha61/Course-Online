@@ -2,6 +2,11 @@
   <v-container class="head-course">
     <h1 class="mt-10">Detail Course</h1>
   </v-container>
+  <ConfirmCourse
+    :openModal="openModal"
+    :course="itemCourse"
+    :setCloseModal="setCloseModal"
+  />
 
   <div class="carousel-container mt-5 my-10 w-50 ml-64">
     <v-carousel hide-delimiters>
@@ -23,7 +28,8 @@
       <div class="flex justify-center">
         <div class="h-14 w-64 mt-10 rounded-lg bg-sky-900 hover:bg-sky-600">
           <p
-            class="text-white font-medium font-sans text-center text-2xl py-3 hover:text-cyan-900"
+            @click="setOpenModal(course)"
+            class="text-white font-bold font-sans text-center text-2xl py-3 hover:text-cyan-900"
           >
             Buy
           </p>
@@ -81,7 +87,7 @@
             </template>
           </v-btn>
           <p
-            class="text-sky-900 font-medium font-sans text-center text-2xl flex-grow mr-5"
+            class="text-sky-900 font-bold font-sans text-center text-2xl flex-grow mr-5"
           >
             Favorites
           </p>
@@ -111,14 +117,14 @@
 
   <div class="flex justify-end my-16 px-48">
     <div class="box-border-teacher text-wrap rounded-xl bg-sky-50 py-14 -mt-64">
-      <h1 class="text-xl text-center">คุณครูเพ็ญศรี ตลก76ฉาก</h1>
+      <h1 class="text-xl text-center">
+        {{ teacher.fname }} {{ teacher.lname }}
+      </h1>
       <div class="text-center text-sm mt-4">
-        <p>อีเมล: example@example.com</p>
-        <p>โทรศัพท์: 123-456-7890</p>
+        <p>อีเมล: {{teacher.email}} </p>
+        <p>โทรศัพท์: {{teacher.phone}}</p>
         <p>
-          ประวัติผู้สอน: Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Duis suscipit ligula nec erat congue fermentum. Maecenas vitae
-          tellus vitae lacus accumsan eleifend.
+          ประวัติผู้สอน: {{teacher.desc}}
         </p>
       </div>
     </div>
@@ -126,6 +132,9 @@
 </template>
 
 <script>
+import _ from "lodash";
+import ConfirmCourse from "@/views/ConfirmCourse.vue";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -137,14 +146,83 @@ export default {
       ],
       isHover: false,
       isFavorite: false,
+      openModal: false,
+      itemCourse: {},
+      teacher: [],
     };
   },
+  components: {
+    ConfirmCourse,
+  },
+  computed: {
+    ...mapState({
+      favorite: (state) => state.favorite.favorite,
+      course: (state) => state.course.course,
+      category: (state) => state.category.names,
+      user: (state) => state.user.user,
+    }),
+  },
+  watch: {
+    course(newVal) {
+      console.log("card course", newVal);
+      return newVal;
+    },
+    isFavorite(newVal) {
+      return newVal;
+    },
+  },
+  mounted() {
+    this.checkFavorite(this.course, this.user);
+  },
+  async mounted() {
+    this.getTeacher();
+  },
   methods: {
+    setOpenModal(item) {
+      this.itemCourse = item;
+      this.openModal = true;
+    },
+
+    setCloseModal() {
+      this.openModal = false;
+    },
+    async getTeacher() {
+      await this.$store.dispatch("user/getTeacher");
+      this.teacher = this.user;
+      console.log("teacher", this.teacher);
+    },
+    checkFavorite(course, user) {
+      _.map(course?.favoriteByUsers, (fav) => {
+        if (fav?.id == user.id) {
+          this.isFavorite = true;
+        }
+      });
+    },
     toggleShadow() {
       this.isHover = !this.isHover;
     },
-    toggleFavorite() {
+    async toggleFavorite(course) {
       this.isFavorite = !this.isFavorite;
+      const payload = {
+        userId: this.user.id,
+        courseId: course.id,
+      };
+      console.log("toggleFavorite", course);
+
+      if (course?.favoriteByUsers && course.favoriteByUsers.length != 0) {
+        _.map(course?.favoriteByUsers, async (fav) => {
+          if (fav?.id == this.user.id) {
+            console.log("favorite/deleteFavorite");
+            await this.$store.dispatch("favorite/deleteFavorite", payload);
+          } else {
+            console.log("favorite/updateFavorite1");
+            await this.$store.dispatch("favorite/updateFavorite", payload);
+          }
+        });
+      } else {
+        console.log("favorite/updateFavorite2");
+        await this.$store.dispatch("favorite/updateFavorite", payload);
+      }
     },
   },
 };

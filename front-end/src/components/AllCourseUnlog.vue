@@ -17,7 +17,7 @@
       <v-row class="justify-start" no-gutters>
         <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
           <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i" :setOpenModal="setOpenModal" />
+            <CardCourseUnlog :course="i" :setOpenModal="setOpenModal" />
           </v-sheet>
         </v-col>
       </v-row>
@@ -79,11 +79,11 @@
 import CardCourse from "@/components/CardCourse.vue";
 import { mapState } from "vuex";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
-
+import CardCourseUnlog from "./CardCourseUnlog.vue";
 // import { TYPE_COURSE } from "@/constants/type-course";
 export default {
   components: {
-    CardCourse,
+    CardCourseUnlog,
     ConfirmCourse,
   },
   data() {
