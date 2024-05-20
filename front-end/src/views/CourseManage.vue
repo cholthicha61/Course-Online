@@ -20,9 +20,9 @@
           <td class="table-cell"> {{ item.courseName }} </td>
           <td class="table-cell" v-if="item.categorys"> {{ item.categorys.name }} </td>
           <td class="table-cell" v-else> N/A </td>
-          <td class="table-cell"> {{ item.description }} </td>
+          <td class="table-cell" style="min-width: 200px;"> {{ item.description }} </td>
           <td class="table-cell"> {{ item.price }} </td>
-          <td class="table-cell"> {{ item.status }} </td>
+          <td class="table-cell">  {{ item.status }} </td>
           <!-- <td class="table-cell" > -->
             <!-- <v-select
               :items="courses.map((course) => course.priority)"
@@ -33,11 +33,12 @@
             >
             </v-select> -->
           <!-- </td> -->
-          <td class="table-cell" style="text-align: center;">
+          <td class="table-cell" style="text-align: center; min-width: 120px;">
             <v-btn color="warning" @click="EditCourse(item)" style="margin-right: 10px;">edit</v-btn>
             <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
+        
       </template>
 </v-data-table-virtual>
 </div>

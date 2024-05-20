@@ -1,56 +1,66 @@
 <template>
-  <v-container class="head-course">
-    <h1 class="mt-10">My Course</h1>
-    </v-container>
-<CardCourseWait/>
+  <div>
+    <div v-for="order in orders" :key="order.id">
+      <p>{{ order.course.courseImage }}</p>
+      <p>Status: {{ order.id }}</p>
+      <p>Status: {{ order.status }}</p>
+      <p>Name: {{ order.course.courseName }}</p>
+      <p>Name: {{ order.course.price }} บาท</p>
+
+      <div>
+        <v-card style="border-radius: 10px" elevation="hover" @mouseenter="isHover = true"
+          @mouseleave="isHover = false">
+          <v-img height="200px" :src="`${img}/${order.course.courseImage}`" cover>
+      </v-img>
+          <v-card-text>
+            <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
+              {{ order.course.courseName }}
+            </h1>
+            <div class="description-course mt-1">
+              <p>
+                {{ order.course.description }}
+              </p>
+            </div>
+            <div class="text-end">
+              <h2 class="mt-13">{{ order.course.price }} บาท</h2>
+            </div>
+          </v-card-text>
+        </v-card>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
-import CardCourseWait from "@/components/CardCourseWait.vue";
-export default {
-  data(){
-    return{     
-      user: JSON.parse(localStorage.getItem("user")),
 
+<script>
+import { ENDPOINT } from "@/constants/endpoint";
+import { mapState } from 'vuex';
+
+export default {
+  data() {
+    return {
+      img: ENDPOINT.IMG,
+      orders: [],
     }
   },
-  components: {
-    CardCourseWait
-  },
-  // computed: {
-  //   ...mapState({
-  //     course: (state) => state.course.course,
-  //   }),
-  // },
+  computed: {
+    ...mapState({
+      order: (state) => state.order.order,
 
-  // watch: {
-  //   users(newVal) {
-  //     return newVal;
-  //   },
-  // },
-  // async mounted() {
-  // },
-  // methods: {
-  //   async get() {
-  //     const payload = {
-  //       userId: this.user.id,
-  //     };
-  //     await this.$store.dispatch("favorite/getFavorite", payload);
-  //     // this.favorite = this.favorite;
-  //   },
-  // },
-};
+    }),
+  },
+  async mounted() {
+    this.getOrder();
+  },
+  methods: {
+    async getOrder() {
+      await this.$store.dispatch("order/getOrder",);
+      this.orders = this.order;
+      console.log("Order:", this.order);
+      console.log("Orders:", this.orders);
+    },
+  },
+}
 </script>
 
-<style scoped>
-.head-course h1 {
-  font-size: 30px;
-  color: black;
-  border-bottom: 1px solid #9e9e9e;
-  font-style: italic;
-}
-.rounded-border {
-  border-radius: 20px;
-}
-</style>
+<style></style>
