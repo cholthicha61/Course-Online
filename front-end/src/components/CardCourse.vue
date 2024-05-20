@@ -191,8 +191,6 @@ export default {
       } else {
         console.log("favorite/updateFavorite2");
         await this.$store.dispatch("favorite/updateFavorite", payload);
-      } else {
-        await this.$store.dispatch("favorite/deleteFavorite", payload);
       }
     },
   },
