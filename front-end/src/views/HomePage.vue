@@ -4,9 +4,9 @@
       <Banner />
     </div>
 
-    <div class="">
+    <!-- <div class="">
       <AllCourse />
-    </div>
+    </div> -->
 
     <v-container>
       <div class="head-course">
@@ -31,7 +31,6 @@ import AllCourse from "../components/AllCourse.vue";
 import Login from "../components/Login.vue";
 import Register from "../views/Register.vue";
 import Question from "@/components/Question.vue";
-
 export default {
   components: {
     Banner,
