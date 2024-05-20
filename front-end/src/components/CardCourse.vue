@@ -148,7 +148,7 @@ export default {
     course(newVal) {
       // newVal.push({isFavorite : false})
       console.log("card course", newVal);
-      return newVal
+      return newVal;
     },
     isFavorite(newVal) {
       return newVal;
@@ -160,6 +160,9 @@ export default {
     // console.log('ssss', this.course);
   },
   methods: {
+    // goToDetailPage(course) {
+    //   this.$router.push(`/detailcourse/${course.id}`);
+    // },
     checkFavorite(course, user) {
       _.map(course?.favoriteByUsers, (fav) => {
         // console.log('newVal.favoriteByUsers,', fav);
@@ -172,19 +175,14 @@ export default {
       this.isHover = !this.isHover;
     },
     async toggleFavorite(course) {
+      this.isFavorite = !this.isFavorite;
+
       const payload = {
         userId: this.user.id,
         courseId: course.id,
       };
-      // console.log("favorite: ", this.favorite);
       console.log("toggleFavorite", course);
-      // await this.$store.dispatch("favorite/updateFavorite", payload);
 
-      // if (!course?.favoriteByUsers) {
-      //   console.log("favorite/updateFavorite");
-      //   await this.$store.dispatch("favorite/updateFavorite", payload);
-      // } else {
-      // console.log("in else");
       if (course?.favoriteByUsers.length != 0) {
         _.map(course?.favoriteByUsers, async (fav) => {
           if (fav?.id == this.user.id) {
@@ -198,9 +196,10 @@ export default {
       } else {
         console.log("favorite/updateFavorite2");
         await this.$store.dispatch("favorite/updateFavorite", payload);
+        // } else {
+        //   await this.$store.dispatch("favorite/deleteFavorite", payload);
+        // }
       }
-
-      // }
     },
   },
 };
