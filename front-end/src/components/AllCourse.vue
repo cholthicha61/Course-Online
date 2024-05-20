@@ -6,13 +6,7 @@
   />
   <div>
     <div>
-      <v-container class="flex justify-end">
-        <input
-          type="text"
-          placeholder="Search"
-          class="search-input w-64 px-4 py-2 border border-gray-300 rounded-full bg-white text-base text-gray-700"
-        />
-      </v-container>
+   
     </div>
     <v-container class="head-course">
       <h1 class="mt-10">Recommended course</h1>
@@ -28,9 +22,13 @@
         </v-col>
       </v-row>
     </v-container>
+
     <v-container class="head-course">
       <h1>All course</h1>
     </v-container>
+    <!-- <v-container class="head-category">
+      <h1>Category</h1>
+    </v-container> -->
     <v-container>
       <div v-for="item in category">
         <div v-if="item?.courses && item.courses.length > 0">
@@ -60,7 +58,21 @@
           </v-row>
         </div>
       </div>
+      
     </v-container>
+    <v-container class="head-all">
+      <h1>All course</h1>
+    </v-container>
+    <v-container>
+      <v-row class="justify-start" no-gutters>
+        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
+          <v-sheet class="ma-3 rounded-border">
+            <CardCourse :course="i" :setOpenModal="setOpenModal" />
+          </v-sheet>
+        </v-col>
+      </v-row>
+    </v-container>
+    <QuestionPopup/>
   </div>
 </template>
 
@@ -68,12 +80,13 @@
 import CardCourse from "@/components/CardCourse.vue";
 import { mapState } from "vuex";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
-
+import QuestionPopup from "./QuestionPopup.vue";
 // import { TYPE_COURSE } from "@/constants/type-course";
 export default {
   components: {
     CardCourse,
     ConfirmCourse,
+    QuestionPopup,
   },
   data() {
     return {
@@ -100,6 +113,14 @@ export default {
       category: (state) => state.category.names,
     }),
   },
+  watch: {
+    course(newVal) {
+      return newVal
+    },
+    category(newVal) {
+      return newVal
+    }
+  },
   async mounted() {
     await this.$store.dispatch("course/getCourse");
     await this.$store.dispatch("category/getCategory");
@@ -118,7 +139,19 @@ export default {
   font-style: italic;
 }
 .head h1 {
-  font-size: 22px;
+  font-size: 20px;
+  color: rgb(6, 6, 6);
+  border-bottom: 1px solid #9e9e9e;
+  font-style: italic;
+}
+.head-all h1 {
+  font-size: 25px;
+  color: rgb(6, 6, 6);
+  border-bottom: 1px solid #9e9e9e;
+  font-style: italic;
+}
+.head-category h1 {
+  font-size: 25px;
   color: rgb(6, 6, 6);
   border-bottom: 1px solid #9e9e9e;
   font-style: italic;

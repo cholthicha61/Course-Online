@@ -1,10 +1,8 @@
 <template>
-  <div class="px-8 mt-8">
+  <div class="container px-8 mt-8">
     <div class="head-course">
       <h1>Manage Category</h1>
     </div>
-  </div>
-  <div>
     <div class="add-category-btn">
       <AddCategory />
     </div>
@@ -25,7 +23,7 @@
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-      <template v-slot:[`item.update`]="{ item }">
+      <template v-slot:[`item.actions`]="{ item }">
         <v-btn
           color="blue"
           @click="updateCategory(item)"
@@ -33,10 +31,7 @@
         >
           Edit
         </v-btn>
-      </template>
-
-      <template v-slot:[`item.delet`]="{ item }">
-        <v-btn color="warning" @click="deleteCategory(item.id)">delete</v-btn>
+        <v-btn color="warning" @click="deleteCategory(item.id)">Delete</v-btn>
       </template>
     </v-data-table-virtual>
   </div>
@@ -59,8 +54,7 @@ export default {
       headers: [
         { title: "No.", align: "center", value: "no" },
         { title: "Category Name", align: "center", value: "name" },
-        { title: "Action", align: "center", value: "update" },
-        { title: "Action", align: "center", value: "delet" },
+        { title: "Actions", align: "center", value: "actions" },
       ],
       categorys: [],
       isEditCategory: false,
@@ -90,13 +84,13 @@ export default {
     },
     async deleteCategory(categoryId) {
       Swal.fire({
-        title: "คุณต้องการลบหรือไม่",
-        text: "ลบแล้วจะไม่สามารถกลับมาแก้ไขใหม่ได้",
+        title: "Do you want to delete it?",
+        text: "Once deleted, it cannot be edited again.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "ยืนยันการลบ",
+        confirmButtonText: "Confirm deletion",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("category/deleteCategory", categoryId);
@@ -113,14 +107,40 @@ export default {
   },
 };
 </script>
+
 <style scoped>
+.container {
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.head-course {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .head-course h1 {
   font-size: 30px;
   color: rgb(11, 94, 188);
   border-bottom: 1px solid #d9d9d9;
   font-style: italic;
+  width: 100%;
+  margin-bottom: 16px;
 }
+
 .add-category-btn {
-  margin-left: 1225px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  width: 100%;
 }
+
+.v-data-table-virtual {
+  width: 100%;
+}
+
 </style>

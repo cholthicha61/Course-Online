@@ -57,7 +57,7 @@ var Intersect = {
 var intersect_default = Intersect;
 
 // node_modules/vuetify/lib/directives/ripple/index.mjs
-import "C:/Users/khwar/OneDrive/Desktop/online-course/front-end/node_modules/vuetify/lib/directives/ripple/VRipple.css";
+import "C:/Users/shinjikun/Documents/course-online-management-kku-67/front-end/node_modules/vuetify/lib/directives/ripple/VRipple.css";
 var stopSymbol = Symbol("rippleStop");
 var DELAY_RIPPLE = 80;
 function transform(el, value) {
@@ -538,4 +538,4 @@ export {
   Touch,
   touch_default
 };
-//# sourceMappingURL=chunk-6XMKBDN5.js.map
+//# sourceMappingURL=chunk-EVWKVI6C.js.map

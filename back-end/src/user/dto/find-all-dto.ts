@@ -32,4 +32,5 @@ export class FindAllCategoryDto {
   name: string;
   type: string;
   course: 'true' | 'false';
+  userId: number;
 }

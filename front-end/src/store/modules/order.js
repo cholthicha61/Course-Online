@@ -1,7 +1,7 @@
 import axios from "axios";
-import Swal from "sweetalert2";
 import { ENDPOINT } from "../../constants/endpoint";
 import configAxios from "@/axios/configAxios";
+import Swal from "sweetalert2";
 
 const state = {
   orders: [],
@@ -31,7 +31,19 @@ const mutations = {
 };
 
 const actions = {
-  async confirmOrder({ commit }, index) {
+  async getOrder({ commit }) {
+    let url = `${ENDPOINT.ORDER}?status=income`;
+    try {
+      const res = await axios(configAxios("get", url));
+      if (res.status === 200) {
+        console.log("res cate?", res.data);
+        commit("SET_ORDERS", res.data);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  },
+  async confirmOrder({ commit, state }, index) {
     try {
       const res = await axios.patch(
         `${ENDPOINT.ORDER}/${state.orders[index].orderId}/update-status`
@@ -46,7 +58,7 @@ const actions = {
       console.error("Failed to confirm order", error);
     }
   },
-  async rejectOrder({ commit }, index) {
+  async rejectOrder({ commit, state }, index) {
     try {
       const res = await axios.delete(
         `${ENDPOINT.ORDER}/${state.orders[index].orderId}`
@@ -71,21 +83,31 @@ const actions = {
       const res = await axios(configAxios("post", url, payload));
       if (res.status == 201) {
         Swal.fire({
-          title: "คุณต้องการซื้อคอร์สนี้หรือไม่",
+          title: "Do you want to buy this course?",
           text: "",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "ยืนยันการซื้อคอร์ส",
+          confirmButtonText: "Confirm course purchase",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              icon: "success",
+              title: "Successfully purchased the course",
+              text: "",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          }
         });
       }
     } catch (error) {
       console.log("error  >>> ", error);
-      if (error.response.status == 404) {
+      if (error.response && error.response.status == 404) {
         Swal.fire({
           icon: "warning",
-          title: "ไม่สามารถสั่งซื้อได้",
+          title: "Unable to order",
           text: "",
           showConfirmButton: false,
           timer: 2000,

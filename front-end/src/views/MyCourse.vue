@@ -1,25 +1,42 @@
 <template>
   <v-container class="head-course">
     <h1 class="mt-10">My Course</h1>
-  </v-container>
-
-  <div class="bg-white"></div>
+    </v-container>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-  components: {
+  data(){
+    return{     
+      user: JSON.parse(localStorage.getItem("user")),
 
+    }
   },
-  methods: {
-    async getData() {
-      const payload = {
-        order: true,
-      };
-      await this.$store.dispatch("category/getCategory", payload);
-      this.categorys = this.names;
-    },
+  components: {
   },
+  // computed: {
+  //   ...mapState({
+  //     course: (state) => state.course.course,
+  //   }),
+  // },
+
+  // watch: {
+  //   users(newVal) {
+  //     return newVal;
+  //   },
+  // },
+  // async mounted() {
+  // },
+  // methods: {
+  //   async get() {
+  //     const payload = {
+  //       userId: this.user.id,
+  //     };
+  //     await this.$store.dispatch("favorite/getFavorite", payload);
+  //     // this.favorite = this.favorite;
+  //   },
+  // },
 };
 </script>
 

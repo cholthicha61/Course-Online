@@ -4,9 +4,9 @@
       <Banner />
     </div>
 
-    <div class="">
-      <AllCourse/>
-    </div>
+    <!-- <div class="">
+      <AllCourse />
+    </div> -->
 
     <v-container>
       <div class="head-course">
@@ -18,8 +18,10 @@
     </div>
 
     <div class="">
+      <Question />
     </div>
   </div>
+  <!-- </v-container> -->
 </template>
 
 <script>
@@ -28,8 +30,7 @@ import ProfileCard from "../components/ProFile.vue";
 import AllCourse from "../components/AllCourse.vue";
 import Login from "../components/Login.vue";
 import Register from "../views/Register.vue";
-import NavbarLogin from "@/components/NavbarLogin.vue";
-
+import Question from "@/components/Question.vue";
 export default {
   components: {
     Banner,
@@ -37,7 +38,7 @@ export default {
     AllCourse,
     Login,
     Register,
-    NavbarLogin,
+    Question
   },
 };
 </script>

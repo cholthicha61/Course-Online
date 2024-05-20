@@ -48,14 +48,13 @@ const actions = {
     let url = `${ENDPOINT.CATEGORY}`;
     try {
       const res = await axios(configAxios("get", url));
-        if (res.status == 200) {
-          console.log('res cate?', res.data);
-          commit("SET_NAMES", res.data);
-        }
+      if (res.status == 200) {
+        console.log("res cate?", res.data);
+        commit("SET_NAMES", res.data);
+      }
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
     }
-
   },
   async deleteCategory({ commit }, categoryId) {
     try {
@@ -65,7 +64,7 @@ const actions = {
       if (res.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "ลบหมวดหมู่สำเร็จ",
+          title: "Category successfully deleted",
           text: "",
           showConfirmButton: false,
           timer: 3000,
@@ -79,7 +78,7 @@ const actions = {
         {
           Swal.fire({
             icon: "warning",
-            title: "ไม่พบข้อมูล",
+            title: "No information found",
             text: "",
             showConfirmButton: false,
             timer: 2000,

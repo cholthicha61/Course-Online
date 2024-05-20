@@ -22,14 +22,45 @@
           <h2 class="mt-13">{{ course.price }} บาท</h2>
         </div>
       </v-card-text>
+       <!-- <div waitting>
+        <div class="border-t-4"></div>
 
+        <div class="text-center mt-5">
+          <div class="text-center mt-5">
+            <button
+              class="bg-sky-400 text-white py-4 px-5 hover:bg-primary-dark rounded-lg text-lg"
+              type="button"
+            >
+              Waiting for confirmation
+            </button>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div confirm>
+        <div class="border-t-4"></div>
+
+        <div class="text-center">
+          <div class="text-center mt-5">
+            <button
+              class="bg-green-400 text-white px-20 hover:bg-primary-dark rounded-lg text-lg"
+              type="button"
+            >
+              confirmed
+            </button>
+            <div class="mt-4">
+              <p class="text-lg">start 16/05/67</p>
+              <p class="text-lg">end 16/05/67</p>
+            </div>
+          </div>
+        </div>
+      </div> -->
       <v-card-btn
         class="card-button pa-2 d-flex align-items-center justify-between"
       >
         <v-btn
           value="favorites"
           class="rounded-circle"
-          @click="toggleFavorite"
+          @click="toggleFavorite(course)"
           style="
             width: 40px;
             height: 40px;
@@ -76,11 +107,7 @@
 
         <v-btn
           class="buy-button text-white font-weight-regular mb-5"
-          style="
-            height: 40px;
-            display: flex;
-            align-items: center;
-          "
+          style="height: 40px; display: flex; align-items: center"
           text="BUY"
           variant="tonal"
           @click="setOpenModal(course)"
@@ -92,6 +119,8 @@
 
 <script>
 import { ENDPOINT } from "@/constants/endpoint";
+import _ from "lodash";
+import { mapState } from "vuex";
 export default {
   name: "CardCourse",
   data() {
@@ -99,7 +128,13 @@ export default {
       isHover: false,
       isFavorite: false,
       img: ENDPOINT.IMG,
+      user: JSON.parse(localStorage.getItem("user")),
     };
+  },
+  computed: {
+    ...mapState({
+      favorite: (state) => state.favorite.favorite,
+    }),
   },
   props: {
     course: {},
@@ -109,18 +144,54 @@ export default {
   },
   watch: {
     course(newVal) {
+      // newVal.push({isFavorite : false})
       console.log("card course", newVal);
+      return newVal;
+    },
+    isFavorite(newVal) {
+      return newVal;
     },
   },
   mounted() {
-    console.log("ppppppp", `${this.img}/${this.course.courseImage}`);
+    // console.log("ppppppp", `${this.img}/${this.course.courseImage}`);
+    this.checkFavorite(this.course, this.user);
+    // console.log('ssss', this.course);
   },
   methods: {
+    checkFavorite(course, user) {
+      _.map(course?.favoriteByUsers, (fav) => {
+        // console.log('newVal.favoriteByUsers,', fav);
+        if (fav?.id == user.id) {
+          this.isFavorite = true;
+        }
+      });
+    },
     toggleShadow() {
       this.isHover = !this.isHover;
     },
-    toggleFavorite() {
+    async toggleFavorite(course) {
       this.isFavorite = !this.isFavorite;
+
+      const payload = {
+        userId: this.user.id,
+        courseId: course.id,
+      };
+      console.log("toggleFavorite", course);
+
+      if (course?.favoriteByUsers.length != 0) {
+        _.map(course?.favoriteByUsers, async (fav) => {
+          if (fav?.id == this.user.id) {
+            console.log("favorite/deleteFavorite");
+            await this.$store.dispatch("favorite/deleteFavorite", payload);
+          } else {
+            console.log("favorite/updateFavorite1");
+            await this.$store.dispatch("favorite/updateFavorite", payload);
+          }
+        });
+      } else {
+        console.log("favorite/updateFavorite2");
+        await this.$store.dispatch("favorite/updateFavorite", payload);
+      }
     },
   },
 };

@@ -278,6 +278,9 @@ export class UserService {
 
       const course = await this.courseRepository.findOne({
         where: { id: courseId },
+        relations: {
+          favoriteByUsers: true
+        },
       });
 
       if (!course) {
@@ -295,10 +298,12 @@ export class UserService {
 
   async getFavoriteCourses(userId: number): Promise<Course[]> {
     try {
-      const user = await this.userRepository.findOne({
-        where: { id: userId },
-        relations: ['favoriteCourses'],
-      });
+      const user = await this.userRepository
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.favoriteCourses", "favoriteCourses")
+      .leftJoinAndSelect("favoriteCourses.favoriteByUsers", "favoriteByUsers")
+      .where("user.id = :userId", { userId })
+      .getOne();
 
       if (!user) {
         throw new NotFoundException('User not found.');

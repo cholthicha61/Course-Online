@@ -35,7 +35,6 @@
           </svg>
         </button>
         <input
-          v-model="userEmail.email"
           type="email"
           placeholder="Email"
           readonly
@@ -73,20 +72,17 @@ export default {
     togglePopup() {
       this.showPopup = !this.showPopup;
     },
-    async addEmail() {
-      const payload = {
-        userId: this.userEmail.id,
-        email: this.userEmail.email, 
-        message: this.message,
-      };
-      console.log("payload",payload);
-      await this.$store.dispatch("inbox/addEmails", payload); 
-      this.message = "";
-
-    },
-  },
-  mounted() {
-    this.userEmail = JSON.parse(localStorage.getItem('user'))
+  //   async addEmail() {
+  //     const payload = {
+  //       email: this.userEmail.email, 
+  //       message: this.message,
+  //     };
+  //     console.log("payload",payload);
+  //     await this.$store.dispatch("inbox/addEmails", payload); 
+  //   },
+  // },
+  // mounted() {
+  //   this.userEmail = JSON.parse(localStorage.getItem('user'))
     
   }
   

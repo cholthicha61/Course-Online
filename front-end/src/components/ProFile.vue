@@ -40,19 +40,16 @@ export default {
   data() {
     return {
       teacher: [],
-      courses: [],
     };
   },
   computed: {
     ...mapState({
       user: (state) => state.user.user,
-      names: (state) => state.category.names,
-      course: (state) => state.course.course,
+     
     }),
   },  
   async mounted() {
     this.getTeacher();
-    this.getCourse();
   },
   methods: {
     async getTeacher() {

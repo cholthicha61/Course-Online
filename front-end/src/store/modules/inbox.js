@@ -24,7 +24,7 @@ const actions = {
       if (res.status == 201) {
         Swal.fire({
           icon: "success",
-          title: "ส่งคำถามเสร็จสิ้น",
+          title: "Success",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -36,7 +36,7 @@ const actions = {
       if (error.response.status == 400){
         Swal.fire({
           icon: "warning",
-          title: "ไม่พบข้อมูล",
+          title: "No information found",
           text: "",
           showConfirmButton: false,
           timer: 2000,
