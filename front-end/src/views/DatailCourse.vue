@@ -2,6 +2,11 @@
   <v-container class="head-course">
     <h1 class="mt-10">Detail Course</h1>
   </v-container>
+  <ConfirmCourse
+    :openModal="openModal"
+    :course="itemCourse"
+    :setCloseModal="setCloseModal"
+  />
 
   <div class="carousel-container mt-5 my-10 w-50 ml-64">
     <v-carousel hide-delimiters>
@@ -23,7 +28,8 @@
       <div class="flex justify-center">
         <div class="h-14 w-64 mt-10 rounded-lg bg-sky-900 hover:bg-sky-600">
           <p
-            class="text-white font-medium font-sans text-center text-2xl py-3 hover:text-cyan-900"
+            @click="setOpenModal(course)"
+            class="text-white font-bold font-sans text-center text-2xl py-3 hover:text-cyan-900"
           >
             Buy
           </p>
@@ -81,7 +87,7 @@
             </template>
           </v-btn>
           <p
-            class="text-sky-900 font-medium font-sans text-center text-2xl flex-grow mr-5"
+            class="text-sky-900 font-bold font-sans text-center text-2xl flex-grow mr-5"
           >
             Favorites
           </p>
@@ -126,6 +132,9 @@
 </template>
 
 <script>
+import _ from "lodash";
+import ConfirmCourse from "@/views/ConfirmCourse.vue";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -137,14 +146,78 @@ export default {
       ],
       isHover: false,
       isFavorite: false,
+      openModal: false,
+      itemCourse: {},
     };
   },
+  components: {
+    ConfirmCourse,
+  },
+  computed: {
+    ...mapState({
+      favorite: (state) => state.favorite.favorite,
+    }),
+  },
+  props: {
+    course: {},
+    setOpenModal: {
+      type: Function,
+    },
+  },
+  watch: {
+    course(newVal) {
+      console.log("card course", newVal);
+      return newVal;
+    },
+    isFavorite(newVal) {
+      return newVal;
+    },
+  },
+  mounted() {
+    this.checkFavorite(this.course, this.user);
+  },
   methods: {
+    setOpenModal(item) {
+      this.itemCourse = item;
+      this.openModal = true;
+    },
+
+    setCloseModal() {
+      this.openModal = false;
+    },
+    checkFavorite(course, user) {
+      _.map(course?.favoriteByUsers, (fav) => {
+        // console.log('newVal.favoriteByUsers,', fav);
+        if (fav?.id == user.id) {
+          this.isFavorite = true;
+        }
+      });
+    },
     toggleShadow() {
       this.isHover = !this.isHover;
     },
-    toggleFavorite() {
+    async toggleFavorite(course) {
       this.isFavorite = !this.isFavorite;
+      const payload = {
+        userId: this.user.id,
+        courseId: course.id,
+      };
+      console.log("toggleFavorite", course);
+
+      if (course?.favoriteByUsers && course.favoriteByUsers.length != 0) {
+        _.map(course?.favoriteByUsers, async (fav) => {
+          if (fav?.id == this.user.id) {
+            console.log("favorite/deleteFavorite");
+            await this.$store.dispatch("favorite/deleteFavorite", payload);
+          } else {
+            console.log("favorite/updateFavorite1");
+            await this.$store.dispatch("favorite/updateFavorite", payload);
+          }
+        });
+      } else {
+        console.log("favorite/updateFavorite2");
+        await this.$store.dispatch("favorite/updateFavorite", payload);
+      }
     },
   },
 };
