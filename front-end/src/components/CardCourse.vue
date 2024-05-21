@@ -15,9 +15,8 @@
           {{ course.courseName }}
         </h1>
         <div class="description-course mt-1">
-          <p>
-            {{ course.description }}
-          </p>
+          <p v-if="!showFullDescription">{{ truncatedDescription }} <span v-if="course.description.length >= 100" @click.stop="toggleDescription" class="text-primary cursor-pointer">See more</span></p>
+          <p v-else>{{ course.description }} <span @click.stop="toggleDescription" class="text-primary cursor-pointer">See less</span></p>
         </div>
         <div class="text-end">
           <h2 class="mt-13">{{ course.price }} บาท</h2>
@@ -63,6 +62,7 @@ export default {
     return {
       isHover: false,
       isFavorite: false,
+      showFullDescription: false,
       img: ENDPOINT.IMG,
       user: JSON.parse(localStorage.getItem("user")),
     };
@@ -71,6 +71,9 @@ export default {
     ...mapState({
       favorite: (state) => state.favorite.favorite,
     }),
+    truncatedDescription() {
+      return this.course.description.length > 100 ? this.course.description.slice(0, 100) + '...' : this.course.description;
+    },
   },
   props: {
     course: Object,
@@ -116,6 +119,9 @@ export default {
         this.isFavorite = !this.isFavorite; // Revert the favorite state if there's an error
       }
     },
+    toggleDescription() {
+      this.showFullDescription = !this.showFullDescription;
+    },
   },
 };
 </script>
@@ -160,4 +166,11 @@ export default {
   height: 36px;
   bottom: -18px;
 }
+.text-primary {
+  color: #098ad0;
+}
+.text-primary2{
+  color:#00527e;
+}
+
 </style>
