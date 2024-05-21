@@ -92,7 +92,6 @@ const actions = {
       } catch (error) {
         throw error;
       }
-      console.log("payload", payload);
     }
   },
   async updateUser({ commit }, { userId, newData }) {
@@ -141,6 +140,15 @@ const actions = {
       }
     } catch (error) {
       console.log("this", error);
+    }
+  },
+  async getTeacher({ commit }, payload) {
+    let url = `${ENDPOINT.USER}/get-teacher-profile`;
+    try {
+      const res = await axios(configAxios("get", url));
+      commit("SET_USER", res.data);
+    } catch (error) {
+      throw new Error();
     }
   },
 };

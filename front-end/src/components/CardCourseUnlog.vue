@@ -68,9 +68,6 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      favorite: (state) => state.favorite.favorite,
-    }),
   },
   props: {
     course: Object,
@@ -79,21 +76,14 @@ export default {
   watch: {
     course(newVal) {
       console.log("card course", newVal);
-      this.checkFavorite(newVal, this.user);
       return newVal;
     },
   },
   mounted() {
-    this.checkFavorite(this.course, this.user);
   },
   methods: {
     goToDetailPage(course) {
       this.$router.push(`/detailcourse/${course.id}`);
-    },
-    checkFavorite(course, user) {
-      if (course && course.favoriteByUsers && user) {
-        this.isFavorite = course.favoriteByUsers.some(fav => fav.id === user.id);
-      }
     },
     toggleShadow() {
       this.isHover = !this.isHover;

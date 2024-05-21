@@ -36,7 +36,7 @@ const actions = {
       if (error.response.status == 401){
         Swal.fire({
           icon: "warning",
-          title: "ข้อมูลไม่ถูกต้อง",
+          title: "Incorrect information",
           text: "",
           showConfirmButton: false,
           timer: 2000,

@@ -217,6 +217,27 @@ export class UserService {
     }
   }
 
+  async getTeacherProfile() {
+    try {
+      const teacher = await this.userRepository.createQueryBuilder('user')
+        .leftJoinAndSelect('user.roles', 'roles')
+        .where('roles.name = :roleName', { roleName: RolesUser.Teacher })
+        .getOne();
+  
+      if (!teacher) {
+        throw new HttpException('Teacher not found', HttpStatus.NOT_FOUND);
+      }
+  
+      // return await this.userRepository.save(teacher);
+      const { password, ...teacherProfile } = teacher;
+      return teacherProfile;
+      
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+
   async markCourseAsFavorite(userId: number, courseId: number): Promise<void> {
     try {
       const user = await this.userRepository.findOne({

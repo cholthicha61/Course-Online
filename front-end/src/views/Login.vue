@@ -21,7 +21,9 @@
         </button>
       </div>
     </form>
-
+    <div class="mt-6 text-center">
+      <p>Don't have an account? <a href="/register" class="text-sky-600 hover:text-sky-800">Create Account</a></p>
+    </div>
     <!-- Other elements -->
   </div>
 </template>
