@@ -32,11 +32,18 @@ const mutations = {
 
 const actions = {
   async getOrder({ commit }, payload) {
-    let url = `${ENDPOINT.ORDER}?status=${payload?.status}&userId=${payload?.userId}`;
-    console.log('ssss', payload);
+    let url = `${ENDPOINT.ORDER}`;
+    console.log("ssss", url);
     try {
-      const res = await axios(configAxios("get", url));
-      console.log('res',res);
+      // const res = await axios(configAxios("get", url, payload));
+      const res = await axios.get(
+        url,
+        {headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        params: payload}
+      );
+      console.log("res", res);
       if (res.status === 200) {
         console.log("res cate?", res.data);
         commit("SET_ORDERS", res.data);
