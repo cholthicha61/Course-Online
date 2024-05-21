@@ -8,7 +8,7 @@
     :setCloseModal="setCloseModal"
   />
   <div class="carousel-container mt-5 my-10 w-50 ml-64">
-    <v-carousel hide-delimiters>
+    <v-carousel hide-delimiters class="cutom-carousel">
       <v-carousel-item
         v-if="coursebyid && coursebyid.courseImage"
         :key="coursebyid.courseImage"
@@ -19,7 +19,7 @@
             <img
               :src="`${img}/${coursebyid.courseImage}`"
               :alt="coursebyid.courseName"
-              class="rounded-xl"
+              class="rounded-xl w-full h-full object-cover"
             />
           </div>
         </v-responsive>
@@ -27,7 +27,7 @@
       <v-carousel-item v-for="(item, i) in items" :key="i" cover>
         <v-responsive aspect-ratio="16/9">
           <div @click="moveImageWrapperLeft(i + 1)" class="image-wrapper">
-            <img :src="item.src" :alt="`Image ${i + 1}`" class="rounded-xl" />
+            <img :src="item.src" :alt="`Image ${i + 1}`" class="rounded-xl w-full h-full object-cover" />
           </div>
         </v-responsive>
       </v-carousel-item>
@@ -128,48 +128,52 @@
     </div>
   </div>
 
-  <div v-if="coursebyid" class="justify-start w-50 mt-5 my-16 ml-64 w-1/2">
-    <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
-    <p class="text-base mt-2 indent-10 text-wrap">
-      {{ coursebyid.description }}
-    </p>
-  </div>
+  <div class="flex">
+    <div v-if="coursebyid" class="justify-start w-50 mt-5 my-16 ml-64 w-1/2">
+      <div class="p-6 bg-white rounded-lg shadow-md">
+        <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
+        <p class="text-base mt-2 indent-10 text-wrap">
+          {{ coursebyid.description }}
+        </p>
+      </div>
+    </div>
 
-  <div class="flex justify-end my-10 mx-48">
-    <div class="flex justify-center items-center">
-      <div
-        class="w-100 max-w-screen-lg p-12 bg-sky-100 rounded-xl shadow-lg hover:shadow-xl"
-      >
-        <div class="flex justify-center">
-          <img
-            src="../../public/img/PTeacherEng.jpg"
-            alt="Profile Image"
-            class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md transition duration-500 transform hover:scale-110"
-          />
-        </div>
-        <div class="mt-4">
-          <h2
-            class="text-center text-xl text-gray-700 font-semibold hover:text-sky-500"
-          >
-            {{ teacher.fname }} {{ teacher.lname }}
-          </h2>
-          <div class="text-x text-gray-700 mt-2">
-            <p>
-              อีเมล:
-              <span class="font-medium hover:text-gray-400">{{
-                teacher.email
-              }}</span>
-            </p>
-            <p>
-              โทรศัพท์:
-              <span class="font-medium hover:text-gray-400">{{
-                teacher.phone
-              }}</span>
+    <div class="justify-end ml-3 mb-10">
+      <div class="flex justify-center items-center">
+        <div
+          class="box-border-teacher max-w-screen-lg p-12 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl"
+        >
+          <div class="flex justify-center -py-2">
+            <img
+              src="../../public/img/PTeacherEng.jpg"
+              alt="Profile Image"
+              class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md transition duration-500 transform hover:scale-110"
+            />
+          </div>
+          <div class="mt-4">
+            <h2
+              class="text-center text-xl text-gray-700 font-semibold hover:text-sky-500"
+            >
+              {{ teacher.fname }} {{ teacher.lname }}
+            </h2>
+            <div class="text-x text-gray-700 mt-2">
+              <p>
+                อีเมล:
+                <span class="font-medium hover:text-gray-400">{{
+                  teacher.email
+                }}</span>
+              </p>
+              <p>
+                โทรศัพท์:
+                <span class="font-medium hover:text-gray-400">{{
+                  teacher.phone
+                }}</span>
+              </p>
+            </div>
+            <p class="text-sm text-gray-600 mt-2 hover:text-gray-400">
+              ประวัติผู้สอน: {{ teacher.desc }}
             </p>
           </div>
-          <p class="text-sm text-gray-600 mt-2 hover:text-gray-400">
-            ประวัติผู้สอน: {{ teacher.desc }}
-          </p>
         </div>
       </div>
     </div>
@@ -296,11 +300,12 @@ export default {
 
 .box-border-teacher {
   width: 300px;
-  height: 260px;
+  height: 340px;
 }
 
-.v-carousel {
-  height: auto !important;
+.custom-carousel {
+  height: 300px;
+  width: 1000px;
 }
 
 .v-carousel-item {
