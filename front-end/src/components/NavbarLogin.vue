@@ -36,8 +36,8 @@ export default {
           link: '/edit-profile',
         },
         {
-          title: 'Logout',
-          link: '/login',
+          title: "Logout",
+          link: "/homepage",
         },
       ],
       userEmail: '',

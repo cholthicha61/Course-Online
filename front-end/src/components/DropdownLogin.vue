@@ -41,9 +41,16 @@ export default {
         localStorage.removeItem('role');
       }
     },
-  },
-};
-</script>
+    methods: {
+        async logout(item) {
+            console.log('logout',item.title);
+            
+            if(item.title == 'Logout') {
+                await this.$store.dispatch('auth/logout')
+                localStorage.removeItem('user');
+                localStorage.removeItem('role');
+                localStorage.removeItem('accessToken'); 
+                router.push('/homepage'); 
 
 <style scoped>
 nav .menu-item {
