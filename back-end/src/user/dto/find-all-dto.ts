@@ -24,6 +24,7 @@ export class FindAllOrderDto {
   courseName: string;
   description: string;
   price: number;
+  userId: number;
 }
 
 export class FindAllCategoryDto {
