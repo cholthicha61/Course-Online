@@ -24,12 +24,6 @@ const routes =  [
           meta: { requiresAuth: true },
         },
         {
-          path: "/inbox",
-          name: "inbox",
-          component: () => import("../views/Inbox.vue"),
-          meta: { requiresAuth: true },
-        },
-        {
           path: "/changePassword",
           name: "changePassword",
           component: () => import("../views/ChangePassword.vue"),
@@ -81,11 +75,11 @@ const routes =  [
           name: "teacherprofile",
           component: () => import("../views/EditProfileTeachaer.vue")
         },
-        // {
-        //   path: "/teacherprofiles",
-        //   name: "teacherprofiles",
-        //   component: () => import("../views/ProFile.vue")
-        // }
+        {
+          path: "/inbox",
+          name: "inbox",
+          component: () => import("../views/Inbox.vue")
+        }
       ],
     },
     {

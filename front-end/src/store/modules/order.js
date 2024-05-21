@@ -31,13 +31,16 @@ const mutations = {
 };
 
 const actions = {
-  async getOrder({ commit }) {
-    let url = `${ENDPOINT.ORDER}?status=income`;
+  async getOrder({ commit }, payload) {
+    let url = `${ENDPOINT.ORDER}?status=${payload?.status}&userId=${payload?.userId}`;
+    console.log('ssss', payload);
     try {
       const res = await axios(configAxios("get", url));
+      console.log('res',res);
       if (res.status === 200) {
         console.log("res cate?", res.data);
         commit("SET_ORDERS", res.data);
+        commit("SET_ORDER", res.data);
       }
     } catch (error) {
       console.log("error", error);
@@ -76,6 +79,7 @@ const actions = {
   hideConfirmationDialog({ commit }) {
     commit("HIDE_CONFIRMATION_DIALOG");
   },
+
   async createOrder({ commit }, payload) {
     console.log("payload", payload);
     try {

@@ -35,9 +35,9 @@
           </svg>
         </button>
         <input
+          v-model="userEmail.email"
           type="email"
           placeholder="Email"
-          readonly
           class="border border-gray-300 rounded-md mb-4 w-full px-3 py-2"
         />
         <textarea
@@ -47,7 +47,7 @@
         ></textarea>
         <div class="flex justify-end">
           <button
-            @click="addEmail()" 
+            @click="sentEmails" 
             class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full mr-2"
           >
             Submit
@@ -63,28 +63,43 @@ export default {
   data() {
     return {
       showPopup: false,
-      userEmail: { email: "" }, 
+      userEmail: { email: "" },
       message: "",
-      
     };
   },
   methods: {
     togglePopup() {
       this.showPopup = !this.showPopup;
     },
-  //   async addEmail() {
-  //     const payload = {
-  //       email: this.userEmail.email, 
-  //       message: this.message,
-  //     };
-  //     console.log("payload",payload);
-  //     await this.$store.dispatch("inbox/addEmails", payload); 
-  //   },
-  // },
-  // mounted() {
-  //   this.userEmail = JSON.parse(localStorage.getItem('user'))
-    
-  }
-  
+    async sentEmails() {
+      const payload = {
+        email: this.userEmail.email,
+        message: this.message,
+      };
+      try {
+        await this.$store.dispatch("inbox/sentEmails", payload);
+        this.togglePopup(); 
+        this.message = ""; 
+      } catch (error) {
+        console.error("Error sending email: ", error);
+      }
+      console.log("this.userEmail.email",this.userEmail.email);
+    },
+  },
+  mounted() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      this.userEmail.email = user.email;
+    }
+  },
 };
 </script>
+
+<style scoped>
+.head-course h1 {
+  font-size: 30px;
+  color: rgb(11, 94, 188);
+  border-bottom: 1px solid #d9d9d9;
+  font-style: italic;
+}
+</style>

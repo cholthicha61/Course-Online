@@ -44,6 +44,7 @@
 <script>
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
+import { StatusOrder } from "@/constants/enum";
 
 export default {
   data() {
@@ -63,20 +64,22 @@ export default {
   computed: {
     ...mapState({
       order: (state) => state.order.order,
-      confirmedOrders: (state) => state.order.confirmedOrders,
       course: (state) => state.course.course,
       names: (state) => state.category.names,
+
     }),
+
   },
   async mounted() {
     await this.getOrder();
   },
   methods: {
     async getOrder() {
-      await this.$store.dispatch("order/getOrder");
-    },
-    formatDate(date) {
-      return new Date(date).toLocaleDateString();
+      const payload = {
+        status: StatusOrder.Incourse,
+      }
+      await this.$store.dispatch("order/getOrder" ,payload);
+      console.log('orderorderorder', this.order);
     },
   },
 };
