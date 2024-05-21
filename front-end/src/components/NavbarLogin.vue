@@ -49,7 +49,7 @@ export default {
 
 <style scoped>
 .navbar-container {
-  background-color: #ffffff;
+  background-color: #cde5f2;
   display: flex;
   align-items: center;
   justify-content: flex-end;

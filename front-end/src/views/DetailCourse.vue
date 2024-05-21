@@ -8,26 +8,19 @@
     :setCloseModal="setCloseModal"
   />
   <div class="carousel-container mt-5 my-10 w-50 ml-64">
-    <v-carousel hide-delimiters class="cutom-carousel">
+    <v-carousel hide-delimiters class="cutom-carousel" v-if="coursebyid?.images">
       <v-carousel-item
-        v-if="coursebyid && coursebyid.courseImage"
-        :key="coursebyid.courseImage"
+        v-for="(item, i) in coursebyid?.images"
+        :key="i"
         cover
       >
         <v-responsive aspect-ratio="16/9">
-          <div @click="moveImageWrapperLeft(0)" class="image-wrapper">
+          <div @click="moveImageWrapperLeft(i)" class="image-wrapper">
             <img
-              :src="`${img}/${coursebyid.courseImage}`"
-              :alt="coursebyid.courseName"
+              :src="`${img}/${item.name}`"
+              :alt="`Image ${i + 1}`"
               class="rounded-xl w-full h-full object-cover"
             />
-          </div>
-        </v-responsive>
-      </v-carousel-item>
-      <v-carousel-item v-for="(item, i) in items" :key="i" cover>
-        <v-responsive aspect-ratio="16/9">
-          <div @click="moveImageWrapperLeft(i + 1)" class="image-wrapper">
-            <img :src="item.src" :alt="`Image ${i + 1}`" class="rounded-xl w-full h-full object-cover" />
           </div>
         </v-responsive>
       </v-carousel-item>
@@ -200,7 +193,7 @@ export default {
       openModal: false,
       img: ENDPOINT.IMG,
       itemCourse: {},
-      user: JSON.parse(localStorage.getItem('user'))
+      user: JSON.parse(localStorage.getItem("user")),
     };
   },
   components: {
@@ -214,13 +207,14 @@ export default {
     }),
   },
   watch: {
-    course(newVal) {
+    coursebyid(newVal) {
       console.log("card course", newVal);
       return newVal;
     },
     isFavorite(newVal) {
       return newVal;
     },
+    
   },
   async mounted() {
     this.getTeacher();
@@ -243,6 +237,10 @@ export default {
     },
     async getCourse() {
       await this.$store.dispatch("course/getCourseById", this.$route.params.id);
+      console.log("coursebyid", this.coursebyid);
+      this.coursebyid.images.unshift({
+        name: this.coursebyid.courseImage
+      })
     },
     checkFavorite(course, user) {
       _.map(course?.favoriteByUsers, (fav) => {

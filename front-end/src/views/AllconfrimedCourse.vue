@@ -5,7 +5,7 @@
     </h1>
   </div>
   <div>
-    <v-data-table-virtual :headers="headers" :items="confirmedOrders" height="100vh">
+    <v-data-table-virtual :headers="headers" :items="course" height="400">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
@@ -56,7 +56,6 @@ export default {
         { title: "Category", align: "start", value: "categorys.name", sortable: true },
         { title: "Detail", align: "start", value: "description", sortable: true },
         { title: "Price", align: "start", value: "price", sortable: true },
-        { title: "Type", align: "start", value: "priority", sortable: true },
         { title: "Action", align: "start" },
       ],
     };
