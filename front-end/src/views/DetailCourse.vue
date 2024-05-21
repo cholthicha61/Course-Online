@@ -35,7 +35,7 @@
 
     <div
       v-if="coursebyid"
-      class="box-border z- absolute right-48 rounded-xl bg-sky-50 py-2"
+      class="box-border absolute right-48 rounded-lg bg-sky-100 py-2 shadow-lg"
     >
       <h1 class="text-2xl mx-4 mt-10">
         <strong style="overflow: hidden; word-wrap: break-word">
@@ -50,98 +50,127 @@
 
       <h2
         v-if="coursebyid"
-        class="text-4xl font-bold text-orange-500 mt-8 ml-8"
+        class="text-4xl font-bold text-orange-500 mt-10 ml-5"
       >
         ฿{{ coursebyid.price }} บาท
       </h2>
-      
-      <div class="flex justify-center">
-        <div class="h-14 w-64 mt-10 rounded-lg bg-sky-900 hover:bg-sky-600">
-          <p
-            @click="setOpenModal(coursebyid)"
-            class="text-white font-bold font-sans text-center text-2xl py-3 hover:text-cyan-900"
-          >
-            Buy
-          </p>
+
+      <div class="mt-15 border-t-2 border-gray-300">
+        <div class="flex justify-center">
+          <div class="h-14 w-64 mt-11 rounded-lg bg-sky-900 hover:bg-sky-600">
+            <p
+              @click="setOpenModal(coursebyid)"
+              class="text-white font-bold font-sans text-center text-2xl py-3 hover:text-cyan-900"
+            >
+              Buy
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="flex justify-center">
-        <div
-          class="h-14 w-64 mt-8 rounded-lg bg-sky-200 flex items-center justify-between px-4"
-        >
-          <v-btn
-            value="favorites"
-            class="rounded-circle"
-            @click="toggleFavorite"
-            style="
-              width: 40px;
-              height: 40px;
-              min-width: 40px;
-              min-height: 40px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              background-color: white;
-              border-radius: 50%;
-              padding: 0;
-              margin: 0;
-            "
+        <div class="flex justify-center">
+          <div
+            class="h-14 w-64 mt-4 rounded-lg bg-sky-400 flex items-center justify-between px-4"
           >
-            <template v-if="!isFavorite">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="white"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="w-6 h-6"
-              >
-                <path
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                />
-              </svg>
-            </template>
-            <template v-else>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="#fc0345"
-                class="w-6 h-6"
-              >
-                <path
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                />
-              </svg>
-            </template>
-          </v-btn>
-          <p
-            class="text-sky-900 font-bold font-sans text-center text-2xl flex-grow mr-5"
-          >
-            Favorites
-          </p>
+            <v-btn
+              value="favorites"
+              class="rounded-circle"
+              @click="toggleFavorite"
+              style="
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                min-height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: white;
+                border-radius: 50%;
+                padding: 0;
+                margin: 0;
+              "
+            >
+              <template v-if="!isFavorite">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="white"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-6 h-6"
+                >
+                  <path
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                  />
+                </svg>
+              </template>
+              <template v-else>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="#fc0345"
+                  class="w-6 h-6"
+                >
+                  <path
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                  />
+                </svg>
+              </template>
+            </v-btn>
+            <p
+              class="text-sky-900 font-bold font-sans text-center text-2xl flex-grow mr-5"
+            >
+              Favorites
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div v-if="coursebyid" class="justify-start w-50 mt-5 my-16 ml-64">
+  <div v-if="coursebyid" class="justify-start w-50 mt-5 my-16 ml-64 w-1/2">
     <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
     <p class="text-base mt-2 indent-10 text-wrap">
       {{ coursebyid.description }}
     </p>
   </div>
 
-  <div class="flex justify-end my-16 px-48">
-    <div class="box-border-teacher text-wrap rounded-xl bg-sky-50 py-14 -mt-64">
-      <h1 class="text-xl text-center">
-        {{ teacher.fname }} {{ teacher.lname }}
-      </h1>
-      <div class="text-center text-sm mt-4">
-        <p>อีเมล: {{ teacher.email }}</p>
-        <p>โทรศัพท์: {{ teacher.phone }}</p>
-        <p>ประวัติผู้สอน: {{ teacher.desc }}</p>
+  <div class="flex justify-end my-10 mx-48">
+    <div class="flex justify-center items-center">
+      <div
+        class="w-100 max-w-screen-lg p-12 bg-sky-100 rounded-xl shadow-lg hover:shadow-xl"
+      >
+        <div class="flex justify-center">
+          <img
+            src="../../public/img/PTeacherEng.jpg"
+            alt="Profile Image"
+            class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md transition duration-500 transform hover:scale-110"
+          />
+        </div>
+        <div class="mt-4">
+          <h2
+            class="text-center text-xl text-gray-700 font-semibold hover:text-sky-500"
+          >
+            {{ teacher.fname }} {{ teacher.lname }}
+          </h2>
+          <div class="text-x text-gray-700 mt-2">
+            <p>
+              อีเมล:
+              <span class="font-medium hover:text-gray-400">{{
+                teacher.email
+              }}</span>
+            </p>
+            <p>
+              โทรศัพท์:
+              <span class="font-medium hover:text-gray-400">{{
+                teacher.phone
+              }}</span>
+            </p>
+          </div>
+          <p class="text-sm text-gray-600 mt-2 hover:text-gray-400">
+            ประวัติผู้สอน: {{ teacher.desc }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -262,8 +291,7 @@ export default {
 
 .box-border {
   width: 300px;
-  height: 509px;
-
+  height: 459px;
 }
 
 .box-border-teacher {
