@@ -1,7 +1,7 @@
 <template>
-  <nav class=" px-5 flex items-center justify-end text-lg bg-sky-200">
-    <div @click="$router.push('/home')" class="menu-item "><a >Home</a></div>
-    <div @click="$router.push('/allcourse')" class="menu-item "><a >All Course</a></div>
+  <nav class="px-5 flex items-center justify-end text-lg bg-sky-200">
+    <div @click="$router.push('/home')" class="menu-item"><a>Home</a></div>
+    <div @click="$router.push('/allcourse')" class="menu-item"><a>All Course</a></div>
 
     <DropdownLogin
       class="hover:text-sky-800 px-4"
@@ -9,15 +9,14 @@
       :items="services"
       style="z-index: 99"
     />
-
   </nav>
 </template>
 
 <script>
-import DropdownLogin from "./DropdownLogin.vue";
-// import Dropdown from './Dropdown.vue'
+import DropdownLogin from './DropdownLogin.vue';
+
 export default {
-  name: "navbar",
+  name: 'navbar',
   components: {
     DropdownLogin,
   },
@@ -25,29 +24,29 @@ export default {
     return {
       services: [
         {
-          title: "My Course",
-          link: "/mycourse",
+          title: 'My Course',
+          link: '/mycourse',
         },
         {
-          title: "Interested Course",
-          link: "/interested",
+          title: 'Interested Course',
+          link: '/interested',
         },
         {
-          title: "Edit Profile",
-          link: "/edit-profile",
+          title: 'Edit Profile',
+          link: '/edit-profile',
         },
         {
-          title: "Logout",
-          link: "/login",
+          title: 'Logout',
+          link: '/login',
         },
       ],
-      userEmail: ''
+      userEmail: '',
     };
   },
 
   mounted() {
-    this.userEmail = JSON.parse(localStorage.getItem('user'))
-  }
+    this.userEmail = JSON.parse(localStorage.getItem('user'));
+  },
 };
 </script>
 
@@ -66,7 +65,6 @@ nav .menu-item {
   border-bottom: 3px solid transparent;
   display: flex;
   transition: 0.4s;
-  
 }
 
 nav .menu-item.active,
@@ -75,11 +73,16 @@ nav .menu-item:hover {
 }
 
 nav .menu-item:hover {
-  color: #0c9ee2;
+  color: #016d9e;
 }
+
 nav .menu-item a {
   color: inherit;
   text-decoration: none;
-  
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 16px 20px;
+  box-sizing: border-box;
 }
 </style>

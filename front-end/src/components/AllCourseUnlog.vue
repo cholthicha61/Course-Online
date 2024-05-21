@@ -49,7 +49,7 @@
               lg="3"
               xl="2"
               v-for="course in item?.courses"
-              fixed
+              :key="course.id"
             >
               <div class="ma-3 rounded-border">
                 <CardCourse :course="course" :setOpenModal="setOpenModal" />
@@ -74,6 +74,7 @@
       </v-row>
     </v-container>
   </div>
+
 </template>
 
 <script>
