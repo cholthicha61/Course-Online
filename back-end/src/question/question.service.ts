@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateQuestionDto } from './dto/create-question.dto';
+import { CreateQuestionDto, CreateQuestionNonLoginDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Question } from './entities/question.entity';
@@ -58,11 +58,15 @@ export class QuestionService {
       });
 
       const response = question.map(question => {
-        const { password, ...filteredUser } = question.user;
-        return {
-          ...question,
-          user: filteredUser,
-        };
+        if (question.user) {
+          const { password, ...filteredUser } = question.user;
+          return {
+            ...question,
+            user: filteredUser,
+          };
+        } else {
+          return question;
+        }
       });
 
       return response
@@ -77,7 +81,7 @@ export class QuestionService {
         where: { id },
         relations: ['user'],
       });
-      
+
       if (_.isEmpty(question)) {
         throw new HttpException('Question not found', HttpStatus.NOT_FOUND);
       }
@@ -103,4 +107,20 @@ export class QuestionService {
       throw error;
     }
   }
+
+  async createQuestionNonLogin(createQuestionNonLoginDto: CreateQuestionNonLoginDto) {
+    try {
+      const question = this.questionRepository.create({
+        message: createQuestionNonLoginDto.message,
+        email: createQuestionNonLoginDto.email,
+      });
+
+      const questionSave = await this.questionRepository.save(question);
+
+      return questionSave;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }

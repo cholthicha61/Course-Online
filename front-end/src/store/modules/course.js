@@ -79,19 +79,7 @@ const actions = {
       console.error("Failed to update course", error);
     }
   },
-  // async updatePriority({ commit }, payload) {
-  //   try {
-  //     // await this.dispatch("course/getCourse");
 
-  //     const url = `${ENDPOINT.COURSE}/update-priority/${payload.id}`;
-  //     const res = await axios(configAxios("patch", url, payload));
-  //     console.log("response", res);
-
-  //     await this.dispatch("course/getCourse");
-  //   } catch (error) {
-  //     console.log("this", error);
-  //   }
-  // },
   async updatePriority({ commit, dispatch }, payload) {
     try {
       const url = `${ENDPOINT.COURSE}/update-priority/${payload.id}`;
@@ -103,8 +91,8 @@ const actions = {
         // แจ้งเตือนการปรับปรุงเรียบร้อย
         Swal.fire({
           icon: "success",
-          title: "อัพเดทสำเร็จ",
-          text: "การอัพเดทลำดับคอร์สเรียบร้อยแล้ว",
+          title: "Updated successfully",
+          text: "The course sequence has been updated.",
           showConfirmButton: false,
           timer: 2000,
         });
@@ -115,8 +103,8 @@ const actions = {
       console.error("เกิดข้อผิดพลาดในการอัพเดทลำดับ:", error);
       Swal.fire({
         icon: "error",
-        title: "เกิดข้อผิดพลาด",
-        text: "ไม่สามารถอัพเดทลำดับได้ กรุณาลองใหม่ภายหลัง",
+        title: "An error occurred.",
+        text: "Unable to update sequence Please try again later.",
       });
     }
   },

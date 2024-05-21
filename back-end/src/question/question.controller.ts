@@ -1,12 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { QuestionService } from './question.service';
-import { CreateQuestionDto } from './dto/create-question.dto';
+import { CreateQuestionDto, CreateQuestionNonLoginDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 
 @Controller('question')
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
+  @Post('question-non-login')
+  async createQuestionNonLogin(@Body() createQuestionNonLoginDto: CreateQuestionNonLoginDto) {
+    return this.questionService.createQuestionNonLogin(createQuestionNonLoginDto);
+  }
+  
   @Post()
   async create(@Body() createQuestionDto: CreateQuestionDto, @Query('user_id') userId: number) {
     return await this.questionService.create(createQuestionDto, userId);

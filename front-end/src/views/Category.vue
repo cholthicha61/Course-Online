@@ -3,22 +3,32 @@
     <div class="head-course">
       <h1>Manage Category</h1>
     </div>
-  </div>
-  <div>
-    <div class="add-category-btn" style="display: flex; justify-content: flex-end; margin-top: 15px;">
+    <div class="add-category-btn">
       <AddCategory />
     </div>
 
+    <EditCategory
+      v-if="isEditCategory"
+      :isEditCategory="isEditCategory"
+      :selectCategory="selectCategory"
+      :onCloseEdit="onCloseEdit"
+    />
 
-    <EditCategory v-if="isEditCategory" :isEditCategory="isEditCategory" :selectCategory="selectCategory"
-      :onCloseEdit="onCloseEdit" />
-
-    <v-data-table-virtual :headers="headers" :items="names" height="400" item-value="name">
+    <v-data-table-virtual
+      :headers="headers"
+      :items="names"
+      height="400"
+      item-value="name"
+    >
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-      <template v-slot:[`item.update`]="{ item }">
-        <v-btn color="blue" @click="updateCategory(item)" style="margin-right: 8px">
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-btn
+          color="blue"
+          @click="updateCategory(item)"
+          style="margin-right: 8px"
+        >
           Edit
         </v-btn>
         <v-btn color="warning" @click="deleteCategory(item.id)">Delete</v-btn>
@@ -74,13 +84,13 @@ export default {
     },
     async deleteCategory(categoryId) {
       Swal.fire({
-        title: "คุณต้องการลบหรือไม่",
-        text: "ลบแล้วจะไม่สามารถกลับมาแก้ไขใหม่ได้",
+        title: "Do you want to delete it?",
+        text: "Once deleted, it cannot be edited again.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "ยืนยันการลบ",
+        confirmButtonText: "Confirm deletion",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("category/deleteCategory", categoryId);

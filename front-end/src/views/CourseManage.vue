@@ -74,12 +74,7 @@ export default {
         },
         { title: "Price", align: "start", value: "price", sortable: true },
         { title: "Type", align: "start", value: "priority", sortable: true },
-        // {
-        //   title: "Priority",
-        //   align: "start",
-        //   value: "priority",
-        //   sortable: true,
-        // },
+      
         { title: "Action", align: "center" },
       ],
       courses: [],

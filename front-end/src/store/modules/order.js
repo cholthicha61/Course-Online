@@ -1,5 +1,3 @@
-// store/modules/order.js
-
 import axios from "axios";
 import { ENDPOINT } from "../../constants/endpoint";
 import configAxios from "@/axios/configAxios";
@@ -33,41 +31,18 @@ const mutations = {
 };
 
 const actions = {
-  // async getOrder({ commit }, payload){
-  //   let url = `${ENDPOINT.ORDER}`;
-  //   try {
-  //     const res = await axios(configAxios("get",url));
-  //     commit("SET_ORDER", res.data)
-  //   } catch (error) {
-  //     throw new Error();
-  //   }
-  // },
-
-  async getOrder({ commit }, payload) {
-    let url = `${ENDPOINT.ORDER}`;
+  async getOrder({ commit }) {
+    let url = `${ENDPOINT.ORDER}?status=income`;
     try {
       const res = await axios(configAxios("get", url));
-      if (res.status == 200) {
+      if (res.status === 200) {
         console.log("res cate?", res.data);
-        commit("SET_ORDER", res.data);
+        commit("SET_ORDERS", res.data);
       }
     } catch (error) {
       console.log("error", error);
     }
   },
-
-  // async fetchOrders({ commit }) {
-  //   try {
-  //     const res = await axios.get(`${ENDPOINT.ORDER}`);
-  //     if (res.status === 200) {
-  //       commit('SET_ORDERS', res.data);
-  //     } else {
-  //       console.error("Failed to fetch orders");
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to fetch orders", error);
-  //   }
-  // },
   async confirmOrder({ commit, state }, index) {
     try {
       const res = await axios.patch(
@@ -108,18 +83,18 @@ const actions = {
       const res = await axios(configAxios("post", url, payload));
       if (res.status == 201) {
         Swal.fire({
-          title: "คุณต้องการซื้อคอร์สนี้หรือไม่",
+          title: "Do you want to buy this course?",
           text: "",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "ยืนยันการซื้อคอร์ส",
+          confirmButtonText: "Confirm course purchase",
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire({
               icon: "success",
-              title: "ซื้อคอร์สสำเร็จ",
+              title: "Successfully purchased the course",
               text: "",
               showConfirmButton: false,
               timer: 3000,
@@ -132,7 +107,7 @@ const actions = {
       if (error.response && error.response.status == 404) {
         Swal.fire({
           icon: "warning",
-          title: "ไม่สามารถสั่งซื้อได้",
+          title: "Unable to order",
           text: "",
           showConfirmButton: false,
           timer: 2000,
