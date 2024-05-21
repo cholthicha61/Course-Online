@@ -72,7 +72,8 @@ nav .sub-menu {
 
 nav .sub-menu-item {
   padding: 8px 12px;
-  background-color: #bae6fd;
+  background-color: #ffffff;
+  /* background-color: #bae6fd; */
 }
 
 nav .sub-menu-item:hover {
