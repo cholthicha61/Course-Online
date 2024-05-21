@@ -38,7 +38,7 @@ export default {
         },
         {
           title: "Logout",
-          link: "/login",
+          link: "/homepage",
         },
       ],
       userEmail: ''

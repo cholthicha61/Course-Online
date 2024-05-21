@@ -33,6 +33,8 @@
                 await this.$store.dispatch('auth/logout')
                 localStorage.removeItem('user');
                 localStorage.removeItem('role');
+                localStorage.removeItem('accessToken'); 
+                router.push('/homepage'); 
 
             }
         }
