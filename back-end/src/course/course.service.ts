@@ -81,6 +81,7 @@ export class CourseService {
         relations: {
           images: true,
           categorys: true,
+          favoriteByUsers: true
         },
       });
       if (_.isEmpty(course)) {

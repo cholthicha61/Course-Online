@@ -73,7 +73,7 @@
             <v-btn
               value="favorites"
               class="rounded-circle"
-              @click="toggleFavorite"
+              @click="toggleFavorite(coursebyid)"
               style="
                 width: 40px;
                 height: 40px;
@@ -196,8 +196,7 @@ export default {
       openModal: false,
       img: ENDPOINT.IMG,
       itemCourse: {},
-      teacher: [],
-      courses: [],
+      user: JSON.parse(localStorage.getItem('user'))
     };
   },
   components: {
@@ -206,7 +205,7 @@ export default {
   computed: {
     ...mapState({
       favorite: (state) => state.favorite.favorite,
-      user: (state) => state.user.user,
+      teacher: (state) => state.user.user,
       coursebyid: (state) => state.course.selectedCourse,
     }),
   },
@@ -219,12 +218,10 @@ export default {
       return newVal;
     },
   },
-  mounted() {
-    this.checkFavorite(this.course, this.user);
-  },
   async mounted() {
     this.getTeacher();
     await this.getCourse();
+    this.checkFavorite(this.coursebyid, this.user);
   },
   methods: {
     setOpenModal(item) {
@@ -237,13 +234,11 @@ export default {
     },
     async getTeacher() {
       await this.$store.dispatch("user/getTeacher");
-      this.teacher = this.user;
+      // this.teacher = this.user;
       console.log("teacher", this.teacher);
     },
     async getCourse() {
       await this.$store.dispatch("course/getCourseById", this.$route.params.id);
-      this.courses = this.course;
-      console.log("getcourse", this.course);
     },
     checkFavorite(course, user) {
       _.map(course?.favoriteByUsers, (fav) => {
