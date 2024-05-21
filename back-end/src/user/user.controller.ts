@@ -16,13 +16,13 @@ import { UpdateTeacherDto } from './dto/update-teacher.dto';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
-  @Get('get-teacher-profile')
+  @Get('/get-teacher-profile')
   async getTeacherProfile() {
     return this.userService.getTeacherProfile();
   }
-  
+
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     console.log('createUserDto >>>', createUserDto);
@@ -36,13 +36,23 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard)
-  @Get(':id')
+  @Get('/:id')
   async findOne(@Param('id') id: string) {
     return await this.userService.findOne(+id);
   }
 
+  @Patch('/teacher-profile-non-image')
+  async updateTeacherProfileNonImage(@Body() updateTeacherDto: UpdateTeacherDto) {
+    try {
+      const updatedTeacher = await this.userService.updateTeacherProfileNonImage(updateTeacherDto);
+      return updatedTeacher;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   // @UseGuards(AuthGuard)
-  @Patch('teacher-profile')
+  @Patch('/teacher-profile')
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: FOLDERPATH.Imgs, // แก้เป็น path ที่ต้องการเก็บไฟล์
@@ -74,13 +84,13 @@ export class UserController {
     // เช่น เก็บข้อมูลในฐานข้อมูลหรือประมวลผลไฟล์
     // ส่งคืนข้อมูลหรือตอบกลับตามที่ต้องการ
     console.log('File uploaded successfully', file.filename);
-    
+
     const teacher = await this.userService.updateTeacherProfile(file, updateTeacherDto);
     return teacher;
   }
 
   @UseGuards(AuthGuard)
-  @Patch('update-status/:id')
+  @Patch('/update-status/:id')
   async updateStatusUser(
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDto,
@@ -90,14 +100,14 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard)
-  @Patch(':id')
+  @Patch('/:id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const roleId = updateUserDto.roleId;
     return await this.userService.update(+id, updateUserDto, roleId);
   }
 
   @UseGuards(AuthGuard)
-  @Post('favorite/:userId/courses/:courseId')
+  @Post('/favorite/:userId/courses/:courseId')
   async markCourseAsFavorite(
     @Param('userId') userId: number,
     @Param('courseId') courseId: number
@@ -106,7 +116,7 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard)
-  @Delete('favorite/:userId/courses/:courseId')
+  @Delete('/favorite/:userId/courses/:courseId')
   async unmarkCourseAsFavorite(
     @Param('userId') userId: number,
     @Param('courseId') courseId: number
@@ -115,13 +125,13 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('favorite/:userId/courses')
+  @Get('/favorite/:userId/courses')
   async getFavoriteCourses(@Param('userId') userId: number) {
     return await this.userService.getFavoriteCourses(userId);
   }
 
   @UseGuards(AuthGuard)
-  @Get('all/favorite-courses')
+  @Get('/all/favorite-courses')
   async getAllUsersWithFavoriteCourses() {
     return await this.userService.getAllUsersWithFavoriteCourses();
   }
