@@ -5,15 +5,38 @@
     </div>
   </div>
   <div class="mt-9">
-    <v-data-table-virtual :headers="headers" :items="userEmail">
+    <v-data-table-virtual :headers="headers" :items="email">
       <template #item="{ item, index }">
         <tr :key="index">
           <td>{{ index + 1 }}</td>
-          <td>{{ formatDate(item.date) }}</td>
-          <td>{{ item.email }}</td>
-          <td>{{ item.message }}</td>
+          <td>{{ formatDate(item.createdAt) }}</td>
+          <td v-if="item.email == null">{{ (item.user.email) }}</td>
+          <td v-else>{{ (item.email) }}</td>
+
+          <td>{{ (item.message) }}</td>
         </tr>
       </template>
+
+            <!-- <template v-slot:[`item.name`]="{ item }">
+        <b class="border-2 border-red-500">{{ item.name }}</b>
+      </template> -->
+
+      <!-- <template #item="{ item }">
+        <tr :key="item">
+          <td
+            class="text-between"
+            style="width: 300px; max-width: 300px; word-wrap: break-word"
+          >
+            {{ formatDate(item.date) }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.email }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.message }}
+          </td>
+        </tr>
+      </template> -->
     </v-data-table-virtual>
   </div>
 </template>
@@ -21,55 +44,55 @@
 <script>
 import { mapState } from "vuex";
 import _ from "lodash";
-
 export default {
   data: () => ({
     headers: [
-      { title: "No.", align: "start", value: "no" },
-      { title: "Date", align: "start", value: "date" },
-      { title: "Email", align: "start", value: "email" },
-      { title: "Message", align: "start", value: "message" }
+    {
+        title: "No.", 
+        align: "start", 
+        value: "no"
+
+      },
+      {
+        title: "Date",
+        align: "start",
+        value: "date",
+        sortable: true
+      },
+      {
+        title: "Email",
+        align: "start",
+        value: "email",
+        sortable: true
+      },
+      {
+        title: "Message",
+        align: "start",
+        value: "message",
+        sortable: true 
+      },
+      
     ],
-    userEmail: [],
+    email: [],
   }),
   computed: {
     ...mapState({
-      users: (state) => state.user.users,
+      emails: (state) => state.inbox.emails,
     }),
   },
   async mounted() {
-    this.getData();
+    this.getQuestion();
   },
   methods: {
     formatDate(date) {
       return new Date(date).toLocaleString();
     },
-    async getData() {
-      const payload = {
-        question: true,
-      };
-      await this.$store.dispatch("user/getUser", payload);
-      console.log("user", this.users);
-      this.setDataEmail(this.users);
+    async getQuestion() {
+      await this.$store.dispatch("inbox/getQuestion");
+      this.email = this.emails;
+      console.log("wwwwww",this.email);
     },
-    setDataEmail(users) {
-      console.log("users", users.length);
-      const setData = [];
-      _.forEach(users, (user) => {
-        if (!_.isEmpty(user.questions)) {
-          _.forEach(user.questions, (question) => {
-            setData.push({
-              date: question.createdAt,
-              email: user.email,
-              message: question.message,
-            });
-          });
-        }
-      });
-      this.userEmail = setData;
-      console.log("useremail", this.userEmail);
-    },
-  },
+    }
 };
 </script>
 
