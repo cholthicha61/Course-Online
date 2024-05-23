@@ -1,48 +1,106 @@
 <template>
   <div>
     <v-card
-      style="border-radius: 10px"
+      :class="{ 'fixed-height': !showFullDescription }"
+      style="
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+      "
       elevation="hover"
       @mouseenter="isHover = true"
       @mouseleave="isHover = false"
       @click="goToDetailPage(course)"
-    >
-      <v-img height="200px" :src="`${img}/${course.courseImage}`" cover>
-      </v-img>
+      ><div>
+        <v-img height="200px" :src="`${img}/${course.courseImage}`" cover>
+        </v-img>
 
-      <v-card-text>
-        <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
-          {{ course.courseName }}
-        </h1>
-        <div class="description-course mt-1">
-          <p v-if="!showFullDescription">{{ truncatedDescription }} <span v-if="course.description.length >= 100" @click.stop="toggleDescription" class="text-primary cursor-pointer">See more</span></p>
-          <p v-else>{{ course.description }} <span @click.stop="toggleDescription" class="text-primary cursor-pointer">See less</span></p>
-        </div>
-        <div class="text-end">
-          <h2 class="mt-13">{{ course.price }} บาท</h2>
-        </div>
-      </v-card-text>
-      <v-card-btn class="card-button pa-2 d-flex align-items-center justify-between">
+        <v-card-text>
+          <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
+            {{ course.courseName }}
+          </h1>
+          <div class="description-course mt-1">
+            <p v-if="!showFullDescription">
+              {{ truncatedDescription }}
+              <span
+                v-if="course.description.length >= 100"
+                @click.stop="toggleDescription"
+                class="text-primary cursor-pointer"
+                >See more</span
+              >
+            </p>
+            <p v-else>
+              {{ course.description }}
+              <span
+                @click.stop="toggleDescription"
+                class="text-primary cursor-pointer"
+                >See less</span
+              >
+            </p>
+          </div>
+          <div class="text-end">
+            <h2 class="pb-5 pt-5 mb-15 mt-0">{{ course.price }} บาท</h2>
+          </div>
+        </v-card-text>
+      </div>
+      <v-card-btn class="card-buttons">
         <v-btn
           value="favorites"
           class="rounded-circle"
           @click.stop="toggleFavorite(course)"
-          style="width: 40px; height: 40px; min-width: 40px; min-height: 40px; display: flex; align-items: center; justify-content: center; background-color: white; border-radius: 50%; padding: 0; margin: 0;"
+          style="
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 50%;
+            padding: 0;
+            margin: 0;
+          "
         >
           <template v-if="!isFavorite">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-6 h-6"
+            >
+              <path
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+              />
             </svg>
           </template>
           <template v-else>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fc0345" class="w-6 h-6">
-              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#fc0345"
+              class="w-6 h-6"
+            >
+              <path
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+              />
             </svg>
           </template>
         </v-btn>
         <v-btn
-          class="buy-button text-white font-weight-regular mb-5"
-          style="height: 40px; display: flex; align-items: center"
+          class="buy-button text-white font-weight-regular "
+          style="
+            height: 40px;
+            display: flex;
+            align-items: center;
+            margin-right: 0px;
+          "
           text="BUY"
           variant="tonal"
           @click.stop="handleBuyClick(course)"
@@ -70,7 +128,9 @@ export default {
   },
   computed: {
     truncatedDescription() {
-      return this.course.description.length > 100 ? this.course.description.slice(0, 100) + '...' : this.course.description;
+      return this.course.description.length > 100
+        ? this.course.description.slice(0, 100) + "..."
+        : this.course.description;
     },
   },
   props: {
@@ -83,8 +143,7 @@ export default {
       return newVal;
     },
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     goToDetailPage(course) {
       this.$router.push(`/detailcourse/${course.id}`);
@@ -98,7 +157,7 @@ export default {
           icon: "warning",
           title: "You must login first",
           showConfirmButton: true,
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
         });
         return;
       }
@@ -125,7 +184,7 @@ export default {
           icon: "warning",
           title: "You must login first",
           showConfirmButton: true,
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
         });
         return;
       }
@@ -152,6 +211,9 @@ export default {
 .v-card-text h1:hover {
   color: #075985;
 }
+.v-card.fixed-height {
+  height: 450px;
+}
 .btn-buy {
   color: #fff;
   background-color: #098ad0;
@@ -176,9 +238,18 @@ export default {
   align-items: center;
   justify-content: center;
   height: 36px;
-  bottom: -18px;
+  
 }
 .text-primary {
   color: #098ad0;
+}
+.card-buttons {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>
