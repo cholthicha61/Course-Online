@@ -63,7 +63,7 @@ nav .menu-item svg {
 
 nav .sub-menu {
   position: absolute;
-  background-color: #ffffff;
+  /* background-color: #34a6f2; */
   top: 100%;
   left: 0;
   width: max-content;
@@ -73,12 +73,11 @@ nav .sub-menu {
 
 nav .sub-menu-item {
   padding: 8px 12px;
-  background-color: #ffffff;
-  /* background-color: #bae6fd; */
+  background-color: #bae6fd;
 }
 
 nav .sub-menu-item:hover {
-  background-color: #8dd6fd;
+  background-color: rgb(73, 190, 253);
 }
 
 .full-link {

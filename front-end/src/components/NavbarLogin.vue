@@ -49,31 +49,32 @@ export default {
 
 <style scoped>
 .navbar-container {
-  background-color: #cde5f2;
+  background-color: #bde4f9;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 1rem 1rem;
+  padding: 0.75rem 1rem;
+  height: 4rem; 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
-  z-index: 50; /* Ensures it is above other content but below the dropdown */
+  z-index: 50;
 }
 
 .menu-item {
-  color: #022a65;
-  font-size: 1.125rem; /* 18px, same as Navbar */
+  color: #104a83;
+  font-size: 1.125rem; 
   padding: 1rem 1rem;
   position: relative;
   text-align: center;
   display: flex;
-  align-items: center; /* Ensures vertical alignment */
-  transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+  align-items: center; 
+  transition: background-color 0.3s, color 0.3s; 
   cursor: pointer;
 }
 
 .menu-item:hover {
-  background-color: #8dd6fd;
-  color: #016d9e;
+  background-color: #43bbfc;
+  color: #054364;
 }
 
 .menu-item a {
@@ -95,21 +96,21 @@ export default {
   top: 100%;
   background-color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 100; /* Ensures the dropdown is on top */
-  min-width: 200px; /* Ensures a minimum width for the dropdown */
+  z-index: 100; 
+  min-width: 200px; 
 }
 
 .dropdown-item .dropdown-menu a {
   color: #022a65;
-  font-size: 1.125rem; /* 18px, same as Navbar */
+  font-size: 1.125rem; 
   padding: 1rem;
   text-decoration: none;
   display: block;
-  transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+  transition: background-color 0.3s, color 0.3s; 
 }
 
 .dropdown-item .dropdown-menu a:hover {
-  background-color: #8dd6fd;
+  background-color: #c7ebff;
   color: #016d9e;
 }
 </style>

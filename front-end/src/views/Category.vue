@@ -17,7 +17,7 @@
     <v-data-table-virtual
       :headers="headers"
       :items="names"
-      height="400"
+      height="450"
       item-value="name"
     >
       <template v-slot:[`item.no`]="{ index }">

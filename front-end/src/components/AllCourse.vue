@@ -26,9 +26,6 @@
     <v-container class="head-course">
       <h1>All course</h1>
     </v-container>
-    <!-- <v-container class="head-category">
-      <h1>Category</h1>
-    </v-container> -->
     <v-container>
       <div v-for="item in category">
         <div v-if="item?.courses && item.courses.length > 0">
@@ -71,6 +68,8 @@
         </v-col>
       </v-row>
     </v-container>
+    <QuestionPopup/>
+
   </div>
 </template>
 
@@ -78,12 +77,13 @@
 import CardCourse from "@/components/CardCourse.vue";
 import { mapState } from "vuex";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
-
+import QuestionPopup from "./QuestionPopup.vue";
 // import { TYPE_COURSE } from "@/constants/type-course";
 export default {
   components: {
     CardCourse,
     ConfirmCourse,
+    QuestionPopup,
   },
   data() {
     return {
