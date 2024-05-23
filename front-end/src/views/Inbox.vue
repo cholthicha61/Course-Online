@@ -21,22 +21,7 @@
         <b class="border-2 border-red-500">{{ item.name }}</b>
       </template> -->
 
-      <!-- <template #item="{ item }">
-        <tr :key="item">
-          <td
-            class="text-between"
-            style="width: 300px; max-width: 300px; word-wrap: break-word"
-          >
-            {{ formatDate(item.date) }}
-          </td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
-            {{ item.email }}
-          </td>
-          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
-            {{ item.message }}
-          </td>
-        </tr>
-      </template> -->
+
     </v-data-table-virtual>
   </div>
 </template>

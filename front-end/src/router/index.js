@@ -68,7 +68,7 @@ const routes =  [
         {
           path: "/courseorder",
           name: "courseorder",
-          component: () => import("../components/CourseOrder.vue")
+          component: () => import("../views/CourseOrder.vue")
         },
         {
           path: "/teacherprofile",

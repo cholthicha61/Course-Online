@@ -8,12 +8,12 @@
     :setCloseModal="setCloseModal"
   />
   <div class="carousel-container mt-5 my-10 w-50 ml-64">
-    <v-carousel hide-delimiters class="cutom-carousel" v-if="coursebyid?.images">
-      <v-carousel-item
-        v-for="(item, i) in coursebyid?.images"
-        :key="i"
-        cover
-      >
+    <v-carousel
+      hide-delimiters
+      class="cutom-carousel"
+      v-if="coursebyid?.images"
+    >
+      <v-carousel-item v-for="(item, i) in coursebyid?.images" :key="i" cover>
         <v-responsive aspect-ratio="16/9">
           <div @click="moveImageWrapperLeft(i)" class="image-wrapper">
             <img
@@ -214,7 +214,6 @@ export default {
     isFavorite(newVal) {
       return newVal;
     },
-    
   },
   async mounted() {
     this.getTeacher();
@@ -239,8 +238,8 @@ export default {
       await this.$store.dispatch("course/getCourseById", this.$route.params.id);
       console.log("coursebyid", this.coursebyid);
       this.coursebyid.images.unshift({
-        name: this.coursebyid.courseImage
-      })
+        name: this.coursebyid.courseImage,
+      });
     },
     checkFavorite(course, user) {
       _.map(course?.favoriteByUsers, (fav) => {
