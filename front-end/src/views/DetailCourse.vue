@@ -1,0 +1,330 @@
+<template>
+  <v-container class="head-course">
+    <h1 class="mt-10">Detail Course</h1>
+  </v-container>
+  <ConfirmCourse
+    :openModal="openModal"
+    :course="itemCourse"
+    :setCloseModal="setCloseModal"
+  />
+  <div class="carousel-container mt-5 my-10 w-50 ml-64">
+    <v-carousel
+      hide-delimiters
+      class="cutom-carousel"
+      v-if="coursebyid?.images"
+    >
+      <v-carousel-item v-for="(item, i) in coursebyid?.images" :key="i" cover>
+        <v-responsive aspect-ratio="16/9">
+          <div @click="moveImageWrapperLeft(i)" class="image-wrapper">
+            <img
+              :src="`${img}/${item.name}`"
+              :alt="`Image ${i + 1}`"
+              class="rounded-xl w-full h-full object-cover"
+            />
+          </div>
+        </v-responsive>
+      </v-carousel-item>
+    </v-carousel>
+
+    <div
+      v-if="coursebyid"
+      class="box-border absolute right-48 rounded-lg bg-sky-100 py-2 shadow-lg"
+    >
+      <h1 class="text-2xl mx-4 mt-10">
+        <strong style="overflow: hidden; word-wrap: break-word">
+          <b
+            class="text-sm text-sky-500"
+            style="display: block; margin-bottom: 0.5rem"
+            >Online Course</b
+          >
+          {{ coursebyid.courseName }}
+        </strong>
+      </h1>
+
+      <h2
+        v-if="coursebyid"
+        class="text-4xl font-bold text-orange-500 mt-10 ml-5"
+      >
+        ฿{{ coursebyid.price }} บาท
+      </h2>
+
+      <div class="mt-15 border-t-2 border-gray-300">
+        <div class="flex justify-center">
+          <div class="h-14 w-64 mt-11 rounded-lg bg-sky-900 hover:bg-sky-600">
+            <p
+              @click="setOpenModal(coursebyid)"
+              class="text-white font-bold font-sans text-center text-2xl py-3 hover:text-cyan-900"
+            >
+              Buy
+            </p>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <div
+            class="h-14 w-64 mt-4 rounded-lg bg-sky-400 flex items-center justify-between px-4"
+          >
+            <v-btn
+              value="favorites"
+              class="rounded-circle"
+              @click="toggleFavorite(coursebyid)"
+              style="
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                min-height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: white;
+                border-radius: 50%;
+                padding: 0;
+                margin: 0;
+              "
+            >
+              <template v-if="!isFavorite">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="white"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-6 h-6"
+                >
+                  <path
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                  />
+                </svg>
+              </template>
+              <template v-else>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="#fc0345"
+                  class="w-6 h-6"
+                >
+                  <path
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                  />
+                </svg>
+              </template>
+            </v-btn>
+            <p
+              class="text-sky-900 font-bold font-sans text-center text-2xl flex-grow mr-5"
+            >
+              Favorites
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex">
+    <div v-if="coursebyid" class="justify-start w-50 mt-5 my-16 ml-64 w-1/2">
+      <div class="p-6 bg-white rounded-lg shadow-md">
+        <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
+        <p class="text-base mt-2 indent-10 text-wrap">
+          {{ coursebyid.description }}
+        </p>
+      </div>
+    </div>
+
+    <div class="justify-end ml-3 mb-10">
+      <div class="flex justify-center items-center">
+        <div
+          class="box-border-teacher max-w-screen-lg p-12 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl"
+        >
+          <div class="flex justify-center -py-2">
+            <img
+              src="../../public/img/PTeacherEng.jpg"
+              alt="Profile Image"
+              class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md transition duration-500 transform hover:scale-110"
+            />
+          </div>
+          <div class="mt-4">
+            <h2
+              class="text-center text-xl text-gray-700 font-semibold hover:text-sky-500"
+            >
+              {{ teacher.fname }} {{ teacher.lname }}
+            </h2>
+            <div class="text-x text-gray-700 mt-2">
+              <p>
+                อีเมล:
+                <span class="font-medium hover:text-gray-400">{{
+                  teacher.email
+                }}</span>
+              </p>
+              <p>
+                โทรศัพท์:
+                <span class="font-medium hover:text-gray-400">{{
+                  teacher.phone
+                }}</span>
+              </p>
+            </div>
+            <p class="text-sm text-gray-600 mt-2 hover:text-gray-400">
+              ประวัติผู้สอน: {{ teacher.desc }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import _ from "lodash";
+import ConfirmCourse from "@/views/ConfirmCourse.vue";
+import { mapState } from "vuex";
+import { ENDPOINT } from "@/constants/endpoint";
+
+export default {
+  data() {
+    return {
+      items: [
+        { src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" },
+        { src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg" },
+        { src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg" },
+        { src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg" },
+      ],
+      isHover: false,
+      isFavorite: false,
+      openModal: false,
+      img: ENDPOINT.IMG,
+      itemCourse: {},
+      user: JSON.parse(localStorage.getItem("user")),
+    };
+  },
+  components: {
+    ConfirmCourse,
+  },
+  computed: {
+    ...mapState({
+      favorite: (state) => state.favorite.favorite,
+      teacher: (state) => state.user.user,
+      coursebyid: (state) => state.course.selectedCourse,
+    }),
+  },
+  watch: {
+    coursebyid(newVal) {
+      console.log("card course", newVal);
+      return newVal;
+    },
+    isFavorite(newVal) {
+      return newVal;
+    },
+  },
+  async mounted() {
+    this.getTeacher();
+    await this.getCourse();
+    this.checkFavorite(this.coursebyid, this.user);
+  },
+  methods: {
+    setOpenModal(item) {
+      this.itemCourse = item;
+      this.openModal = true;
+    },
+
+    setCloseModal() {
+      this.openModal = false;
+    },
+    async getTeacher() {
+      await this.$store.dispatch("user/getTeacher");
+      // this.teacher = this.user;
+      console.log("teacher", this.teacher);
+    },
+    async getCourse() {
+      await this.$store.dispatch("course/getCourseById", this.$route.params.id);
+      console.log("coursebyid", this.coursebyid);
+      this.coursebyid.images.unshift({
+        name: this.coursebyid.courseImage,
+      });
+    },
+    checkFavorite(course, user) {
+      _.map(course?.favoriteByUsers, (fav) => {
+        if (fav?.id == user.id) {
+          this.isFavorite = true;
+        }
+      });
+    },
+    toggleShadow() {
+      this.isHover = !this.isHover;
+    },
+    async toggleFavorite(course) {
+      this.isFavorite = !this.isFavorite;
+      const payload = {
+        userId: this.user.id,
+        courseId: course.id,
+      };
+      console.log("toggleFavorite", course);
+
+      if (course?.favoriteByUsers && course.favoriteByUsers.length != 0) {
+        _.map(course?.favoriteByUsers, async (fav) => {
+          if (fav?.id == this.user.id) {
+            console.log("favorite/deleteFavorite");
+            await this.$store.dispatch("favorite/deleteFavorite", payload);
+          } else {
+            console.log("favorite/updateFavorite1");
+            await this.$store.dispatch("favorite/updateFavorite", payload);
+          }
+        });
+      } else {
+        console.log("favorite/updateFavorite2");
+        await this.$store.dispatch("favorite/updateFavorite", payload);
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+.carousel-container {
+  display: flex;
+  max-width: 800px;
+  width: 100%;
+}
+
+.box-border {
+  width: 300px;
+  height: 459px;
+}
+
+.box-border-teacher {
+  width: 300px;
+  height: 340px;
+}
+
+.custom-carousel {
+  height: 300px;
+  width: 1000px;
+}
+
+.v-carousel-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.head-course h1 {
+  font-size: 30px;
+  color: black;
+  border-bottom: 1px solid #9e9e9e;
+  font-style: italic;
+}
+
+.rounded-border {
+  border-radius: 20px;
+}
+</style>

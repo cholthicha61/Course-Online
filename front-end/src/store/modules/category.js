@@ -29,14 +29,22 @@ const actions = {
           showConfirmButton: false,
           timer: 2000,
         });
-        location.reload();
       }
     } catch (error) {
       console.log("error  >>> ", error);
       if (error.response.status == 400) {
         Swal.fire({
           icon: "warning",
-          title: "ไม่พบข้อมูล",
+          title: "กรุณากรอกข้อมูล",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+      if (error.response.status == 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "มีข้อมูลแล้ว",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -62,6 +70,9 @@ const actions = {
       const res = await axios(configAxios("delete", url));
 
       if (res.status === 200) {
+        await this.dispatch("category/getCategory", {
+          category: true,
+        });
         Swal.fire({
           icon: "success",
           title: "Category successfully deleted",
@@ -70,7 +81,7 @@ const actions = {
           timer: 3000,
         });
         commit("SET_NAMES", res.data);
-        location.reload();
+        // location.reload();
       }
     } catch (error) {
       console.error("Error deleting category:", error);

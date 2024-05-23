@@ -78,6 +78,9 @@ export class OrderService {
       if (keyword.description) {
         findAllOrders.andWhere('course.description like :description', { description: `%${keyword?.description}%` });
       }
+      if (keyword.userId) {
+        findAllOrders.andWhere('user.id = :userId', { userId: `${keyword?.userId}` });
+      }
       if (keyword.orderById) {
         findAllOrders.orderBy('order.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`);
       }

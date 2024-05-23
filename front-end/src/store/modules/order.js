@@ -31,50 +31,73 @@ const mutations = {
 };
 
 const actions = {
-  async getOrder({ commit }) {
-    let url = `${ENDPOINT.ORDER}?status=income`;
+  async getOrder({ commit }, payload) {
+    let url = `${ENDPOINT.ORDER}`;
+    console.log("ssss", url);
     try {
-      const res = await axios(configAxios("get", url));
+      // const res = await axios(configAxios("get", url, payload));
+      const res = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        params: payload,
+      });
+      console.log("res", res);
       if (res.status === 200) {
         console.log("res cate?", res.data);
         commit("SET_ORDERS", res.data);
+        commit("SET_ORDER", res.data);
       }
     } catch (error) {
       console.log("error", error);
     }
   },
-  async confirmOrder({ commit, state }, index) {
+  async confirmOrder({ commit }, payload) {
+    let url = `${ENDPOINT.ORDER}/update-status/${payload.orderId}`;
+    console.log("Request URL:", url);
+
     try {
       const res = await axios.patch(
-        `${ENDPOINT.ORDER}/${state.orders[index].orderId}/update-status`
+        url,
+        { status: payload.status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
       );
 
+      console.log("Response:", res);
       if (res.status === 200) {
-        commit("CONFIRM_ORDER", index);
-      } else {
-        console.error("Failed to confirm order");
+        console.log("Updated Order Data:", res.data);
+        await dispatch("getOrder", { status: StatusOrder.Waiting });
       }
     } catch (error) {
-      console.error("Failed to confirm order", error);
+      console.error("Error:", error);
     }
   },
-  async rejectOrder({ commit, state }, index) {
+  async rejectOrder({ commit }, payload) {
+    let url = `${ENDPOINT.ORDER}/update-status/${payload.orderId}`;
+    console.log("Request URL:", url);
+
     try {
-      const res = await axios.delete(
-        `${ENDPOINT.ORDER}/${state.orders[index].orderId}`
+      const res = await axios.patch(
+        url,
+        { status: payload.status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
       );
 
+      console.log("Response:", res);
       if (res.status === 200) {
-        commit("REJECT_ORDER", index);
-      } else {
-        console.error("Failed to reject order");
+        console.log("Updated Order Data:", res.data);
       }
     } catch (error) {
-      console.error("Failed to reject order", error);
+      console.error("Error:", error);
     }
-  },
-  hideConfirmationDialog({ commit }) {
-    commit("HIDE_CONFIRMATION_DIALOG");
   },
   async createOrder({ commit }, payload) {
     console.log("payload", payload);

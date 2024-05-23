@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto max-w-sm mt-16">
+  <div class="mx-auto max-w-sm mt-32 ">
     <h2 class="text-3xl font-bold text-center">Login Account</h2>
   
     <form @submit.prevent="Login" class="mt-6">

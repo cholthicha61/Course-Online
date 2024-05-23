@@ -9,7 +9,7 @@
       <v-btn @click="goTo('addcourse')" color="#0284C7" class="ma-5" style="color: #fff; text-decoration: none">Add Course</v-btn>
     </div>
 
-    <v-data-table-virtual :headers="headers" :items="course" height="100hv">
+    <v-data-table-virtual :headers="headers" :items="course" height="500">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
@@ -20,9 +20,9 @@
           <td class="table-cell"> {{ item.courseName }} </td>
           <td class="table-cell" v-if="item.categorys"> {{ item.categorys.name }} </td>
           <td class="table-cell" v-else> N/A </td>
-          <td class="table-cell"> {{ item.description }} </td>
+          <td class="table-cell" style="min-width: 200px;"> {{ item.description }} </td>
           <td class="table-cell"> {{ item.price }} </td>
-          <td class="table-cell"> {{ item.status }} </td>
+          <td class="table-cell">  {{ item.status }} </td>
           <!-- <td class="table-cell" > -->
             <!-- <v-select
               :items="courses.map((course) => course.priority)"
@@ -33,11 +33,12 @@
             >
             </v-select> -->
           <!-- </td> -->
-          <td class="table-cell" style="text-align: center;">
+          <td class="table-cell" style="text-align: center; min-width: 120px;">
             <v-btn color="blue" @click="EditCourse(item)" style="margin-right: 10px;">edit</v-btn>
             <v-btn color="warning" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
+        
       </template>
 </v-data-table-virtual>
 </div>
@@ -126,9 +127,9 @@ export default {
       await this.$store.dispatch("course/updatePriority", payload);
       await this.getCourse();
     },
-    EditCourse(item) {
-      console.log("Edit:", item);
-      // Handle edit course functionality here
+    async EditCourse(id) {
+      //console.log("id",id);
+      this.$router.push({ name: "EditCourse", params: { id: id } });
     },
     async goTo(path) {
       await this.$router.push(`/${path}`);
@@ -153,4 +154,5 @@ export default {
   word-wrap: break-word;
   white-space: normal;
 }
+
 </style>

@@ -45,7 +45,7 @@
           style="height: 40px; display: flex; align-items: center"
           text="BUY"
           variant="tonal"
-          @click.stop="setOpenModal(course)"
+          @click.stop="handleBuyClick(course)"
         ></v-btn>
       </v-card-btn>
     </v-card>
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import { ENDPOINT } from "@/constants/endpoint";
 import _ from "lodash";
 import { mapState } from "vuex";
@@ -68,9 +69,6 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      favorite: (state) => state.favorite.favorite,
-    }),
     truncatedDescription() {
       return this.course.description.length > 100 ? this.course.description.slice(0, 100) + '...' : this.course.description;
     },
@@ -82,26 +80,28 @@ export default {
   watch: {
     course(newVal) {
       console.log("card course", newVal);
-      this.checkFavorite(newVal, this.user);
       return newVal;
     },
   },
   mounted() {
-    this.checkFavorite(this.course, this.user);
   },
   methods: {
     goToDetailPage(course) {
       this.$router.push(`/detailcourse/${course.id}`);
     },
-    checkFavorite(course, user) {
-      if (course && course.favoriteByUsers && user) {
-        this.isFavorite = course.favoriteByUsers.some(fav => fav.id === user.id);
-      }
-    },
     toggleShadow() {
       this.isHover = !this.isHover;
     },
     async toggleFavorite(course) {
+      if (!this.user) {
+        Swal.fire({
+          icon: "warning",
+          title: "You must login first",
+          showConfirmButton: true,
+          confirmButtonText: "OK"
+        });
+        return;
+      }
       this.isFavorite = !this.isFavorite;
       const payload = {
         userId: this.user.id,
@@ -118,6 +118,18 @@ export default {
         console.error("Error updating favorite status:", error);
         this.isFavorite = !this.isFavorite; // Revert the favorite state if there's an error
       }
+    },
+    handleBuyClick(course) {
+      if (!this.user) {
+        Swal.fire({
+          icon: "warning",
+          title: "You must login first",
+          showConfirmButton: true,
+          confirmButtonText: "OK"
+        });
+        return;
+      }
+      this.setOpenModal(course);
     },
     toggleDescription() {
       this.showFullDescription = !this.showFullDescription;
@@ -169,8 +181,4 @@ export default {
 .text-primary {
   color: #098ad0;
 }
-.text-primary2{
-  color:#00527e;
-}
-
 </style>

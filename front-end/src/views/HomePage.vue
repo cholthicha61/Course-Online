@@ -4,9 +4,9 @@
       <Banner />
     </div>
 
-    <!-- <div class="">
-      <AllCourse />
-    </div> -->
+    <div class="">
+      <AllCourseUnlog />
+    </div>
 
     <v-container>
       <div class="head-course">
@@ -27,17 +27,13 @@
 <script>
 import Banner from "@/components/BanNer.vue";
 import ProfileCard from "../components/ProFile.vue";
-import AllCourse from "../components/AllCourse.vue";
-import Login from "../components/Login.vue";
-import Register from "../views/Register.vue";
 import Question from "@/components/Question.vue";
+import AllCourseUnlog from "@/components/HomeCourseUnlog.vue";
 export default {
   components: {
     Banner,
     ProfileCard,
-    AllCourse,
-    Login,
-    Register,
+    AllCourseUnlog,
     Question
   },
 };

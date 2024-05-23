@@ -36,10 +36,13 @@
         </button>
         <input
           v-model="userEmail.email"
+          readonly
           type="email"
           placeholder="Email"
-          readonly
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          title="Please enter a valid email address"
           class="border border-gray-300 rounded-md mb-4 w-full px-3 py-2"
+          ref="emailInput"
         />
         <textarea
           v-model="message"

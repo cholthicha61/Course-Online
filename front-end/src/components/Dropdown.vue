@@ -67,8 +67,8 @@ const logout = () => {
   localStorage.removeItem('user');
   localStorage.removeItem('accessToken'); 
   localStorage.removeItem('role'); 
+  
 
-
-  router.push('/login'); 
+  router.push('/homepage'); 
 };
 </script>
