@@ -10,6 +10,7 @@
             <tr :key="index">
               <td>{{ index + 1 }}</td>
               <td>{{ formatDate(item.createdAt) }}</td>
+              <td>{{ item.user.email }}</td>
               <td>{{ item.course.courseName }}</td>
               <td>{{ item.course.categorys ? item.course.categorys.name : "None" }}</td>
               <td>{{ item.course.price }}</td>
@@ -17,6 +18,7 @@
                 <v-btn color="blue" @click="confirmOrder(item.id)" style="margin-right: 10px">Confirm</v-btn>
                 <v-btn color="warning" @click="rejectOrder(item.id)">Reject</v-btn>
               </td>
+
             </tr>
           </template>
         </v-data-table-virtual>
@@ -36,6 +38,7 @@ export default {
       headers: [
         { title: "No.", align: "start", value: "index" },
         { title: "CreatedAt", align: "start", value: "createdAt", sortable: true },
+        { title: "Email", align: "start", value: "email", sortable: true },
         { title: "Course Name", align: "start", value: "courseName", sortable: true },
         { title: "Category", align: "start", value: "categorys.name", sortable: true },
         { title: "Price", align: "start", value: "price", sortable: true },

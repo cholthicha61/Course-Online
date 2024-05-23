@@ -1,62 +1,63 @@
 <template>
-  <div class="container mx-auto">
-    <h2 class="text-3xl font-bold text-center m-9">Edit Profile Teacher</h2>
-    <div
-      class="flex items-center flex-col w-full px-96 py-3 border-gray-200 rounded-lg"
-    >
-      <div class="flex flex-col">
-        <label class="mb-2 text-gray-700">ชื่อ</label>
+  <div class="container mx-auto px-4">
+    <h2 class="text-2xl font-bold text-center my-9">Edit Profile Teacher</h2>
+    <div class="flex items-center flex-col w-full max-w-lg mx-auto border-gray-200 rounded-lg">
+      <div class="flex flex-col w-96">
+        <label class="mb-1 text-gray-700">Firstname</label>
         <input
           type="text"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
+          class="form-input border border-gray-300 rounded-md px-1 py-1"
         />
-        <span class="text-blue-100">{{ fnameError }}</span>
+        <span class="text-blue-100 mb-2">{{ fnameError }}</span>
       </div>
 
-      <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">นามสกุล</label>
+      <div class="flex flex-col mb-2 w-96">
+        <label class="mb-2 text-gray-700">Lastname</label>
         <input
           type="text"
-          class="form-input border border-l-gray-300 rounded-md px-2 py-2 w-96"
+          class="form-input border border-gray-300 rounded-md px-1 py-1"
         />
       </div>
 
-      <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">อีเมล</label>
+      <div class="flex flex-col mb-4 w-96">
+        <label class="mb-2 text-gray-700">Email</label>
         <input
           type="email"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
+          class="form-input border border-gray-300 rounded-md px-1 py-1"
         />
       </div>
 
-      <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">โทรศัพท์</label>
+      <div class="flex flex-col mb-4 w-96">
+        <label class="mb-2 text-gray-700">Phone</label>
         <input
           type="tel"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
+          class="form-input border border-gray-300 rounded-md px-1 py-1"
         />
       </div>
-      <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">ประวัติผู้สอน</label>
+
+      <div class="flex flex-col mb-4 w-96">
+        <label class="mb-2 text-gray-700">Details</label>
         <input
-          type="tel"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
+          type="text"
+          class="form-input border border-gray-300 rounded-md px-1 py-1"
         />
       </div>
-      <label class="picture mb-2 text-gray-700">รูปภาพ</label>
-      <v-file-input
-        :rules="rules"
-        accept="image/png, image/jpeg, image/bmp"
-        label="เพิ่มรูปภาพที่นี่"
-        placeholder="Pick an avatar"
-        style="width: 430px"
-        class="mr-8"
-      >
-      </v-file-input>
-      <div class="mt-3">
+      <div class="flex flex-col mb-4 w-96"> Picture </div>
+      <div class="flex flex-col picture mr-11">
+        <v-file-input
+          :rules="rules"
+          accept="image/png, image/jpeg, image/bmp"
+          label="Add Picture"
+          placeholder="Pick an avatar"
+          class="w-full"
+        >
+        </v-file-input>
+      </div>
+
+      <div class="">
         <button
           @click="updateUser()"
-          class="w-96 bg-sky-600 text-white font-bold py-2 px-10 rounded-md hover:bg-sky-800"
+          class="bg-sky-600 text-white font-bold py-2 px-10 rounded-md hover:bg-sky-800"
         >
           Save
         </button>
@@ -81,23 +82,19 @@ export default {
   }),
 
   methods: {
-    uploadImage() {
-      axios
-        .post("teacherprofile/teacherprofile", formData)
-        .then((response) => {
-          console.log("Teacherprofile added successfully", response);
-          // this.$store.dispatch("addCourse", response.data);
-        })
-        .catch((error) => {
-          console.error("Failed to add course", error);
-        });
+    updateUser() {
+      console.log("User updated");
     },
-  }
+  },
 };
 </script>
+
 <style scoped>
-.picture {
-  margin-right:50%;
-  
+.container {
+  max-width: 100%;
 }
+.picture {
+  width: 82%;
+}
+
 </style>

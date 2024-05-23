@@ -5,11 +5,12 @@
     </h1>
   </div>
   <div>
-    <v-data-table-virtual :headers="headers" :items="order" height="400">
+    <v-data-table-virtual :headers="headers" :items="order" height="450">
       <template #item="{ item, index }">
         <tr :key="index">
           <td class="table-cell">{{ index + 1 }}</td>
           <td class="table-cell">{{ formatDate(item.createdAt) }}</td>
+          <td>{{ item.user.email }}</td>
           <td class="table-cell">{{ item.course.courseName }}</td>
           <td class="table-cell">{{ item.course.categorys ? item.course.categorys.name : 'None' }}</td>
           <td class="table-cell">{{ item.course.price }}</td>
@@ -44,9 +45,9 @@ export default {
       headers: [
         { title: "No.", align: "start", value: "index" },
         { title: "CreatedAt", align: "start", value: "createdAt", sortable: true },
+        { title: "Email", align: "start", value: "email", sortable: true },
         { title: "Course Name", align: "start", value: "courseName", sortable: true },
         { title: "Category", align: "start", value: "categorys.name", sortable: true },
-        // { title: "Detail", align: "start", value: "description", sortable: true },
         { title: "Price", align: "start", value: "price", sortable: true },
         { title: "Action", align: "start" },
       ],
