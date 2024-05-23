@@ -5,7 +5,7 @@
         <Navbar />
       </div>
     </div>
-    <div class="flex-grow pt-16"> 
+    <div class="flex-grow"> 
       <div v-if="role == 'admin'">
         <MasterVue />
       </div>
