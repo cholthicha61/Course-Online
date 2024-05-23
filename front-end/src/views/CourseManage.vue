@@ -127,9 +127,9 @@ export default {
       await this.$store.dispatch("course/updatePriority", payload);
       await this.getCourse();
     },
-    EditCourse(item) {
-      console.log("Edit:", item);
-      // Handle edit course functionality here
+    async EditCourse(id) {
+      //console.log("id",id);
+      this.$router.push({ name: "EditCourse", params: { id: id } });
     },
     async goTo(path) {
       await this.$router.push(`/${path}`);
@@ -154,4 +154,5 @@ export default {
   word-wrap: break-word;
   white-space: normal;
 }
+
 </style>
