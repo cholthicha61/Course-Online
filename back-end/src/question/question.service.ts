@@ -34,6 +34,7 @@ export class QuestionService {
       const question = this.questionRepository.create({
         message: createQuestionDto.message,
         user: user,
+        email: user.email,
       });
 
       const questionSave = await this.questionRepository.save(question);

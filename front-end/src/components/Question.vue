@@ -38,8 +38,12 @@
           v-model="userEmail.email"
           type="email"
           placeholder="Email"
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          title="Please enter a valid email address"
           class="border border-gray-300 rounded-md mb-4 w-full px-3 py-2"
+          ref="emailInput"
         />
+
         <textarea
           v-model="message"
           placeholder="Message"
@@ -47,7 +51,7 @@
         ></textarea>
         <div class="flex justify-end">
           <button
-            @click="sentEmails" 
+            @click="sentEmails"
             class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full mr-2"
           >
             Submit
@@ -59,6 +63,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   data() {
     return {
@@ -77,20 +83,29 @@ export default {
         message: this.message,
       };
       try {
-        await this.$store.dispatch("inbox/sentEmails", payload);
-        this.togglePopup(); 
-        this.message = ""; 
+        if (this.$refs.emailInput.checkValidity()) {
+          await this.$store.dispatch("inbox/sentEmails", payload);
+          this.togglePopup();
+          this.userEmail.email = "";
+          this.message = "";
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Please enter a valid email address!",
+          });
+        }
       } catch (error) {
         console.error("Error sending email: ", error);
       }
-      console.log("this.userEmail.email",this.userEmail.email);
+      console.log("this.userEmail.email", this.userEmail.email);
     },
-  },
-  mounted() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      this.userEmail.email = user.email;
-    }
+    mounted() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        this.userEmail.email = user.email;
+      }
+    },
   },
 };
 </script>

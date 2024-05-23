@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException, Query } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -202,12 +202,37 @@ export class UserService {
         throw new HttpException('Teacher not found', HttpStatus.NOT_FOUND);
       }
 
-        teacher.userImage = file.filename;
-        teacher.fname = updateTeacherDto.fname;
-        teacher.lname = updateTeacherDto.lname;
-        teacher.phone = updateTeacherDto.phone;
-        teacher.email = updateTeacherDto.email;
-        teacher.desc = updateTeacherDto.desc;
+      teacher.userImage = file.filename;
+      teacher.fname = updateTeacherDto.fname;
+      teacher.lname = updateTeacherDto.lname;
+      teacher.phone = updateTeacherDto.phone;
+      teacher.email = updateTeacherDto.email;
+      teacher.desc = updateTeacherDto.desc;
+
+      const updateTeacher = await this.userRepository.save(teacher);
+
+      return updateTeacher;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateTeacherProfileNonImage(updateTeacherDto: UpdateTeacherDto) {
+    try {
+      const teacher = await this.userRepository.createQueryBuilder('user')
+        .leftJoinAndSelect('user.roles', 'roles')
+        .where('roles.name = :roleName', { roleName: RolesUser.Teacher })
+        .getOne();
+      if (!teacher) {
+        throw new HttpException('Teacher not found', HttpStatus.NOT_FOUND);
+      }
+
+      // teacher.userImage = file.filename;
+      teacher.fname = updateTeacherDto.fname;
+      teacher.lname = updateTeacherDto.lname;
+      teacher.phone = updateTeacherDto.phone;
+      teacher.email = updateTeacherDto.email;
+      teacher.desc = updateTeacherDto.desc;
 
       const updateTeacher = await this.userRepository.save(teacher);
 

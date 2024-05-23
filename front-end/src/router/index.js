@@ -14,19 +14,13 @@ const routes =  [
         {
           path: "/allcourse-user",
           name: "allcourse-user",
-          component: () => import("../components/AllCourse.vue"),
+          component: () => import("../components/AllCourseUnlog.vue"),
           meta: { requiresGuest: true },
         },
         {
           path: "/addcourse",
           name: "addcourse",
           component: () => import("../views/AddCourse.vue"),
-          meta: { requiresAuth: true },
-        },
-        {
-          path: "/changePassword",
-          name: "changePassword",
-          component: () => import("../views/ChangePassword.vue"),
           meta: { requiresAuth: true },
         },
         {
@@ -68,7 +62,7 @@ const routes =  [
         {
           path: "/courseorder",
           name: "courseorder",
-          component: () => import("../components/CourseOrder.vue")
+          component: () => import("../views/CourseOrder.vue")
         },
         {
           path: "/teacherprofile",
@@ -79,6 +73,19 @@ const routes =  [
           path: "/inbox",
           name: "inbox",
           component: () => import("../views/Inbox.vue")
+        },
+        {
+          path: "/login",
+          name: "login",
+          component: () => import("../views/Login.vue"),
+          meta: { requiresGuest: true },
+        },
+         
+        {
+          path: "/register",
+          name: "register",
+          component: () => import("../views/Register.vue"),
+          meta: { requiresGuest: true },
         }
       ],
     },
@@ -135,18 +142,6 @@ const routes =  [
       path: "",
       component: () => import("../layout/FullPage.vue"),
       children: [
-        {
-          path: "/login",
-          name: "login",
-          component: () => import("../views/Login.vue"),
-          meta: { requiresGuest: true },
-        },
-        {
-          path: "/register",
-          name: "register",
-          component: () => import("../views/Register.vue"),
-          meta: { requiresGuest: true },
-        },
       ],
     },
   ]

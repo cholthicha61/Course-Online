@@ -9,7 +9,7 @@
       <v-btn @click="goTo('addcourse')" color="#0284C7" class="ma-5" style="color: #fff; text-decoration: none">Add Course</v-btn>
     </div>
 
-    <v-data-table-virtual :headers="headers" :items="course" height="100hv">
+    <v-data-table-virtual :headers="headers" :items="course" height="500">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
@@ -34,8 +34,8 @@
             </v-select> -->
           <!-- </td> -->
           <td class="table-cell" style="text-align: center; min-width: 120px;">
-            <v-btn color="warning" @click="EditCourse(item)" style="margin-right: 10px;">edit</v-btn>
-            <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
+            <v-btn color="blue" @click="EditCourse(item)" style="margin-right: 10px;">edit</v-btn>
+            <v-btn color="warning" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
         
@@ -127,9 +127,9 @@ export default {
       await this.$store.dispatch("course/updatePriority", payload);
       await this.getCourse();
     },
-    EditCourse(item) {
-      console.log("Edit:", item);
-      // Handle edit course functionality here
+    async EditCourse(id) {
+      //console.log("id",id);
+      this.$router.push({ name: "EditCourse", params: { id: id } });
     },
     async goTo(path) {
       await this.$router.push(`/${path}`);
@@ -154,4 +154,5 @@ export default {
   word-wrap: break-word;
   white-space: normal;
 }
+
 </style>

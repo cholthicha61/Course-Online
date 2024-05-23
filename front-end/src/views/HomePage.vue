@@ -27,17 +27,13 @@
 <script>
 import Banner from "@/components/BanNer.vue";
 import ProfileCard from "../components/ProFile.vue";
-import Login from "../components/Login.vue";
-import Register from "../views/Register.vue";
 import Question from "@/components/Question.vue";
-import AllCourseUnlog from "@/components/AllCourseUnlog.vue";
+import AllCourseUnlog from "@/components/HomeCourseUnlog.vue";
 export default {
   components: {
     Banner,
     ProfileCard,
     AllCourseUnlog,
-    Login,
-    Register,
     Question
   },
 };

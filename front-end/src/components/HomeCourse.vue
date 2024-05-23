@@ -22,7 +22,7 @@
         </v-col>
       </v-row>
     </v-container>
-
+<!-- 
     <v-container class="head-course">
       <h1>All course</h1>
     </v-container>
@@ -67,9 +67,7 @@
           </v-sheet>
         </v-col>
       </v-row>
-    </v-container>
-    <Question/>
-
+    </v-container> -->
   </div>
 </template>
 
@@ -77,13 +75,12 @@
 import CardCourse from "@/components/CardCourse.vue";
 import { mapState } from "vuex";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
-import Question from "./Question.vue";
+
 // import { TYPE_COURSE } from "@/constants/type-course";
 export default {
   components: {
     CardCourse,
     ConfirmCourse,
-    Question,
   },
   data() {
     return {

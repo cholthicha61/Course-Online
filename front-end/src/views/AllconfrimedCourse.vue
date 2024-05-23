@@ -5,24 +5,17 @@
     </h1>
   </div>
   <div>
-    <v-data-table-virtual :headers="headers" :items="confirmedOrders" height="100vh">
-      <template v-slot:[`item.no`]="{ index }">
-        {{ index + 1 }}
-      </template>
+    <v-data-table-virtual :headers="headers" :items="order" height="400">
       <template #item="{ item, index }">
-        <tr :key="item.courseName">
+        <tr :key="index">
           <td class="table-cell">{{ index + 1 }}</td>
           <td class="table-cell">{{ formatDate(item.createdAt) }}</td>
-          <td class="table-cell">{{ item.courseName }}</td>
-          <td class="table-cell" v-if="item.categorys">
-            {{ item.categorys.name }}
-          </td>
-          <td class="table-cell" v-else>N/A</td>
-          <td class="table-cell">{{ item.description }}</td>
-          <td class="table-cell">{{ item.price }}</td>
-          <td class="table-cell">{{ item.status }}</td>
+          <td class="table-cell">{{ item.course.courseName }}</td>
+          <td class="table-cell">{{ item.course.categorys ? item.course.categorys.name : 'None' }}</td>
+          <td class="table-cell">{{ item.course.price }}</td>
+      
           <td class="table-cell" style="text-align: center">
-            <svg
+             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="#1E90FF"
@@ -43,23 +36,23 @@
 
 <script>
 import { mapState } from "vuex";
-import Swal from "sweetalert2";
 import { StatusOrder } from "@/constants/enum";
 
 export default {
   data() {
     return {
       headers: [
-        { title: "No.", align: "start", value: "id" },
+        { title: "No.", align: "start", value: "index" },
         { title: "CreatedAt", align: "start", value: "createdAt", sortable: true },
         { title: "Course Name", align: "start", value: "courseName", sortable: true },
         { title: "Category", align: "start", value: "categorys.name", sortable: true },
-        { title: "Detail", align: "start", value: "description", sortable: true },
+        // { title: "Detail", align: "start", value: "description", sortable: true },
         { title: "Price", align: "start", value: "price", sortable: true },
-        { title: "Type", align: "start", value: "priority", sortable: true },
         { title: "Action", align: "start" },
       ],
+      // order: []
     };
+    
   },
   computed: {
     ...mapState({
@@ -68,12 +61,14 @@ export default {
       names: (state) => state.category.names,
 
     }),
-
   },
   async mounted() {
     await this.getOrder();
   },
   methods: {
+    formatDate(date) {
+      return new Date(date).toLocaleString();
+    },
     async getOrder() {
       const payload = {
         status: StatusOrder.Incourse,
@@ -86,9 +81,9 @@ export default {
 </script>
 
 <style scoped>
-.table-cell {
+/* .table-cell {
   max-width: 100px;
   word-wrap: break-word;
   white-space: normal;
-}
+} */
 </style>

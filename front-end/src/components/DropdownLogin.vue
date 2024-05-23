@@ -4,15 +4,14 @@
       {{ title }}
     </a>
     <svg viewBox="0 0 1030 638" width="10">
-      <path d="M1017 68L541 626q-11 12-26 12t-26-12L13 68Q-3 49 6 24.5T39 0h952q24 0 33 24.5t-7 43.5z" fill="#4A6FA5"></path>
+      <path
+        d="M1017 68L541 626q-11 12-26 12t-26-12L13 68Q-3 49 6 24.5T39 0h952q24 0 33 24.5t-7 43.5z"
+        fill="#4A6FA5"
+      ></path>
     </svg>
     <transition name="fade" appear>
       <div class="sub-menu" v-if="isOpen">
-        <div
-          v-for="(item, i) in items"
-          :key="i"
-          class="sub-menu-item"
-        >
+        <div v-for="(item, i) in items" :key="i" class="sub-menu-item">
           <a :href="item.link" @click="logout(item)" class="full-link">
             {{ item.title }}
           </a>
@@ -24,8 +23,8 @@
 
 <script>
 export default {
-  name: 'dropdown',
-  props: ['title', 'items'],
+  name: "dropdown",
+  props: ["title", "items"],
   data() {
     return {
       isOpen: false,
@@ -33,12 +32,14 @@ export default {
   },
   methods: {
     async logout(item) {
-      console.log('logout', item.title);
+      console.log("logout", item.title);
 
-      if (item.title === 'Logout') {
-        await this.$store.dispatch('auth/logout');
-        localStorage.removeItem('user');
-        localStorage.removeItem('role');
+      if (item.title === "Logout") {
+        await this.$store.dispatch("auth/logout");
+        localStorage.removeItem("user");
+        localStorage.removeItem("role");
+        localStorage.removeItem("accessToken");
+        router.push("/homepage");
       }
     },
   },
@@ -62,7 +63,7 @@ nav .menu-item svg {
 
 nav .sub-menu {
   position: absolute;
-  background-color: #ffffff;
+  /* background-color: #34a6f2; */
   top: 100%;
   left: 0;
   width: max-content;
@@ -72,12 +73,11 @@ nav .sub-menu {
 
 nav .sub-menu-item {
   padding: 8px 12px;
-  background-color: #ffffff;
-  /* background-color: #bae6fd; */
+  background-color: #bae6fd;
 }
 
 nav .sub-menu-item:hover {
-  background-color: #8dd6fd;
+  background-color: rgb(73, 190, 253);
 }
 
 .full-link {
