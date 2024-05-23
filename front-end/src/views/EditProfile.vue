@@ -74,7 +74,6 @@ export default {
    
   },
   methods: {
-    
     async updateUser() {
       console.log("this.payload :", this.user);
 
