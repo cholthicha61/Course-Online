@@ -22,9 +22,9 @@
           <DashboardInbox />
         </div>
       </div>
-      <div class="mt-8">
+      <!-- <div class="mt-8">
         <AllSales />
-      </div>
+      </div> -->
       <!-- <div class="">
           <Sale />
       </div> -->

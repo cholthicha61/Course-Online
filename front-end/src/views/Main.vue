@@ -5,7 +5,7 @@
     </div>
 
     <div class="">
-      <AllCourse />
+      <HomeCourse />
     </div>
 
     <v-container>
@@ -29,17 +29,15 @@ import Banner from "@/components/BanNer.vue";
 import ProfileCard from "../components/ProFile.vue";
 import QuestionPopup from "@/components/QuestionPopup.vue";
 import AllCourse from "../components/AllCourse.vue";
-import Login from "../components/Login.vue";
-import Register from "../views/Register.vue";
+import HomeCourse from "@/components/HomeCourse.vue";
 
 export default {
   components: {
     Banner,
     ProfileCard,
     QuestionPopup,
+    HomeCourse,
     AllCourse,
-    Login,
-    Register,
   },
 };
 </script>

@@ -17,7 +17,7 @@
     <v-data-table-virtual
       :headers="headers"
       :items="names"
-      height="400"
+      height="450"
       item-value="name"
     >
       <template v-slot:[`item.no`]="{ index }">
@@ -52,9 +52,9 @@ export default {
   data() {
     return {
       headers: [
-        { title: "No.", align: "center", value: "no" },
-        { title: "Category Name", align: "center", value: "name" },
-        { title: "Actions", align: "center", value: "actions" },
+        { title: "No.", align: "center", value: "no" ,sortable: true},
+        { title: "Category Name", align: "center", value: "name",sortable: true },
+        { title: "Actions", align: "center", value: "actions",sortable: true },
       ],
       categorys: [],
       isEditCategory: false,

@@ -1,14 +1,16 @@
 <template>
   <div class="flex flex-col min-h-screen">
-    <div class="flex-grow">
+    <div class="fixed top-0 left-0 w-full z-10">
+      <div v-if="role !== 'admin'">
+        <NavbarLogin />
+      </div>
+    </div>
+    <div class=""> 
       <div v-if="role == 'admin'">
         <MasterVue />
       </div>
       <div v-else>
-        <NavbarLogin />
-        <div class="flex-grow">
-          <RouterView />
-        </div>
+        <RouterView />
       </div>
     </div>
     <Footers v-if="role !== 'admin'" class="mt-auto" />

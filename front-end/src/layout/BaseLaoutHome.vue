@@ -1,17 +1,21 @@
 <template>
-    <div>
+  <div class="flex flex-col min-h-screen">
+    <div class="fixed top-0 left-0 w-full z-10">
+      <div v-if="role !== 'admin'">
+        <Navbar />
+      </div>
+    </div>
+    <div class="flex-grow"> 
       <div v-if="role == 'admin'">
         <MasterVue />
       </div>
       <div v-else>
-        <Navbar />
-        <div>
-          <RouterView />
-        </div>
-        <Footers />
+        <RouterView />
       </div>
     </div>
-  </template>
+    <Footers v-if="role !== 'admin'" class="mt-auto" />
+  </div>
+</template>
   
   <script>
   import MasterVue from "./Master.vue";

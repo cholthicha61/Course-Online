@@ -177,7 +177,7 @@ export default {
     if (courseData) {
       this.course = { ...courseData };
     }
-    console.log('this.course',this.course.categorys);
+    console.log('this.course',this.course);
     this.category = this.course.categorys.id  
     await this.$store.dispatch("category/getCategory");
   },

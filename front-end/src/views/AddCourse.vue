@@ -45,9 +45,9 @@
       >
         <option value="" disabled selected>Select status</option>
         <option value="New">New</option>
-        <option value="Recommand">Recommand</option>
+        <!-- <option value="Recommand">Recommand</option>
         <option value="General">General</option>
-        <option value="off">Off</option>
+        <option value="off">Off</option> -->
       </select>
     </div>
     <div class="mb-4 flex items-center">
@@ -122,7 +122,7 @@
       </div>
     </div>
 
-    <div class="flex justify-center mt-10 ml-10">
+    <div class="flex justify-center mt-5 ml-5">
       <button
         @click="submitCourse"
         class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800"
@@ -281,6 +281,8 @@ export default {
         category: "",
         images: [],
       };
+      this.$router.push({ name: "coursemanage" });
+
     },
   },
 };
