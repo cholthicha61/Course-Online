@@ -5,12 +5,16 @@ import Swal from "sweetalert2";
 
 const state = {
   emails: [],
+  questions: [],
 };
 
 const mutations = {
   SET_EMAILS(state, payload) {
     state.emails = payload;
   },
+  SET_QUESTIONS(state, payload) {
+    state.questions = payload;
+  }
 };
 
 const actions = {
@@ -77,6 +81,15 @@ const actions = {
       console.error("Error: ", error);
     }
   },
+  async countQuestion({ commit }) {
+    const url = `${ENDPOINT.INBOX}/count-question`;
+    try {
+      const res = await axios(configAxios("get", url));
+      commit("SET_QUESTIONS", res.data);
+    } catch (error) {
+      throw error;
+    }
+  }
 };
 
 export default {
