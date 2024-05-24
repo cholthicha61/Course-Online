@@ -197,12 +197,12 @@ export default {
     },
     async confirmSave() {
       const confirmResult = await Swal.fire({
-        title: "ยืนยันการแก้ไข",
-        text: "คุณแน่ใจหรือไม่ที่จะบันทึกการเปลี่ยนแปลง?",
+        title: "Confirm edits",
+        text: "Are you sure to save changes?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonText: "ใช่",
-        cancelButtonText: "ไม่",
+        confirmButtonText: "ํYes",
+        cancelButtonText: "No",
       });
 
       if (confirmResult.isConfirmed) {

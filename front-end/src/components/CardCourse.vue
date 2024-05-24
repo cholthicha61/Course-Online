@@ -18,7 +18,7 @@
         <v-img height="200px" :src="`${img}/${course.courseImage}`" cover>
         </v-img>
 
-        <v-card-text>
+        <v-card-text class="mb-10">
           <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
             {{ course.courseName }}
           </h1>
@@ -42,11 +42,11 @@
             </p>
           </div>
           <div class="text-end">
-            <h2 class="pb-5 pt-5 mb-15 mt-0">{{ course.price }} บาท</h2>
+            <h2 class="pb-15 pt-5 mt-0">{{ formatPrice(course.price) }} </h2>
           </div>
         </v-card-text>
       </div>
-      <v-card-btn class="card-buttons ">
+      <v-card-btn class="card-buttons">
         <v-btn
           value="favorites"
           class="rounded-circle"
@@ -183,7 +183,16 @@ export default {
       }
     },
     toggleDescription() {
-      this.showFullDescription = !this.showFullDescription;
+  this.showFullDescription = !this.showFullDescription;
+  if (this.showFullDescription) {
+    this.$router.push(`/detailcourse/${this.course.id}`);
+  }
+},
+
+    formatPrice(price) {
+      return price
+        .toLocaleString("en-US", { style: "currency", currency: "THB" })
+        .replace("THB", "฿");
     },
   },
 };

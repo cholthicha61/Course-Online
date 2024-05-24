@@ -10,18 +10,18 @@
         <tr :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ formatDate(item.createdAt) }}</td>
-          <td v-if="item.email == null">{{ (item.user.email) }}</td>
-          <td v-else>{{ (item.email) }}</td>
-
-          <td>{{ (item.message) }}</td>
+          <td v-if="item.email == null">
+            {{ item.user ? item.user.email : "N/A" }}
+          </td>
+          <td v-else>{{ item.email }}</td>
+          <td>{{ item.message }}</td>
+          <td class="">
+            <input type="checkbox" id="checkbox" v-model="checked" />
+            <label for="checkbox">{{ checked }}</label>
+            {{ item.status }}
+          </td>
         </tr>
       </template>
-
-            <!-- <template v-slot:[`item.name`]="{ item }">
-        <b class="border-2 border-red-500">{{ item.name }}</b>
-      </template> -->
-
-
     </v-data-table-virtual>
   </div>
 </template>
@@ -32,31 +32,11 @@ import _ from "lodash";
 export default {
   data: () => ({
     headers: [
-    {
-        title: "No.", 
-        align: "start", 
-        value: "no"
-
-      },
-      {
-        title: "Date",
-        align: "start",
-        value: "date",
-        sortable: true
-      },
-      {
-        title: "Email",
-        align: "start",
-        value: "email",
-        sortable: true
-      },
-      {
-        title: "Message",
-        align: "start",
-        value: "message",
-        sortable: true 
-      },
-      
+      { title: "No.", align: "start", value: "no" },
+      { title: "Date", align: "start", value: "date", sortable: true },
+      { title: "Email", align: "start", value: "email", sortable: true },
+      { title: "Message", align: "start", value: "message", sortable: true },
+      { title: "Status", align: "start", value: "status", sortable: true },
     ],
     email: [],
   }),
@@ -75,9 +55,9 @@ export default {
     async getQuestion() {
       await this.$store.dispatch("inbox/getQuestion");
       this.email = this.emails;
-      console.log("wwwwww",this.email);
+      console.log("Fetched emails:", this.email);
     },
-    }
+  },
 };
 </script>
 

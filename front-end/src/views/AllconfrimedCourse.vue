@@ -12,11 +12,13 @@
           <td class="table-cell">{{ formatDate(item.createdAt) }}</td>
           <td>{{ item.user.email }}</td>
           <td class="table-cell">{{ item.course.courseName }}</td>
-          <td class="table-cell">{{ item.course.categorys ? item.course.categorys.name : 'None' }}</td>
-          <td class="table-cell">{{ item.course.price }}</td>
-      
+          <td class="table-cell">
+            {{ item.course.categorys ? item.course.categorys.name : "None" }}
+          </td>
+          <td class="table-cell">{{ formatPrice(item.course.price) }}</td>
+
           <td class="table-cell" style="text-align: center">
-             <svg
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="#1E90FF"
@@ -44,23 +46,36 @@ export default {
     return {
       headers: [
         { title: "No.", align: "start", value: "index" },
-        { title: "CreatedAt", align: "start", value: "createdAt", sortable: true },
+        {
+          title: "CreatedAt",
+          align: "start",
+          value: "createdAt",
+          sortable: true,
+        },
         { title: "Email", align: "start", value: "email", sortable: true },
-        { title: "Course Name", align: "start", value: "courseName", sortable: true },
-        { title: "Category", align: "start", value: "categorys.name", sortable: true },
+        {
+          title: "Course Name",
+          align: "start",
+          value: "courseName",
+          sortable: true,
+        },
+        {
+          title: "Category",
+          align: "start",
+          value: "categorys.name",
+          sortable: true,
+        },
         { title: "Price", align: "start", value: "price", sortable: true },
         { title: "Action", align: "start" },
       ],
       // order: []
     };
-    
   },
   computed: {
     ...mapState({
       order: (state) => state.order.order,
       course: (state) => state.course.course,
       names: (state) => state.category.names,
-
     }),
   },
   async mounted() {
@@ -73,9 +88,14 @@ export default {
     async getOrder() {
       const payload = {
         status: StatusOrder.Incourse,
-      }
-      await this.$store.dispatch("order/getOrder" ,payload);
-      console.log('orderorderorder', this.order);
+      };
+      await this.$store.dispatch("order/getOrder", payload);
+      console.log("orderorderorder", this.order);
+    },
+    formatPrice(price) {
+      return price
+        .toLocaleString("en-US", { style: "currency", currency: "THB" })
+        .replace("THB", "฿");
     },
   },
 };

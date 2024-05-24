@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-sky-200 fixed z-50 w-full text-sky-800 py-3 px-4 shadow md:flex justify-between item-center"
+    class="bg-sky-200 fixed z-50 w-full text-sky-800 py-1 px-4 shadow md:flex justify-between item-center"
   >
     <div>
       <h1 class="py-3 text-xl font-bold text-sky-800 "> Course-Online</h1> 

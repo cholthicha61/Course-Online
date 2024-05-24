@@ -33,7 +33,7 @@ const actions = {
         if (res.status == 201) {
           Swal.fire({
             icon: "success",
-            title: "สมัครสมาชิกสำเร็จ",
+            title: "Successfully applied for membership",
             text: "",
             showConfirmButton: false,
             timer: 2000,
@@ -46,7 +46,7 @@ const actions = {
       if (error.response.status == 400) {
         Swal.fire({
           icon: "warning",
-          title: "กรุณากรอกข้อมูลให้ครบถ้วน",
+          title: "Please fill out the information completely",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -54,7 +54,7 @@ const actions = {
         if (error.response.status == 401) {
           Swal.fire({
             icon: "warning",
-            title: "ข้อมูลไม่ถูกต้อง",
+            title: "Incorrect information",
             text: "",
             showConfirmButton: false,
             timer: 2000,
@@ -79,7 +79,7 @@ const actions = {
       } catch (error) {
         Swal.fire({
           icon: "success",
-          title: "ส่งสำเร็จ",
+          title: "Question sent successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -104,7 +104,7 @@ const actions = {
       if (res.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "แก้ไขโปรไฟล์สำเร็จ",
+          title: "Profile edited successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -114,7 +114,7 @@ const actions = {
       console.error("Error updating category:", error);
       Swal.fire({
         icon: "warning",
-        title: "ข้อมูลไม่ถูกต้อง",
+        title: "Incorrect information",
         text: "",
         showConfirmButton: false,
         timer: 2000,
@@ -131,7 +131,7 @@ const actions = {
       if (res.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "แก้ไขโปรไฟล์สำเร็จ",
+          title: "Profile edited successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -141,7 +141,7 @@ const actions = {
       console.error("Error updating category:", error);
       Swal.fire({
         icon: "warning",
-        title: "ข้อมูลไม่ถูกต้อง",
+        title: "Incorrect information",
         text: "",
         showConfirmButton: false,
         timer: 2000,
@@ -157,7 +157,7 @@ const actions = {
       if (res.status == 200) {
         Swal.fire({
           icon: "success",
-          title: "แก้ไขสำเร็จ",
+          title: "Successfully edited",
           text: "",
           showConfirmButton: false,
           timer: 2000,

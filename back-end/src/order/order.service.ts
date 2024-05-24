@@ -19,7 +19,7 @@ export class OrderService {
     private userRepository: Repository<User>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>
-  ) {}
+  ) { }
 
   async create(createOrderDto: CreateOrderDto) {
     try {
@@ -176,8 +176,32 @@ export class OrderService {
         },
         relations: ['user', 'course'],
       });
-  
+
       return !_.isEmpty(order);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async countWaitingOrder() {
+    try {
+      const count = await this.orderRepository.createQueryBuilder('order')
+        .where('order.status = :status', { status: StatusOrder.Waiting })
+        .getCount();
+
+      return count;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async countIncourseOrder() {
+    try {
+      const count = await this.orderRepository.createQueryBuilder('order')
+        .where('order.status = :status', { status: StatusOrder.Incourse })
+        .getCount();
+
+      return count;
     } catch (error) {
       throw error;
     }

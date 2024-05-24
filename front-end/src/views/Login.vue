@@ -4,12 +4,12 @@
   
     <form @submit.prevent="Login" class="mt-6">
       <div class="mt-6">
-        <label for="email" class="block mb-2">Email</label>
+        <label for="email" class="block mb-2">Email <span style="color: red">*</span></label> <!-- Added red asterisk -->
         <input type="email" id="email" v-model="payload.email" class="w-full p-2 border rounded-md focus:outline-none" @keydown.enter="submitForm">
       </div>
   
       <div class="mt-6">
-        <label for="password" class="block mb-2">Password</label>
+        <label for="password" class="block mb-2">Password <span style="color: red">*</span></label> <!-- Added red asterisk -->
         <input type="password" id="password" v-model="payload.password" class="w-full p-2 border rounded-md focus:outline-none" @keydown.enter="submitForm">
       </div>
 
@@ -27,6 +27,8 @@
     <!-- Other elements -->
   </div>
 </template>
+
+
 
 <script>
 import { mapState } from 'vuex';
