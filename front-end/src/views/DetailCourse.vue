@@ -1,76 +1,67 @@
 <template>
   <v-container class="head-course">
-    <h1 class="mt-10">Detail Course</h1>
+    <h1 class="mt-20">Detail Course</h1>
   </v-container>
   <ConfirmCourse
     :openModal="openModal"
     :course="itemCourse"
     :setCloseModal="setCloseModal"
-  />  
+  />
+  <div class="flex flex-row py-2 justify-center">
     <v-carousel
-    hide-delimiters
-    class="custom-carousel flex my-5 ml-56"
-    v-if="coursebyid?.images"
-  >
-    <v-carousel-item
-      v-for="(item, i) in coursebyid?.images"
-      :key="i"
-      class="flex items-center justify-center"
-      cover
+      hide-delimiters
+      class="custom-carousel flex"
+      v-if="coursebyid?.images"
     >
-      <v-responsive>
-        <div
-          @click="moveImageWrapperLeft(i)"
-          class="image-wrapper flex justify-center overflow-hidden border-2 border-gray-300 rounded-lg shadow-lg"
-        >
-          <img
-            :src="`${img}/${item.name}`"
-            :alt="`Image ${i + 1}`"
-            class="max-w-full max-h-full object-contain"
-          />
-        </div>
-      </v-responsive>
-    </v-carousel-item>
-    <template v-slot:prev="{ props }">
-            <v-btn color="" variant="elevated" @click="props.onClick">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </v-btn>
-          </template>
-          <template v-slot:next="{ props }">
-            <v-btn color="" variant="elevated" @click="props.onClick">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </v-btn>
-          </template>
-  </v-carousel>
+      <v-carousel-item v-for="(item, i) in coursebyid?.images" :key="i" cover>
+        <v-responsive>
+          <div
+            @click="moveImageWrapperLeft(i)"
+            class="image-wrapper flex justify-center overflow-hidden border-2 border-gray-300 rounded-lg shadow-lg"
+          >
+            <img
+              :src="`${img}/${item.name}`"
+              :alt="`Image ${i + 1}`"
+              class="max-w-full max-h-full object-contain"
+            />
+          </div>
+        </v-responsive>
+      </v-carousel-item>
+      <template v-slot:prev="{ props }">
+        <v-btn color="" variant="elevated" @click="props.onClick">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </v-btn>
+      </template>
+      <template v-slot:next="{ props }">
+        <v-btn color="" variant="elevated" @click="props.onClick">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </v-btn>
+      </template>
+    </v-carousel>
 
-
-  <div class="flex flex-wrap justify-center items-start">
-    <div
-      v-if="coursebyid"
-      class="box-border absolute top-72 right-52 rounded-lg bg-sky-100 shadow-lg"
-    >
+    <div v-if="coursebyid" class="box-border rounded-lg bg-sky-100 shadow-lg">
       <h1 class="text-2xl mx-4 mt-10">
         <strong style="overflow: hidden; word-wrap: break-word">
           <b
@@ -161,9 +152,9 @@
       </div>
     </div>
   </div>
-  
-  <div class="flex flex-row py-2">
-    <div v-if="coursebyid" class="justify-start ml-60 w-1/2">
+
+  <div class="flex flex-row py-2 justify-center">
+    <div v-if="coursebyid" class="w-1/2">
       <div class="p-6 bg-white rounded-lg shadow-md">
         <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
         <p class="text-base mt-2 indent-10 text-wrap">
@@ -172,43 +163,41 @@
       </div>
     </div>
 
-    <div class="justify-end ml-3 mb-10">
-        <div
-          class="box-border-teacher max-w-screen-lg p-12 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl"
-        >
-          <div class="flex justify-center -py-2">
-            <img
-              src="../../public/img/PTeacherEng.jpg"
-              alt="Profile Image"
-              class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md transition duration-500 transform hover:scale-110"
-            />
-          </div>
-          <div class="mt-4">
-            <h2
-              class="text-center text-xl text-gray-700 font-semibold hover:text-sky-500"
-            >
-              {{ teacher.fname }} {{ teacher.lname }}
-            </h2>
-            <div class="text-x text-gray-700 mt-2">
-              <p>
-                อีเมล:
-                <span class="font-medium hover:text-gray-400">{{
-                  teacher.email
-                }}</span>
-              </p>
-              <p>
-                โทรศัพท์:
-                <span class="font-medium hover:text-gray-400">{{
-                  teacher.phone
-                }}</span>
-              </p>
-            </div>
-            <p class="text-sm text-gray-600 mt-2 hover:text-gray-400 text-wrap">
-              ประวัติผู้สอน: {{ teacher.desc }}
-            </p>
-          </div>
-        </div>
+    <div
+      class="box-border-teacher max-w-screen-lg p-12 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl ml-8"
+    >
+      <div class="flex justify-center">
+        <img
+          src="../../public/img/PTeacherEng.jpg"
+          alt="Profile Image"
+          class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md transition duration-500 transform hover:scale-110"
+        />
       </div>
+      <div class="mt-4">
+        <h2
+          class="text-center text-xl text-gray-700 font-semibold hover:text-sky-500"
+        >
+          {{ teacher.fname }} {{ teacher.lname }}
+        </h2>
+        <div class="text-x text-gray-700 mt-2">
+          <p>
+            อีเมล:
+            <span class="font-medium hover:text-gray-400">{{
+              teacher.email
+            }}</span>
+          </p>
+          <p>
+            โทรศัพท์:
+            <span class="font-medium hover:text-gray-400">{{
+              teacher.phone
+            }}</span>
+          </p>
+        </div>
+        <p class="text-sm text-gray-600 mt-2 hover:text-gray-400 text-wrap">
+          ประวัติผู้สอน: {{ teacher.desc }}
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -319,9 +308,8 @@ export default {
 }
 
 .custom-carousel {
-  height: 300px;
+  height: 459px;
   width: 790px;
-  padding: 1rem;
 }
 
 .image-wrapper {
@@ -340,72 +328,92 @@ export default {
   border-radius: 20px;
 }
 
-
-@media (max-width: 1024px) {
-  .head-course h1 {
-    font-size: 25px;
-  }
-
+/* Media queries for responsive design */
+/* @media (max-width: 1024px) {
   .custom-carousel {
     width: 100%;
-    padding: 0.5rem;
+    height: auto;
   }
 
   .image-wrapper {
-    height: 300px;
     width: 100%;
+    height: auto;
   }
 
   .box-border {
     width: 100%;
     height: auto;
-    position: relative;
-    top: auto;
-    right: auto;
   }
 
   .box-border-teacher {
     width: 100%;
+    min-height: auto;
   }
 
-  .flex-row {
-    flex-direction: column;
-  }
-
-  .justify-start,
-  .justify-end {
-    width: 100%;
-    margin: 0;
-  }
-
-  .ml-60 {
-    margin-left: 0;
-  }
-
-  .ml-64 {
-    margin-left: 0;
-  }
-
-  .my-16 {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .mt-5 {
-    margin-top: 0.5rem;
-  }
-
-  .mt-10 {
-    margin-top: 1rem;
-  }
-
-  .mb-10 {
-    margin-bottom: 1rem;
-  }
-
-  .mx-4 {
-    margin-left: 1rem;
-    margin-right: 1rem;
+  .head-course h1 {
+    font-size: 24px;
   }
 }
+
+@media (max-width: 768px) {
+  .flex.flex-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .box-border {
+    width: 100%;
+    height: auto;
+  }
+
+  .box-border-teacher {
+    width: 100%;
+    min-height: auto;
+    margin-top: 20px;
+  }
+
+  .custom-carousel {
+    width: 100%;
+    height: auto;
+  }
+
+  .image-wrapper {
+    width: 100%;
+    height: auto;
+  }
+
+  .head-course h1 {
+    font-size: 20px;
+  }
+}
+@media (max-width: 480px) {
+  .box-border {
+    width: 45%;
+    height: auto;
+  }
+
+  .box-border-teacher {
+    width: 45%;
+    min-height: auto;
+    margin-top: 20px;
+  }
+
+  .custom-carousel {
+    width: 45%;
+    height: auto;
+  }
+
+  .image-wrapper {
+    width: 145%;
+    height: auto;
+  }
+
+  .head-course h1 {
+    font-size: 18px;
+  }
+
+  .rounded-border {
+    border-radius: 10px;
+  }
+} */
 </style>
