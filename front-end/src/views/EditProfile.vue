@@ -1,10 +1,10 @@
 <template>
-  <div class="container mx-auto mt-4">
-    <h2 class="text-3xl font-bold text-center mt-24 ">Edit Profile</h2>
+  <div class="container mx-auto mt-2">
+    <h2 class="text-3xl font-bold text-center mt-24">Edit Profile</h2>
     <div
       class="flex items-center flex-col w-full px-96 py-3 border-gray-200 rounded-lg"
     >
-      <div class="flex flex-col mb-4">
+      <div class="flex flex-col mb-2">
         <label class="mb-2 text-gray-700">Firstname</label>
         <input
           type="text"
@@ -14,7 +14,7 @@
         <span class="text-blue-100">{{ fnameError }}</span>
       </div>
 
-      <div class="flex flex-col mb-4">
+      <div class="flex flex-col mb-2">
         <label class="mb-2 text-gray-700">Lastname</label>
         <input
           type="text"
@@ -23,7 +23,7 @@
         />
       </div>
 
-      <div class="flex flex-col mb-4">
+      <div class="flex flex-col mb-2">
         <label class="mb-2 text-gray-700">Email</label>
         <input
           type="email"
@@ -31,8 +31,31 @@
           v-model="user.email"
         />
       </div>
+      <div class="flex flex-col mb-2">
+        <label class="mb-2 text-gray-700">
+          Password <span class="text-red-600"></span>
+        </label>
+        <input
+          type="password"
+          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
+          v-model="user.password"
+        />
+        <span class="text-red-600">{{ passwordError }}</span>
+      </div>
 
-      <div class="flex flex-col mb-4 ">
+      <div class="flex flex-col mb-2">
+        <label class="mb-2 text-gray-700">
+          Confirm password <span class="text-red-600"></span>
+        </label>
+        <input
+          type="password"
+          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
+          v-model="confirmPassword"
+        />
+        <span class="text-red-600">{{ confirmPasswordError }}</span>
+      </div>
+
+      <div class="flex flex-col mb-2">
         <label class="mb-2 text-gray-700">Phone</label>
         <input
           type="tel"
@@ -40,21 +63,21 @@
           v-model="user.phone"
         />
       </div>
-      
-     <div class="mt-8"> 
-      <button
-        @click="updateUser()"
-        class="w-96  bg-sky-600 text-white font-bold py-2 px-10 rounded-md hover:bg-sky-800"
-      >
-        Save
-      </button>
-     </div>
-     <AddDateOrder/>
+
+      <div class="mt-2">
+        <button
+          @click="updateUser()"
+          class="w-96 bg-sky-600 text-white font-bold py-2 px-10 rounded-md hover:bg-sky-800"
+        >
+          Save
+        </button>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import AddDateOrder from './AddDateOrder.vue';
+import Swal from 'sweetalert2';
+
 export default {
   data() {
     return {
@@ -63,35 +86,48 @@ export default {
       lname: "",
       email: "",
       phone: "",
+      password: "",
+      confirmPassword: "",
       payload: {
         fname: "",
         lname: "",
         phone: "",
         email: "",
+        password: "",
+        confirmPassword: "",
       },
     };
   },
-  components:{
-    AddDateOrder
-  },
-  computed: {
-   
-  },
   methods: {
-    async updateUser() {
-      console.log("this.payload :", this.user);
-
-      await this.$store.dispatch("user/updateUser", {
-        userId: this.user.id,
-        newData: this.user,
+  async updateUser() {
+    if (this.user.password !== this.confirmPassword) {
+      await Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Passwords do not match!',
       });
+      return;
+    }
 
-      console.log("payload", this.user);
-    },
+    await this.$store.dispatch("user/updateUser", {
+      userId: this.user.id,
+      newData: this.user,
+    });
+
+    this.user = {
+      fname: "",
+      lname: "",
+      email: "",
+      phone: "",
+      password: "",
+    };
+    this.confirmPassword = "";
+    console.log("User information updated successfully!");
+  },
   },
   mounted() {
-    this.user = JSON.parse(localStorage.getItem('user'))
-    console.log('user', this.user);
+    this.user = JSON.parse(localStorage.getItem("user"));
+    console.log("user", this.user);
   },
 };
 </script>
