@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto mt-10">
+  <div class="container mx-auto mt-2">
     <h2 class="text-3xl font-bold text-center">Create Account</h2>
 
     <div

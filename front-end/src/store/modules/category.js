@@ -22,6 +22,9 @@ const actions = {
       const res = await axios(configAxios("post", url, payload));
 
       if (res.status == 201) {
+        await this.dispatch("category/getCategory", {
+          category: true,
+        });
         Swal.fire({
           icon: "success",
           title: "Category added successfully",
@@ -106,11 +109,9 @@ const actions = {
       const res = await axios(configAxios("patch", url, newData));
 
       if (res.status === 200) {
-        // commit("SET_NAMES", res.data);
         await this.dispatch("category/getCategory", {
           category: true,
         });
-
         Swal.fire({
           icon: "success",
           title: "Category updated successfully",

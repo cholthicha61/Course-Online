@@ -5,45 +5,62 @@
     </div>
   </div>
   <div>
-    <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
-      <v-btn @click="goTo('addcourse')" color="#0284C7" class="ma-5" style="color: #fff; text-decoration: none">Add Course</v-btn>
+    <div style="display: flex; justify-content: flex-end; margin-top: 15px">
+      <v-btn
+        @click="goTo('addcourse')"
+        color="#0284C7"
+        class="ma-5"
+        style="color: #fff; text-decoration: none"
+        >Add Course</v-btn
+      >
     </div>
 
     <v-data-table-virtual :headers="headers" :items="course" height="500">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-<template #item="{ item ,index}">
+      <template #item="{ item, index }">
         <tr :key="item.coursename">
-          <td class="table-cell"> {{ index + 1 }} </td>
-          <td class="table-cell"> {{ formatDate(item.createdAt)}} </td>
-          <td class="table-cell"> {{ item.courseName }} </td>
-          <td class="table-cell" v-if="item.categorys"> {{ item.categorys.name }} </td>
-          <td class="table-cell" v-else> N/A </td>            
-          <td class="table-cell" style="min-width: 200px; max-width: 200px; overflow: auto;"> {{ item.description }} </td>
-          <td class="table-cell" style="text-align: center;"> {{ formatPrice(item.price) }} </td>
-          <td class="table-cell" style="text-align: center;">  {{ item.status }} </td>
-          <!-- <td class="table-cell" > -->
-            <!-- <v-select
-              :items="courses.map((course) => course.priority)"
-              variant="underlined"
-              v-model="item.priority"
-              return-object
-              @update:modelValue="updatePriority(item)"
+          <td class="table-cell">{{ index + 1 }}</td>
+          <td class="table-cell">{{ formatDate(item.createdAt) }}</td>
+          <td class="table-cell">{{ item.courseName }}</td>
+          <td class="table-cell" v-if="item.categorys">
+            {{ item.categorys.name }}
+          </td>
+          <td class="table-cell" v-else>N/A</td>
+          <td
+            class="table-cell"
+            style="min-width: 200px; max-width: 200px; overflow: auto"
+          >
+            {{
+              item.description.length > 100
+                ? item.description.slice(0, 100) + "..."
+                : item.description
+            }}
+            <span v-if="item.description.length > 100">
+              <button @click="showFullDescription(index)" class="text-sky-800">See more</button>
+            </span>
+          </td>
+          <td class="table-cell" style="text-align: center">
+            {{ formatPrice(item.price) }}
+          </td>
+          <td class="table-cell" style="text-align: center">
+            {{ item.status }}
+          </td>
+          <td class="table-cell" style="text-align: center; min-width: 110px">
+            <v-btn
+              color="warning"
+              @click="goTo('editcourse', item.id)"
+              style="margin-right: 10px"
+              >edit</v-btn
             >
-            </v-select> -->
-          <!-- </td> -->
-          <td class="table-cell" style="text-align: center; min-width: 110px;">
-            <v-btn color="warning" @click="goTo('editcourse', item.id)" style="margin-right: 10px;">edit</v-btn>
             <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
-        
       </template>
-</v-data-table-virtual>
-</div>
+    </v-data-table-virtual>
+  </div>
 </template>
-
 <script>
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
@@ -53,7 +70,12 @@ export default {
     return {
       headers: [
         { title: "No.", align: "start", value: "id" },
-        { title: "CreateAt", align: "start", value: "createdAt", sortable: true },
+        {
+          title: "CreateAt",
+          align: "start",
+          value: "createdAt",
+          sortable: true,
+        },
         {
           title: "Course Name",
           align: "start",
@@ -90,6 +112,14 @@ export default {
     this.getCourse();
   },
   methods: {
+    showFullDescription(index) {
+      const fullDescription = this.course[index].description;
+      Swal.fire({
+        title: "รายละเอียดคอร์ส",
+        text: fullDescription,
+        confirmButtonText: "ปิด",
+      });
+    },
     async getCourse() {
       await this.$store.dispatch("course/getCourse");
       this.courses = this.course;
@@ -132,7 +162,7 @@ export default {
       this.$router.push({ name: "EditCourse", params: { id: id } });
     },
     async goTo(path, id) {
-      if (path == 'editcourse') {
+      if (path == "editcourse") {
         await this.$router.push(`/${path}/${id}`);
       } else {
         await this.$router.push(`/${path}`);
@@ -142,7 +172,9 @@ export default {
       return new Date(date).toLocaleString();
     },
     formatPrice(price) {
-      return price.toLocaleString('en-US', { style: 'currency', currency: 'THB' }).replace('THB', '฿')
+      return price
+        .toLocaleString("en-US", { style: "currency", currency: "THB" })
+        .replace("THB", "฿");
     },
   },
 };
