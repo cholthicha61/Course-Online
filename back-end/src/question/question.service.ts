@@ -124,4 +124,15 @@ export class QuestionService {
     }
   }
 
+  async countQuestion() {
+    try {
+      const count = await this.questionRepository.createQueryBuilder('question')
+      .getCount();
+
+      return count;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
