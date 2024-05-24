@@ -158,15 +158,13 @@ export default {
       await this.getCourse();
     },
     async EditCourse(id) {
-      //console.log("id",id);
-      this.$router.push({ name: "EditCourse", params: { id: id } });
-    },
-    async goTo(path, id) {
-      if (path == "editcourse") {
-        await this.$router.push(`/${path}/${id}`);
-      } else {
-        await this.$router.push(`/${path}`);
-      }
+    if (typeof id === 'object') {
+        id = id.value || id.id || ''; 
+    }
+    this.$router.push({ name: "EditCourse", params: { id: id } });
+},
+    async goTo(path) {
+      await this.$router.push(`/${path}`);
     },
     formatDate(date) {
       return new Date(date).toLocaleString();
