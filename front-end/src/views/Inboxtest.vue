@@ -10,10 +10,31 @@
         <tr :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ formatDate(item.date) }}</td>
-          <td>{{ item.email }}</td>
-          <td>{{ item.message }}</td>
+          <td>{{ (item.email) }}</td>
+          <td>{{ (item.message) }}</td>
         </tr>
       </template>
+
+            <!-- <template v-slot:[`item.name`]="{ item }">
+        <b class="border-2 border-red-500">{{ item.name }}</b>
+      </template> -->
+
+      <!-- <template #item="{ item }">
+        <tr :key="item">
+          <td
+            class="text-between"
+            style="width: 300px; max-width: 300px; word-wrap: break-word"
+          >
+            {{ formatDate(item.date) }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.email }}
+          </td>
+          <td style="width: 300px; max-width: 300px; word-wrap: break-word">
+            {{ item.message }}
+          </td>
+        </tr>
+      </template> -->
     </v-data-table-virtual>
   </div>
 </template>
@@ -21,14 +42,31 @@
 <script>
 import { mapState } from "vuex";
 import _ from "lodash";
-
 export default {
   data: () => ({
     headers: [
-      { title: "No.", align: "start", value: "no" },
-      { title: "Date", align: "start", value: "date" },
-      { title: "Email", align: "start", value: "email" },
-      { title: "Message", align: "start", value: "message" }
+    {
+        title: "No.", 
+        align: "start", 
+        value: "no"
+
+      },
+      {
+        title: "Date",
+        align: "start",
+        value: "date",
+      },
+      {
+        title: "Email",
+        align: "start",
+        value: "email",
+      },
+      {
+        title: "Message",
+        align: "start",
+        value: "message",
+      },
+      
     ],
     userEmail: [],
   }),
@@ -50,24 +88,34 @@ export default {
       };
       await this.$store.dispatch("user/getUser", payload);
       console.log("user", this.users);
+      // await this.$store.dispatch("inbox/getEmail");
+      // this.emails = JSON.parse(JSON.stringify(this.inbox));
       this.setDataEmail(this.users);
     },
     setDataEmail(users) {
       console.log("users", users.length);
       const setData = [];
-      _.forEach(users, (user) => {
-        if (!_.isEmpty(user.questions)) {
-          _.forEach(user.questions, (question) => {
-            setData.push({
-              date: question.createdAt,
-              email: user.email,
-              message: question.message,
-            });
+      _.map(users, (item) => {
+        if (!_.isEmpty(item.questions)) {
+          console.log(
+            "item.questions[item?.questions?.length - 1].createdAt",
+            item.questions
+          );
+          setData.push({
+            date: item.questions[item?.questions?.length - 1].createdAt,
+            email: item.email,
+            message: item.questions[item?.questions?.length - 1].message,
           });
+        } else {
+          // setData.push({
+          //   date: "",
+          //   email: item.email,
+          //   message: "",
+          // });
         }
       });
       this.userEmail = setData;
-      console.log("useremail", this.userEmail);
+      console.log("useremail",this.userEmail);
     },
   },
 };

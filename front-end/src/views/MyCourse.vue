@@ -43,16 +43,18 @@
         </v-row>
       </v-container>
     </div>
+    <QuestionPopup/>
   </template>
 
 <script>
 import CardOrder from "@/components/CardOrder.vue";
 import { ENDPOINT } from "@/constants/endpoint";
 import { mapState } from 'vuex';
-
+import QuestionPopup from "@/components/QuestionPopup.vue";
 export default {
   components: {
-    CardOrder
+    CardOrder,
+    QuestionPopup
   },
   data() {
     return {

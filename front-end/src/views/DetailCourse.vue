@@ -77,7 +77,8 @@
         v-if="coursebyid"
         class="text-4xl font-bold text-orange-500 mt-10 ml-5"
       >
-        ฿{{ coursebyid.price }}
+        {{ formatPrice (coursebyid.price) }}
+
       </h2>
 
       <div class="mt-15 border-t-2 border-gray-300">
@@ -292,6 +293,11 @@ export default {
         console.log("favorite/updateFavorite2");
         await this.$store.dispatch("favorite/updateFavorite", payload);
       }
+    },
+    formatPrice(price) {
+      return price
+        .toLocaleString("en-US", { style: "currency", currency: "THB" })
+        .replace("THB", "฿");
     },
   },
 };

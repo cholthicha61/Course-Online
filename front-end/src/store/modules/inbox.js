@@ -54,14 +54,12 @@ const actions = {
         });
       }
     } catch (error) {
-      console.error("Error: ", error);
+      console.error("Error: ", error)
       if (error.response && error.response.status === 400) {
         Swal.fire({
-          icon: "warning",
-          title: "Please enter your email address",
-          text: "",
-          showConfirmButton: false,
-          timer: 2000,
+          icon: "error",
+          title: "Oops...",
+          text: "Please enter a valid email address!",
         });
       }
     }
