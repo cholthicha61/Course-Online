@@ -76,6 +76,8 @@
   </div>
 </template>
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   data() {
     return {
@@ -85,30 +87,43 @@ export default {
       email: "",
       phone: "",
       password: "",
-      Confirmpassword: "",
+      confirmPassword: "",
       payload: {
         fname: "",
         lname: "",
         phone: "",
         email: "",
         password: "",
-        Confirmpassword: "",
+        confirmPassword: "",
       },
     };
   },
-  components: {},
-  computed: {},
   methods: {
-    async updateUser() {
-      console.log("this.payload :", this.user);
-
-      await this.$store.dispatch("user/updateUser", {
-        userId: this.user.id,
-        newData: this.user,
+  async updateUser() {
+    if (this.user.password !== this.confirmPassword) {
+      await Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Passwords do not match!',
       });
+      return;
+    }
 
-      console.log("payload", this.user);
-    },
+    await this.$store.dispatch("user/updateUser", {
+      userId: this.user.id,
+      newData: this.user,
+    });
+
+    this.user = {
+      fname: "",
+      lname: "",
+      email: "",
+      phone: "",
+      password: "",
+    };
+    this.confirmPassword = "";
+    console.log("User information updated successfully!");
+  },
   },
   mounted() {
     this.user = JSON.parse(localStorage.getItem("user"));

@@ -11,21 +11,22 @@
         </div>
       </div>
       <div class="mt-4">
-        <h2 class="text-center text-2xl text-sky-700 font-semibold hover:text-sky-500">
+        <h2 class="text-center text-3xl text-sky-700 font-semibold hover:text-sky-500">
           {{ teacher.fname }} {{ teacher.lname }}
         </h2>
-        <div class="text-lg text-gray-700 mt-2 text-center">
+        <div class="text-md text-gray-700 mt-2 text-center">
           <p>
-            อีเมล:
+            <b> Email: </b> 
             <span class="font-medium text-lg hover:text-gray-400">{{ teacher.email }}</span>
           </p>
           <p>
-            โทรศัพท์:
+           <b> Phone: </b> 
             <span class="font-medium text-lg hover:text-gray-400">{{ teacher.phone }}</span>
           </p>
         </div>
         <p class="text-center text-sm text-gray-600 mt-2 hover:text-gray-400">
-          ประวัติผู้สอน: {{ teacher.desc }}
+          <b class="">Information: </b> 
+          {{ teacher.desc }}
         </p>
       </div>
     </div>

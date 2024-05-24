@@ -166,35 +166,37 @@
     <div
       class="box-border-teacher max-w-screen-lg p-12 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl ml-8"
     >
-      <div class="flex justify-center">
-        <img
-          src="../../public/img/PTeacherEng.jpg"
-          alt="Profile Image"
-          class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md transition duration-500 transform hover:scale-110"
-        />
+    <div class="flex justify-center">
+        <div class="w-36 h-36 rounded-full overflow-hidden shadow-xl border-4 transition hover:scale-110 duration-300">
+          <img
+            :src="`${img}/${teacher.userImage}`"
+            alt="Teacher's Image"
+            class="w-full h-full object-cover"
+          />
+        </div>
       </div>
       <div class="mt-4">
         <h2
-          class="text-center text-xl text-gray-700 font-semibold hover:text-sky-500"
+          class="text-center text-xl text-sky-700 font-semibold hover:text-sky-500"
         >
           {{ teacher.fname }} {{ teacher.lname }}
         </h2>
         <div class="text-x text-gray-700 mt-2">
-          <p>
-            อีเมล:
+          <p >
+            Email:
             <span class="font-medium hover:text-gray-400">{{
               teacher.email
             }}</span>
           </p>
           <p>
-            โทรศัพท์:
+            Phone:
             <span class="font-medium hover:text-gray-400">{{
               teacher.phone
             }}</span>
           </p>
         </div>
         <p class="text-sm text-gray-600 mt-2 hover:text-gray-400 text-wrap">
-          ประวัติผู้สอน: {{ teacher.desc }}
+          Information: {{ teacher.desc }}
         </p>
       </div>
     </div>
@@ -327,93 +329,4 @@ export default {
 .rounded-border {
   border-radius: 20px;
 }
-
-/* Media queries for responsive design */
-/* @media (max-width: 1024px) {
-  .custom-carousel {
-    width: 100%;
-    height: auto;
-  }
-
-  .image-wrapper {
-    width: 100%;
-    height: auto;
-  }
-
-  .box-border {
-    width: 100%;
-    height: auto;
-  }
-
-  .box-border-teacher {
-    width: 100%;
-    min-height: auto;
-  }
-
-  .head-course h1 {
-    font-size: 24px;
-  }
-}
-
-@media (max-width: 768px) {
-  .flex.flex-row {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .box-border {
-    width: 100%;
-    height: auto;
-  }
-
-  .box-border-teacher {
-    width: 100%;
-    min-height: auto;
-    margin-top: 20px;
-  }
-
-  .custom-carousel {
-    width: 100%;
-    height: auto;
-  }
-
-  .image-wrapper {
-    width: 100%;
-    height: auto;
-  }
-
-  .head-course h1 {
-    font-size: 20px;
-  }
-}
-@media (max-width: 480px) {
-  .box-border {
-    width: 45%;
-    height: auto;
-  }
-
-  .box-border-teacher {
-    width: 45%;
-    min-height: auto;
-    margin-top: 20px;
-  }
-
-  .custom-carousel {
-    width: 45%;
-    height: auto;
-  }
-
-  .image-wrapper {
-    width: 145%;
-    height: auto;
-  }
-
-  .head-course h1 {
-    font-size: 18px;
-  }
-
-  .rounded-border {
-    border-radius: 10px;
-  }
-} */
 </style>
