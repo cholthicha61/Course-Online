@@ -6,8 +6,8 @@ import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('order')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
-  
+  constructor(private readonly orderService: OrderService) { }
+
   @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createOrderDto: CreateOrderDto) {
@@ -15,11 +15,34 @@ export class OrderController {
   }
 
   @UseGuards(AuthGuard)
+  @Get('/count-waiting-order')
+  async countWaitingOrder() {
+    try {
+      const count = await this.orderService.countWaitingOrder();
+      return { count };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/count-incourse-order')
+  async countIncourseOrder() {
+    try {
+      const count = await this.orderService.countIncourseOrder();
+      return { count };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+  @UseGuards(AuthGuard)
   @Get()
   async findAll(@Query() keyword) {
     return this.orderService.findAll(keyword);
   }
-  
+
 
   @UseGuards(AuthGuard)
   @Get(':id')
