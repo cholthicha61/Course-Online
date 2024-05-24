@@ -54,16 +54,12 @@ const actions = {
         });
       }
     } catch (error) {
-      console.error("Error: ", error);
-      if (error.response && error.response.status === 400) {
-        Swal.fire({
-          icon: "warning",
-          title: "No information found",
-          text: "",
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      }
+      console.error("Error: ", error)
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please enter a valid email address!",
+      });
     }
   },
   async getQuestion({ commit }) {

@@ -115,9 +115,9 @@ export default {
     showFullDescription(index) {
       const fullDescription = this.course[index].description;
       Swal.fire({
-        title: "รายละเอียดคอร์ส",
+        title: "Detail Course",
         text: fullDescription,
-        confirmButtonText: "ปิด",
+        confirmButtonText: "Close",
       });
     },
     async getCourse() {
@@ -127,7 +127,6 @@ export default {
     async deleteCourse(courseId) {
       Swal.fire({
         title: "คุณต้องการลบคอร์สหรือไม่",
-        // text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
