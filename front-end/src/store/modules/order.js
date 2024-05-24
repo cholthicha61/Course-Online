@@ -105,25 +105,7 @@ const actions = {
       const url = `${ENDPOINT.ORDER}`;
       const res = await axios(configAxios("post", url, payload));
       if (res.status == 201) {
-        Swal.fire({
-          title: "Do you want to buy this course?",
-          text: "",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Confirm course purchase",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              icon: "success",
-              title: "Successfully purchased the course",
-              text: "",
-              showConfirmButton: false,
-              timer: 3000,
-            });
-          }
-        });
+       
       }
     } catch (error) {
       console.log("error  >>> ", error);

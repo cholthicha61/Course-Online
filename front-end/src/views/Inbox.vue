@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="mt-9">
-    <v-data-table-virtual :headers="headers" :items="email">
+    <v-data-table-virtual :headers="headers" :items="email" height="500">
       <template #item="{ item, index }">
         <tr :key="index">
           <td>{{ index + 1 }}</td>

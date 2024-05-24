@@ -9,7 +9,7 @@
    
     </div>
     <v-container class="head-course">
-      <h1 class="mt-10">Recommended course</h1>
+      <h1 class="mt-14">Recommended course</h1>
     </v-container>
   </div>
   <div>

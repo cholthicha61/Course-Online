@@ -121,7 +121,33 @@ const actions = {
       });
     }
   },
+  async updateTeacher({ commit }, { userId, newData }) {
+    try {
+      console.log("updateTeacher :", userId);
+      console.log("newData:", newData);
+      const url = `${ENDPOINT.USER}/teacher-profile`;
+      const res = await axios(configAxios("patch", url, newData));
 
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "แก้ไขโปรไฟล์สำเร็จ",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    } catch (error) {
+      console.error("Error updating category:", error);
+      Swal.fire({
+        icon: "warning",
+        title: "ข้อมูลไม่ถูกต้อง",
+        text: "",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  },
   async updateStatus({ commit }, payload) {
     console.log("payload", `${ENDPOINT.USER}/update-status/${payload.id}`);
     try {

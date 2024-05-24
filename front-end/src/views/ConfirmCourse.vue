@@ -14,31 +14,23 @@
               ></v-text-field>
             </v-col>
 
-            <v-col cols="12" md="12" sm="6"> </v-col>
-            <v-col cols="12" md="12" sm="6"> </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-text-field
                 label="Price"
                 required
-                v-model="course.price"
+                v-model="formattedPrice"
                 readonly
-              >
-              </v-text-field>
+              ></v-text-field>
             </v-col>
 
-            <v-col cols="12" md="12" sm="6"> </v-col>
-
-            <v-col cols="12" md="12" sm="6"> </v-col>
-
-            <v-col cols="12" sm="12">
+            <!-- <v-col cols="12" sm="12">
               <v-text-field
                 label="Description"
                 required
                 v-model="course.description"
                 readonly
               ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="12" sm="6"> </v-col>
+            </v-col> -->
 
             <v-col cols="12" sm="12">
               <v-text-field
@@ -62,7 +54,7 @@
             color="primary"
             text="Confirm"
             variant="tonal"
-            @click="createOrder"
+            @click="showConfirmationDialog"
           ></v-btn>
         </v-card-actions>
       </v-card>
@@ -71,6 +63,8 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
 export default {
   props: {
     course: {
@@ -91,8 +85,9 @@ export default {
       dialog: this.openModal,
       userEmail: {
         email: "",
-        id: Number,
+        id: null, 
       },
+      formattedPrice: "", 
     };
   },
   watch: {
@@ -103,6 +98,7 @@ export default {
       this.course.courseName = newVal.courseName;
       this.course.price = newVal.price;
       this.course.description = newVal.description;
+      this.formattedPrice = `฿${newVal.price} `; 
     },
   },
   methods: {
@@ -110,14 +106,41 @@ export default {
       this.setCloseModal();
       this.dialog = false;
     },
+    async showConfirmationDialog() {
+      this.dialog = false; 
+      const { isConfirmed } = await Swal.fire({
+        title: "Do you want to buy this course?",
+        text: `Course: ${this.course.courseName}\nPrice: ${this.course.price} บาท\nDescription: ${this.course.description}`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirm course purchase",
+        cancelButtonText: "Cancel",
+      });
+
+      if (isConfirmed) {
+        this.createOrder(); 
+      } else {
+        this.dialog = true; 
+      }
+    },
     async createOrder() {
       const payload = {
         courseId: this.course.id,
         userId: this.userEmail.id,
       };
+      
       await this.$store.dispatch("order/createOrder", payload);
-      this.setClose();
+      
+      this.setClose(); 
       console.log("payload : ", payload);
+      Swal.fire({
+        title: "Successfully purchased the course",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     },
   },
   mounted() {
@@ -131,3 +154,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+</style>
