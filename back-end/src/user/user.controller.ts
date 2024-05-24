@@ -18,6 +18,17 @@ import { UpdateTeacherDto } from './dto/update-teacher.dto';
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
+  @UseGuards(AuthGuard)
+  @Get('/count-user')
+  async countUser() {
+    try {
+      const count = await this.userService.countUser();
+      return { count };
+    } catch (error) {
+      throw error;
+    }
+  }
+  
   @Get('/get-teacher-profile')
   async getTeacherProfile() {
     return this.userService.getTeacherProfile();

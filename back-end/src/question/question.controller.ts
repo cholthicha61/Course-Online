@@ -5,16 +5,26 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 
 @Controller('question')
 export class QuestionController {
-  constructor(private readonly questionService: QuestionService) {}
+  constructor(private readonly questionService: QuestionService) { }
 
   @Post('question-non-login')
   async createQuestionNonLogin(@Body() createQuestionNonLoginDto: CreateQuestionNonLoginDto) {
     return this.questionService.createQuestionNonLogin(createQuestionNonLoginDto);
   }
-  
+
   @Post()
   async create(@Body() createQuestionDto: CreateQuestionDto, @Query('user_id') userId: number) {
     return await this.questionService.create(createQuestionDto, userId);
+  }
+
+  @Get('/count-question')
+  async countQuestion() {
+    try {
+      const count = await this.questionService.countQuestion();
+      return { count };
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Get()

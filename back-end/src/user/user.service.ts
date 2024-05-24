@@ -157,9 +157,13 @@ export class UserService {
     }
   }
 
+  async findOneWithPassword(id: number) {
+    return this.userRepository.findOne({ where: { id } });
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto, roleId: number) {
     try {
-      const user = await this.findOne(id);
+      const user = await this.findOneWithPassword(id);
 
       const findRole = await this.roleRepository.findOne({
         where: {
@@ -178,8 +182,9 @@ export class UserService {
 
       if (updateUserDto.password) {
         updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
+        user.password = updateUserDto.password;
       }
-
+      
       user.roles = findRole;
 
       console.log('user', user);
@@ -248,20 +253,20 @@ export class UserService {
         .leftJoinAndSelect('user.roles', 'roles')
         .where('roles.name = :roleName', { roleName: RolesUser.Teacher })
         .getOne();
-  
+
       if (!teacher) {
         throw new HttpException('Teacher not found', HttpStatus.NOT_FOUND);
       }
-  
+
       // return await this.userRepository.save(teacher);
       const { password, ...teacherProfile } = teacher;
       return teacherProfile;
-      
+
     } catch (error) {
       throw error;
     }
   }
-  
+
 
   async markCourseAsFavorite(userId: number, courseId: number): Promise<void> {
     try {
@@ -324,11 +329,11 @@ export class UserService {
   async getFavoriteCourses(userId: number): Promise<Course[]> {
     try {
       const user = await this.userRepository
-      .createQueryBuilder("user")
-      .leftJoinAndSelect("user.favoriteCourses", "favoriteCourses")
-      .leftJoinAndSelect("favoriteCourses.favoriteByUsers", "favoriteByUsers")
-      .where("user.id = :userId", { userId })
-      .getOne();
+        .createQueryBuilder("user")
+        .leftJoinAndSelect("user.favoriteCourses", "favoriteCourses")
+        .leftJoinAndSelect("favoriteCourses.favoriteByUsers", "favoriteByUsers")
+        .where("user.id = :userId", { userId })
+        .getOne();
 
       if (!user) {
         throw new NotFoundException('User not found.');
@@ -354,6 +359,19 @@ export class UserService {
         'An error occurred while retrieving users with favorite courses',
         HttpStatus.INTERNAL_SERVER_ERROR
       );
+    }
+  }
+
+  async countUser(): Promise<number> {
+    try {
+      const count = await this.userRepository.createQueryBuilder('user')
+        .leftJoin('user.roles', 'roles')
+        .where('roles.name = :roleName', { roleName: RolesUser.User })
+        .getCount();
+
+      return count;
+    } catch (error) {
+      throw error;
     }
   }
 }
