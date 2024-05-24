@@ -10,9 +10,16 @@
         <tr :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ formatDate(item.createdAt) }}</td>
-          <td v-if="item.email == null">{{ item.user ? item.user.email : 'N/A' }}</td>
+          <td v-if="item.email == null">
+            {{ item.user ? item.user.email : "N/A" }}
+          </td>
           <td v-else>{{ item.email }}</td>
           <td>{{ item.message }}</td>
+          <td class="">
+            <input type="checkbox" id="checkbox" v-model="checked" />
+            <label for="checkbox">{{ checked }}</label>
+            {{ item.status }}
+          </td>
         </tr>
       </template>
     </v-data-table-virtual>
@@ -29,6 +36,7 @@ export default {
       { title: "Date", align: "start", value: "date", sortable: true },
       { title: "Email", align: "start", value: "email", sortable: true },
       { title: "Message", align: "start", value: "message", sortable: true },
+      { title: "Status", align: "start", value: "status", sortable: true },
     ],
     email: [],
   }),

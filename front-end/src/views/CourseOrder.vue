@@ -13,7 +13,7 @@
               <td>{{ item.user.email }}</td>
               <td>{{ item.course.courseName }}</td>
               <td>{{ item.course.categorys ? item.course.categorys.name : "None" }}</td>
-              <td>{{ item.course.price }}</td>
+              <td class="table-cell">{{ formatPrice(item.course.price) }}</td>
               <td style="text-align: center; min-width: 120px">
                 <v-btn color="blue" @click="confirmOrder(item.id)" style="margin-right: 10px">Confirm</v-btn>
                 <v-btn color="warning" @click="rejectOrder(item.id)">Reject</v-btn>
@@ -73,6 +73,11 @@ export default {
       console.log("Payload:", payload);
       await this.$store.dispatch("order/rejectOrder", payload);
       console.log("rejectOrder",this.rejectOrder);
+    },
+    formatPrice(price) {
+      return price
+        .toLocaleString("en-US", { style: "currency", currency: "THB" })
+        .replace("THB", "฿");
     },
   },
 };

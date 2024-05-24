@@ -1,6 +1,6 @@
 <template>
   <v-container class="head-course">
-    <h1 class="mt-10">Interested Course</h1>
+    <h1 class="mt-28">Interested Course</h1>
     <v-row class="justify-start" no-gutters>
       <transition-group name="fade" mode="out-in">
         <v-col
@@ -20,6 +20,7 @@
       </transition-group>
     </v-row>
   </v-container>
+  <QuestionPopup/>
 </template>
 
 
@@ -27,6 +28,7 @@
 import CardCourse from "@/components/CardCourse.vue";
 import favorite from "@/store/modules/favorite";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
+import QuestionPopup from "@/components/QuestionPopup.vue";
 import { mapState } from "vuex";
 
 export default {
@@ -41,6 +43,7 @@ export default {
   components: {
     CardCourse,
     ConfirmCourse,
+    QuestionPopup
   },
   computed: {
     ...mapState({
