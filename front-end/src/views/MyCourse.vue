@@ -1,48 +1,56 @@
   <template>
-    <div>
-      <v-container>
-        <div class="head-course">
-          <h1 class="mt-28">My course</h1>
-        </div>
-        <v-row class="mt-4 justify-start" no-gutters>
-          <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="item in order" :key="item.id" fixed>
-            <v-sheet class="ma-3 rounded-border">
-              <v-card class="min-height" style="border-radius: 10px" elevation="hover" @mouseenter="isHover = true"
-                @mouseleave="isHover = false">
-                <v-img height="200px" :src="`${img}/${item.course.courseImage}`" cover>
-                </v-img>
-                <v-card-text>
-                  <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
-                    {{ item.course.courseName }}
-                  </h1>
-                  <div class="box-description">
-                    <p v-if="item.course.description && !item.showFullDescription">
+    <!-- <div v-if="order"> -->
+    <v-container>
+      <div class="head-course">
+        <h1 class="mt-28">My course</h1>
+      </div>
+      <v-row class="mt-4 justify-start" no-gutters>
+        <v-col v-for="item in filteredOrder" :key="item.id" cols="12" sm="6" md="4" lg="3" xl="2" fixed>
+          <!-- <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="item in order" :key="item.id" fixed> -->
+          <v-sheet class="ma-3 rounded-border">
+            <v-card class="min-height" style="border-radius: 10px" elevation="hover" @mouseenter="isHover = true"
+              @mouseleave="isHover = false">
+              <v-img v-if="item.course" height="200px" :src="`${img}/${item.course.courseImage}`" cover></v-img>
+              <v-card-text>
+                <h1 v-if="item.course" @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
+                  {{ item.course.courseName }}
+                </h1>
+                <div class="box-description">
+                  <p v-if="!item.course || !item.course.description || item.course.description.length === 0">
+                  </p>
+                  <p v-else>
+                    <template v-if="!item.showFullDescription && item.course.description.length >= 100">
                       {{ truncatedDescription(item.course.description) }}
-                      <span v-if="item.course.description.length >= 100" @click.stop="toggleDescription(item)"
-                        class="text-primary cursor-pointer">See more</span>
-                    </p>
-                    <p v-else-if="item.showFullDescription">
+                      <span @click.stop="toggleDescription(item)" class="text-primary cursor-pointer">See more</span>
+                    </template>
+                    <template v-else>
                       {{ item.course.description }}
                       <span @click.stop="toggleDescription(item)" class="text-primary cursor-pointer">See less</span>
-                    </p>
-                    <p v-else>No description available</p>
-                  </div>
-                  <div class="box-price text-end">
-                    <h2 class="">{{ formatPrice(item.course.price) }}</h2>
-                  </div>
-                  <div class="status mt-4 size-auto w-auto">
-                    <v-card class="status d-flex justify-center align-center h-6"
-                      :class="{ 'incourse': item.status === 'Incourse', 'waiting': item.status === 'Waiting', 'canceled': item.status === 'Canceled' }">
-                      {{ item.status }}
-                    </v-card>
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-sheet>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
+                    </template>
+                  </p>
+                </div>
+                <div v-if="item.course" class="box-price text-end">
+                  <h2 class="">{{ formatPrice(item.course.price) }}</h2>
+                </div>
+                <div class="status mt-4 size-auto w-auto">
+                  <v-card v-if="item.course" class="status d-flex justify-center align-center h-6"
+                    :class="{ 'incourse': item.status === 'Incourse', 'waiting': item.status === 'Waiting', 'canceled': item.status === 'Canceled' }">
+                    {{ item.status }}
+                  </v-card>
+                  <v-card v-else>
+
+                  </v-card>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-sheet>
+        </v-col>
+      </v-row>
+    </v-container>
+    <!-- </div> -->
+    <!-- <div v-else>
+
+    </div> -->
   </template>
 
 <script>
@@ -63,8 +71,10 @@ export default {
   computed: {
     ...mapState({
       order: (state) => state.order.order,
-
     }),
+    filteredOrder() {
+      return this.order.filter(item => item.course !== null);
+    }
   },
   async mounted() {
     await this.getOrder();
@@ -130,7 +140,7 @@ export default {
 }
 
 .min-height {
-  min-height: 400px;
+  min-height: 450px;
 }
 
 .box-description {
