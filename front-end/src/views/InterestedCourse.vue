@@ -1,20 +1,29 @@
 <template>
   <v-container class="head-course">
     <h1 class="mt-10">Interested Course</h1>
-      <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in favorite" fixed>
-          <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i" :setOpenModal="setOpenModal" />
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-row class="justify-start" no-gutters>
+      <v-col
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+        xl="2"
+        v-for="i in favorite"
+        :key="i.id"
+        fixed
+      >
+        <v-sheet class="ma-3 rounded-border">
+          <CardCourse :course="i" :setOpenModal="setOpenModal" />
+        </v-sheet>
+      </v-col>
+    </v-row>
+  </v-container>
 
   <!-- <v-container class="head-course">
     <h1 class="mt-10">Interested Course</h1>
   </v-container> -->
 
-  <div></div>
+  <!-- <div></div> -->
 </template>
 
 <script>
@@ -24,14 +33,13 @@ import ConfirmCourse from "@/views/ConfirmCourse.vue";
 import { mapState } from "vuex";
 
 export default {
-  data(){
-    return{
+  data() {
+    return {
       // favorite: [],
       openModal: false,
       itemCourse: {},
       user: JSON.parse(localStorage.getItem("user")),
-
-    }
+    };
   },
   components: {
     CardCourse,
