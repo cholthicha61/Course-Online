@@ -128,9 +128,11 @@ export default {
       await this.getCourse();
     },
     async EditCourse(id) {
-      //console.log("id",id);
-      this.$router.push({ name: "EditCourse", params: { id: id } });
-    },
+    if (typeof id === 'object') {
+        id = id.value || id.id || ''; 
+    }
+    this.$router.push({ name: "EditCourse", params: { id: id } });
+},
     async goTo(path) {
       await this.$router.push(`/${path}`);
     },
