@@ -17,6 +17,7 @@
   <!-- <v-container class="head-course">
     <h1 class="mt-10">Interested Course</h1>
   </v-container> -->
+  
 
   <div></div>
 </template>

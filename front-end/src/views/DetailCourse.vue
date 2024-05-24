@@ -183,20 +183,20 @@
         </h2>
         <div class="text-x text-gray-700 mt-2">
           <p >
-            Email:
+            <b> Email: </b>
             <span class="font-medium hover:text-gray-400">{{
               teacher.email
             }}</span>
           </p>
           <p>
-            Phone:
+             <b> Phone: </b>
             <span class="font-medium hover:text-gray-400">{{
               teacher.phone
             }}</span>
           </p>
         </div>
         <p class="text-sm text-gray-600 mt-2 hover:text-gray-400 text-wrap">
-          Information: {{ teacher.desc }}
+          <b> Information: </b>  {{ teacher.desc }}
         </p>
       </div>
     </div>
@@ -254,7 +254,6 @@ export default {
     },
     async getTeacher() {
       await this.$store.dispatch("user/getTeacher");
-      // this.teacher = this.user;
       console.log("teacher", this.teacher);
     },
     async getCourse() {

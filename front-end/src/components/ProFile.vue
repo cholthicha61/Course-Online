@@ -57,8 +57,6 @@ export default {
       try {
         await this.$store.dispatch("user/getTeacher");
         this.teacher = this.user;
-        console.log("Teacher object:", this.teacher);
-        console.log("Image path:", `${this.img}/${this.teacher.userImage}`);
       } catch (error) {
         console.error("Error fetching teacher data:", error);
       }
