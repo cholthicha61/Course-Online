@@ -1,26 +1,27 @@
 <template>
   <v-container class="head-course">
-    <h1 class="mt-28">Interested Course</h1>
-      <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in favorite" fixed>
+    <h1 class="mt-10">Interested Course</h1>
+    <v-row class="justify-start" no-gutters>
+      <transition-group name="fade" mode="out-in">
+        <v-col
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+          xl="2"
+          v-for="i in favorite"
+          :key="i.id"
+          fixed
+        >
           <v-sheet class="ma-3 rounded-border">
             <CardCourse :course="i" :setOpenModal="setOpenModal" />
           </v-sheet>
         </v-col>
-      </v-row>
-    </v-container>
-    <ConfirmCourse
-    :openModal="openModal"
-    :course="itemCourse"
-    :setCloseModal="setCloseModal"
-  />
-  <!-- <v-container class="head-course">
-    <h1 class="mt-10">Interested Course</h1>
-  </v-container> -->
-  
-
-  <div></div>
+      </transition-group>
+    </v-row>
+  </v-container>
 </template>
+
 
 <script>
 import CardCourse from "@/components/CardCourse.vue";
@@ -29,13 +30,13 @@ import ConfirmCourse from "@/views/ConfirmCourse.vue";
 import { mapState } from "vuex";
 
 export default {
-  data(){
-    return{
+  data() {
+    return {
+      // favorite: [],
       openModal: false,
       itemCourse: {},
       user: JSON.parse(localStorage.getItem("user")),
-
-    }
+    };
   },
   components: {
     CardCourse,
@@ -75,6 +76,12 @@ export default {
 </script>
 
 <style scoped>
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-leave-to {
+  opacity: 0;
+}
 .head-course h1 {
   font-size: 30px;
   color: black;
