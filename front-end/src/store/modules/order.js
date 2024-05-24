@@ -120,6 +120,24 @@ const actions = {
       }
     }
   },
+  async countWaitingOrder({ commit }, payload){
+    let url = `${ENDPOINT.ORDER}/count-waiting-order`;
+    try {
+      const res = await axios(configAxios("get", url));
+      commit("SET_ORDER", res.data);
+    } catch (error) {
+      throw error;
+    }
+  },
+  async countIncourseOrder({ commit }, payload){
+    let url = `${ENDPOINT.ORDER}/count-incourse-order`;
+    try {
+      const res = await axios(configAxios("get", url));
+      commit("SET_ORDER", res.data);
+    } catch (error) {
+      throw error;
+    }
+  }
 };
 
 export default {

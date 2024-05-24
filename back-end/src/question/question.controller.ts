@@ -45,4 +45,9 @@ export class QuestionController {
   remove(@Param('id') id: string) {
     return this.questionService.remove(+id);
   }
+
+  @Patch(':id')
+  async updateStatus(@Param('id') id: number, @Body() updateQuestionDto: UpdateQuestionDto) {
+    return this.questionService.updateStatus(id, updateQuestionDto);
+  }
 }
