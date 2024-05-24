@@ -15,17 +15,20 @@
                 <h1 v-if="item.course" @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
                   {{ item.course.courseName }}
                 </h1>
-                <div class="box-description">
+                <div class="box-description mt-1">
                   <p v-if="!item.course || !item.course.description || item.course.description.length === 0">
                   </p>
                   <p v-else>
-                    <template v-if="!item.showFullDescription && item.course.description.length >= 100">
+                    <template v-if="!item.showFullDescription && item.course.description.length > 100">
                       {{ truncatedDescription(item.course.description) }}
                       <span @click.stop="toggleDescription(item)" class="text-primary cursor-pointer">See more</span>
                     </template>
-                    <template v-else>
+                    <template v-else-if="item.showFullDescription">
                       {{ item.course.description }}
                       <span @click.stop="toggleDescription(item)" class="text-primary cursor-pointer">See less</span>
+                    </template>
+                    <template v-else>
+                      {{ item.course.description }}
                     </template>
                   </p>
                 </div>
