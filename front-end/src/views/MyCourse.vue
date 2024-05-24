@@ -2,7 +2,7 @@
     <div>
       <v-container>
         <div class="head-course">
-          <h1 class="mt-10">My course</h1>
+          <h1 class="mt-28">My course</h1>
         </div>
         <v-row class="mt-4 justify-start" no-gutters>
           <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="item in order" :key="item.id" fixed>

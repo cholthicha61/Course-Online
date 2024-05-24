@@ -1,6 +1,6 @@
 <template>
   <v-container class="head-course">
-    <h1 class="mt-10">Interested Course</h1>
+    <h1 class="mt-28">Interested Course</h1>
       <v-row class="justify-start" no-gutters>
         <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in favorite" fixed>
           <v-sheet class="ma-3 rounded-border">

@@ -1,7 +1,6 @@
 <template>
   <div class="container mx-auto mt-4">
-    <h2 class="text-3xl font-bold text-center m-9 ">Edit Profile</h2>
-
+    <h2 class="text-3xl font-bold text-center mt-24 ">Edit Profile</h2>
     <div
       class="flex items-center flex-col w-full px-96 py-3 border-gray-200 rounded-lg"
     >
@@ -41,6 +40,7 @@
           v-model="user.phone"
         />
       </div>
+      
      <div class="mt-8"> 
       <button
         @click="updateUser()"
@@ -48,12 +48,13 @@
       >
         Save
       </button>
-      
      </div>
+     <AddDateOrder/>
     </div>
   </div>
 </template>
 <script>
+import AddDateOrder from './AddDateOrder.vue';
 export default {
   data() {
     return {
@@ -69,6 +70,9 @@ export default {
         email: "",
       },
     };
+  },
+  components:{
+    AddDateOrder
   },
   computed: {
    
