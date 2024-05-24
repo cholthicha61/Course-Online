@@ -9,7 +9,11 @@
         </v-col>
       </v-row>
     </v-container>
-
+    <ConfirmCourse
+    :openModal="openModal"
+    :course="itemCourse"
+    :setCloseModal="setCloseModal"
+  />
   <!-- <v-container class="head-course">
     <h1 class="mt-10">Interested Course</h1>
   </v-container> -->
@@ -26,7 +30,6 @@ import { mapState } from "vuex";
 export default {
   data(){
     return{
-      // favorite: [],
       openModal: false,
       itemCourse: {},
       user: JSON.parse(localStorage.getItem("user")),

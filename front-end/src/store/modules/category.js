@@ -24,7 +24,7 @@ const actions = {
       if (res.status == 201) {
         Swal.fire({
           icon: "success",
-          title: "เพิ่มหมวดหมู่สำเร็จ",
+          title: "Category added successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -35,7 +35,7 @@ const actions = {
       if (error.response.status == 400) {
         Swal.fire({
           icon: "warning",
-          title: "กรุณากรอกข้อมูล",
+          title: "Please fill in information",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -44,7 +44,7 @@ const actions = {
       if (error.response.status == 409) {
         Swal.fire({
           icon: "warning",
-          title: "มีข้อมูลแล้ว",
+          title: "This category has been added",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -113,7 +113,7 @@ const actions = {
 
         Swal.fire({
           icon: "success",
-          title: "อัปเดตหมวดหมู่สำเร็จ",
+          title: "Category updated successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -123,7 +123,7 @@ const actions = {
       console.error("Error updating category:", error);
       Swal.fire({
         icon: "warning",
-        title: "ไม่สามารถอัปเดตหมวดหมู่ได้",
+        title: "Unable to update category",
         text: "",
         showConfirmButton: false,
         timer: 2000,
