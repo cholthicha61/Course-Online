@@ -51,15 +51,15 @@ const actions = {
           showConfirmButton: false,
           timer: 2000,
         });
-        if (error.response.status == 401) {
-          Swal.fire({
-            icon: "warning",
-            title: "Incorrect information",
-            text: "",
-            showConfirmButton: false,
-            timer: 2000,
-          });
-        }
+      }
+      if (error.response.status == 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "This email has already been used",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     }
   },
@@ -104,23 +104,35 @@ const actions = {
       if (res.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "Profile edited successfully",
+          title: "Profile Teacher edited successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
         });
       }
     } catch (error) {
-      console.error("Error updating category:", error);
-      Swal.fire({
-        icon: "warning",
-        title: "Incorrect information",
-        text: "",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+      console.error("Error >> ", error);
+      if (error.response.status == 400) {
+        Swal.fire({
+          icon: "warning",
+          title: "Please fill out the information completely",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+      if (error.response.status == 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "This email has already been used",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     }
   },
+  //เพื่อนยังทำไม่เสร็จ
   async updateTeacher({ commit }, { userId, newData }) {
     try {
       console.log("updateTeacher :", userId);
@@ -139,13 +151,6 @@ const actions = {
       }
     } catch (error) {
       console.error("Error updating category:", error);
-      Swal.fire({
-        icon: "warning",
-        title: "Incorrect information",
-        text: "",
-        showConfirmButton: false,
-        timer: 2000,
-      });
     }
   },
   async updateStatus({ commit }, payload) {
@@ -165,7 +170,7 @@ const actions = {
         await this.dispatch("user/getUser");
       }
     } catch (error) {
-      console.log("this", error);
+      console.log("error >> ", error);
     }
   },
   async getTeacher({ commit }, payload) {
@@ -180,7 +185,7 @@ const actions = {
 };
 
 export default {
-  
+
   namespaced: true,
   state,
   mutations,

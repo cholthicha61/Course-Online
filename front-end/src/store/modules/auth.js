@@ -36,8 +36,17 @@ const actions = {
       if (error.response.status == 401){
         Swal.fire({
           icon: "warning",
-          title: "Incorrect information",
+          title: "Password incorrect ",
           text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+      if (error.response.status == 404){
+        Swal.fire({
+          icon: "warning",
+          title: "No user account",
+          text: "Please sign up an account",
           showConfirmButton: false,
           timer: 2000,
         });

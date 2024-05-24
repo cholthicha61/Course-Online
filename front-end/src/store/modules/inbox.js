@@ -21,7 +21,7 @@ const actions = {
       if (res.status === 201) {
         Swal.fire({
           icon: "success",
-          title: "Success",
+          title: "Question sent successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -32,7 +32,7 @@ const actions = {
       if (error.response && error.response.status === 400) {
         Swal.fire({
           icon: "warning",
-          title: "No information found",
+          title: "Please fill in the message",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -58,7 +58,7 @@ const actions = {
       if (error.response && error.response.status === 400) {
         Swal.fire({
           icon: "warning",
-          title: "No information found",
+          title: "Please enter your email address",
           text: "",
           showConfirmButton: false,
           timer: 2000,
