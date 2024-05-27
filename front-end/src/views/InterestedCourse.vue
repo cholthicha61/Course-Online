@@ -1,5 +1,4 @@
 <template>
-  
   <v-container class="head-course">
     <h1 class="mt-28">Interested Course</h1>
     <v-row class="justify-start" no-gutters>
@@ -20,10 +19,10 @@
         </v-col>
       </transition-group>
     </v-row>
+    <ConfirmCourse :openModal="openModal" :course="itemCourse" :setCloseModal="setCloseModal" />
+    <QuestionPopup />
   </v-container>
- <QuestionPopup/>
 </template>
-
 
 <script>
 import CardCourse from "@/components/CardCourse.vue";
@@ -35,7 +34,6 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      // favorite: [],
       openModal: false,
       itemCourse: {},
       user: JSON.parse(localStorage.getItem("user")),
@@ -51,12 +49,6 @@ export default {
       favorite: (state) => state.favorite.favorite,
     }),
   },
-
-  watch: {
-    users(newVal) {
-      return newVal;
-    },
-  },
   async mounted() {
     this.getData();
   },
@@ -66,7 +58,6 @@ export default {
         userId: this.user.id,
       };
       await this.$store.dispatch("favorite/getFavorite", payload);
-      // this.favorite = this.favorite;
     },
     setOpenModal(item) {
       this.itemCourse = item;

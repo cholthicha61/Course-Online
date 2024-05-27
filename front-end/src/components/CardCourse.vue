@@ -13,6 +13,7 @@
       @mouseenter="isHover = true"
       @mouseleave="isHover = false"
       @click="goToDetailPage(course)"
+      
     >
       <div>
         <v-img height="200px" :src="`${img}/${course.courseImage}`" cover>
