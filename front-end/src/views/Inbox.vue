@@ -13,6 +13,17 @@
           <td v-if="item.email == null">{{ item.user ? item.user.email : 'N/A' }}</td>
           <td v-else>{{ item.email }}</td>
           <td>{{ item.message }}</td>
+          <!-- <td style="text-align: center; min-width: 120px">
+            <v-btn color="blue" @click="answer(item.id)" style="margin-right: 10px">Answer</v-btn>
+          </td> -->
+          <td style="text-align: center; min-width: 120px">
+            <template v-if="!item.answered && item.status">
+              <v-btn color="blue" @click="answer(item.id)" style="margin-right: 10px">Answer</v-btn>
+            </template>
+            <template v-else>
+              <span style="color: gray">Answered</span>
+            </template>
+          </td>
         </tr>
       </template>
     </v-data-table-virtual>
@@ -22,6 +33,7 @@
 <script>
 import { mapState } from "vuex";
 import _ from "lodash";
+import Swal from "sweetalert2";
 export default {
   data: () => ({
     headers: [
@@ -29,6 +41,7 @@ export default {
       { title: "Date", align: "start", value: "date", sortable: true },
       { title: "Email", align: "start", value: "email", sortable: true },
       { title: "Message", align: "start", value: "message", sortable: true },
+      { title: "Action", align: "center" },
     ],
     email: [],
   }),
@@ -48,6 +61,38 @@ export default {
       await this.$store.dispatch("inbox/getQuestion");
       this.email = this.emails;
       console.log("Fetched emails:", this.email);
+    },
+    async answer(id) {
+      try {
+        const result = await Swal.fire({
+          icon: "question",
+          title: "Have you answered the question?",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+        });
+
+        if (result.isConfirmed) {
+          await this.$store.dispatch("inbox/updateQuestionStatus", { id, status: false });
+          const item = this.email.find((email) => email.id === id);
+          if (item) {
+            item.answered = true;
+          }
+          Swal.fire({
+            icon: "success",
+            title: "Answered the question",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+      } catch (error) {
+        console.error("Error updating question status:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to update question status",
+        });
+      }
     },
   },
 };
