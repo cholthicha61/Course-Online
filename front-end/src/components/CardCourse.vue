@@ -18,7 +18,7 @@
         <v-img height="200px" :src="`${img}/${course.courseImage}`" cover>
         </v-img>
 
-        <v-card-text class="mb-0" style="flex-grow: 1;">
+        <v-card-text class="mb-0" style="flex-grow: 1">
           <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
             {{ course.courseName }}
           </h1>
@@ -44,7 +44,7 @@
         </v-card-text>
       </div>
       <div class="price-container text-end">
-        <h2 class="pb-20 mt-0">{{ formatPrice(course.price) }} </h2>
+        <h2 class="pb-20 mt-0">{{ formatPrice(course.price) }}</h2>
       </div>
       <v-card-btn class="card-buttons">
         <v-btn
@@ -111,7 +111,6 @@
   </div>
 </template>
 
-
 <script>
 import { ENDPOINT } from "@/constants/endpoint";
 import _ from "lodash";
@@ -153,7 +152,7 @@ export default {
   },
   methods: {
     goToDetailPage(course) {
-      this.$router.push(`/detailcourse/${course.id}`);
+      this.$router.push(`/detailcourse/${this.course.id}`);
     },
     checkFavorite(course, user) {
       if (course && course.favoriteByUsers && user) {
@@ -186,7 +185,7 @@ export default {
     toggleDescription() {
       this.showFullDescription = !this.showFullDescription;
       if (this.showFullDescription) {
-        this.$router.push(`/detailcourse/${this.course.id}`);
+        this.$router.push(`/detailcourse/${course.id}`);
       }
     },
 
@@ -262,4 +261,3 @@ export default {
   top: 100px;
 }
 </style>
-

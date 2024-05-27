@@ -147,7 +147,7 @@ export default {
   mounted() {},
   methods: {
     goToDetailPage(course) {
-  this.$router.push(`/detailcourse/${course.id}`);
+      this.$router.push(`/detailcourse/${this.course.id}`);
 },
     toggleShadow() {
       this.isHover = !this.isHover;
@@ -194,7 +194,7 @@ export default {
     toggleDescription() {
       this.showFullDescription = !this.showFullDescription;
       if (this.showFullDescription) {
-        this.$router.push(`/detailcourse/${this.course.id}`);
+        this.$router.push(`/detailcourse/${course.id}`);
       }
     },
     formatPrice(price) {
