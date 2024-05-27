@@ -185,7 +185,11 @@ export default {
     },
     toggleDescription() {
       this.showFullDescription = !this.showFullDescription;
+      if (this.showFullDescription) {
+        this.$router.push(`/detailcourse/${this.course.id}`);
+      }
     },
+
     formatPrice(price) {
       return price
         .toLocaleString("en-US", { style: "currency", currency: "THB" })

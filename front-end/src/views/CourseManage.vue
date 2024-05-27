@@ -115,9 +115,9 @@ export default {
     showFullDescription(index) {
       const fullDescription = this.course[index].description;
       Swal.fire({
-        title: "รายละเอียดคอร์ส",
+        title: "Detail Course",
         text: fullDescription,
-        confirmButtonText: "ปิด",
+        confirmButtonText: "Close",
       });
     },
     async getCourse() {
@@ -126,21 +126,21 @@ export default {
     },
     async deleteCourse(courseId) {
       Swal.fire({
-        title: "คุณต้องการลบคอร์สหรือไม่",
-        // text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
+        title: "Are you sure you want to delete the course?",
+        text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "ใช่, ต้องการลบ",
-        cancelButtonText: "ยกเลิก",
+        confirmButtonText: "Yes, delete it",
+        cancelButtonText: "Cancel",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("course/deleteCourse", courseId);
           await this.$store.dispatch("course/getCourse");
           Swal.fire({
             icon: "success",
-            title: "ลบคอร์สสำเร็จ",
+            title: "Course deleted successfully",
             // text: "ลบคอร์สสำเร็จ",
             showConfirmButton: false,
             timer: 2000,
@@ -158,15 +158,13 @@ export default {
       await this.getCourse();
     },
     async EditCourse(id) {
-      //console.log("id",id);
-      this.$router.push({ name: "EditCourse", params: { id: id } });
-    },
-    async goTo(path, id) {
-      if (path == "editcourse") {
-        await this.$router.push(`/${path}/${id}`);
-      } else {
-        await this.$router.push(`/${path}`);
-      }
+    if (typeof id === 'object') {
+        id = id.value || id.id || ''; 
+    }
+    this.$router.push({ name: "EditCourse", params: { id: id } });
+},
+    async goTo(path) {
+      await this.$router.push(`/${path}`);
     },
     formatDate(date) {
       return new Date(date).toLocaleString();

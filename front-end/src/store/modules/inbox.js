@@ -5,12 +5,16 @@ import Swal from "sweetalert2";
 
 const state = {
   emails: [],
+  questions: [],
 };
 
 const mutations = {
   SET_EMAILS(state, payload) {
     state.emails = payload;
   },
+  SET_QUESTIONS(state, payload) {
+    state.questions = payload;
+  }
 };
 
 const actions = {
@@ -21,7 +25,7 @@ const actions = {
       if (res.status === 201) {
         Swal.fire({
           icon: "success",
-          title: "Success",
+          title: "Question sent successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -32,7 +36,7 @@ const actions = {
       if (error.response && error.response.status === 400) {
         Swal.fire({
           icon: "warning",
-          title: "No information found",
+          title: "Please fill in the message",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -54,14 +58,12 @@ const actions = {
         });
       }
     } catch (error) {
-      console.error("Error: ", error);
+      console.error("Error: ", error)
       if (error.response && error.response.status === 400) {
         Swal.fire({
-          icon: "warning",
-          title: "No information found",
-          text: "",
-          showConfirmButton: false,
-          timer: 2000,
+          icon: "error",
+          title: "Oops...",
+          text: "Please enter a valid email address!",
         });
       }
     }
@@ -77,6 +79,15 @@ const actions = {
       console.error("Error: ", error);
     }
   },
+  async countQuestion({ commit }) {
+    const url = `${ENDPOINT.INBOX}/count-question`;
+    try {
+      const res = await axios(configAxios("get", url));
+      commit("SET_QUESTIONS", res.data);
+    } catch (error) {
+      throw error;
+    }
+  }
 };
 
 export default {

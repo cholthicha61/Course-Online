@@ -1,55 +1,51 @@
 <template>
   <div class="pa-4 text-center">
     <v-dialog v-model="dialog" max-width="600" persistent>
-      <v-card class="" title="Confirm your course">
-        <v-card-text>
-          <v-row dense>
-            <v-col cols="12" md="12" sm="6" class="mt-5">
-              <v-text-field
-                class=""
-                label="Course Name"
-                required
+      <v-card class="dialog-card">
+        <v-card-title class="dialog-card-title mt-8 ">Confirm your course</v-card-title>
+        <v-card-text class="dialog-card-text">
+          <v-row dense class="flex flex-col items-center">
+            <v-col cols="12" md="12" sm="6" class=""></v-col>
+            <div class="flex flex-col w-full m-2">
+              <label class="mb-2 text-gray-700">Course Name</label>
+              <input
+                type="text"
+                class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
                 v-model="course.courseName"
                 readonly
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="12" sm="6">
-              <v-text-field
-                label="Price"
-                required
+              />
+            </div>
+            <div class="flex flex-col w-full m-1">
+              <label class="mb-2 text-gray-700">Price</label>
+              <input
+                type="text"
+                class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
                 v-model="formattedPrice"
                 readonly
-              ></v-text-field>
-            </v-col>
-
-            <!-- <v-col cols="12" sm="12">
-              <v-text-field
-                label="Description"
-                required
+              />
+            </div>
+            <div class="flex flex-col w-full m-1">
+              <label class="mb-3 text-gray-700">Description</label>
+              <textarea
+                id="detail"
                 v-model="course.description"
+                class="w-full p-2 border border-gray-300 rounded"
                 readonly
-              ></v-text-field>
-            </v-col> -->
-
-            <v-col cols="12" sm="12">
-              <v-text-field
-                label="Email"
+              ></textarea>
+            </div>
+            <div class="flex flex-col w-full m-1">
+              <label class="mb-2 text-gray-700">Email</label>
+              <input
+                type="text"
+                class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
                 v-model="userEmail.email"
                 readonly
-                required
-              ></v-text-field>
-            </v-col>
+              />
+            </div>
           </v-row>
         </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
+        <v-card-actions class="dialog-card-actions mt-3">
           <v-btn text="Close" variant="plain" @click="setClose"></v-btn>
-
           <v-btn
             color="primary"
             text="Confirm"
@@ -85,9 +81,9 @@ export default {
       dialog: this.openModal,
       userEmail: {
         email: "",
-        id: null, 
+        id: null,
       },
-      formattedPrice: "", 
+      formattedPrice: "",
     };
   },
   watch: {
@@ -98,7 +94,7 @@ export default {
       this.course.courseName = newVal.courseName;
       this.course.price = newVal.price;
       this.course.description = newVal.description;
-      this.formattedPrice = `฿${newVal.price} `; 
+      this.formattedPrice = `฿${newVal.price} `;
     },
   },
   methods: {
@@ -107,10 +103,10 @@ export default {
       this.dialog = false;
     },
     async showConfirmationDialog() {
-      this.dialog = false; 
+      this.dialog = false;
       const { isConfirmed } = await Swal.fire({
         title: "Do you want to buy this course?",
-        text: `Course: ${this.course.courseName}\nPrice: ${this.course.price} บาท\nDescription: ${this.course.description}`,
+        text: `Course: ${this.course.courseName}\n Price: ${this.course.price} บาท`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -120,9 +116,9 @@ export default {
       });
 
       if (isConfirmed) {
-        this.createOrder(); 
+        this.createOrder();
       } else {
-        this.dialog = true; 
+        this.dialog = true;
       }
     },
     async createOrder() {
@@ -130,10 +126,10 @@ export default {
         courseId: this.course.id,
         userId: this.userEmail.id,
       };
-      
+
       await this.$store.dispatch("order/createOrder", payload);
-      
-      this.setClose(); 
+
+      this.setClose();
       console.log("payload : ", payload);
       Swal.fire({
         title: "Successfully purchased the course",
@@ -156,5 +152,32 @@ export default {
 </script>
 
 <style scoped>
+.v-dialog__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.dialog-card {
+  width: 100%;
+  max-width: 600px;
+}
+
+.dialog-card-title {
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.dialog-card-text {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.dialog-card-actions {
+  display: flex;
+  justify-content: center; 
+}
 </style>

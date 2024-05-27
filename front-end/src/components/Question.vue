@@ -38,8 +38,6 @@
           v-model="userEmail.email"
           type="email"
           placeholder="Email"
-          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-          title="Please enter a valid email address"
           class="border border-gray-300 rounded-md mb-4 w-full px-3 py-2"
           ref="emailInput"
         />
@@ -63,7 +61,7 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -78,28 +76,44 @@ export default {
       this.showPopup = !this.showPopup;
     },
     async sentEmails() {
-      const payload = {
-        email: this.userEmail.email,
-        message: this.message,
-      };
       try {
-        if (this.$refs.emailInput.checkValidity()) {
-          await this.$store.dispatch("inbox/sentEmails", payload);
-          this.togglePopup();
-          this.userEmail.email = "";
-          this.message = "";
-        } else {
+        if (!this.message) {
+          Swal.fire({
+            icon: "warning",
+            title: "Oops...",
+            text: "Please enter your message!",
+          });
+          return;
+        }
+
+        // ตรวจสอบความถูกต้องของอีเมล์
+        if (!this.validateEmail(this.userEmail.email)) {
           Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "Please enter a valid email address!",
           });
+          return;
         }
+
+        // ส่งข้อมูลเมื่อทุกเงื่อนไขถูกต้อง
+        const payload = {
+          email: this.userEmail.email,
+          message: this.message,
+        };
+        await this.$store.dispatch("inbox/sentEmails", payload);
+        this.togglePopup();
+        this.userEmail.email = "";
+        this.message = "";
       } catch (error) {
         console.error("Error sending email: ", error);
       }
-      console.log("this.userEmail.email", this.userEmail.email);
     },
+    validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      return re.test(String(email).toLowerCase());
+    },
+
     mounted() {
       const user = JSON.parse(localStorage.getItem("user"));
       if (user) {

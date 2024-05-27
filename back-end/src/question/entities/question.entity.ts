@@ -16,4 +16,7 @@ export class Question extends BaseEntity {
 
   @Column({ nullable: true })
   email: string;
+
+  @Column({ default: true })
+  status: boolean;
 }

@@ -13,7 +13,7 @@
 
     <span
       @click="MenuOpen"
-      class="py-6 absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl"
+      class=" absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl"
     >
       <i :class="[open ? 'text-sky-700' : 'text-sky-700']" class="inline-block">
         <svg

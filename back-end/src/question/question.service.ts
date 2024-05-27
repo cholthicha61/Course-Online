@@ -35,6 +35,7 @@ export class QuestionService {
         message: createQuestionDto.message,
         user: user,
         email: user.email,
+        status: true,
       });
 
       const questionSave = await this.questionRepository.save(question);
@@ -130,6 +131,29 @@ export class QuestionService {
       .getCount();
 
       return count;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateStatus(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Omit<Question, 'user'>> {
+    try {
+      const question = await this.questionRepository.findOne({ where: { id } });
+      
+      if (!question) {
+        throw new HttpException('Question not found', HttpStatus.NOT_FOUND);
+      }
+
+      question.status = updateQuestionDto.status;
+
+      const updatedQuestion = await this.questionRepository.save(question);
+
+      const response = {
+        ...updatedQuestion,
+        user: question.user ? { id: question.user.id, email: question.user.email } : null,
+      };
+
+      return response;
     } catch (error) {
       throw error;
     }
