@@ -18,7 +18,7 @@
         <v-img height="200px" :src="`${img}/${course.courseImage}`" cover>
         </v-img>
 
-        <v-card-text class="mb-10">
+        <v-card-text class="mb-0" style="flex-grow: 1;">
           <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
             {{ course.courseName }}
           </h1>
@@ -41,10 +41,10 @@
               >
             </p>
           </div>
-          <div class="text-end">
-            <h2 class="pb-15 pt-5 mt-0">{{ formatPrice(course.price) }} </h2>
-          </div>
         </v-card-text>
+      </div>
+      <div class="price-container text-end">
+        <h2 class="pb-20 mt-0">{{ formatPrice(course.price) }} </h2>
       </div>
       <v-card-btn class="card-buttons">
         <v-btn
@@ -110,6 +110,7 @@
     </v-card>
   </div>
 </template>
+
 
 <script>
 import { ENDPOINT } from "@/constants/endpoint";
@@ -235,7 +236,6 @@ export default {
   align-items: center;
   justify-content: center;
   height: 36px;
-  
 }
 .text-primary {
   color: #098ad0;
@@ -252,4 +252,10 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
+.price-container {
+  margin-top: auto;
+  padding: 0 16px;
+  top: 100px;
+}
 </style>
+
