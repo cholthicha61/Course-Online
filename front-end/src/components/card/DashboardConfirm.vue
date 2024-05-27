@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto w-96 drop-shadow-xl" max-width="344" style="background-color: #38bdf8">
     <v-card-text class="">
-      <p class="text-h4 font-weight-black text-white mt-1">Confirmed course</p>
+      <p class="text-h4 font-weight-black text-white mt-1">All Confirmed Orders</p>
     </v-card-text>
     <div class="px-8 flex items-center">
       <div class="rounded-full bg-white w-12 h-12 flex items-center justify-center">
@@ -11,7 +11,7 @@
             clip-rule="evenodd" />
         </svg>
       </div>
-      <p class="text-4xl hover:text-sky-900 text-sky-200 ml-8">{{ order.count }}</p>
+      <p class="text-4xl hover:text-sky-900 text-sky-200 ml-8">{{ orderIn.count }}</p>
       <p class="text-2xl text-gray-200 ml-4 py-4">order</p>
     </div>
 
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapState({
-      order: (State) => State.order.order,
+      orderIn: (State) => State.order.orderIn,
     }),
   },
   async mounted() {
@@ -41,7 +41,7 @@ export default {
   methods: {
     async countIncourseOrder() {
       await this.$store.dispatch("order/countIncourseOrder");
-      console.log(this.order);
+      console.log(this.orderIn);
     }
   }
 };

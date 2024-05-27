@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import order from '@/store/modules/order';
 import { mapState } from 'vuex';
 
 export default {

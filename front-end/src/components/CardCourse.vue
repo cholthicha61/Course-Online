@@ -42,7 +42,7 @@
             </p>
           </div>
           <div class="text-end">
-            <h2 class="pb-15 pt-5 mt-0">{{ formatPrice(course.price) }} </h2>
+            <h2 class="pb-15 pt-5 mt-0">{{ formatPrice(course.price) }}</h2>
           </div>
         </v-card-text>
       </div>
@@ -183,11 +183,11 @@ export default {
       }
     },
     toggleDescription() {
-  this.showFullDescription = !this.showFullDescription;
-  if (this.showFullDescription) {
-    this.$router.push(`/detailcourse/${this.course.id}`);
-  }
-},
+      this.showFullDescription = !this.showFullDescription;
+      if (this.showFullDescription) {
+        this.$router.push(`/detailcourse/${this.course.id}`);
+      }
+    },
 
     formatPrice(price) {
       return price
@@ -239,7 +239,6 @@ export default {
   align-items: center;
   justify-content: center;
   height: 36px;
-  
 }
 .text-primary {
   color: #098ad0;

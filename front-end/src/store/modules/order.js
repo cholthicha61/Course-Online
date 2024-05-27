@@ -8,11 +8,20 @@ const state = {
   showConfirmationDialog: false,
   confirmedOrders: [],
   order: [],
+  orderIn: [],
+  orderCancle: [],
+
 };
 
 const mutations = {
   SET_ORDERS: (state, orders) => {
     state.orders = orders;
+  },
+  SET_ORDERIN: (state, payload) => {
+    state.orderIn = payload;
+  },
+  SET_ORDERCANCLE: (state, payload) => {
+    state.orderCancle = payload;
   },
   CONFIRM_ORDER: (state, index) => {
     state.orders[index].confirmed = true;
@@ -133,7 +142,16 @@ const actions = {
     let url = `${ENDPOINT.ORDER}/count-incourse-order`;
     try {
       const res = await axios(configAxios("get", url));
-      commit("SET_ORDER", res.data);
+      commit("SET_ORDERIN", res.data);
+    } catch (error) {
+      throw error;
+    }
+  },
+  async countCancleOrder({ commit }, payload){
+    let url = `${ENDPOINT.ORDER}/count-incourse-order`;
+    try {
+      const res = await axios(configAxios("get", url));
+      commit("SET_ORDERCANCLE", res.data);
     } catch (error) {
       throw error;
     }
