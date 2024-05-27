@@ -30,15 +30,15 @@ const routes =  [
           meta: { requiresAuth: true },
         },
         {
-          path: "/allconfirm",
-          name: "allconfirm",
+          path: "/allconfrime",
+          name: "allconfrime",
           component: () => import("../views/AllconfrimedCourse.vue"),
           meta: { requiresAuth: true },
         },
         {
-          path: "/editcourse/:id",
-          name: "Editcourse",
-          component: () => import("../components/EditCourse.vue"),
+          path: "/cancle-order",
+          name: "cancle-order",
+          component: () => import("../views/AllCancleCourse.vue"),
           meta: { requiresAuth: true },
         },
         {

@@ -126,8 +126,8 @@ export default {
     },
     async deleteCourse(courseId) {
       Swal.fire({
-        title: "Do you want to delete this course?",
-        // text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
+        title: "Are you sure you want to delete the course?",
+        text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",

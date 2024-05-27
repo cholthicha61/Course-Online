@@ -182,6 +182,15 @@ const actions = {
       throw new Error();
     }
   },
+  async countUser({ commit }, payload) {
+    let url = `${ENDPOINT.USER}/count-user`;
+    try {
+      const res = await axios(configAxios("get", url));
+      commit("SET_USERS", res.data);
+    } catch (error) {
+      throw error;
+    }
+  }
 };
 
 export default {

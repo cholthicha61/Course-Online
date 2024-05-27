@@ -23,7 +23,7 @@
           />
         </svg>
       </div>
-      <p class="text-4xl hover:text-sky-900 text-sky-100 ml-8">290</p>
+      <p class="text-4xl hover:text-sky-900 text-sky-100 ml-8">{{ users.count }}</p>
       <p class="text-2xl text-gray-200 ml-4 py-4">user</p>
     </div>
 
@@ -38,10 +38,27 @@
 </template>
 
 <script>
+import { State } from '@amcharts/amcharts5/.internal/core/util/States';
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {};
   },
+  computed:{
+    ...mapState({
+      users: (State) => State.user.users,
+    }),
+  },
+  async mounted(){
+    this.countUser();
+  },
+  methods:{
+    async countUser(){
+      await this.$store.dispatch("user/countUser");
+      console.log(this.users);
+    }
+  }
 };
 </script>
 

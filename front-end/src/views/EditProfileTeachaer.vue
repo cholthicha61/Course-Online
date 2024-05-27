@@ -60,15 +60,17 @@
       <div class="flex flex-col mb-4 w-96">Picture</div>
       <div class="flex flex-col picture mr-11">
         <v-file-input
+          variant="outlined"
           :rules="rules"
           accept="image/png, image/jpeg, image/bmp"
           label="Add Picture"
           placeholder="Pick an avatar"
           class=""
-          v-model="teacher.userImage"
+          v-model="files"
         >
         </v-file-input>
       </div>
+
       <div class="flex flex-col w-96">
         <button
           @click="updateUser"
@@ -95,12 +97,18 @@ export default {
         desc: "",
         file: null,
       },
+      files: {
+        name: "",
+        
+      }
+      
     };
   },
   computed: {
     ...mapState({
       user: (state) => state.user.user,
     }),
+    
   },
   async mounted() {
     this.getTeacher();
@@ -109,7 +117,9 @@ export default {
     async getTeacher() {
       await this.$store.dispatch("user/getTeacher");
       this.teacher = this.user;
+      this.files.name = this.teacher.userImage;
       console.log("teacher", this.teacher);
+      console.log("teacherwwwwww", this.files.name);
     },
     async updateUser() {
       await this.$store.dispatch("user/updateUser", {

@@ -21,8 +21,10 @@
                 <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">{{ course.detail }}</td>
                 <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">{{ course.user }}</td>
                 <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">{{ course.email }}</td>
+                <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">{{ course.status }}</td>
+
                 <td class="px-6 py-4 whitespace-nowrap border-b border-gray-300">
-                  <span v-if="course.status" class="text-blue-500">
+                  <span class="text-blue-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" />
                       <path fill-rule="evenodd" d="M5.86 10.75a.75.75 0 01-.743-.646L5.01 6.5a.75.75 0 011.486-.208l.117.849 3.98-1.281a.75.75 0 11.457 1.44l-4.5 1.446a.75.75 0 01-.484.002l-4.5-1.446a.75.75 0 11.457-1.44l3.98 1.281.117-.85a.75.75 0 01.646-.743z" clip-rule="evenodd" />

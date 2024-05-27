@@ -6,28 +6,34 @@
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8"
       >
         <div class="py-8">
-          <DashboardUser />
+          <router-link to="/usermanage">
+            <DashboardUser />
+          </router-link>
         </div>
+
         <div class="py-8">
           <router-link to="/courseorder">
             <DashboarCourse />
           </router-link>
         </div>
         <div class="py-8">
-          <router-link to="/allconfirm">
+          <router-link to="/allconfrime">
             <DashboarConfirme />
           </router-link>
         </div>
         <div class="py-8">
-          <DashboardInbox />
+          <router-link to="/inbox">
+            <DashboardInbox />
+          </router-link>
         </div>
+
+        <div class="">
+          <router-link to="/cancle-order">
+            <DashboardCancle />
+          </router-link>
+        </div>
+
       </div>
-      <!-- <div class="mt-8">
-        <AllSales />
-      </div> -->
-      <!-- <div class="">
-          <Sale />
-      </div> -->
     </div>
   </div>
 </template>
@@ -37,17 +43,14 @@ import DashboardUser from "@/components/card/DashboardUser.vue";
 import DashboarCourse from "@/components/card/DashboardCourse.vue";
 import DashboarConfirme from "@/components/card/DashboardConfirm.vue";
 import DashboardInbox from "@/components/card/DashboardInbox.vue";
-import Sale from "@/components/card/Sales.vue";
-import AllSales from "@/components/card/AllSales.vue";
-
+import DashboardCancle from "@/components/card/DashboardCancle.vue";
 export default {
   components: {
     DashboardUser,
     DashboarCourse,
     DashboarConfirme,
     DashboardInbox,
-    Sale,
-    AllSales,
+    DashboardCancle
   },
 };
 </script>

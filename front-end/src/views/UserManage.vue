@@ -72,21 +72,21 @@ export default {
       console.log('====================================');
 
       const { isConfirmed } = await Swal.fire({
-        title: "Do you want to update status of user?",
-        // text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
+        title: "Do you want to change the user's status?",
+        // text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, update it",
+        confirmButtonText: "Yes, change it",
         cancelButtonText: "Cancel",
 
       });
       if (isConfirmed) {
         await this.$store.dispatch("user/updateStatus", payload);
         Swal.fire({
-          title: "Update status of user successfully",
-          // text: "เปลี่ยนสถานะสำเร็จ",
+          title: "Status changed successfully",
+          // text: "Status changed successfully",
           icon: "success",
           showConfirmButton: false,
           timer: 2000,
@@ -114,10 +114,6 @@ export default {
   border-bottom: 1px solid #d9d9d9;
   font-style: italic;
 }
-
-/* .v-data-table {
-  overflow-x: auto;
-} */
 
 .v-data-table th {
   white-space: nowrap;
