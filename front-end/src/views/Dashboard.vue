@@ -3,7 +3,7 @@
     <div class="head-course">
       <h1>Dashboard</h1>
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8"
+        class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8"
       >
         <div class="py-8">
           <router-link to="/usermanage">
@@ -16,14 +16,16 @@
             <DashboarCourse />
           </router-link>
         </div>
-        <div class="py-8">
-          <router-link to="/allconfrime">
-            <DashboarConfirme />
-          </router-link>
-        </div>
+        
         <div class="py-8">
           <router-link to="/inbox">
             <DashboardInbox />
+          </router-link>
+        </div>
+
+        <div class="">
+          <router-link to="/allconfrime">
+            <DashboarConfirme />
           </router-link>
         </div>
 
