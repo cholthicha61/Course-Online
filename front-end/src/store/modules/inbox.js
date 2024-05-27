@@ -47,7 +47,7 @@ const actions = {
       if (res.status === 201) {
         Swal.fire({
           icon: "success",
-          title: "Success",
+          title: "Question sent successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
