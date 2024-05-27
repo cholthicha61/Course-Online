@@ -95,7 +95,7 @@
           </template>
         </v-btn>
         <v-btn
-          class="buy-button text-white font-weight-regular"
+          class="btn-buy text-white font-weight-regular"
           style="
             height: 40px;
             display: flex;
@@ -214,7 +214,7 @@ export default {
 }
 .btn-buy {
   color: #fff;
-  background-color: #098ad0;
+  background-color: #0982c4;
   border-color: #0982c4;
   width: 120px;
 }

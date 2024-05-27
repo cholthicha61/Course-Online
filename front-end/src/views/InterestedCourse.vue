@@ -1,4 +1,5 @@
 <template>
+  
   <v-container class="head-course">
     <h1 class="mt-28">Interested Course</h1>
     <v-row class="justify-start" no-gutters>
@@ -20,7 +21,7 @@
       </transition-group>
     </v-row>
   </v-container>
-  <QuestionPopup/>
+ <QuestionPopup/>
 </template>
 
 

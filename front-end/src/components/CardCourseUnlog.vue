@@ -95,7 +95,7 @@
           </template>
         </v-btn>
         <v-btn
-          class="buy-button text-white font-weight-regular"
+          class="btn-buy text-white font-weight-regular"
           style="
             height: 40px;
             display: flex;
