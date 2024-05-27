@@ -116,6 +116,7 @@ import Swal from "sweetalert2";
 import { ENDPOINT } from "@/constants/endpoint";
 import _ from "lodash";
 import { mapState } from "vuex";
+
 export default {
   name: "CardCourse",
   data() {
@@ -147,8 +148,8 @@ export default {
   mounted() {},
   methods: {
     goToDetailPage(course) {
-      this.$router.push(`/detailcourse/${this.course.id}`);
-},
+      this.$router.push(`/guestdetailcourse/${this.course.id}`);
+    },
     toggleShadow() {
       this.isHover = !this.isHover;
     },
@@ -194,13 +195,8 @@ export default {
     toggleDescription() {
       this.showFullDescription = !this.showFullDescription;
       if (this.showFullDescription) {
-        this.$router.push(`/detailcourse/${course.id}`);
+        this.$router.push(`/guestdetailcourse/${course.id}`);
       }
-    },
-    formatPrice(price) {
-      return price
-        .toLocaleString("en-US", { style: "currency", currency: "THB" })
-        .replace("THB", "฿");
     },
     formatPrice(price) {
       return price
@@ -210,6 +206,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .v-card {
