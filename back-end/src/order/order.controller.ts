@@ -36,6 +36,17 @@ export class OrderController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @Get('/count-canceled-order')
+  async countCanceledOrder() {
+    try {
+      const count = await this.orderService.countCanceledOrder();
+      return { count };
+    } catch (error) {
+      throw error;
+    }
+  }
+
 
   @UseGuards(AuthGuard)
   @Get()

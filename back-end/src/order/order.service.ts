@@ -19,7 +19,7 @@ export class OrderService {
     private userRepository: Repository<User>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>
-  ) { }
+  ) {}
 
   async create(createOrderDto: CreateOrderDto) {
     try {
@@ -185,7 +185,8 @@ export class OrderService {
 
   async countWaitingOrder() {
     try {
-      const count = await this.orderRepository.createQueryBuilder('order')
+      const count = await this.orderRepository
+        .createQueryBuilder('order')
         .where('order.status = :status', { status: StatusOrder.Waiting })
         .getCount();
 
@@ -197,8 +198,22 @@ export class OrderService {
 
   async countIncourseOrder() {
     try {
-      const count = await this.orderRepository.createQueryBuilder('order')
+      const count = await this.orderRepository
+        .createQueryBuilder('order')
         .where('order.status = :status', { status: StatusOrder.Incourse })
+        .getCount();
+
+      return count;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async countCanceledOrder() {
+    try {
+      const count = await this.orderRepository
+        .createQueryBuilder('order')
+        .where('order.status = :status', { status: StatusOrder.Canceled })
         .getCount();
 
       return count;
