@@ -88,17 +88,6 @@ const actions = {
       }
     } catch (error) {
       console.error("Error deleting category:", error);
-      if (error.response.status == 400) {
-        {
-          Swal.fire({
-            icon: "warning",
-            title: "No information found",
-            text: "",
-            showConfirmButton: false,
-            timer: 2000,
-          });
-        }
-      }
     }
   },
   async updateCategory({ commit }, { categoryId, newData }) {
@@ -122,13 +111,24 @@ const actions = {
       }
     } catch (error) {
       console.error("Error updating category:", error);
-      Swal.fire({
-        icon: "warning",
-        title: "Unable to update category",
-        text: "",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+      if (error.response.status == 400) {
+        Swal.fire({
+          icon: "warning",
+          title: "Please fill in information",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+      if (error.response.status == 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "This category has been added",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     }
   },
 };

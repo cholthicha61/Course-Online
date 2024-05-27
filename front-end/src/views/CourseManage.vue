@@ -126,20 +126,21 @@ export default {
     },
     async deleteCourse(courseId) {
       Swal.fire({
-        title: "คุณต้องการลบคอร์สหรือไม่",
+        title: "Do you want to delete this course?",
+        // text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "ใช่, ต้องการลบ",
-        cancelButtonText: "ยกเลิก",
+        confirmButtonText: "Yes, delete it",
+        cancelButtonText: "Cancel",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("course/deleteCourse", courseId);
           await this.$store.dispatch("course/getCourse");
           Swal.fire({
             icon: "success",
-            title: "ลบคอร์สสำเร็จ",
+            title: "Course deleted successfully",
             // text: "ลบคอร์สสำเร็จ",
             showConfirmButton: false,
             timer: 2000,

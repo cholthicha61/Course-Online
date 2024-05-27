@@ -72,21 +72,20 @@ export default {
       console.log('====================================');
 
       const { isConfirmed } = await Swal.fire({
-        title: "คุณต้องการเปลี่ยนสถานะผู้ใช้หรือไม่",
+        title: "Do you want to update status of user?",
         // text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "ใช่, ต้องการเปลี่ยน",
-        cancelButtonText: "ยกเลิก",
+        confirmButtonText: "Yes, update it",
+        cancelButtonText: "Cancel",
 
       });
-
       if (isConfirmed) {
         await this.$store.dispatch("user/updateStatus", payload);
         Swal.fire({
-          title: "เปลี่ยนสถานะสำเร็จ",
+          title: "Update status of user successfully",
           // text: "เปลี่ยนสถานะสำเร็จ",
           icon: "success",
           showConfirmButton: false,
