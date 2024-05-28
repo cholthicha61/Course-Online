@@ -22,6 +22,7 @@ const actions = {
     formData.append("courseName", addcourse.name);
     formData.append("price", addcourse.price);
     formData.append("description", addcourse.detail);
+    // formData.append("categoryId",addcourse.category);
     formData.append("categoryId", 1);
 
     for (const item of addcourse.images) {

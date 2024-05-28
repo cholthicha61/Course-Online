@@ -1,11 +1,11 @@
 <template>
-  <div class="py-8 px-4 md:px-8">
+  <div class="py-5 px-10 md:px-8">
     <div class="head-course">
       <h1>Dashboard</h1>
       <div
         class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 justify-item-center"
       >
-        <div class="py-8">
+        <div class="py-8 ">
           <button @click="navigateAndRefresh('/usermanage')">
             <DashboardUser />
           </button>

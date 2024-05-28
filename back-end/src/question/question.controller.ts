@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto, CreateQuestionNonLoginDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('question')
 export class QuestionController {
@@ -27,6 +28,7 @@ export class QuestionController {
     }
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   async findAll() {
     return this.questionService.findAll();
@@ -46,7 +48,7 @@ export class QuestionController {
     return this.questionService.remove(+id);
   }
 
-  @Patch(':id')
+  @Patch(':id/status')
   async updateStatus(@Param('id') id: number, @Body() updateQuestionDto: UpdateQuestionDto) {
     return this.questionService.updateStatus(id, updateQuestionDto);
   }

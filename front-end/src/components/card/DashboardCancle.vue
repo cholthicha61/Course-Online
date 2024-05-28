@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="mx-auto w-96 drop-shadow-xl"
+  class="mx-auto w-96 drop-shadow-xl hover:shadow-xl"
     max-width="400"
     style="background-color: #66ccff"
   >
