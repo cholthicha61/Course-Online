@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto w-96 drop-shadow-xl" max-width="500" style="background-color: #38bdf8">
-    <v-card-text class="">
-      <p class="text-h4 font-weight-black text-white mt-1">Confirmed Orders</p>
+    <v-card-text class="flex justify-start">
+      <p class="text-h4 font-weight-black text-white mt-1 ">Confirmed Orders</p>
     </v-card-text>
     <div class="px-8 flex items-center">
       <div class="rounded-full bg-white w-12 h-12 flex items-center justify-center">

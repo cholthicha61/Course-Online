@@ -3,36 +3,36 @@
     <div class="head-course">
       <h1>Dashboard</h1>
       <div
-        class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10"
+        class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 justify-item-center"
       >
-        <div class="">
-          <router-link to="/usermanage">
+        <div class="py-8">
+          <button @click="navigateAndRefresh('/usermanage')">
             <DashboardUser />
-          </router-link>
+          </button>
         </div>
 
-        <div class="">
-          <router-link to="/courseorder">
+        <div class="py-8 ">
+          <button @click="navigateAndRefresh('/courseorder')" class="">
             <DashboarCourse />
-          </router-link>
+          </button>
         </div>
-        
-        <div class="">
-          <router-link to="/inbox">
+
+        <div class="py-8">
+          <button @click="navigateAndRefresh('/inbox')">
             <DashboardInbox />
-          </router-link>
+          </button>
         </div>
 
         <div class="">
-          <router-link to="/allconfrime">
+          <button @click="navigateAndRefresh('/allconfrime')">
             <DashboarConfirme />
-          </router-link>
+          </button>
         </div>
 
         <div class="">
-          <router-link to="/cancle-order">
+          <button @click="navigateAndRefresh('/cancle-order')">
             <DashboardCancle />
-          </router-link>
+          </button>
         </div>
       </div>
     </div>
@@ -51,7 +51,23 @@ export default {
     DashboarCourse,
     DashboarConfirme,
     DashboardInbox,
-    DashboardCancle
+    DashboardCancle,
+  },
+  beforeRouteEnter(to, from, next) {
+    if (to.name === "Dashboard") {
+      next((vm) => {
+        vm.$router.go(0);
+      });
+    } else {
+      next();
+    }
+  },
+  methods: {
+    navigateAndRefresh(route) {
+      this.$router.push(route).then(() => {
+        location.reload();
+      });
+    },
   },
 };
 </script>

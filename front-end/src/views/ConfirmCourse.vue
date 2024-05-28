@@ -141,8 +141,8 @@ export default {
 
         if (orderExists) {
           const { isConfirmed } = await Swal.fire({
-            title: "This course has been purchased",
-            text: "Do you want to buy it again?",
+            title: "This course has already been purchased. Do you want to buy again?",
+            text: `Course name: ${this.course.courseName}\n Price: THB ${this.course.price} `,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -159,7 +159,7 @@ export default {
         } else {
           const { isConfirmed } = await Swal.fire({
             title: "Do you want to buy this course?",
-            text: `Course: ${this.course.courseName}\n Price: ${this.course.price} บาท`,
+            text: `Course name: ${this.course.courseName}\n Price: THB ${this.course.price} `,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",

@@ -289,7 +289,8 @@ export default {
       if (!this.user) {
         Swal.fire({
           icon: "warning",
-          title: "You must login first",
+          title: "You are not logged in yet",
+          text: "You must login first",
           showConfirmButton: true,
           confirmButtonText: "OK",
         });
@@ -302,7 +303,8 @@ export default {
         // Show Sweet Alert if user is not logged in
         Swal.fire({
           icon: "warning",
-          title: "You must login first",
+          title: "You are not logged in yet",
+          text: "You must login first",
           showConfirmButton: true,
           confirmButtonText: "OK",
         });
