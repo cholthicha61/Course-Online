@@ -202,7 +202,7 @@ export default {
         text: "Are you sure to save changes?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonText: "ํYes",
+        confirmButtonText: "Yes",
         cancelButtonText: "No",
       });
 

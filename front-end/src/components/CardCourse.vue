@@ -186,7 +186,7 @@ export default {
     toggleDescription() {
       this.showFullDescription = !this.showFullDescription;
       if (this.showFullDescription) {
-        this.$router.push(`/detailcourse/${course.id}`);
+      this.$router.push(`/detailcourse/${this.course.id}`);
       }
     },
 
