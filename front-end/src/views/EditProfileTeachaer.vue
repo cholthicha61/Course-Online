@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto">
-    <h2 class="text-2xl font-bold text-center my-3">Edit Profile Teacher</h2>
+    <h2 class="text-2xl font-bold text-center my-6">Edit Profile Teacher</h2>
     <div
       class="flex items-center flex-col w-full max-w-lg mx-auto border-gray-200 rounded-lg"
     >
@@ -24,7 +24,7 @@
       </div>
 
       <div class="flex flex-col w-96 m-1">
-        <label class="mb-3 text-gray-700">Email</label>
+        <label class="mb-2 text-gray-700">Email</label>
         <input
           type="email"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
@@ -33,24 +33,15 @@
       </div>
 
       <div class="flex flex-col w-96 m-1">
-        <label class="mb-3 text-gray-700">Phone</label>
+        <label class="mb-2 text-gray-700">Phone</label>
         <input
           type="tel"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
           v-model="teacher.phone"
         />
       </div>
-
-      <!-- <div class="flex flex-col w-96 m-1">
-        <label class="mb-3 text-gray-700">Information</label>
-        <input
-          type="text"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-          v-model="teacher.desc"
-        />
-      </div> -->
       <div class="flex flex-col w-96 m-1">
-        <label class="mb-3 text-gray-700">Information</label>
+        <label class="mb-2 text-gray-700">Information</label>
         <textarea
           id="detail"
           v-model="teacher.desc"
@@ -71,7 +62,7 @@
         </v-file-input>
       </div>
 
-      <div class="flex flex-col w-96">
+      <div class="flex flex-col w-96 py-3">
         <button
           @click="updateUser"
           class="w-full bg-sky-600 text-white font-bold py-2 rounded-md hover:bg-sky-800"

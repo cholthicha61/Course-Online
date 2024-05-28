@@ -15,7 +15,7 @@
       >
     </div>
 
-    <v-data-table-virtual :headers="headers" :items="course" height="500">
+    <v-data-table-virtual :headers="headers" :items="course" height="400">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>

@@ -1,7 +1,7 @@
 <template>
-  <v-card class="mx-auto w-96 drop-shadow-xl" max-width="344" style="background-color: #38bdf8">
+  <v-card class="mx-auto w-96 drop-shadow-xl" max-width="500" style="background-color: #38bdf8">
     <v-card-text class="">
-      <p class="text-h4 font-weight-black text-white mt-1">All Confirmed Orders</p>
+      <p class="text-h4 font-weight-black text-white mt-1">Confirmed Orders</p>
     </v-card-text>
     <div class="px-8 flex items-center">
       <div class="rounded-full bg-white w-12 h-12 flex items-center justify-center">
@@ -16,8 +16,8 @@
     </div>
 
     <v-card-actions class="text-sky-800">
-      <v-btn href="/allconfriem" text="Manage Course"
-        class="absolute top-0 left-48 hover:text-sky-800 hover:bg-sky-200"></v-btn>
+      <v-btn href="/allconfriem" text="View order"
+        class="absolute top-0 left-64 hover:text-sky-800 hover:bg-sky-200"></v-btn>
     </v-card-actions>
   </v-card>
 </template>

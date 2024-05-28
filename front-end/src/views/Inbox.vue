@@ -1,28 +1,27 @@
 <template>
-  <div class="px-8 mt-8">
+  <div class="flex-container px-4 md:px-8 mt-8 flex flex-col ">
     <div class="head-course">
-      <h1>Inbox</h1>
+      <h1 class="text-2xl md:text-4xl">Inbox</h1>
     </div>
-  </div>
-  <div class="mt-9">
-    <v-data-table-virtual :headers="headers" :items="email" height="500">
-      <template #item="{ item, index }">
-        <tr :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>{{ formatDate(item.createdAt) }}</td>
-          <td v-if="item.email == null">
-            {{ item.user ? item.user.email : "N/A" }}
-          </td>
-          <td v-else>{{ item.email }}</td>
-          <td>{{ item.message }}</td>
-          <td class="">
-            <input type="checkbox" id="checkbox" v-model="checked" />
-            <label for="checkbox">{{ checked }}</label>
-            {{ item.status }}
-          </td>
-        </tr>
-      </template>
-    </v-data-table-virtual>
+    <div class="mt-4 md:mt-9 flex-grow">
+      <v-data-table-virtual :headers="headers" :items="email" class="h-full">
+        <template #item="{ item, index }">
+          <tr :key="index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ formatDate(item.createdAt) }}</td>
+            <td v-if="item.email == null">
+              {{ item.user ? item.user.email : "N/A" }}
+            </td>
+            <td v-else>{{ item.email }}</td>
+            <td>{{ item.message }}</td>
+            <td class="status-cell">
+              <input type="checkbox" id="checkbox" v-model="item.checked" />
+              <label for="checkbox">{{ item.status }}</label>
+            </td>
+          </tr>
+        </template>
+      </v-data-table-virtual>
+    </div>
   </div>
 </template>
 
@@ -63,9 +62,12 @@ export default {
 
 <style scoped>
 .head-course h1 {
-  font-size: 30px;
   color: rgb(11, 94, 188);
   border-bottom: 1px solid #d9d9d9;
   font-style: italic;
 }
+.v-data-table-virtual {
+  height: 100%;
+}
+
 </style>

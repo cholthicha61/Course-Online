@@ -129,6 +129,31 @@ const actions = {
       }
     }
   },
+  async checkOrder({ commit }, payload) {
+    console.log("payload", payload);
+    try {
+      const url = `${ENDPOINT.ORDER}/check`;
+      const res = await axios(configAxios("post", url, payload));
+      if (res.status === 200) {
+        return res.data.orderExists; 
+      }
+      return false;
+    } catch (error) {
+      console.log("error  >>> ", error);
+      if (error.response && error.response.status === 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "คอร์สนี้เคยซื้อไปแล้ว",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        return true; // Indicates the order already exists
+      }
+      throw error; // Propagate other errors
+    }
+  },
+  
   async countWaitingOrder({ commit }, payload){
     let url = `${ENDPOINT.ORDER}/count-waiting-order`;
     try {
@@ -148,7 +173,7 @@ const actions = {
     }
   },
   async countCancleOrder({ commit }, payload){
-    let url = `${ENDPOINT.ORDER}/count-incourse-order`;
+    let url = `${ENDPOINT.ORDER}/count-canceled-order`;
     try {
       const res = await axios(configAxios("get", url));
       commit("SET_ORDERCANCLE", res.data);
