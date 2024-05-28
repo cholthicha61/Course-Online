@@ -5,7 +5,7 @@
     max-width="400"
     style="background-color: #22d3ee"
   >
-    <v-card-text class="">
+    <v-card-text class="flex justify-start">
       <p class="text-h4 font-weight-black text-white mt-1">Inbox</p>
     </v-card-text>
     <div class="px-8 flex items-center">
