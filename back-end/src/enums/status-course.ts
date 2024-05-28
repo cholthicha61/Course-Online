@@ -1,6 +1,6 @@
 export enum StatusCourse {
   New = 'New',
-  Recommened = 'Recommened',
+  Recommended  = 'Recommended',
   General = 'General',
   Off = 'Off',
 }

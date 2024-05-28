@@ -1,68 +1,85 @@
 <template>
   <div>
-  <ConfirmCourse
-    :openModal="openModal"
-    :course="itemCourse"
-    :setCloseModal="setCloseModal"
-  />
-  <div>
-    <div></div>
-    <v-container class="head-course">
-      <h1 class="mt-14">Recommended course</h1>
-    </v-container>
-    <v-container>
-      <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="course in recommendedCourses" :key="course.id" fixed>
-          <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="course" :setOpenModal="setOpenModal" />
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container>
+    <ConfirmCourse
+      :openModal="openModal"
+      :course="itemCourse"
+      :setCloseModal="setCloseModal"
+    />
+    <div>
+      <v-container class="head-course">
+        <h1 class="mt-14">Recommended course</h1>
+      </v-container>
+      <v-container>
+        <v-row class="justify-start" no-gutters>
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+            xl="2"
+            v-for="course in recommendedCourses"
+            :key="course.recommended"
+            fixed
+          >
+            <v-sheet class="ma-3 rounded-border">
+              <CardCourse :course="course" :setOpenModal="setOpenModal" />
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-container>
 
-    <v-container class="head-course">
-      <h1>All course</h1>
-    </v-container>
-    <v-container>
-      <div v-for="category in category" :key="category.id">
-        <div v-if="category?.courses && category.courses.length > 0">
-          <v-container class="head">
-            <h1>{{ category.name }}</h1>
-          </v-container>
-          <v-row class="justify-start" no-gutters>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-              lg="3"
-              xl="2"
-              v-for="course in category?.courses"
-              :key="course.id"
-              fixed
-            >
-              <div class="ma-3 rounded-border">
-                <CardCourse :course="course" :setOpenModal="setOpenModal" />
-              </div>
-            </v-col>
-          </v-row>
+      <v-container class="head-course">
+        <h1>All course</h1>
+      </v-container>
+      <v-container>
+        <div v-for="category in category" :key="category.id">
+          <div v-if="category?.courses && category.courses.length > 0">
+            <v-container class="head">
+              <h1>{{ category.name }}</h1>
+            </v-container>
+            <v-row class="justify-start" no-gutters>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+                lg="3"
+                xl="2"
+                v-for="course in category?.courses"
+                :key="course.id"
+                fixed
+              >
+                <div class="ma-3 rounded-border">
+                  <CardCourse :course="course" :setOpenModal="setOpenModal" />
+                </div>
+              </v-col>
+            </v-row>
+          </div>
         </div>
-      </div>
-    </v-container>
-    <v-container class="head-all">
-      <h1>All course</h1>
-    </v-container>
-    <v-container>
-      <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="course in course" :key="course.id" fixed>
-          <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="course" :setOpenModal="setOpenModal" />
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container>
-    <QuestionPopup/>
+      </v-container>
+      <v-container class="head-all">
+        <h1>All course</h1>
+      </v-container>
+      <v-container>
+        <v-row class="justify-start" no-gutters>
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+            xl="2"
+            v-for="course in course"
+            :key="course.id"
+            fixed
+          >
+            <v-sheet class="ma-3 rounded-border">
+              <CardCourse :course="course" :setOpenModal="setOpenModal" />
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-container>
+      <QuestionPopup />
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -70,6 +87,7 @@ import CardCourse from "@/components/CardCourse.vue";
 import { mapState } from "vuex";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
 import QuestionPopup from "./QuestionPopup.vue";
+import { StatusCourse } from "@/constants/enum"; // Ensure this import matches your project structure
 
 export default {
   components: {
@@ -98,14 +116,22 @@ export default {
       category: (state) => state.category.names,
     }),
     recommendedCourses() {
-      return this.course.filter(c => c.status === 'Recommened');
-    }
+      console.log("All Courses:", this.course);
+      const recommended = this.course.filter((c) => {
+        console.log(`Course: ${c.name}, Status: ${c.status}`);
+        return c.status === StatusCourse.Recommended;
+      });
+      console.log("Recommended Courses:", recommended);
+      // Debug log for filtered courses
+      return recommended;
+    },
+    
   },
   async mounted() {
     await this.$store.dispatch("course/getCourse");
     await this.$store.dispatch("category/getCategory");
-    console.log("categorycategorycategory", this.category);
-    console.log("coursecoursecourse", this.course);
+    console.log("Fetched categories:", this.category);
+    console.log("Fetched courses:", this.course);
   },
 };
 </script>

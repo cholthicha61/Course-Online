@@ -37,7 +37,7 @@
       >
         <option value="" disabled>Select status</option>
         <option value="New">New</option>
-        <option value="Recommand">Recommand</option>
+        <option value="Recommended">Recommended</option>
         <option value="General">General</option>
         <option value="off">Off</option>
       </select>
