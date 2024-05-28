@@ -42,7 +42,8 @@ export default {
         { title: "Price", align: "start", value: "price", sortable: true },
         { title: "Action", align: "center" },
       ],
-      // test: [],
+      startDate: "",
+      endDate: "",
     };
   },
   
@@ -61,9 +62,6 @@ export default {
     async getOrder() {
       const payload = { status: StatusOrder.Waiting };
       await this.$store.dispatch("order/getOrder", payload);
-      console.log("ORDER", this.order);
-      // this.test = this.order;
-      // console.log("Orders:", this.test);
     },
     async confirmOrder(orderId) {
       const result = await Swal.fire({
@@ -78,16 +76,40 @@ export default {
       });
 
       if (result.isConfirmed) {
-        const payload = { orderId, status: StatusOrder.Incourse };
-        console.log("Payload:", payload);
-        await this.$store.dispatch("order/confirmOrder", payload);
-        Swal.fire(
-          'Confirmed!',
-          'The order has been confirmed.',
-          'success'
-        ).then(() => {
-          window.location.reload();
+        const { value: formValues } = await Swal.fire({
+          title: 'Enter Start and End Dates',
+          html:
+            '<input id="start-date" type="date" class="swal2-input">' +
+            '<input id="end-date" type="date" class="swal2-input">',
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: 'Submit',
+          cancelButtonText: 'Cancel',
+          preConfirm: () => {
+            return [
+              document.getElementById('start-date').value,
+              document.getElementById('end-date').value,
+              
+            ]
+          }
         });
+
+        if (formValues) {
+          const [startDate, endDate] = formValues;
+          const payload = { orderId, startDate, endDate, status: StatusOrder.Incourse };
+          // this.startDate = formValues[0]; 
+          // this.endDate = formValues[1];   
+          
+          // const payload = { orderId, startDate: this.startDate, endDate: this.endDate, status: StatusOrder.Incourse };
+          await this.$store.dispatch("order/confirmOrder", payload);
+          Swal.fire(
+            'Confirmed!',
+            'The order has been confirmed with the start and end dates.',
+            'success'
+          ).then(() => {
+            window.location.reload();
+          });
+        }
       }
     },
     async rejectOrder(orderId) {
@@ -104,7 +126,6 @@ export default {
 
       if (result.isConfirmed) {
         const payload = { orderId, status: StatusOrder.Canceled };
-        console.log("Payload:", payload);
         await this.$store.dispatch("order/rejectOrder", payload);
         Swal.fire(
           'Rejected!',
