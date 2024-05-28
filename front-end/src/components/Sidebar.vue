@@ -158,7 +158,7 @@
           <router-link to="/teacherprofile" class="px-2 flex space-x-2"
             ><span class="" v-tooltip.right="'teacherprofile'"></span>
             <span class="absolute bottom left-9 px-4" v-show="dataOpenSideBar"
-              >Edit Profile</span
+              >Edit Profile Teacher</span
             ></router-link
           >
           <svg

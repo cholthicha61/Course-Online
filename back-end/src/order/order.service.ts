@@ -44,6 +44,8 @@ export class OrderService {
         status: StatusOrder.Waiting,
         user: findUser,
         course: findCourse,
+        startdate: createOrderDto.startdate,
+        enddate: createOrderDto.enddate,
       });
 
       return await this.orderRepository.save(createOrder);
