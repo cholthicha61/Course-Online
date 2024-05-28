@@ -1,12 +1,12 @@
 <template>
   <div class="container mx-auto px-96 mt-8">
     <div>
-      <button
+      <!-- <button
         class="bg-blue-500 text-white px-4 py-2 rounded -ml-96"
         @click="goToCoursePage"
       >
         Back
-      </button>
+      </button> -->
     </div>
     <h1 class="text-3xl font-bold mb-10 text-left">Add Course</h1>
 

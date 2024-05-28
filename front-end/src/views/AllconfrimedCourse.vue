@@ -67,12 +67,12 @@ export default {
     await this.getOrder();
   },
   methods: {
-    formatDate(startDate) {
-      if (startDate && Date.parse(startDate)) {
-        return new Date(startDate).toLocaleString();
-      } else {
-        return "None";
-      }
+    formatDate(date) {
+      // if (date && Date.parse(date)) {
+        return new Date(date).toLocaleString();
+      // } else {
+        // return "None";
+      // }
     },
     async getOrder() {
       const payload = { status: StatusOrder.Incourse };
