@@ -200,6 +200,7 @@ export default {
 </script>
 
 <style scoped>
+
 .v-card {
   transition: box-shadow 0.3s ease;
 }
@@ -261,4 +262,5 @@ export default {
   padding: 0 16px;
   top: 100px;
 }
+
 </style>
