@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center">
-    <div class="w-100 max-w-screen-lg p-8 bg-stone-200 rounded-lg shadow-lg hover:shadow-xl">
+    <div class="md:w-2/3 lg:w-2/3 w-96 max-w-screen-lg p-8 bg-stone-200 rounded-lg shadow-lg hover:shadow-xl">
       <div class="flex justify-center">
         <div class="w-48 h-48 rounded-full overflow-hidden shadow-xl border-4 transition hover:scale-110 duration-300">
           <img
@@ -24,7 +24,7 @@
             <span class="font-medium text-lg hover:text-gray-400">{{ teacher.phone }}</span>
           </p>
         </div>
-        <p class="text-center text-sm text-gray-600 mt-2 hover:text-gray-400">
+        <p class="text-center text-sm text-gray-600 mt-2 hover:text-gray-400 break-words">
           <b class="">Information: </b> 
           {{ teacher.desc }}
         </p>
