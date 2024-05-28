@@ -1,22 +1,28 @@
 <template>
-  <div>
-    <v-container class="head-course">
-      <h1 class="mt-20">Detail Course</h1>
-    </v-container>
-    <ConfirmCourse
-      :openModal="openModal"
-      :course="itemCourse"
-      :setCloseModal="setCloseModal"
-    />
+  <v-container class="head-course">
+    <h1 class="mt-20">Detail Course</h1>
+  </v-container>
+  <ConfirmCourse
+    :openModal="openModal"
+    :course="itemCourse"
+    :setCloseModal="setCloseModal"
+  />
 
-    <div class="flex flex-row py-2 justify-center">
-      <v-carousel
-        hide-delimiters
-        class="custom-carousel flex"
-        v-if="coursebyid?.images"
-      >
-        <v-carousel-item v-for="(item, i) in coursebyid?.images" :key="i" cover>
-          <v-responsive>
+  <div class="">
+    <div
+      class="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-10"
+    >
+      <div class="ml-52">
+        <v-carousel
+          hide-delimiters
+          class="custom-carousel"
+          v-if="coursebyid?.images"
+        >
+          <v-carousel-item
+            v-for="(item, i) in coursebyid?.images"
+            :key="i"
+            cover
+          >
             <div
               @click="moveImageWrapperLeft(i)"
               class="image-wrapper flex justify-center overflow-hidden border-2 border-gray-300 rounded-lg shadow-lg"
@@ -27,6 +33,7 @@
                 class="max-w-full max-h-full object-contain"
               />
             </div>
+<<<<<<< HEAD
           </v-responsive>
         </v-carousel-item>
         <template v-slot:prev="{ props }">
@@ -64,6 +71,48 @@
       </v-carousel>
 
       <div v-if="coursebyid" class="box-border rounded-lg bg-sky-100 shadow-lg">
+=======
+          </v-carousel-item>
+          <template v-slot:prev="{ props }">
+            <v-btn color="" variant="elevated" @click="props.onClick">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-4 h-4"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </v-btn>
+          </template>
+          <template v-slot:next="{ props }">
+            <v-btn color="" variant="elevated" @click="props.onClick">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-4 h-4"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </v-btn>
+          </template>
+        </v-carousel>
+      </div>
+
+      <div
+        v-if="coursebyid"
+        class="box-border rounded-lg bg-sky-100 shadow-lg sm:justify-center md:justify-center lg:justify-center ml-52"
+      >
+>>>>>>> origin/aor-dev
         <h1 class="text-2xl mx-4 mt-10">
           <strong style="overflow: hidden; word-wrap: break-word">
             <b
@@ -153,10 +202,15 @@
           </div>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
 
     <div class="flex flex-row py-2 justify-center">
       <div v-if="coursebyid" class="w-1/2">
+=======
+
+      <div v-if="coursebyid" class="box-border-detail sm:ml-0 md:ml-0 lg:ml-52">
+>>>>>>> origin/aor-dev
         <div class="p-6 bg-white rounded-lg shadow-md">
           <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
           <p class="text-base mt-2 indent-10 text-wrap">
@@ -166,7 +220,11 @@
       </div>
 
       <div
+<<<<<<< HEAD
         class="box-border-teacher max-w-screen-lg p-12 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl ml-8"
+=======
+        class="box-border-teacher p-8 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl ml-52"
+>>>>>>> origin/aor-dev
       >
         <div class="flex justify-center">
           <div
@@ -206,6 +264,11 @@
       </div>
     </div>
   </div>
+<<<<<<< HEAD
+=======
+
+  <!-- ----------- -->
+>>>>>>> origin/aor-dev
 </template>
 
 <script>
@@ -313,19 +376,24 @@ export default {
   height: 459px;
 }
 
+.box-border-detail {
+  height: 459px;
+  width: 740px;
+}
+
 .box-border-teacher {
-  width: 300px;
-  min-height: 340px;
+  max-width: 300px;
+  height: 340px;
 }
 
 .custom-carousel {
   height: 459px;
-  width: 790px;
+  width: 740px;
 }
 
 .image-wrapper {
   height: 459px;
-  width: 758px;
+  width: 740px;
 }
 
 .head-course h1 {

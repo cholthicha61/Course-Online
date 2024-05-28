@@ -125,17 +125,17 @@ export default {
         });
 
         if (formValues) {
-          const [startDate, endDate] = formValues;
+          const [startdate, enddate] = formValues;
           const payload = {
             orderId,
-            startDate,
-            endDate,
+            startdate,
+            enddate,
             status: StatusOrder.Incourse,
           };
-          // this.startDate = formValues[0];
+          // this.startdate = formValues[0];
           // this.endDate = formValues[1];
 
-          // const payload = { orderId, startDate: this.startDate, endDate: this.endDate, status: StatusOrder.Incourse };
+          // const payload = { orderId, startdate: this.startdate, endDate: this.endDate, status: StatusOrder.Incourse };
           await this.$store.dispatch("order/confirmOrder", payload);
           Swal.fire(
             "Confirmed!",
