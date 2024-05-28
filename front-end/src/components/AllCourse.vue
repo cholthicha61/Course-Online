@@ -1,23 +1,20 @@
-<template lang="">
+<template>
+  <div>
   <ConfirmCourse
     :openModal="openModal"
     :course="itemCourse"
     :setCloseModal="setCloseModal"
   />
   <div>
-    <div>
-   
-    </div>
+    <div></div>
     <v-container class="head-course">
       <h1 class="mt-14">Recommended course</h1>
     </v-container>
-  </div>
-  <div>
     <v-container>
       <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
+        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="course in recommendedCourses" :key="course.id" fixed>
           <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i" :setOpenModal="setOpenModal" />
+            <CardCourse :course="course" :setOpenModal="setOpenModal" />
           </v-sheet>
         </v-col>
       </v-row>
@@ -27,25 +24,20 @@
       <h1>All course</h1>
     </v-container>
     <v-container>
-      <div v-for="item in category">
-        <div v-if="item?.courses && item.courses.length > 0">
+      <div v-for="category in category" :key="category.id">
+        <div v-if="category?.courses && category.courses.length > 0">
           <v-container class="head">
-            <h1>{{ item.name }}</h1>
+            <h1>{{ category.name }}</h1>
           </v-container>
-        </div>
-        <div>
-          <v-row
-            class="justify-start"
-            no-gutters
-            v-if="item?.courses && item.courses.length > 0"
-          >
+          <v-row class="justify-start" no-gutters>
             <v-col
               cols="12"
               sm="6"
               md="4"
               lg="3"
               xl="2"
-              v-for="course in item?.courses"
+              v-for="course in category?.courses"
+              :key="course.id"
               fixed
             >
               <div class="ma-3 rounded-border">
@@ -61,16 +53,16 @@
     </v-container>
     <v-container>
       <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
+        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="course in course" :key="course.id" fixed>
           <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i" :setOpenModal="setOpenModal" />
+            <CardCourse :course="course" :setOpenModal="setOpenModal" />
           </v-sheet>
         </v-col>
       </v-row>
     </v-container>
     <QuestionPopup/>
-
   </div>
+</div>
 </template>
 
 <script>
@@ -78,7 +70,7 @@ import CardCourse from "@/components/CardCourse.vue";
 import { mapState } from "vuex";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
 import QuestionPopup from "./QuestionPopup.vue";
-// import { TYPE_COURSE } from "@/constants/type-course";
+
 export default {
   components: {
     CardCourse,
@@ -89,9 +81,6 @@ export default {
     return {
       openModal: false,
       itemCourse: {},
-
-      // data: [1, 2, 3],
-      // course: [1, 2, 3, 4, 5],
     };
   },
   methods: {
@@ -99,7 +88,6 @@ export default {
       this.itemCourse = item;
       this.openModal = true;
     },
-
     setCloseModal() {
       this.openModal = false;
     },
@@ -109,20 +97,14 @@ export default {
       course: (state) => state.course.course,
       category: (state) => state.category.names,
     }),
-  },
-  watch: {
-    course(newVal) {
-      return newVal
-    },
-    category(newVal) {
-      return newVal
+    recommendedCourses() {
+      return this.course.filter(c => c.status === 'Recommened');
     }
   },
   async mounted() {
     await this.$store.dispatch("course/getCourse");
     await this.$store.dispatch("category/getCategory");
     console.log("categorycategorycategory", this.category);
-
     console.log("coursecoursecourse", this.course);
   },
 };
