@@ -3,21 +3,17 @@
     <div class="head-course">
       <h1>Manage Course</h1>
     </div>
-    <div style="display: flex; justify-content: flex-end; margin-top: 15px">
-      <v-btn
-        @click="goTo('addcourse')"
-        color="#0284C7"
-        class="ma-5"
-        style="color: #fff; text-decoration: none"
-        >Add Course</v-btn
-      >
+  </div>
+  <div>
+    <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+      <v-btn @click="goTo('addcourse')" color="#0284C7" class="ma-5" style="color: #fff; text-decoration: none">Add Course</v-btn>
     </div>
 
     <v-data-table-virtual :headers="headers" :items="course" height="400">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-      <template #item="{ item, index }">
+<template #item="{ item ,index}">
         <tr :key="item.coursename">
           <td class="table-cell bold-header">{{ index + 1 }}</td>
           <td class="table-cell">{{ formatDate(item.createdAt) }}</td>
@@ -55,11 +51,11 @@
             <v-btn color="warning" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
+        
       </template>
-    </v-data-table-virtual>
-  </div>
+</v-data-table-virtual>
+</div>
 </template>
-
 
 <script>
 import { mapState } from "vuex";
@@ -94,9 +90,9 @@ export default {
           value: "description",
           sortable: true,
         },
-        { title: "Price", align: "center", value: "price", sortable: true },
-        { title: "Type", align: "center", value: "status", sortable: true },
-
+        { title: "Price", align: "start", value: "price", sortable: true },
+        { title: "Type", align: "start", value: "priority", sortable: true },
+      
         { title: "Action", align: "center" },
       ],
       courses: [],
@@ -126,21 +122,21 @@ export default {
     },
     async deleteCourse(courseId) {
       Swal.fire({
-        title: "Are you sure you want to delete the course?",
-        text: "You won't be able to revert this!",
+        title: "คุณต้องการลบคอร์สหรือไม่",
+        // text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it",
-        cancelButtonText: "Cancel",
+        confirmButtonText: "ใช่, ต้องการลบ",
+        cancelButtonText: "ยกเลิก",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("course/deleteCourse", courseId);
           await this.$store.dispatch("course/getCourse");
           Swal.fire({
             icon: "success",
-            title: "Course deleted successfully",
+            title: "ลบคอร์สสำเร็จ",
             // text: "ลบคอร์สสำเร็จ",
             showConfirmButton: false,
             timer: 2000,
