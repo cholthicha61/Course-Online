@@ -1,5 +1,5 @@
 <template lang="">
-  <Navbar/>
+  <!-- <Navbar/> -->
   <ConfirmCourse
     :openModal="openModal"
     :course="itemCourse"
