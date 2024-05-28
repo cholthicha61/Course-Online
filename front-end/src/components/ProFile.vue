@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center">
-    <div class="md:w-2/3 lg:w-2/3 w-96 max-w-screen-lg p-8 bg-stone-200 rounded-lg shadow-lg hover:shadow-xl">
+    <div class="md:w-2/3 lg:w-2/3 w-80 lg:max-w-screen-lg p-8 bg-stone-200 rounded-lg shadow-lg hover:shadow-xl">
       <div class="flex justify-center">
         <div class="w-48 h-48 rounded-full overflow-hidden shadow-xl border-4 transition hover:scale-110 duration-300">
           <img
