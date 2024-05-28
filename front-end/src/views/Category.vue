@@ -23,15 +23,15 @@
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
+       <template v-slot:[`item.createdAt`]="{ item }">
+        <p >{{ formatDate(item.createdAt) }}</p>
+      </template>
+
       <template v-slot:[`item.actions`]="{ item }">
-        <v-btn
-          color="blue"
-          @click="updateCategory(item)"
-          style="margin-right: 8px"
-        >
-          Edit
-        </v-btn>
-        <v-btn color="warning" @click="deleteCategory(item.id)">Delete</v-btn>
+        <div class="flex justify-center items-center">
+          <v-btn class="mr-2" color="blue" @click="updateCategory(item)">Edit</v-btn>
+          <v-btn color="warning" @click="deleteCategory(item.id)">Delete</v-btn>
+        </div>
       </template>
     </v-data-table-virtual>
   </div>
@@ -53,8 +53,15 @@ export default {
     return {
       headers: [
         { title: "No.", align: "center", value: "no" ,sortable: true},
+        {
+          title: "CreateAt",
+          align: "center",
+          value: "createdAt",
+          sortable: true,
+        },
         { title: "Category Name", align: "center", value: "name",sortable: true },
         { title: "Actions", align: "center", value: "actions",sortable: true },
+        
       ],
       categorys: [],
       isEditCategory: false,
@@ -75,6 +82,9 @@ export default {
     this.getData();
   },
   methods: {
+    formatDate(date) {
+      return new Date(date).toLocaleString();
+    },
     async getData() {
       const payload = {
         category: true,
@@ -104,7 +114,9 @@ export default {
     onCloseEdit(isClose) {
       this.isEditCategory = false;
     },
+    
   },
+  
 };
 </script>
 
@@ -142,5 +154,4 @@ export default {
 .v-data-table-virtual {
   width: 100%;
 }
-
 </style>

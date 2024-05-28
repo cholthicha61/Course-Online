@@ -143,14 +143,14 @@ const actions = {
       if (error.response && error.response.status === 409) {
         Swal.fire({
           icon: "warning",
-          title: "คอร์สนี้เคยซื้อไปแล้ว",
+          title: "This course has already been purchased",
           text: "",
           showConfirmButton: false,
           timer: 2000,
         });
-        return true; // Indicates the order already exists
+        return true; 
       }
-      throw error; // Propagate other errors
+      throw error; 
     }
   },
   

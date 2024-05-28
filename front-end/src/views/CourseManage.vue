@@ -1,10 +1,8 @@
-<template lang="">
+<template>
   <div class="px-8 mt-8">
     <div class="head-course">
       <h1>Manage Course</h1>
     </div>
-  </div>
-  <div>
     <div style="display: flex; justify-content: flex-end; margin-top: 15px">
       <v-btn
         @click="goTo('addcourse')"
@@ -21,7 +19,7 @@
       </template>
       <template #item="{ item, index }">
         <tr :key="item.coursename">
-          <td class="table-cell">{{ index + 1 }}</td>
+          <td class="table-cell bold-header">{{ index + 1 }}</td>
           <td class="table-cell">{{ formatDate(item.createdAt) }}</td>
           <td class="table-cell">{{ item.courseName }}</td>
           <td class="table-cell" v-if="item.categorys">
@@ -47,20 +45,22 @@
           <td class="table-cell" style="text-align: center">
             {{ item.status }}
           </td>
-          <td class="table-cell" style="text-align: center; min-width: 110px">
+          <td class="table-cell" style="text-align: center; min-width: 220px;">
             <v-btn
-              color="warning"
-              @click="goTo('editcourse', item.id)"
+              color="blue"
+              @click="EditCourse(item.id)"
               style="margin-right: 10px"
               >edit</v-btn
             >
-            <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
+            <v-btn color="warning" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
       </template>
     </v-data-table-virtual>
   </div>
 </template>
+
+
 <script>
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
@@ -71,7 +71,7 @@ export default {
       headers: [
         { title: "No.", align: "start", value: "id" },
         {
-          title: "CreateAt",
+          title: "Date",
           align: "start",
           value: "createdAt",
           sortable: true,
@@ -191,4 +191,5 @@ export default {
   word-wrap: break-word;
   white-space: normal;
 }
+
 </style>

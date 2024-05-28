@@ -37,7 +37,7 @@ export default {
   data: () => ({
     headers: [
       { title: "No.", align: "start", value: "index" },
-      { title: "CreatedAt", align: "start", value: "createdAt", sortable: true },
+      { title: "Date", align: "start", value: "createdAt", sortable: true },
       { title: "First Name", align: "start", value: "fname", sortable: true },
       { title: "Last Name", align: "start", value: "lname", sortable: true },
       { title: "Email", align: "start", value: "email", sortable: true },

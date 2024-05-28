@@ -1,5 +1,5 @@
 <template>
-  <div class="py-8 px-4 md:px-8">
+  <div class="py-8 px-10 md:px-8">
     <div class="head-course">
       <h1>Dashboard</h1>
       <div

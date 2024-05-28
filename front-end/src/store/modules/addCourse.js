@@ -22,17 +22,8 @@ const actions = {
     formData.append("courseName", addcourse.name);
     formData.append("price", addcourse.price);
     formData.append("description", addcourse.detail);
-    // formData.append("status", addcourse.status);
-    // formData.append("categoryId",addcourse.category);
     formData.append("categoryId", 1);
 
-
-    // formData.append("newCategory",addcourse.newCategory);
-    // if (addcourse.images.length > 0) {
-    //   addcourse.images.forEach((image) => {
-    //     formData.append("files", image);
-    //   });
-    // }
     for (const item of addcourse.images) {
       formData.append("files",item)
     }

@@ -1,9 +1,9 @@
 <template>
-  <div class="flex-container px-4 md:px-8 mt-8 flex flex-col ">
+  <div class="flex-container px-10 md:px-8 mt-8 flex flex-col ">
     <div class="head-course">
       <h1 class="text-2xl md:text-4xl">Inbox</h1>
     </div>
-    <div class="mt-4 md:mt-9 flex-grow">
+    <div class="mt-10 md:mt-9 flex-grow">
       <v-data-table-virtual :headers="headers" :items="email" class="h-full">
         <template #item="{ item, index }">
           <tr :key="index">
