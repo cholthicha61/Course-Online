@@ -33,45 +33,6 @@
                 class="max-w-full max-h-full object-contain"
               />
             </div>
-<<<<<<< HEAD
-          </v-responsive>
-        </v-carousel-item>
-        <template v-slot:prev="{ props }">
-          <v-btn color="" variant="elevated" @click="props.onClick">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </v-btn>
-        </template>
-        <template v-slot:next="{ props }">
-          <v-btn color="" variant="elevated" @click="props.onClick">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </v-btn>
-        </template>
-      </v-carousel>
-
-      <div v-if="coursebyid" class="box-border rounded-lg bg-sky-100 shadow-lg">
-=======
           </v-carousel-item>
           <template v-slot:prev="{ props }">
             <v-btn color="" variant="elevated" @click="props.onClick">
@@ -112,7 +73,6 @@
         v-if="coursebyid"
         class="box-border rounded-lg bg-sky-100 shadow-lg sm:justify-center md:justify-center lg:justify-center ml-52"
       >
->>>>>>> origin/aor-dev
         <h1 class="text-2xl mx-4 mt-10">
           <strong style="overflow: hidden; word-wrap: break-word">
             <b
@@ -202,15 +162,8 @@
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-    </div>
-
-    <div class="flex flex-row py-2 justify-center">
-      <div v-if="coursebyid" class="w-1/2">
-=======
 
       <div v-if="coursebyid" class="box-border-detail sm:ml-0 md:ml-0 lg:ml-52">
->>>>>>> origin/aor-dev
         <div class="p-6 bg-white rounded-lg shadow-md">
           <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
           <p class="text-base mt-2 indent-10 text-wrap">
@@ -220,11 +173,7 @@
       </div>
 
       <div
-<<<<<<< HEAD
-        class="box-border-teacher max-w-screen-lg p-12 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl ml-8"
-=======
         class="box-border-teacher p-8 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl ml-52"
->>>>>>> origin/aor-dev
       >
         <div class="flex justify-center">
           <div
@@ -264,11 +213,8 @@
       </div>
     </div>
   </div>
-<<<<<<< HEAD
-=======
 
   <!-- ----------- -->
->>>>>>> origin/aor-dev
 </template>
 
 <script>

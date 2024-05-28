@@ -128,7 +128,8 @@ export class QuestionService {
   async countQuestion() {
     try {
       const count = await this.questionRepository.createQueryBuilder('question')
-      .getCount();
+        .where('question.status = :status', { status: true })
+        .getCount();
 
       return count;
     } catch (error) {
@@ -139,7 +140,7 @@ export class QuestionService {
   async updateStatus(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Omit<Question, 'user'>> {
     try {
       const question = await this.questionRepository.findOne({ where: { id } });
-      
+
       if (!question) {
         throw new HttpException('Question not found', HttpStatus.NOT_FOUND);
       }
@@ -153,7 +154,9 @@ export class QuestionService {
         user: question.user ? { id: question.user.id, email: question.user.email } : null,
       };
 
-      return response;
+      const savedResponse = await this.questionRepository.save(response);
+
+      return savedResponse;
     } catch (error) {
       throw error;
     }

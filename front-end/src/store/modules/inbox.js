@@ -14,6 +14,13 @@ const mutations = {
   },
   SET_QUESTIONS(state, payload) {
     state.questions = payload;
+  },
+  UPDATE_QUESTION_STATUS(state, id) {
+    const question = state.emails.find(email => email.id === id);
+    if (question) {
+      question.status = false;
+      question.answered = true;
+    }
   }
 };
 
@@ -87,7 +94,17 @@ const actions = {
     } catch (error) {
       throw error;
     }
-  }
+  },
+  async updateQuestionStatus({ commit }, payload) {
+    const newPayload = { status: payload.status }
+    const url = `${ENDPOINT.INBOX}/${payload.id}/status`;
+    try {
+      const res = await axios(configAxios("patch", url, newPayload));
+      commit("UPDATE_QUESTION_STATUS", res.data);
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default {

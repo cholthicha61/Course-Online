@@ -197,7 +197,7 @@ export default {
     toggleDescription() {
       this.showFullDescription = !this.showFullDescription;
       if (this.showFullDescription) {
-        this.$router.push(`/guestdetailcourse/${course.id}`);
+        this.$router.push(`/detailcourse/${this.course.id}`);
       }
     },
     formatPrice(price) {

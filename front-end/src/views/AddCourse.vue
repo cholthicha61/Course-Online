@@ -11,7 +11,9 @@
     <h1 class="text-3xl font-bold mb-10 text-left">Add Course</h1>
 
     <div class="mb-4 flex items-center">
-      <label for="name" class="block w-1/4 mr-4">Name:<span class="text-red-500" v-if="!course.name">*</span></label>
+      <label for="name" class="block w-1/4 mr-4"
+        >Name:<span class="text-red-500" v-if="!course.name">*</span></label
+      >
       <input
         type="text"
         id="name"
@@ -20,7 +22,9 @@
       />
     </div>
     <div class="mb-4 flex items-center">
-      <label for="price" class="block w-1/4 mr-4">Price:<span class="text-red-500" v-if="!course.price">*</span></label>
+      <label for="price" class="block w-1/4 mr-4"
+        >Price:<span class="text-red-500" v-if="!course.price">*</span></label
+      >
       <input
         type="text"
         id="price"
@@ -29,7 +33,9 @@
       />
     </div>
     <div class="mb-4 flex items-center">
-      <label for="detail" class="block w-1/4 mr-4">Detail:<span class="text-red-500" v-if="!course.detail">*</span></label>
+      <label for="detail" class="block w-1/4 mr-4"
+        >Detail:<span class="text-red-500" v-if="!course.detail">*</span></label
+      >
       <textarea
         id="detail"
         v-model="course.detail"
@@ -37,7 +43,9 @@
       ></textarea>
     </div>
     <div class="mb-4 flex items-center">
-      <label for="status" class="block w-1/4 mr-4">Status:<span class="text-red-500" v-if="!course.status">*</span></label>
+      <label for="status" class="block w-1/4 mr-4"
+        >Status:<span class="text-red-500" v-if="!course.status">*</span></label
+      >
       <select
         id="status"
         v-model="course.status"
@@ -51,7 +59,11 @@
       </select>
     </div>
     <div class="mb-4 flex items-center">
-      <label for="category" class="block w-1/4 mr-4">Category:<span class="text-red-500" v-if="!course.category">*</span></label>
+      <label for="category" class="block w-1/4 mr-4"
+        >Category:<span class="text-red-500" v-if="!course.category"
+          >*</span
+        ></label
+      >
       <select
         id="category"
         v-model="course.category"
@@ -67,7 +79,11 @@
 
     <div class="mb-2 flex items-center">
       <div class="w-1/4 mr-4">
-        <label class="block">Upload image :<span class="text-red-500" v-if="!course.images.length">*</span></label>
+        <label class="block"
+          >Upload image :<span class="text-red-500" v-if="!course.images.length"
+            >*</span
+          ></label
+        >
       </div>
       <div class="flex items-center ml-13">
         <div
@@ -115,13 +131,17 @@
           </label>
           <div v-for="(item, i) in course.images" :key="i">
             <span class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
-            <img :src="imageUrl" :alt="'Image Preview ' " style="max-width: 100%; height: auto;" />
+            <img
+              :src="imageUrl"
+              :alt="'Image Preview '"
+              style="max-width: 100%; height: auto"
+            />
           </div>
         </div>
       </div>
     </div>
 
-    <div class="flex justify-center mt-5 ml-5">
+    <div class="flex justify-center py-5 mb-8">
       <button
         @click="submitCourse"
         class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800"
@@ -140,7 +160,7 @@
 </template>
 
 <script>
-import axios from "axios";  
+import axios from "axios";
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
 
@@ -181,15 +201,15 @@ export default {
       console.log("Hello event", event);
 
       for (const item of event.target.files) {
-        if (item && item.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.imageUrl = e.target.result;
-        };
-        reader.readAsDataURL(item);
-      } else {
-        this.imageUrl = null;
-      }
+        if (item && item.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.imageUrl = e.target.result;
+          };
+          reader.readAsDataURL(item);
+        } else {
+          this.imageUrl = null;
+        }
         this.course.images.push(item);
       }
       console.log("SSSS", this.course.images);
@@ -235,11 +255,22 @@ export default {
         })
         .catch((error) => {
           console.error("Failed to add course", error);
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Failed to add course!",
-          });
+          if (error.response.status == 409) {
+            Swal.fire({
+              icon: "warning",
+              title: "This course has already been added",
+              text: "",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            return; // ใส่ return เพื่อหยุดการทำงานที่นี่
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Failed to add course!",
+            });
+          }
         });
     },
     goToCoursePage() {
@@ -255,7 +286,6 @@ export default {
         images: [],
       };
       this.$router.push({ name: "coursemanage" });
-
     },
   },
 };

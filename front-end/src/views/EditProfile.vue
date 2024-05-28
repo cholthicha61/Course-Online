@@ -1,10 +1,10 @@
 <template>
   <div class="container mx-auto mt-2 px-4 md:px-16 lg:px-64">
-    <h2 class="text-3xl font-bold text-center mt-8 md:mt-12 lg:mt-24">Edit Profile</h2>
+    <h2 class="text-3xl font-bold text-center mt-18 md:mt-12 lg:mt-24">Edit Profile</h2>
     <div
       class="flex flex-col items-center w-full py-3 border-gray-200 rounded-lg"
     >
-      <div class="flex flex-col mb-2 w-full">
+      <div class="flex flex-col w-96">
         <label class="mb-2 text-gray-700">Firstname</label>
         <input
           type="text"
@@ -14,7 +14,7 @@
         <span class="text-red-600">{{ fnameError }}</span>
       </div>
 
-      <div class="flex flex-col mb-2 w-full">
+      <div class="flex flex-col w-96">
         <label class="mb-2 text-gray-700">Lastname</label>
         <input
           type="text"
@@ -23,7 +23,7 @@
         />
       </div>
 
-      <div class="flex flex-col mb-2 w-full">
+      <div class="flex flex-col w-96">
         <label class="mb-2 text-gray-700">Email</label>
         <input
           type="email"
@@ -32,7 +32,7 @@
         />
       </div>
 
-      <div class="flex flex-col mb-2 w-full">
+      <div class="flex flex-col w-96">
         <label class="mb-2 text-gray-700">
           Password <span class="text-red-600"></span>
         </label>
@@ -44,7 +44,7 @@
         <span class="text-red-600">{{ passwordError }}</span>
       </div>
 
-      <div class="flex flex-col mb-2 w-full">
+      <div class="flex flex-col w-96">
         <label class="mb-2 text-gray-700">
           Confirm password <span class="text-red-600"></span>
         </label>
@@ -56,7 +56,7 @@
         <span class="text-red-600">{{ confirmPasswordError }}</span>
       </div>
 
-      <div class="flex flex-col mb-2 w-full">
+      <div class="flex flex-col mb-2 w-96">
         <label class="mb-2 text-gray-700">Phone</label>
         <input
           type="tel"
@@ -65,7 +65,7 @@
         />
       </div>
 
-      <div class="mt-2 w-full">
+      <div class="mt-2 w-96">
         <button
           @click="updateUser()"
           class="w-full bg-sky-600 text-white font-bold py-2 px-10 rounded-md hover:bg-sky-800"
