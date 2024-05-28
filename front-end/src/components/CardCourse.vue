@@ -13,12 +13,13 @@
       @mouseenter="isHover = true"
       @mouseleave="isHover = false"
       @click="goToDetailPage(course)"
+      
     >
       <div>
         <v-img height="200px" :src="`${img}/${course.courseImage}`" cover>
         </v-img>
 
-        <v-card-text class="mb-10">
+        <v-card-text class="mb-0" style="flex-grow: 1">
           <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
             {{ course.courseName }}
           </h1>
@@ -41,10 +42,10 @@
               >
             </p>
           </div>
-          <div class="text-end">
-            <h2 class="pb-15 pt-5 mt-0">{{ formatPrice(course.price) }}</h2>
-          </div>
         </v-card-text>
+      </div>
+      <div class="price-container text-end">
+        <h2 class="pb-20 mt-0">{{ formatPrice(course.price) }}</h2>
       </div>
       <v-card-btn class="card-buttons">
         <v-btn
@@ -95,7 +96,7 @@
           </template>
         </v-btn>
         <v-btn
-          class="buy-button text-white font-weight-regular"
+          class="btn-buy text-white font-weight-regular"
           style="
             height: 40px;
             display: flex;
@@ -152,7 +153,7 @@ export default {
   },
   methods: {
     goToDetailPage(course) {
-      this.$router.push(`/detailcourse/${course.id}`);
+      this.$router.push(`/detailcourse/${this.course.id}`);
     },
     checkFavorite(course, user) {
       if (course && course.favoriteByUsers && user) {
@@ -185,7 +186,7 @@ export default {
     toggleDescription() {
       this.showFullDescription = !this.showFullDescription;
       if (this.showFullDescription) {
-        this.$router.push(`/detailcourse/${this.course.id}`);
+        this.$router.push(`/detailcourse/${course.id}`);
       }
     },
 
@@ -217,7 +218,7 @@ export default {
 }
 .btn-buy {
   color: #fff;
-  background-color: #098ad0;
+  background-color: #0982c4;
   border-color: #0982c4;
   width: 120px;
 }
@@ -254,5 +255,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.price-container {
+  margin-top: auto;
+  padding: 0 16px;
+  top: 100px;
 }
 </style>

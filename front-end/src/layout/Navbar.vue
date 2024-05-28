@@ -71,7 +71,7 @@ export default {
     const open = ref(false);
     const Links = [
       { name: "Home", link: "/homepage" },
-      { name: "All Course", link: "/allcourse-user" },
+      { name: "All Course", link: "/guestallcourse" },
       { name: "Login", link: "/login" },
       { name: "Register", link: "/register" },
       // { name: "Add Course", link: "/addcourse"}

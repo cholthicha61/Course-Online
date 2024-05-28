@@ -1,5 +1,7 @@
 <template>
+    
   <div>
+    <Navbar />
     <v-container class="head-course">
       <h1 class="mt-20">Detail Course</h1>
     </v-container>
@@ -86,7 +88,7 @@
           <div class="flex justify-center">
             <div class="h-14 w-64 mt-11 rounded-lg bg-sky-900 hover:bg-sky-600">
               <p
-                @click="setOpenModal(coursebyid)"
+                @click="handleBuyClick(coursebyid)"
                 class="text-white font-bold font-sans text-center text-2xl py-3 hover:text-cyan-900"
               >
                 Buy
@@ -209,10 +211,12 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import _ from "lodash";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
 import { mapState } from "vuex";
 import { ENDPOINT } from "@/constants/endpoint";
+import Navbar from "@/layout/Navbar.vue";
 
 export default {
   data() {
@@ -226,10 +230,11 @@ export default {
   },
   components: {
     ConfirmCourse,
+    Navbar,
   },
   computed: {
     ...mapState({
-      favorite: (state) => state.favorite.favorite,
+    //   favorite: (state) => state.favorite.favorite,
       teacher: (state) => state.user.user,
       coursebyid: (state) => state.course.selectedCourse,
     }),
@@ -269,33 +274,39 @@ export default {
       });
     },
     checkFavorite(course, user) {
-      _.map(course?.favoriteByUsers, (fav) => {
-        if (fav?.id == user.id) {
-          this.isFavorite = true;
-        }
-      });
-    },
-    async toggleFavorite(course) {
-      this.isFavorite = !this.isFavorite;
-      const payload = {
-        userId: this.user.id,
-        courseId: course.id,
-      };
-      console.log("toggleFavorite", course);
-
-      if (course?.favoriteByUsers && course.favoriteByUsers.length != 0) {
-        _.map(course?.favoriteByUsers, async (fav) => {
-          if (fav?.id == this.user.id) {
-            console.log("favorite/deleteFavorite");
-            await this.$store.dispatch("favorite/deleteFavorite", payload);
-          } else {
-            console.log("favorite/updateFavorite1");
-            await this.$store.dispatch("favorite/updateFavorite", payload);
+      if (course && course.favoriteByUsers && user) {
+        _.map(course.favoriteByUsers, (fav) => {
+          if (fav && fav.id) {
+            // Check if fav and fav.id are not null before accessing
+            if (fav.id === user.id) {
+              this.isFavorite = true;
+            }
           }
         });
-      } else {
-        console.log("favorite/updateFavorite2");
-        await this.$store.dispatch("favorite/updateFavorite", payload);
+      }
+    },
+    handleBuyClick(course) {
+      if (!this.user) {
+        Swal.fire({
+          icon: "warning",
+          title: "You must login first",
+          showConfirmButton: true,
+          confirmButtonText: "OK",
+        });
+        return;
+      }
+      this.setOpenModal(course);
+    },
+    async toggleFavorite(course) {
+      if (!this.user) {
+        // Show Sweet Alert if user is not logged in
+        Swal.fire({
+          icon: "warning",
+          title: "You must login first",
+          showConfirmButton: true,
+          confirmButtonText: "OK",
+        });
+        return;
       }
     },
     formatPrice(price) {

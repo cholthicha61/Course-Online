@@ -1,15 +1,18 @@
 <template lang="">
+  <Navbar/>
   <ConfirmCourse
     :openModal="openModal"
     :course="itemCourse"
     :setCloseModal="setCloseModal"
   />
+  
   <div>
+    
     <div>
    
     </div>
     <v-container class="head-course">
-      <h1 class="mt-10">Recommended course</h1>
+      <h1 class="mt-14">Recommended course</h1>
     </v-container>
   </div>
   <div>
@@ -17,7 +20,7 @@
       <v-row class="justify-start" no-gutters>
         <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
           <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i" :setOpenModal="setOpenModal" />
+            <CardCourseUnlog :course="i" :setOpenModal="setOpenModal" />
           </v-sheet>
         </v-col>
       </v-row>
@@ -49,7 +52,7 @@
               fixed
             >
               <div class="ma-3 rounded-border">
-                <CardCourse :course="course" :setOpenModal="setOpenModal" />
+                <CardCourseUnlog :course="course" :setOpenModal="setOpenModal" />
               </div>
             </v-col>
           </v-row>
@@ -63,7 +66,7 @@
       <v-row class="justify-start" no-gutters>
         <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
           <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i" :setOpenModal="setOpenModal" />
+            <CardCourseUnlog :course="i" :setOpenModal="setOpenModal" />
           </v-sheet>
         </v-col>
       </v-row>
@@ -74,7 +77,10 @@
 </template>
 
 <script>
+import Navbar from '@/layout/Navbar.vue';
+import Swal from 'sweetalert2';
 import CardCourse from "@/components/CardCourse.vue";
+import CardCourseUnlog from "@/components/CardCourseUnlog.vue";
 import { mapState } from "vuex";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
 import Question from "./Question.vue";
@@ -84,6 +90,8 @@ export default {
     CardCourse,
     ConfirmCourse,
     Question,
+    CardCourseUnlog,
+    Navbar
   },
   data() {
     return {
@@ -96,6 +104,7 @@ export default {
   },
   methods: {
     setOpenModal(item) {
+      
       this.itemCourse = item;
       this.openModal = true;
     },
