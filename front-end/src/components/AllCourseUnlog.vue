@@ -1,10 +1,13 @@
 <template lang="">
+  <Navbar/>
   <ConfirmCourse
     :openModal="openModal"
     :course="itemCourse"
     :setCloseModal="setCloseModal"
   />
+  
   <div>
+    
     <div>
    
     </div>
@@ -74,6 +77,7 @@
 </template>
 
 <script>
+import Navbar from '@/layout/Navbar.vue';
 import Swal from 'sweetalert2';
 import CardCourse from "@/components/CardCourse.vue";
 import CardCourseUnlog from "@/components/CardCourseUnlog.vue";
@@ -87,6 +91,7 @@ export default {
     ConfirmCourse,
     Question,
     CardCourseUnlog,
+    Navbar
   },
   data() {
     return {
