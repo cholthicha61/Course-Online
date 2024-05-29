@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import { mapState } from "vuex";
 
 export default {

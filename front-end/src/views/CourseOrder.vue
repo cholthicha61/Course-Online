@@ -54,7 +54,7 @@ export default {
       headers: [
         { title: "No.", align: "start", value: "index" },
         {
-          title: "CreatedAt",
+          title: "Date",
           align: "start",
           value: "createdAt",
           sortable: true,
@@ -95,58 +95,66 @@ export default {
       await this.$store.dispatch("order/getOrder", payload);
     },
     async confirmOrder(orderId) {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "Do you want to confirm this order?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, confirm it!",
-        cancelButtonText: "Cancel",
+  const result = await Swal.fire({
+    title: "Are you sure?",
+    text: "Do you want to confirm this order?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, confirm it!",
+    cancelButtonText: "Cancel",
+  });
+
+  if (result.isConfirmed) {
+    const { value: formValues } = await Swal.fire({
+      title: "Enter Start and End Dates",
+      html:
+        '<input id="start-date" type="date" class="swal2-input">' +
+        '<input id="end-date" type="date" class="swal2-input">',
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: "Submit",
+      cancelButtonText: "Cancel",
+      preConfirm: () => {
+        return [
+          document.getElementById("start-date").value,
+          document.getElementById("end-date").value,
+        ];
+      },
+    });
+
+    if (formValues) {
+      const [startdate, enddate] = formValues;
+      const confirmPayload = {
+        orderId,
+        startdate,
+        enddate,
+        status: StatusOrder.Incourse,
+      };
+      const dateOrderPayload = {
+        orderId,
+        startdate,
+        enddate
+      };
+
+      // Dispatch confirmOrder and dateOrder simultaneously
+      await Promise.all([
+        this.$store.dispatch("order/confirmOrder", confirmPayload),
+        this.$store.dispatch("order/dateOrder", dateOrderPayload)
+      ]);
+
+      Swal.fire(
+        "Confirmed!",
+        "The order has been confirmed with the start and end dates.",
+        "success"
+      ).then(() => {
+        window.location.reload(); // รีโหลดหน้าหลังจากการยืนยันเสร็จสิ้น
       });
+    }
+  }
+},
 
-      if (result.isConfirmed) {
-        const { value: formValues } = await Swal.fire({
-          title: "Enter Start and End Dates",
-          html:
-            '<input id="start-date" type="date" class="swal2-input">' +
-            '<input id="end-date" type="date" class="swal2-input">',
-          focusConfirm: false,
-          showCancelButton: true,
-          confirmButtonText: "Submit",
-          cancelButtonText: "Cancel",
-          preConfirm: () => {
-            return [
-              document.getElementById("start-date").value,
-              document.getElementById("end-date").value,
-            ];
-          },
-        });
-
-        if (formValues) {
-          const [startdate, enddate] = formValues;
-          const payload = {
-            orderId,
-            startdate,
-            enddate,
-            status: StatusOrder.Incourse,
-          };
-          // this.startdate = formValues[0];
-          // this.endDate = formValues[1];
-
-          // const payload = { orderId, startdate: this.startdate, endDate: this.endDate, status: StatusOrder.Incourse };
-          await this.$store.dispatch("order/confirmOrder", payload);
-          Swal.fire(
-            "Confirmed!",
-            "The order has been confirmed with the start and end dates.",
-            "success"
-          ).then(() => {
-            // window.location.reload();
-          });
-        }
-      }
-    },
     async rejectOrder(orderId) {
       const result = await Swal.fire({
         title: "Are you sure?",
