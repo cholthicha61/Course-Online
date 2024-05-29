@@ -5,8 +5,12 @@
     </div>
 
     <div class="">
-      <AllCourseUnlog />
+      <HomeCourseUnlog />
     </div>
+
+    <!-- <div class="">
+      <AllCourseUnlog />
+    </div> -->
 
     <v-container>
       <div class="head-course">
@@ -28,12 +32,13 @@
 import Banner from "@/components/BanNer.vue";
 import ProfileCard from "../components/ProFile.vue";
 import Question from "@/components/Question.vue";
-import AllCourseUnlog from "@/components/HomeCourseUnlog.vue";
+import HomeCourseUnlog from "@/components/HomeCourseUnlog.vue";
+import AllCourseUnlog from "@/components/AllCourseUnlog.vue";
 export default {
   components: {
     Banner,
     ProfileCard,
-    AllCourseUnlog,
+    HomeCourseUnlog,
     Question
   },
 };

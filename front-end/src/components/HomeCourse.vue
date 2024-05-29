@@ -1,73 +1,58 @@
 <template lang="">
-  <ConfirmCourse
-    :openModal="openModal"
-    :course="itemCourse"
-    :setCloseModal="setCloseModal"
-  />
   <div>
+    <ConfirmCourse
+      :openModal="openModal"
+      :course="itemCourse"
+      :setCloseModal="setCloseModal"
+    />
     <div>
-   
-    </div>
-    <v-container class="head-course">
-      <h1 class="mt-10">Recommended course</h1>
-    </v-container>
-  </div>
-  <div>
-    <v-container>
-      <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
-          <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i" :setOpenModal="setOpenModal" />
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container>
-<!-- 
-    <v-container class="head-course">
-      <h1>All course</h1>
-    </v-container>
-    <v-container>
-      <div v-for="item in category">
-        <div v-if="item?.courses && item.courses.length > 0">
-          <v-container class="head">
-            <h1>{{ item.name }}</h1>
-          </v-container>
-        </div>
-        <div>
-          <v-row
-            class="justify-start"
-            no-gutters
-            v-if="item?.courses && item.courses.length > 0"
+      <!-- Recommended Courses Section -->
+      <v-container class="head-course">
+        <h1 class="mt-10">Recommended course</h1>
+      </v-container>
+      <v-container>
+        <v-row class="justify-start" no-gutters>
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+            xl="2"
+            v-for="course in recommendedCourses"
+            :key="course.id"
+            fixed
           >
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-              lg="3"
-              xl="2"
-              v-for="course in item?.courses"
-              fixed
-            >
-              <div class="ma-3 rounded-border">
-                <CardCourse :course="course" :setOpenModal="setOpenModal" />
-              </div>
-            </v-col>
-          </v-row>
-        </div>
-      </div>
-    </v-container>
-    <v-container class="head-all">
-      <h1>All course</h1>
-    </v-container>
-    <v-container>
-      <v-row class="justify-start" no-gutters>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="i in course" fixed>
-          <v-sheet class="ma-3 rounded-border">
-            <CardCourse :course="i" :setOpenModal="setOpenModal" />
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container> -->
+            <v-sheet class="ma-3 rounded-border">
+              <CardCourse :course="course" :setOpenModal="setOpenModal" />
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <!-- New Courses Section -->
+      <v-container class="head-course">
+        <h1 class="mt-10">New course</h1>
+      </v-container>
+      <v-container>
+        <v-row class="justify-start" no-gutters>
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+            xl="2"
+            v-for="course in newCourses"
+            :key="course.id"
+            fixed
+          >
+            <v-sheet class="ma-3 rounded-border">
+              <CardCourse :course="course" :setOpenModal="setOpenModal" />
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-container>
+
+    </div>
   </div>
 </template>
 
@@ -75,7 +60,7 @@
 import CardCourse from "@/components/CardCourse.vue";
 import { mapState } from "vuex";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
-
+import { StatusCourse } from "@/constants/enum";
 // import { TYPE_COURSE } from "@/constants/type-course";
 export default {
   components: {
@@ -106,14 +91,20 @@ export default {
       course: (state) => state.course.course,
       category: (state) => state.category.names,
     }),
+    recommendedCourses() {
+      return this.course.filter((c) => c.status === StatusCourse.Recommended);
+    },
+    newCourses() {
+      return this.course.filter((c) => c.status === StatusCourse.New);
+    },
   },
   watch: {
     course(newVal) {
-      return newVal
+      return newVal;
     },
     category(newVal) {
-      return newVal
-    }
+      return newVal;
+    },
   },
   async mounted() {
     await this.$store.dispatch("course/getCourse");
