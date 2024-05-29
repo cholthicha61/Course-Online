@@ -149,9 +149,14 @@ export default {
         userId: this.user.id,
         newData: this.user,
       });
+
+      // Update localStorage
+      localStorage.setItem("user", JSON.stringify(this.user));
+
       this.clearForm();
       console.log("User information updated successfully!");
     },
+
     clearForm() {
       this.user = {
         fname: "",
