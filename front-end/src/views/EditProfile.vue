@@ -1,6 +1,8 @@
 <template>
   <div class="container mx-auto mt-2 px-4 md:px-16 lg:px-64">
-    <h2 class="text-3xl font-bold text-center mt-18 md:mt-12 lg:mt-24">Edit Profile</h2>
+    <h2 class="text-3xl font-bold text-center mt-18 md:mt-12 lg:mt-24">
+      Edit Profile
+    </h2>
     <div
       class="flex flex-col items-center w-full py-3 border-gray-200 rounded-lg"
     >
@@ -78,7 +80,7 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -102,11 +104,43 @@ export default {
   },
   methods: {
     async updateUser() {
+      if (
+        !this.user.fname ||
+        !this.user.lname ||
+        !this.user.email ||
+        !this.user.password ||
+        !this.confirmPassword
+      ) {
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please fill in all fields!",
+        });
+        return;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.user.email)) {
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please enter a valid email address!",
+        });
+        return;
+      }
+      const phoneRegex = /^[0-9]{10}$/;
+      if (!phoneRegex.test(this.user.phone)) {
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please enter a valid phone number!",
+        });
+        return;
+      }
       if (this.user.password !== this.confirmPassword) {
         await Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Passwords do not match!',
+          icon: "error",
+          title: "Oops...",
+          text: "Passwords do not match!",
         });
         return;
       }
@@ -115,7 +149,10 @@ export default {
         userId: this.user.id,
         newData: this.user,
       });
-
+      this.clearForm();
+      console.log("User information updated successfully!");
+    },
+    clearForm() {
       this.user = {
         fname: "",
         lname: "",
@@ -124,7 +161,6 @@ export default {
         password: "",
       };
       this.confirmPassword = "";
-      console.log("User information updated successfully!");
     },
   },
   mounted() {
@@ -134,5 +170,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
