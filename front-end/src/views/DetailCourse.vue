@@ -10,12 +10,12 @@
 
   <div class="">
     <div
-      class="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-10"
+      class="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-x-10 py-8"
     >
-      <div class="ml-52">
+      <div class="sm:ml-2 md:ml-7 lg:ml-24 xl:ml-44">
         <v-carousel
           hide-delimiters
-          class="custom-carousel"
+          class="custom-carousel shadow-lg"
           v-if="coursebyid?.images"
         >
           <v-carousel-item
@@ -25,12 +25,12 @@
           >
             <div
               @click="moveImageWrapperLeft(i)"
-              class="image-wrapper flex justify-center overflow-hidden border-2 border-gray-300 rounded-lg shadow-lg"
+              class="image-wrapper flex justify-center overflow-hidden border-2 border-gray-300 rounded-lg"
             >
               <img
                 :src="`${img}/${item.name}`"
                 :alt="`Image ${i + 1}`"
-                class="max-w-full max-h-full object-contain"
+                class="w-full h-full object-contain"
               />
             </div>
           </v-carousel-item>
@@ -71,7 +71,7 @@
 
       <div
         v-if="coursebyid"
-        class="box-border rounded-lg bg-sky-100 shadow-lg sm:justify-center md:justify-center lg:justify-center ml-52"
+        class="box-border rounded-lg bg-sky-100 shadow-lg sm:ml-2 md:ml-8 lg:ml-20 xl:ml-36"
       >
         <h1 class="text-2xl mx-4 mt-10">
           <strong style="overflow: hidden; word-wrap: break-word">
@@ -163,7 +163,10 @@
         </div>
       </div>
 
-      <div v-if="coursebyid" class="box-border-detail sm:ml-0 md:ml-0 lg:ml-52">
+      <div
+        v-if="coursebyid"
+        class="box-border-detail sm:ml-2 md:ml-7 lg:ml-24 xl:ml-44 mt-10"
+      >
         <div class="p-6 bg-white rounded-lg shadow-md">
           <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
           <p class="text-base mt-2 indent-10 text-wrap">
@@ -173,7 +176,7 @@
       </div>
 
       <div
-        class="box-border-teacher p-8 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl ml-52"
+        class="box-border-teacher p-8 bg-sky-100 rounded-lg shadow-lg hover:shadow-xl sm:ml-2 md:ml-8 lg:ml-20 xl:ml-36 mt-10"
       >
         <div class="flex justify-center">
           <div
@@ -206,7 +209,9 @@
               }}</span>
             </p>
           </div>
-          <p class="text-sm text-gray-600 mt-2 hover:text-gray-400 text-wrap break-words">
+          <p
+            class="text-sm text-gray-600 mt-2 hover:text-gray-400 text-wrap break-words"
+          >
             <b> Information: </b> {{ teacher.desc }}
           </p>
         </div>
@@ -317,9 +322,19 @@ export default {
 </script>
 
 <style scoped>
+.head-course h1 {
+  font-size: 30px;
+  color: black;
+  border-bottom: 1px solid #9e9e9e;
+  font-style: italic;
+}
+
+.rounded-border {
+  border-radius: 20px;
+}
 .box-border {
   width: 300px;
-  height: 459px;
+  height: 500px;
 }
 
 .box-border-detail {
@@ -333,23 +348,111 @@ export default {
 }
 
 .custom-carousel {
-  height: 459px;
+  height: 500px;
   width: 740px;
 }
 
 .image-wrapper {
-  height: 459px;
+  height: 500px;
   width: 740px;
 }
 
-.head-course h1 {
-  font-size: 30px;
-  color: black;
-  border-bottom: 1px solid #9e9e9e;
-  font-style: italic;
+@media not all and (min-width: 640px) {
+  .custom-carousel {
+    width: 200px;
+    height: 150px;
+  }
+  .image-wrapper {
+    width: 200px;
+    height: 150px;
+  }
+  .box-border {
+    width: 300px;
+    height: 500px;
+  }
+  .box-border-detail {
+    width: 400px;
+    height: 500px;
+  }
+
+  .box-border-teacher {
+    max-width: 300px;
+    min-height: 300px;
+  }
 }
 
-.rounded-border {
-  border-radius: 20px;
+@media (min-width: 768px) {
+  .custom-carousel {
+    width: 400px;
+    height: 500px;
+  }
+  .image-wrapper {
+    width: 400px;
+    height: 500px;
+  }
+  .box-border {
+    width: 300px;
+    height: 500px;
+  }
+  .box-border-detail {
+    width: 400px;
+    height: 500px;
+  }
+
+  .box-border-teacher {
+    max-width: 300px;
+    min-height: 300px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .custom-carousel {
+    height: 500px;
+    width: 460px;
+  }
+  .image-wrapper {
+    width: 460px;
+    height: 500px;
+  }
+  .box-border {
+    width: 300px;
+    height: 500px;
+  }
+  .box-border-detail {
+    height: 400px;
+    width: 460px;
+  }
+
+  .box-border-teacher {
+    max-width: 300px;
+    min-height: 300px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .box-border {
+    width: 300px;
+    height: 500px;
+  }
+
+  .box-border-detail {
+    height: 459px;
+    width: 600px;
+  }
+
+  .box-border-teacher {
+    max-width: 300px;
+    min-height: 300px;
+  }
+
+  .custom-carousel {
+    height: 500px;
+    width: 600px;
+  }
+
+  .image-wrapper {
+    height: 500px;
+    width: 600px;
+  }
 }
 </style>
