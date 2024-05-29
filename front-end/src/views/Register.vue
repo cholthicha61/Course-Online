@@ -1,89 +1,68 @@
 <template>
-  <div class="container mx-auto mt-24">
+    <div class="mx-auto mt-28 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl">
     <h2 class="text-3xl font-bold text-center">Create Account</h2>
 
     <div
       class="flex items-center flex-col w-full my-8 border-gray-200 rounded-lg"
     >
-      <div class="flex flex-col mb-4">
+      <div class="flex flex-col w-full md:w-96 mb-4">
         <label class="mb-2 text-gray-700">
           First name <span class="text-red-600">*</span>
         </label>
-        <input
-          type="text"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
-          v-model="fname"
-        />
-        <span class="text-red-600">{{ fnameError }}</span>
-      </div>
+          <input type="text" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full" v-model="fname" />
+          <span class="text-red-600">{{ fnameError }}</span>
+        </div>
 
-      <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">
-          Last name <span class="text-red-600">*</span>
-        </label>
-        <input
-          type="text"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
-          v-model="lname"
-        />
-        <span class="text-red-600">{{ lnameError }}</span>
-      </div>
+        <div class="flex flex-col w-full md:w-96 mb-4">
+          <label class="mb-2 text-gray-700">
+            Last name <span class="text-red-600">*</span>
+          </label>
+          <input type="text" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full" v-model="lname" />
+          <span class="text-red-600">{{ lnameError }}</span>
+        </div>
 
-      <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">
-          Email <span class="text-red-600">*</span>
-        </label>
-        <input
-          type="email"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
-          v-model="email"
-        />
-        <span class="text-red-600">{{ emailError }}</span>
-      </div>
+        <div class="flex flex-col w-full md:w-96 mb-4">
+          <label class="mb-2 text-gray-700">
+            Email <span class="text-red-600">*</span>
+          </label>
+          <input type="email" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full" v-model="email" />
+          <span class="text-red-600">{{ emailError }}</span>
+        </div>
 
-      <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">
-          Password <span class="text-red-600">*</span>
-        </label>
-        <input
-          type="password"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
-          v-model="password"
-        />
-        <span class="text-red-600">{{ passwordError }}</span>
-      </div>
+        <div class="flex flex-col w-full md:w-96 mb-4">
+          <label class="mb-2 text-gray-700">
+            Password <span class="text-red-600">*</span>
+          </label>
+          <input type="password" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+            v-model="password" />
+          <span class="text-red-600">{{ passwordError }}</span>
+        </div>
 
-      <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">
-          Confirm password <span class="text-red-600">*</span>
-        </label>
-        <input
-          type="password"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
-          v-model="confirmPassword"
-        />
-        <span class="text-red-600">{{ confirmPasswordError }}</span>
-      </div>
+        <div class="flex flex-col w-full md:w-96 mb-4">
+          <label class="mb-2 text-gray-700">
+            Confirm password <span class="text-red-600">*</span>
+          </label>
+          <input type="password" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+            v-model="confirmPassword" />
+          <span class="text-red-600">{{ confirmPasswordError }}</span>
+        </div>
 
-      <div class="flex flex-col mb-4">
-        <label class="mb-2 text-gray-700">
-          Tel. <span class="text-red-600">*</span>
-        </label>
-        <input
-          type="tel"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
-          v-model="phone"
-        />
-        <span class="text-red-600">{{ phoneError }}</span>
+        <div class="flex flex-col w-full md:w-96 mb-4">
+          <label class="mb-2 text-gray-700">
+            Tel. <span class="text-red-600">*</span>
+          </label>
+          <input type="tel" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full" v-model="phone" />
+          <span class="text-red-600">{{ phoneError }}</span>
+        </div>
+        <div class="flex flex-col w-full md:w-96 mb-4">
+        <button @click="handleSubmit"
+          class="w-full mt-2 md:w-96 mb-4 bg-sky-600 text-white font-bold py-2 px-4 rounded-md hover:bg-sky-800">
+          Create Account
+        </button>
       </div>
-      <button
-        @click="handleSubmit"
-        class="w-96 bg-sky-600 text-white font-bold py-2 px-4 rounded-md hover:bg-sky-800"
-      >
-        Create Account
-      </button>
+      </div>
     </div>
-  </div>
+
 </template>
 
 <script>
