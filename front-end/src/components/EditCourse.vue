@@ -1,4 +1,5 @@
 <template>
+  
   <div class="container mx-auto px-96 mt-8">
     <h1 class="text-3xl font-bold mb-10 text-left">Edit Course</h1>
     <div class="mb-4 flex items-center">
@@ -36,7 +37,7 @@
       >
         <option value="" disabled>Select status</option>
         <option value="New">New</option>
-        <option value="Recommand">Recommand</option>
+        <option value="Recommended">Recommended</option>
         <option value="General">General</option>
         <option value="off">Off</option>
       </select>
@@ -115,7 +116,7 @@
       </div>
     </div>
 
-    <div class="flex justify-center mt-10 ml-10">
+    <div class="flex justify-center py-5 mb-8">
       <button
         @click="confirmSave"
         class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800"
@@ -201,7 +202,7 @@ export default {
         text: "Are you sure to save changes?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonText: "ํYes",
+        confirmButtonText: "Yes",
         cancelButtonText: "No",
       });
 

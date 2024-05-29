@@ -154,7 +154,7 @@ export default {
 .box-price {
   font-size: 24px;
   color: #fc5d19;
-
+  font-weight: bold;
 }
 
 .incourse {

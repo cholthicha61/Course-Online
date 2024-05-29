@@ -1,27 +1,21 @@
-<template lang="">
+<template>
   <div class="px-8 mt-8">
     <div class="head-course">
       <h1>Manage Course</h1>
     </div>
   </div>
   <div>
-    <div style="display: flex; justify-content: flex-end; margin-top: 15px">
-      <v-btn
-        @click="goTo('addcourse')"
-        color="#0284C7"
-        class="ma-5"
-        style="color: #fff; text-decoration: none"
-        >Add Course</v-btn
-      >
+    <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+      <v-btn @click="goTo('addcourse')" color="#0284C7" class="ma-5" style="color: #fff; text-decoration: none">Add Course</v-btn>
     </div>
 
-    <v-data-table-virtual :headers="headers" :items="course" height="500">
+    <v-data-table-virtual :headers="headers" :items="course" height="400">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-      <template #item="{ item, index }">
+<template #item="{ item ,index}">
         <tr :key="item.coursename">
-          <td class="table-cell">{{ index + 1 }}</td>
+          <td class="table-cell bold-header">{{ index + 1 }}</td>
           <td class="table-cell">{{ formatDate(item.createdAt) }}</td>
           <td class="table-cell">{{ item.courseName }}</td>
           <td class="table-cell" v-if="item.categorys">
@@ -41,26 +35,28 @@
               <button @click="showFullDescription(index)" class="text-sky-800">See more</button>
             </span>
           </td>
-          <td class="table-cell" style="text-align: center">
+          <td class="table-cell" style="text-align: start">
             {{ formatPrice(item.price) }}
           </td>
-          <td class="table-cell" style="text-align: center">
+          <td class="table-cell" style="text-align: start">
             {{ item.status }}
           </td>
-          <td class="table-cell" style="text-align: center; min-width: 110px">
+          <td class="table-cell" style="text-align: center; min-width: 220px;">
             <v-btn
-              color="warning"
-              @click="goTo('editcourse', item.id)"
+              color="blue"
+              @click="EditCourse(item.id)"
               style="margin-right: 10px"
               >edit</v-btn
             >
-            <v-btn color="" @click="deleteCourse(item.id)">delete</v-btn>
+            <v-btn color="warning" @click="deleteCourse(item.id)">delete</v-btn>
           </td>
         </tr>
+        
       </template>
-    </v-data-table-virtual>
-  </div>
+</v-data-table-virtual>
+</div>
 </template>
+
 <script>
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
@@ -71,7 +67,7 @@ export default {
       headers: [
         { title: "No.", align: "start", value: "id" },
         {
-          title: "CreateAt",
+          title: "Date",
           align: "start",
           value: "createdAt",
           sortable: true,
@@ -94,9 +90,9 @@ export default {
           value: "description",
           sortable: true,
         },
-        { title: "Price", align: "center", value: "price", sortable: true },
-        { title: "Type", align: "center", value: "status", sortable: true },
-
+        { title: "Price", align: "start", value: "price", sortable: true },
+        { title: "Type", align: "start", value: "priority", sortable: true },
+      
         { title: "Action", align: "center" },
       ],
       courses: [],
@@ -126,21 +122,21 @@ export default {
     },
     async deleteCourse(courseId) {
       Swal.fire({
-        title: "Are you sure you want to delete the course?",
-        text: "You won't be able to revert this!",
+        title: "คุณต้องการลบคอร์สหรือไม่",
+        // text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it",
-        cancelButtonText: "Cancel",
+        confirmButtonText: "ใช่, ต้องการลบ",
+        cancelButtonText: "ยกเลิก",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("course/deleteCourse", courseId);
           await this.$store.dispatch("course/getCourse");
           Swal.fire({
             icon: "success",
-            title: "Course deleted successfully",
+            title: "ลบคอร์สสำเร็จ",
             // text: "ลบคอร์สสำเร็จ",
             showConfirmButton: false,
             timer: 2000,
@@ -191,4 +187,5 @@ export default {
   word-wrap: break-word;
   white-space: normal;
 }
+
 </style>

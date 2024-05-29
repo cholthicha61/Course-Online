@@ -2,7 +2,9 @@
   <div class="pa-4 text-center">
     <v-dialog v-model="dialog" max-width="600" persistent>
       <v-card class="dialog-card">
-        <v-card-title class="dialog-card-title mt-8 ">Confirm your course</v-card-title>
+        <v-card-title class="dialog-card-title mt-8"
+          >Confirm your course</v-card-title
+        >
         <v-card-text class="dialog-card-text">
           <v-row dense class="flex flex-col items-center">
             <v-col cols="12" md="12" sm="6" class=""></v-col>
@@ -50,7 +52,7 @@
             color="primary"
             text="Confirm"
             variant="tonal"
-            @click="showConfirmationDialog"
+            @click="checkOrder"
           ></v-btn>
         </v-card-actions>
       </v-card>
@@ -102,23 +104,84 @@ export default {
       this.setCloseModal();
       this.dialog = false;
     },
-    async showConfirmationDialog() {
-      this.dialog = false;
-      const { isConfirmed } = await Swal.fire({
-        title: "Do you want to buy this course?",
-        text: `Course: ${this.course.courseName}\n Price: ${this.course.price} บาท`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Confirm course purchase",
-        cancelButtonText: "Cancel",
-      });
+    // async showConfirmationDialog() {
+    //   this.dialog = false;
+    //   await this.checkOrder();
+    //   if (this.checkOrderData) {
+    //     const { isConfirmed } = await Swal.fire({
+    //       title: "Do you want to buy this course?",
+    //       text: `Course: ${this.course.courseName}\n Price: ${this.course.price} บาท`,
+    //       icon: "warning",
+    //       showCancelButton: true,
+    //       confirmButtonColor: "#3085d6",
+    //       cancelButtonColor: "#d33",
+    //       confirmButtonText: "Confirm course purchase",
+    //       cancelButtonText: "Cancel",
+    //     });
 
-      if (isConfirmed) {
-        this.createOrder();
-      } else {
-        this.dialog = true;
+    //     if (isConfirmed) {
+    //       this.createOrder();
+    //     } else {
+    //       this.dialog = true;
+    //     }
+    //   }
+    // },
+
+    async checkOrder() {
+      const payload = {
+        courseId: this.course.id,
+        userId: this.userEmail.id,
+      };
+      try {
+        const orderExists = await this.$store.dispatch(
+          "order/checkOrder",
+          payload
+        );
+        this.setClose();
+
+        if (orderExists) {
+          const { isConfirmed } = await Swal.fire({
+            title: "This course has already been purchased. Do you want to buy again?",
+            text: `Course name: ${this.course.courseName}\n Price: THB ${this.course.price} `,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Buy again",
+            cancelButtonText: "Cancel",
+          });
+
+          if (isConfirmed) {
+            this.createOrder();
+          } else {
+            this.dialog = true;
+          }
+        } else {
+          const { isConfirmed } = await Swal.fire({
+            title: "Do you want to buy this course?",
+            text: `Course name: ${this.course.courseName}\n Price: THB ${this.course.price} `,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Confirm course purchase",
+            cancelButtonText: "Cancel",
+          });
+
+          if (isConfirmed) {
+            this.createOrder();
+          } else {
+            this.dialog = true;
+          }
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+        Swal.fire({
+          title: "Error",
+          text: "An unexpected error occurred. Please try again later.",
+          icon: "error",
+          confirmButtonText: "Okay",
+        });
       }
     },
     async createOrder() {
@@ -128,7 +191,6 @@ export default {
       };
 
       await this.$store.dispatch("order/createOrder", payload);
-
       this.setClose();
       console.log("payload : ", payload);
       Swal.fire({
@@ -178,6 +240,6 @@ export default {
 
 .dialog-card-actions {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
 }
 </style>

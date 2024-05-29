@@ -10,12 +10,29 @@
             <tr :key="index">
               <td>{{ index + 1 }}</td>
               <td>{{ formatDate(item.createdAt) }}</td>
+              <td>{{ item.user.email }}</td>
               <td>{{ item.course ? item.course.courseName : "None" }}</td>
-              <td>{{ item.course && item.course.categorys ? item.course.categorys.name : "None" }}</td>
-              <td>{{ item.course ? item.course.price : "None" }}</td>
+              <td>
+                {{
+                  item.course && item.course.categorys
+                    ? item.course.categorys.name
+                    : "None"
+                }}
+              </td>
+              <td>
+                {{ item.course ? formatPrice(item.course.price) : "None" }}
+              </td>
+
               <td style="text-align: center; min-width: 120px">
-                <v-btn color="blue" @click="confirmOrder(item.id)" style="margin-right: 10px">Confirm</v-btn>
-                <v-btn color="warning" @click="rejectOrder(item.id)">Reject</v-btn>
+                <v-btn
+                  color="blue"
+                  @click="confirmOrder(item.id)"
+                  style="margin-right: 10px"
+                  >Confirm</v-btn
+                >
+                <v-btn color="warning" @click="rejectOrder(item.id)"
+                  >Reject</v-btn
+                >
               </td>
             </tr>
           </template>
@@ -36,16 +53,31 @@ export default {
     return {
       headers: [
         { title: "No.", align: "start", value: "index" },
-        { title: "CreatedAt", align: "start", value: "createdAt", sortable: true },
-        { title: "Course Name", align: "start", value: "course.courseName", sortable: true },
-        { title: "Category", align: "start", value: "categorys.name", sortable: true },
+        {
+          title: "CreatedAt",
+          align: "start",
+          value: "createdAt",
+          sortable: true,
+        },
+        { title: "Email", align: "start", value: "email", sortable: true },
+        {
+          title: "Course Name",
+          align: "start",
+          value: "course.courseName",
+          sortable: true,
+        },
+        {
+          title: "Category",
+          align: "start",
+          value: "categorys.name",
+          sortable: true,
+        },
         { title: "Price", align: "start", value: "price", sortable: true },
         { title: "Action", align: "center" },
       ],
-      // test: [],
     };
   },
-  
+
   computed: {
     ...mapState({
       order: (state) => state.order.order,
@@ -61,59 +93,108 @@ export default {
     async getOrder() {
       const payload = { status: StatusOrder.Waiting };
       await this.$store.dispatch("order/getOrder", payload);
-      console.log("ORDER", this.order);
-      // this.test = this.order;
-      // console.log("Orders:", this.test);
     },
     async confirmOrder(orderId) {
       const result = await Swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: "Do you want to confirm this order?",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, confirm it!',
-        cancelButtonText: 'Cancel'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, confirm it!",
+        cancelButtonText: "Cancel",
       });
 
       if (result.isConfirmed) {
-        const payload = { orderId, status: StatusOrder.Incourse };
-        console.log("Payload:", payload);
-        await this.$store.dispatch("order/confirmOrder", payload);
-        Swal.fire(
-          'Confirmed!',
-          'The order has been confirmed.',
-          'success'
-        ).then(() => {
-          window.location.reload();
+        const { value: formValues } = await Swal.fire({
+          title: "Enter Start and End Dates",
+          html:
+            '<input id="start-date" type="date" class="swal2-input">' +
+            '<input id="end-date" type="date" class="swal2-input">',
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: "Submit",
+          cancelButtonText: "Cancel",
+          preConfirm: () => {
+            return [
+              document.getElementById("start-date").value,
+              document.getElementById("end-date").value,
+            ];
+          },
         });
+
+        if (formValues) {
+          const [startdate, enddate] = formValues;
+          const payload = {
+            orderId,
+            startdate,
+            enddate,
+            status: StatusOrder.Incourse,
+          };
+          // this.startdate = formValues[0];
+          // this.endDate = formValues[1];
+
+          // const payload = { orderId, startdate: this.startdate, endDate: this.endDate, status: StatusOrder.Incourse };
+          await this.$store.dispatch("order/confirmOrder", payload);
+          Swal.fire(
+            "Confirmed!",
+            "The order has been confirmed with the start and end dates.",
+            "success"
+          ).then(() => {
+            // window.location.reload();
+          });
+        }
       }
     },
     async rejectOrder(orderId) {
       const result = await Swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: "Do you want to reject this order?",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, reject it!',
-        cancelButtonText: 'Cancel'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, reject it!",
+        cancelButtonText: "Cancel",
       });
 
       if (result.isConfirmed) {
         const payload = { orderId, status: StatusOrder.Canceled };
-        console.log("Payload:", payload);
         await this.$store.dispatch("order/rejectOrder", payload);
-        Swal.fire(
-          'Rejected!',
-          'The order has been rejected.',
-          'success'
-        ).then(() => {
-          window.location.reload();
-        });
+        Swal.fire("Rejected!", "The order has been rejected.", "success").then(
+          () => {
+            window.location.reload();
+          }
+        );
       }
+    },
+    async dateOrder(orderId) {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to reject this order?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, reject it!",
+        cancelButtonText: "Cancel",
+      });
+
+      if (result.isConfirmed) {
+        const payload = { orderId, startdate: startdate, enddate: enddate };
+        await this.$store.dispatch("order/dateOrder", payload);
+        Swal.fire("Rejected!", "The order has been rejected.", "success").then(
+          () => {
+            window.location.reload();
+          }
+        );
+      }
+    },
+    formatPrice(price) {
+      return price
+        .toLocaleString("en-US", { style: "currency", currency: "THB" })
+        .replace("THB", "฿");
     },
   },
 };

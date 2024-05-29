@@ -1,11 +1,11 @@
 <template>
   <v-card
-    class="mx-auto w-96 drop-shadow-xl"
-    max-width="344"
+  class="mx-auto w-96 drop-shadow-xl hover:shadow-xl"
+    max-width="400"
     style="background-color: #66ccff"
   >
-    <v-card-text class="">
-      <p class="text-h4 font-weight-black text-white mt-1">All Canceled Orders</p>
+    <v-card-text class="flex justify-start">
+      <p class="text-h4 font-weight-black text-white mt-1">Canceled Orders</p>
     </v-card-text>
     <div class="px-8 flex items-center">
       <div
@@ -33,8 +33,8 @@
     <v-card-actions class="text-sky-800">
       <v-btn
         href="/cancle-order"
-        text="Manage Course"
-        class="absolute top-0 left-48 hover:text-sky-800 hover:bg-sky-200"
+        text="View order"
+        class="absolute top-0 left-64 hover:text-sky-800 hover:bg-sky-200"
       ></v-btn>
     </v-card-actions>
   </v-card>

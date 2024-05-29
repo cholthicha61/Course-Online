@@ -13,11 +13,12 @@
       @mouseenter="isHover = true"
       @mouseleave="isHover = false"
       @click="goToDetailPage(course)"
-      ><div>
+    >
+      <div>
         <v-img height="200px" :src="`${img}/${course.courseImage}`" cover>
         </v-img>
 
-        <v-card-text>
+        <v-card-text class="mb-0" style="flex-grow: 1;">
           <h1 @click="toggleShadow" :class="{ 'cursor-pointer': !isHover }">
             {{ course.courseName }}
           </h1>
@@ -40,10 +41,10 @@
               >
             </p>
           </div>
-          <div class="text-end">
-            <h2 class="pb-15 pt-5 mt-0">{{ formatPrice(course.price) }} </h2>
-          </div>
         </v-card-text>
+      </div>
+      <div class="price-container text-end">
+        <h2 class="pb-20 mt-0">{{ formatPrice(course.price) }} </h2>
       </div>
       <v-card-btn class="card-buttons">
         <v-btn
@@ -94,7 +95,7 @@
           </template>
         </v-btn>
         <v-btn
-          class="buy-button text-white font-weight-regular "
+          class="btn-buy text-white font-weight-regular"
           style="
             height: 40px;
             display: flex;
@@ -115,6 +116,7 @@ import Swal from "sweetalert2";
 import { ENDPOINT } from "@/constants/endpoint";
 import _ from "lodash";
 import { mapState } from "vuex";
+
 export default {
   name: "CardCourse",
   data() {
@@ -146,8 +148,8 @@ export default {
   mounted() {},
   methods: {
     goToDetailPage(course) {
-  this.$router.push(`/detailcourse/${course.id}`);
-},
+      this.$router.push(`/guestdetailcourse/${this.course.id}`);
+    },
     toggleShadow() {
       this.isHover = !this.isHover;
     },
@@ -155,7 +157,8 @@ export default {
       if (!this.user) {
         Swal.fire({
           icon: "warning",
-          title: "You must login first",
+          title: "You are not logged in yet",
+          text: "You must login first",
           showConfirmButton: true,
           confirmButtonText: "OK",
         });
@@ -182,7 +185,8 @@ export default {
       if (!this.user) {
         Swal.fire({
           icon: "warning",
-          title: "You must login first",
+          title: "You are not logged in yet",
+          text: "You must login first",
           showConfirmButton: true,
           confirmButtonText: "OK",
         });
@@ -205,6 +209,7 @@ export default {
 };
 </script>
 
+
 <style scoped>
 .v-card {
   transition: box-shadow 0.3s ease;
@@ -212,15 +217,15 @@ export default {
 .v-card:hover {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
+.v-card.fixed-height {
+  height: 450px;
+}
 .v-card-text h1 {
   font-weight: bold;
   font-size: 20px;
 }
 .v-card-text h1:hover {
   color: #075985;
-}
-.v-card.fixed-height {
-  height: 450px;
 }
 .btn-buy {
   color: #fff;
@@ -246,10 +251,12 @@ export default {
   align-items: center;
   justify-content: center;
   height: 36px;
-  
 }
 .text-primary {
   color: #098ad0;
+}
+.text-primary2 {
+  color: #00527e;
 }
 .card-buttons {
   position: absolute;
@@ -259,5 +266,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.price-container {
+  margin-top: auto;
+  padding: 0 16px;
+  top: 100px;
 }
 </style>

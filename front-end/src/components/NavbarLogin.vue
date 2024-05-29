@@ -1,7 +1,10 @@
 <template>
-  <nav class="navbar-container">
-    <div class="menu-item" @click="$router.push('/home')"><a>Home</a></div>
-    <div class="menu-item" @click="$router.push('/allcourse')"><a>All Course</a></div>
+  <nav class="navbar-container flex justify-between items-center p-4">
+    <div class="flex items-center">
+      <h1 class="course text-xl font-bold text-sky-800 ">Course-Online</h1>
+      <div class="menu-item cursor-pointer" @click="$router.push('/home')"><a>Home</a></div>
+      <div class="menu-item cursor-pointer" @click="$router.push('/allcourse')"><a>All Course</a></div>
+    </div>
     <DropdownLogin
       class="menu-item dropdown-item"
       :title="userEmail.email"
@@ -54,7 +57,7 @@ export default {
   align-items: center;
   justify-content: flex-end;
   padding: 0.75rem 1rem;
-  height: 4rem; 
+  height: 3.75rem; 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 50;
@@ -88,6 +91,9 @@ export default {
 .dropdown-item {
   padding: 0 1rem;
   position: relative;
+}
+.course {
+  margin-right: 950px;
 }
 
 .dropdown-item .dropdown-menu {

@@ -1,10 +1,10 @@
 <template>
   <v-card
-    class="mx-auto w-96 drop-shadow-xl"
-    max-width="344"
+    class="mx-auto w-96 drop-shadow-xl hover:shadow-xl"
+    max-width="400"
     style="background-color: #818cf8"
   >
-    <v-card-text class="">
+    <v-card-text class="flex justify-start">
       <p class="text-h4 font-weight-black text-white mt-1">User</p>
     </v-card-text>
 
@@ -23,7 +23,9 @@
           />
         </svg>
       </div>
-      <p class="text-4xl hover:text-sky-900 text-sky-100 ml-8">{{ users.count }}</p>
+      <p class="text-4xl hover:text-sky-900 text-sky-100 ml-8">
+        {{ users.count }}
+      </p>
       <p class="text-2xl text-gray-200 ml-4 py-4">user</p>
     </div>
 
@@ -31,45 +33,37 @@
       <v-btn
         href="/usermanage"
         text="Manage User"
-        class="absolute top-0 left-48 hover:text-sky-800 hover:bg-indigo-200"
+        class="absolute top-0 left-56 hover:text-sky-800 hover:bg-indigo-200"
       ></v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { State } from '@amcharts/amcharts5/.internal/core/util/States';
-import { mapState } from 'vuex';
+import { State } from "@amcharts/amcharts5/.internal/core/util/States";
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {};
   },
-  computed:{
+  computed: {
     ...mapState({
       users: (State) => State.user.users,
     }),
   },
-  async mounted(){
+  async mounted() {
     this.countUser();
   },
-  methods:{
-    async countUser(){
+  methods: {
+    async countUser() {
       await this.$store.dispatch("user/countUser");
       console.log(this.users);
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style>
-.v-card:hover {
-  transition: box-shadow 0.3s;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.08);
-}
+<style lang="scss" scoped>
 
-.v-card:hover .rounded-full {
-  transition: transform 0.3s;
-  transform: translateY(-2px);
-}
 </style>
