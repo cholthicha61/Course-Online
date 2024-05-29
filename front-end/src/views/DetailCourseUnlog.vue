@@ -161,7 +161,7 @@
       <div v-if="coursebyid" class="w-1/2">
         <div class="p-6 bg-white rounded-lg shadow-md">
           <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
-          <p class="text-base mt-2 indent-10 text-wrap">
+          <p class="text-base mt-2 indent-10 text-wrap break-words">
             {{ coursebyid.description }}
           </p>
         </div>
@@ -201,7 +201,7 @@
               }}</span>
             </p>
           </div>
-          <p class="text-sm text-gray-600 mt-2 hover:text-gray-400 text-wrap">
+          <p class="text-sm text-gray-600 mt-2 hover:text-gray-400 text-wrap break-words">
             <b> Information: </b> {{ teacher.desc }}
           </p>
         </div>

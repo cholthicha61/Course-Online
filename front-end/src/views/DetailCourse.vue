@@ -169,7 +169,7 @@
       >
         <div class="p-6 bg-white rounded-lg shadow-md">
           <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
-          <p class="text-base mt-2 indent-10 text-wrap">
+          <p class="text-base mt-2 indent-10 text-wrap break-words">
             {{ coursebyid.description }}
           </p>
         </div>
