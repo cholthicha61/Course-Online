@@ -35,7 +35,7 @@
                 </div>
                 <div class="status mt-4 size-auto w-auto">
                   <v-card v-if="item.course" class="status d-flex justify-center align-center h-6"
-                    :class="{ 'incourse': item.status === 'Incourse', 'waiting': item.status === 'Waiting', 'canceled': item.status === 'Canceled' }">
+                    :class="{ 'incourse': item.status === 'Incourse', 'waiting': item.status === 'Waiting', 'endcourse': item.status === 'Endcourse' }">
                     {{ item.status }}
                   </v-card>
                   <v-card v-else></v-card>
@@ -136,8 +136,19 @@ export default {
     filteredOrder() {
       return this.order.filter(item => item.course !== null);
     },
+    // incomeOrders() {
+    //   return this.filteredOrder.filter(item => (item.status === 'Waiting' || item.status === 'Incourse'));
+    // },
     incomeOrders() {
-      return this.filteredOrder.filter(item => (item.status === 'Waiting' || item.status === 'Incourse'));
+      return this.filteredOrder
+        .filter(item => item.status === 'Waiting' || item.status === 'Incourse' || item.status === 'Endcourse')
+        .sort((a, b) => {
+          if (a.status === 'Incourse' && b.status !== 'Incourse') return -1;
+          if (a.status !== 'Incourse' && b.status === 'Incourse') return 1;
+          if (a.status === 'Endcourse' && b.status !== 'Endcourse') return 1;
+          if (a.status !== 'Endcourse' && b.status === 'Endcourse') return -1;
+          return 0;
+        });
     },
     canceledOrders() {
       return this.filteredOrder.filter(item => item.status === 'Canceled');
