@@ -1,4 +1,4 @@
-<template>
+<template lang="">
   <div>
     <ConfirmCourse
       :openModal="openModal"
@@ -6,6 +6,7 @@
       :setCloseModal="setCloseModal"
     />
     <div>
+      <!-- Recommended Courses Section -->
       <v-container class="head-course">
         <h1 class="mt-14">Recommended course</h1>
       </v-container>
@@ -18,7 +19,7 @@
             lg="3"
             xl="2"
             v-for="course in recommendedCourses"
-            :key="course.recommended"
+            :key="course.id"
             fixed
           >
             <v-sheet class="ma-3 rounded-border">
@@ -28,6 +29,30 @@
         </v-row>
       </v-container>
 
+      <!-- New Courses Section -->
+      <v-container class="head-course">
+        <h1 class="mt-14">New course</h1>
+      </v-container>
+      <v-container>
+        <v-row class="justify-start" no-gutters>
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+            xl="2"
+            v-for="course in newCourses"
+            :key="course.id"
+            fixed
+          >
+            <v-sheet class="ma-3 rounded-border">
+              <CardCourse :course="course" :setOpenModal="setOpenModal" />
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <!-- All Courses Section by Category -->
       <v-container class="head-course">
         <h1>All course</h1>
       </v-container>
@@ -56,6 +81,8 @@
           </div>
         </div>
       </v-container>
+
+      <!-- All Courses Section -->
       <v-container class="head-all">
         <h1>All course</h1>
       </v-container>
@@ -77,6 +104,7 @@
           </v-col>
         </v-row>
       </v-container>
+
       <QuestionPopup />
     </div>
   </div>
@@ -116,22 +144,15 @@ export default {
       category: (state) => state.category.names,
     }),
     recommendedCourses() {
-      console.log("All Courses:", this.course);
-      const recommended = this.course.filter((c) => {
-        console.log(`Course: ${c.name}, Status: ${c.status}`);
-        return c.status === StatusCourse.Recommended;
-      });
-      console.log("Recommended Courses:", recommended);
-      // Debug log for filtered courses
-      return recommended;
+      return this.course.filter((c) => c.status === StatusCourse.Recommended);
     },
-    
+    newCourses() {
+      return this.course.filter((c) => c.status === StatusCourse.New);
+    },
   },
   async mounted() {
     await this.$store.dispatch("course/getCourse");
     await this.$store.dispatch("category/getCategory");
-    console.log("Fetched categories:", this.category);
-    console.log("Fetched courses:", this.course);
   },
 };
 </script>

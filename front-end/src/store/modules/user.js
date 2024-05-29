@@ -104,7 +104,7 @@ const actions = {
       if (res.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "Profile Teacher edited successfully",
+          title: "Profile edited successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
