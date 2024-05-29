@@ -40,6 +40,7 @@
 <script>
 import { mapState } from "vuex";
 import { StatusOrder } from "@/constants/enum";
+import moment from "moment";
 
 export default {
   data() {
@@ -82,7 +83,8 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return new Date(date).toLocaleString();
+      const newDate = moment(date).add(7, 'hour').format('DD MMMM YYYY, hh:mm:ss a')
+      return newDate  
     },
     async getOrder() {
       const payload = {
