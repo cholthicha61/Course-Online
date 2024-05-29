@@ -114,18 +114,18 @@
 <script>
 import CardOrder from "@/components/CardOrder.vue";
 import { ENDPOINT } from "@/constants/endpoint";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 import QuestionPopup from "@/components/QuestionPopup.vue";
 export default {
   components: {
     CardOrder,
-    QuestionPopup
+    QuestionPopup,
   },
   data() {
     return {
       img: ENDPOINT.IMG,
       showFullDescription: false,
-    }
+    };
   },
   computed: {
     ...mapState({
@@ -157,7 +157,7 @@ export default {
 
     async getOrder() {
       // ดึงข้อมูล userId จาก Local Storage
-      const userDataString = localStorage.getItem('user');
+      const userDataString = localStorage.getItem("user");
 
       // ตรวจสอบว่า userDataString มีค่าหรือไม่
       if (userDataString) {
@@ -169,31 +169,37 @@ export default {
 
         // ตรวจสอบว่า id มีค่าหรือไม่
         if (id) {
-          console.log('User ID:', id);
+          console.log("User ID:", id);
           const payload = {
-            userId: userData.id
-          }
+            userId: userData.id,
+          };
           await this.$store.dispatch("order/getOrder", payload);
           console.log("Order:", this.order);
-
         } else {
-          console.log('User ID not found in userData');
+          console.log("User ID not found in userData");
         }
       } else {
-        console.log('User data not found in Local Storage');
+        console.log("User data not found in Local Storage");
       }
     },
     toggleDescription(item) {
       item.showFullDescription = !item.showFullDescription;
+      if (item.showFullDescription) {
+        this.$router.push(`/detailcourse/${item.course.id}`);
+      }
     },
     truncatedDescription(description) {
-      return description.length > 100 ? description.slice(0, 100) + '...' : description;
+      return description.length > 100
+        ? description.slice(0, 100) + "..."
+        : description;
     },
     formatPrice(price) {
-      return price.toLocaleString('en-US', { style: 'currency', currency: 'THB' }).replace('THB', '฿')
+      return price
+        .toLocaleString("en-US", { style: "currency", currency: "THB" })
+        .replace("THB", "฿");
     },
   },
-}
+};
 </script>
 
 <style scoped>
