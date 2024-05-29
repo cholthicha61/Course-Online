@@ -23,7 +23,7 @@
             fixed
           >
             <v-sheet class="ma-3 rounded-border">
-              <CardCourse :course="course" :setOpenModal="setOpenModal" />
+              <CardCourseUnlog :course="course" :setOpenModal="setOpenModal" />
             </v-sheet>
           </v-col>
         </v-row>
@@ -46,7 +46,7 @@
             fixed
           >
             <v-sheet class="ma-3 rounded-border">
-              <CardCourse :course="course" :setOpenModal="setOpenModal" />
+              <CardCourseUnlog :course="course" :setOpenModal="setOpenModal" />
             </v-sheet>
           </v-col>
         </v-row>
@@ -74,7 +74,7 @@
                 fixed
               >
                 <div class="ma-3 rounded-border">
-                  <CardCourse :course="course" :setOpenModal="setOpenModal" />
+                  <CardCourseUnlog :course="course" :setOpenModal="setOpenModal" />
                 </div>
               </v-col>
             </v-row>
@@ -113,7 +113,7 @@
 <script>
 import Navbar from '@/layout/Navbar.vue';
 import Swal from 'sweetalert2';
-import CardCourse from "@/components/CardCourse.vue";
+// import CardCourse from "@/components/CardCourse.vue";
 import CardCourseUnlog from "@/components/CardCourseUnlog.vue";
 import { mapState } from "vuex";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
@@ -122,7 +122,6 @@ import { StatusCourse } from "@/constants/enum";
 // import { TYPE_COURSE } from "@/constants/type-course";
 export default {
   components: {
-    CardCourse,
     ConfirmCourse,
     Question,
     CardCourseUnlog,
