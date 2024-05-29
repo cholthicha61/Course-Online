@@ -99,7 +99,7 @@
             fixed
           >
             <v-sheet class="ma-3 rounded-border">
-              <CardCourse :course="course" :setOpenModal="setOpenModal" />
+              <CardCourseUnlog :course="course" :setOpenModal="setOpenModal" />
             </v-sheet>
           </v-col>
         </v-row>
