@@ -11,8 +11,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Order } from "src/order/entities/order.entity";
-import { Question } from "src/question/entities/question.entity";
+import { Order } from 'src/order/entities/order.entity';
+import { Question } from 'src/question/entities/question.entity';
 import { Image } from 'src/image/entities/image.entity';
 import { Course } from 'src/course/entities/course.entity';
 
@@ -36,6 +36,15 @@ export class User extends BaseEntity {
   @Column({ default: true })
   active: boolean;
 
+  @Column({ nullable: true })
+  linkFacebook: string;
+
+  @Column({ nullable: true })
+  linkLine: string;
+
+  @Column({ nullable: true })
+  linkEmail: string;
+
   @ManyToOne(() => Role, (role) => role.user)
   @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
   roles: Role;
@@ -58,7 +67,7 @@ export class User extends BaseEntity {
     inverseJoinColumn: { name: 'fav_course_id', referencedColumnName: 'id' },
   })
   favoriteCourses: Course[];
-  
+
   @Column({ nullable: true })
   desc: string;
 
