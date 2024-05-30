@@ -59,6 +59,20 @@ export default {
   },
   methods: {
     async saveCategory() {
+      const trimmedName = this.name.trim();
+      
+      if (!trimmedName) {
+        this.dialog = false;
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Category name cannot be empty or just spaces!",
+        });
+        return;
+      }
+      const payload = {
+        name: trimmedName,
+      };
       await this.$store.dispatch("category/updateCategory", {
         categoryId: this.selectCategory.id,
         newData: {
