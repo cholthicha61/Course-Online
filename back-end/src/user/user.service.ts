@@ -163,6 +163,15 @@ export class UserService {
   async update(id: number, updateUserDto: UpdateUserDto, roleId: number) {
     try {
       const user = await this.findOneWithPassword(id);
+      const findByEmail = await this.userRepository.findOne({
+        where: {
+          email: updateUserDto.email,
+        },
+      });
+
+      if (!_.isEmpty(findByEmail)) {
+        throw new HttpException('email already exists', HttpStatus.CONFLICT);
+      }
 
       const findRole = await this.roleRepository.findOne({
         where: {
@@ -198,6 +207,15 @@ export class UserService {
 
   async updateTeacherProfile(file, updateTeacherDto: UpdateTeacherDto) {
     try {
+      const findByEmail = await this.userRepository.findOne({
+        where: {
+          email: updateTeacherDto.email,
+        },
+      });
+
+      if (!_.isEmpty(findByEmail)) {
+        throw new HttpException('email already exists', HttpStatus.CONFLICT);
+      }
       const teacher = await this.userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.roles', 'roles')
@@ -227,6 +245,15 @@ export class UserService {
 
   async updateTeacherProfileNonImage(updateTeacherDto: UpdateTeacherDto) {
     try {
+      const findByEmail = await this.userRepository.findOne({
+        where: {
+          email: updateTeacherDto.email,
+        },
+      });
+
+      if (!_.isEmpty(findByEmail)) {
+        throw new HttpException('email already exists', HttpStatus.CONFLICT);
+      }
       const teacher = await this.userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.roles', 'roles')
