@@ -9,7 +9,7 @@
       <template #item="{ item, index }">
         <tr :key="index">
           <td class="table-cell">{{ index + 1 }}</td>
-          <td class="table-cell">{{ formatDate(item.createdAt) }}</td>
+          <td class="table-cell">{{ formatDate(item.cancelDate) }}</td>
           <td>{{ item.user.email }}</td>
           <td class="table-cell">{{ item.course ? item.course.courseName : "None" }}</td>
           <td class="table-cell">
@@ -35,9 +35,9 @@ export default {
       headers: [
         { title: "No.", align: "start", value: "index" },
         {
-          title: "CreatedAt",
+          title: "Canceled Date",
           align: "start",
-          value: "createdAt",
+          value: "cancleDate",
           sortable: true,
         },
         { title: "Email", align: "start", value: "email", sortable: true },
@@ -69,13 +69,14 @@ export default {
   },
   methods: {
     formatDate(date) {
-      const newDate = moment(date).add(7, 'hour').format('DD MMMM YYYY, hh:mm:ss a')
-      return newDate  
+      const newDate = moment(date)
+        .add(7, "hour")
+        .format("DD MMMM YYYY, hh:mm:ss a");
+      return newDate;
     },
     async getOrder() {
       const payload = {
         status: StatusOrder.Canceled,
-
       };
       await this.$store.dispatch("order/getOrder", payload);
       console.log("orderorderorder", this.order);

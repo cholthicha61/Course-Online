@@ -87,6 +87,7 @@ export class OrderService {
         findAllOrders.orderBy('order.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`);
       }
       findAllOrders.orderBy('order.confirmDate', 'DESC');
+      findAllOrders.orderBy('order.cancelDate', 'DESC');
       if (keyword?.limit) {
         findAllOrders.take(+keyword?.limit);
       }
@@ -175,6 +176,10 @@ export class OrderService {
       if (currentStatus === StatusOrder.Waiting && newStatus === StatusOrder.Incourse) {
         order.confirmDate = new Date(); // set to the current date
       }
+      if (currentStatus === StatusOrder.Waiting && newStatus === StatusOrder.Canceled) {
+        order.cancelDate = new Date(); // set to the current date
+      }
+  
   
       return await this.orderRepository.save(order);
     } catch (error) {

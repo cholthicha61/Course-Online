@@ -1,64 +1,68 @@
 <template>
-  <div class="px-8 mt-8">
-    <div class="head-course">
-      <h1>Inbox</h1>
+  <div>
+    <div class="px-8 mt-8">
+      <div class="head-course">
+        <h1>Inbox</h1>
+      </div>
     </div>
-  </div>
-  <div class="mt-9">
-    <v-data-table-virtual :headers="headers" :items="email" height="500">
-      <template #item="{ item, index }">
-        <tr :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>{{ formatDate(item.createdAt) }}</td>
-          <td v-if="item.email == null">
-            {{ item.user ? item.user.email : "N/A" }}
-          </td>
-          <td v-else>{{ item.email }}</td>
-          <td>
-            {{
-              item.message.length > 50
-                ? `${item.message.substring(0, 50)}...`
-                : item.message
-            }}
-            <template v-if="item.message.length > 50">
-              <span class="text-sky-800" @click="showFullMessage(item.message)" 
-                >See more</span
-              >
-            </template>
-          </td>
-          <td class="action-column">
-            <div class="action-buttons">
-              <template v-if="!item.answered && item.status">
-                <v-btn color="blue" @click="answer(item.id)">Answer</v-btn>
-              </template>
-              <template v-else>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="#1E90FF"
-                  class="w-6 h-6 icon"
+    <div class="mt-9">
+      <v-data-table-virtual :headers="headers" :items="email" height="500">
+        <template #item="{ item, index }">
+          <tr :key="index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ formatDate(item.createdAt) }}</td>
+            <td v-if="item.email == null">
+              {{ item.user ? item.user.email : "N/A" }}
+            </td>
+            <td v-else>{{ item.email }}</td>
+            <td>
+              {{
+                item.message.length > 50
+                  ? `${item.message.substring(0, 50)}...`
+                  : item.message
+              }}
+              <template v-if="item.message.length > 50">
+                <span
+                  class="text-sky-800"
+                  @click="showFullMessage(item.message)"
+                  >See more</span
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
               </template>
-            </div>
-          </td>
-        </tr>
-      </template>
-    </v-data-table-virtual>
+            </td>
+            <td class="action-column">
+              <div class="action-buttons">
+                <template v-if="!item.answered && item.status">
+                  <v-btn color="blue" @click="answer(item.id)">Answer</v-btn>
+                </template>
+                <template v-else>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="#1E90FF"
+                    class="w-6 h-6 icon"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </template>
+              </div>
+            </td>
+          </tr>
+        </template>
+      </v-data-table-virtual>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import _ from "lodash";
 import Swal from "sweetalert2";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiCheckboxMarkedOutline } from "@mdi/js";
+
 export default {
   components: {
     SvgIcon,
@@ -80,7 +84,7 @@ export default {
     }),
   },
   async mounted() {
-    this.getQuestion();
+    await this.getQuestion();
   },
   methods: {
     formatDate(date) {
@@ -95,7 +99,9 @@ export default {
     },
     async getQuestion() {
       await this.$store.dispatch("inbox/getQuestion");
-      this.email = this.emails;
+      this.email = this.emails
+        .map((item, index) => ({ ...item, index: index + 1 }))
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       console.log("Fetched emails:", this.email);
     },
     async answer(id) {
