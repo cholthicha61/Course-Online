@@ -24,7 +24,7 @@ export class UserService {
     private roleRepository: Repository<Role>,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>
-  ) { }
+  ) {}
   async create(createUserDto: CreateUserDto) {
     try {
       const findByEmail = await this.userRepository.findOne({
@@ -72,8 +72,7 @@ export class UserService {
     try {
       console.log('keyword', keyword);
 
-      const findAllUsers = await this.userRepository
-        .createQueryBuilder('user')
+      const findAllUsers = await this.userRepository.createQueryBuilder('user');
       // .leftJoinAndSelect('user.favoriteCourses', 'favoriteCourses')
       // .leftJoinAndSelect('user.orders', 'orders')
 
@@ -129,7 +128,7 @@ export class UserService {
         relations: {
           questions: true,
           roles: true,
-          favoriteCourses: true
+          favoriteCourses: true,
         },
       });
       if (!user) {
@@ -184,7 +183,7 @@ export class UserService {
         updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
         user.password = updateUserDto.password;
       }
-      
+
       user.roles = findRole;
 
       console.log('user', user);
@@ -199,7 +198,8 @@ export class UserService {
 
   async updateTeacherProfile(file, updateTeacherDto: UpdateTeacherDto) {
     try {
-      const teacher = await this.userRepository.createQueryBuilder('user')
+      const teacher = await this.userRepository
+        .createQueryBuilder('user')
         .leftJoinAndSelect('user.roles', 'roles')
         .where('roles.name = :roleName', { roleName: RolesUser.Teacher })
         .getOne();
@@ -213,6 +213,9 @@ export class UserService {
       teacher.phone = updateTeacherDto.phone;
       teacher.email = updateTeacherDto.email;
       teacher.desc = updateTeacherDto.desc;
+      teacher.linkFacebook = updateTeacherDto.linkFacebook;
+      teacher.linkLine = updateTeacherDto.linkLine;
+      teacher.linkEmail = updateTeacherDto.linkEmail;
 
       const updateTeacher = await this.userRepository.save(teacher);
 
@@ -224,7 +227,8 @@ export class UserService {
 
   async updateTeacherProfileNonImage(updateTeacherDto: UpdateTeacherDto) {
     try {
-      const teacher = await this.userRepository.createQueryBuilder('user')
+      const teacher = await this.userRepository
+        .createQueryBuilder('user')
         .leftJoinAndSelect('user.roles', 'roles')
         .where('roles.name = :roleName', { roleName: RolesUser.Teacher })
         .getOne();
@@ -238,6 +242,9 @@ export class UserService {
       teacher.phone = updateTeacherDto.phone;
       teacher.email = updateTeacherDto.email;
       teacher.desc = updateTeacherDto.desc;
+      teacher.linkFacebook = updateTeacherDto.linkFacebook;
+      teacher.linkLine = updateTeacherDto.linkLine;
+      teacher.linkEmail = updateTeacherDto.linkEmail;
 
       const updateTeacher = await this.userRepository.save(teacher);
 
@@ -249,7 +256,8 @@ export class UserService {
 
   async getTeacherProfile() {
     try {
-      const teacher = await this.userRepository.createQueryBuilder('user')
+      const teacher = await this.userRepository
+        .createQueryBuilder('user')
         .leftJoinAndSelect('user.roles', 'roles')
         .where('roles.name = :roleName', { roleName: RolesUser.Teacher })
         .getOne();
@@ -261,12 +269,10 @@ export class UserService {
       // return await this.userRepository.save(teacher);
       const { password, ...teacherProfile } = teacher;
       return teacherProfile;
-
     } catch (error) {
       throw error;
     }
   }
-
 
   async markCourseAsFavorite(userId: number, courseId: number): Promise<void> {
     try {
@@ -309,7 +315,7 @@ export class UserService {
       const course = await this.courseRepository.findOne({
         where: { id: courseId },
         relations: {
-          favoriteByUsers: true
+          favoriteByUsers: true,
         },
       });
 
@@ -329,10 +335,10 @@ export class UserService {
   async getFavoriteCourses(userId: number): Promise<Course[]> {
     try {
       const user = await this.userRepository
-        .createQueryBuilder("user")
-        .leftJoinAndSelect("user.favoriteCourses", "favoriteCourses")
-        .leftJoinAndSelect("favoriteCourses.favoriteByUsers", "favoriteByUsers")
-        .where("user.id = :userId", { userId })
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.favoriteCourses', 'favoriteCourses')
+        .leftJoinAndSelect('favoriteCourses.favoriteByUsers', 'favoriteByUsers')
+        .where('user.id = :userId', { userId })
         .getOne();
 
       if (!user) {
@@ -364,7 +370,8 @@ export class UserService {
 
   async countUser(): Promise<number> {
     try {
-      const count = await this.userRepository.createQueryBuilder('user')
+      const count = await this.userRepository
+        .createQueryBuilder('user')
         .leftJoin('user.roles', 'roles')
         .where('roles.name = :roleName', { roleName: RolesUser.User })
         .getCount();
