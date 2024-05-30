@@ -35,7 +35,7 @@ const actions = {
       console.log("error  >>> ", error);
       if (error.response.status == 401){
         Swal.fire({
-          icon: "warning",
+          icon: "error",
           title: "Password incorrect ",
           text: "",
           showConfirmButton: false,

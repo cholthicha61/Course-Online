@@ -35,10 +35,10 @@
               <button @click="showFullDescription(index)" class="text-sky-800">See more</button>
             </span>
           </td>
-          <td class="table-cell" style="text-align: center">
+          <td class="table-cell" style="text-align: start">
             {{ formatPrice(item.price) }}
           </td>
-          <td class="table-cell" style="text-align: center">
+          <td class="table-cell" style="text-align: start">
             {{ item.status }}
           </td>
           <td class="table-cell" style="text-align: center; min-width: 220px;">

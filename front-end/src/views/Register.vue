@@ -5,13 +5,13 @@
     <div
       class="flex items-center flex-col w-full my-8 border-gray-200 rounded-lg"
     >
-      <div class="flex flex-col mb-4">
+      <div class="flex flex-col mb-4 w-full sm:w-96">
         <label class="mb-2 text-gray-700">
           First name <span class="text-red-600">*</span>
         </label>
         <input
           type="text"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="fname"
         />
         <span class="text-red-600">{{ fnameError }}</span>
@@ -23,7 +23,7 @@
         </label>
         <input
           type="text"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="lname"
         />
         <span class="text-red-600">{{ lnameError }}</span>
@@ -35,7 +35,7 @@
         </label>
         <input
           type="email"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="email"
         />
         <span class="text-red-600">{{ emailError }}</span>
@@ -47,7 +47,7 @@
         </label>
         <input
           type="password"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="password"
         />
         <span class="text-red-600">{{ passwordError }}</span>
@@ -59,7 +59,7 @@
         </label>
         <input
           type="password"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="confirmPassword"
         />
         <span class="text-red-600">{{ confirmPasswordError }}</span>
@@ -71,7 +71,7 @@
         </label>
         <input
           type="tel"
-          class="form-input border border-gray-300 rounded-md px-2 py-1 w-96"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-96"
           v-model="phone"
         />
         <span class="text-red-600">{{ phoneError }}</span>

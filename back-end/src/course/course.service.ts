@@ -125,7 +125,7 @@ export class CourseService {
       function convertStatusOrder(status: string): StatusCourse {
         const statusMap: { [key: string]: StatusCourse } = {
           New: StatusCourse.New,
-          Recommened: StatusCourse.Recommened,
+          Recommended: StatusCourse.Recommended,
           General: StatusCourse.General,
           Off: StatusCourse.Off,
         };

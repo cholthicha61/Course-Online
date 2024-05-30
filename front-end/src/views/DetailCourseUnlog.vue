@@ -1,7 +1,7 @@
 <template>
     
   <div>
-    <Navbar />
+    <!-- <Navbar /> -->
     <v-container class="head-course">
       <h1 class="mt-20">Detail Course</h1>
     </v-container>

@@ -94,7 +94,7 @@ const actions = {
     }
   },
   async dateOrder({ commit, dispatch }, payload) {
-    let url = `${ENDPOINT.ORDER}/order/${payload.orderId}`;
+    let url = `${ENDPOINT.ORDER}/${payload.orderId}`;
     console.log("Request URL:", url);
 
     try {

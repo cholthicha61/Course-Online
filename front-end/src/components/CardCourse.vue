@@ -152,7 +152,7 @@ export default {
     this.checkFavorite(this.course, this.user);
   },
   methods: {
-    goToDetailPage(course) {
+    goToDetailPage() {
       this.$router.push(`/detailcourse/${this.course.id}`);
     },
     checkFavorite(course, user) {
@@ -185,9 +185,6 @@ export default {
     },
     toggleDescription() {
       this.showFullDescription = !this.showFullDescription;
-      if (this.showFullDescription) {
-      this.$router.push(`/detailcourse/${this.course.id}`);
-      }
     },
 
     formatPrice(price) {

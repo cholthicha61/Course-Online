@@ -4,15 +4,15 @@
 
     <div class="mb-4 flex items-center">
       <label for="name" class="block w-1/4 mr-4">Name:<span class="text-red-500" v-if="!course.name">*</span></label>
-      <input type="text" id="name" v-model="course.name" class="w-3/4 p-2 border border-gray-300 rounded" />
+      <input type="text" id="name" v-model="course.name" @input="validateNoSpace('name')" class="w-3/4 p-2 border border-gray-300 rounded" />
     </div>
     <div class="mb-4 flex items-center">
       <label for="price" class="block w-1/4 mr-4">Price:<span class="text-red-500" v-if="!course.price">*</span></label>
-      <input type="text" id="price" v-model="course.price" class="w-3/4 p-2 border border-gray-300 rounded" />
+      <input type="text" id="price" v-model="course.price" @input="validatePrice" class="w-3/4 p-2 border border-gray-300 rounded" />
     </div>
     <div class="mb-4 flex items-center">
       <label for="detail" class="block w-1/4 mr-4">Detail:<span class="text-red-500" v-if="!course.detail">*</span></label>
-      <textarea id="detail" v-model="course.detail" class="w-3/4 p-2 border border-gray-300 rounded"></textarea>
+      <textarea id="detail" v-model="course.detail" @input="validateNoSpace('detail')" class="w-3/4 p-2 border border-gray-300 rounded"></textarea>
     </div>
     <div class="mb-4 flex items-center">
       <label for="status" class="block w-1/4 mr-4">Status:<span class="text-red-500" v-if="!course.status">*</span></label>
@@ -62,7 +62,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 import axios from "axios";
@@ -119,6 +118,27 @@ export default {
     removeImage(index) {
       this.course.images.splice(index, 1);
     },
+    validatePrice(event) {
+      const inputValue = event.target.value;
+      if (!/^\d*\.?\d*$/.test(inputValue)) {
+        Swal.fire({
+          icon: "error",
+          title: "Incorrect information",
+          text: "Numbers only",
+        });
+        this.course.price = '';
+      }
+    },
+    validateNoSpace(field) {
+      if (this.course[field].includes(' ')) {
+        Swal.fire({
+          icon: "error",
+          title: "No space for channels!",
+          text: `The ${field} field cannot contain spaces.`,
+        });
+        this.course[field] = this.course[field].replace(/\s/g, '');
+      }
+    },
     async submitCourse() {
       if (!this.course.name || !this.course.price || !this.course.detail || !this.course.status || !this.course.category || this.course.images.length === 0) {
         Swal.fire({
@@ -135,7 +155,6 @@ export default {
           icon: "success",
           title: "Successfully added course",
           showConfirmButton: false,
-          // timer: 2000,
         }).then(() => {
           this.$router.go();
         });
@@ -143,12 +162,12 @@ export default {
         console.error("Failed to add course", error);
         console.log("Error response: ", error.response); 
 
-        if (error.response && error.response.status === 409) {
+        if (error.message === "This name is already in use") {
           Swal.fire({
             icon: "warning",
             title: "This course name is already in use",
             showConfirmButton: false,
-            // timer: 2000,
+            timer: 2000,
           });
         } else {
           Swal.fire({
@@ -173,4 +192,3 @@ export default {
   },
 };
 </script>
-

@@ -206,7 +206,7 @@
               }}</span>
             </p>
           </div>
-          <p class="text-sm text-gray-600 mt-2 hover:text-gray-400 text-wrap">
+          <p class="text-sm text-gray-600 mt-2 hover:text-gray-400 text-wrap break-words">
             <b> Information: </b> {{ teacher.desc }}
           </p>
         </div>
@@ -329,7 +329,7 @@ export default {
 
 .box-border-teacher {
   max-width: 300px;
-  height: 340px;
+  min-height: 300px;
 }
 
 .custom-carousel {
