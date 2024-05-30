@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     ...mapState({
-      names: (state) => state.category.names,
+      names: (state) => state.category.names.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
     }),
   },
   watch: {
@@ -90,7 +90,7 @@ export default {
         category: true,
       };
       await this.$store.dispatch("category/getCategory", payload);
-      this.categorys = this.names;
+      this.categorys = this.names.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     },
     async deleteCategory(categoryId) {
       Swal.fire({
