@@ -1,5 +1,4 @@
 <template>
-  
   <div class="container mx-auto px-96 mt-8">
     <h1 class="text-3xl font-bold mb-10 text-left">Edit Course</h1>
     <div class="mb-4 flex items-center">
@@ -8,6 +7,7 @@
         type="text"
         id="courseName"
         v-model="course.courseName"
+        @input="validateNoSpace('courseName')"
         class="w-3/4 p-2 border border-gray-300 rounded"
       />
     </div>
@@ -17,6 +17,7 @@
         type="text"
         id="price"
         v-model="course.price"
+        @input="validatePrice"
         class="w-3/4 p-2 border border-gray-300 rounded"
       />
     </div>
@@ -25,6 +26,7 @@
       <textarea
         id="description"
         v-model="course.description"
+        @input="validateNoSpace('description')"
         class="w-3/4 p-2 border border-gray-300 rounded"
       ></textarea>
     </div>
@@ -70,10 +72,17 @@
           id="image-preview-1"
           class="max-w-sm p-6 mb-4 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer mr-4 overflow-scroll-y"
         >
+          <!-- <input
+  id="upload-1"
+  type="file"
+  class="hidden"
+  accept=".jpg,.png,.gif"
+  multiple
+  @change="updateImage($event, i)"
+/> -->
           <input
             id="upload-1"
             type="file"
-            class="hidden"
             accept=".jpg,.png,.gif"
             multiple
             @change="handleFileUpload"
@@ -110,7 +119,24 @@
             </p>
           </label>
           <div v-for="(item, i) in course.images" :key="i">
-            <span class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
+            <span class="text-gray-500 bg-gray-200 z-50">{{ item.name || item.item.name }}</span>
+            <img
+              :src="`${path}${item.name}`"
+              style="max-width: 100%; height: auto"
+            />
+            <div v-if="item.result">
+              <img
+              :src="`${item.result}`"
+              style="max-width: 100%; height: auto"
+            />
+
+            </div>
+            <button
+              @click="removeImage(i)"
+              class="absolute top-auto -right bg-red-500 text-white p-1 rounded-full"
+            >
+              X
+            </button>
           </div>
         </div>
       </div>
@@ -135,13 +161,11 @@
 </template>
 
 <script>
-// import configAxios from "@/axios/configAxios";
-// import course from "@/store/modules/course";
-// import axios from "axios";
-// import { update } from "lodash";
+import { ENDPOINT } from "@/constants/endpoint";
 import category from "@/store/modules/category";
 import Swal from "sweetalert2";
 import { mapState } from "vuex";
+
 
 export default {
   data() {
@@ -153,8 +177,9 @@ export default {
         status: "",
         categorys: null,
         images: [],
+        path: null,
       },
-      category:null,
+      category: null,
     };
   },
 
@@ -169,17 +194,18 @@ export default {
       return newVal;
     },
   },
-  
 
   async mounted() {
     const courseId = this.$route.params.id;
+    console.log("ไหนค่า",ENDPOINT.IMAGE);
+    this.path = ENDPOINT.IMAGE;
     await this.$store.dispatch("course/getCourseById", courseId);
     const courseData = this.courseFromStore;
     if (courseData) {
       this.course = { ...courseData };
     }
-    console.log('this.course',this.course);
-    this.category = this.course.categorys.id  
+    console.log("this.course", this.course);
+    this.category = this.course.categorys.id;
     await this.$store.dispatch("category/getCategory");
   },
 
@@ -191,24 +217,55 @@ export default {
         this.showNewCategoryInput = false;
       }
     },
+    validateNoSpace(field) {
+      if (this.course[field].includes(" ")) {
+        Swal.fire({
+          icon: "error",
+          title: "No space for channels!",
+          text: `The ${field} field cannot contain spaces.`,
+        });
+        this.course[field] = this.course[field].replace(/\s/g, "");
+      }
+    },
+    validatePrice(event) {
+      const inputValue = event.target.value;
+      if (!/^\d*\.?\d*$/.test(inputValue)) {
+        Swal.fire({
+          icon: "error",
+          title: "Incorrect information",
+          text: "Numbers only",
+        });
+        this.course.price = "";
+      }
+    },
     handleFileUpload(event) {
       for (const item of event.target.files) {
-        this.course.images.push(item);
+        if (item && item.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.course.images.push({ item, result: e.target.result });
+            console.log("XC",item);
+            console.log("IMG",this.course.images);
+            this.imageUrl = e.target.result;
+          };
+          reader.readAsDataURL(item);
+        } else {
+          this.imageUrl = null;
+        }
       }
     },
     async confirmSave() {
       const confirmResult = await Swal.fire({
-        title: "Confirm edits",
-        text: "Are you sure to save changes?",
+        title: "ยืนยันการแก้ไข",
+        text: "คุณแน่ใจที่จะบันทึกการเปลี่ยนแปลงหรือไม่?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
+        confirmButtonText: "ใช่",
+        cancelButtonText: "ไม่",
       });
 
       if (confirmResult.isConfirmed) {
         const courseId = this.$route.params.id;
-        // course
         const payload = {
           id: courseId,
           updateData: {
@@ -216,15 +273,49 @@ export default {
             price: this.course?.price,
             description: this.course?.description,
             status: this.course?.status,
-            categoryId: this.course?.category,
+            categoryId: this.category,
             files: this.course?.images,
+            images: this.course?.images,
+
+            
           },
         };
-        await this.$store.dispatch("course/updateCourse", payload);
-      console.log("image",course.images)
+        console.log("Payload",payload);
+
+        try {
+          await this.$store.dispatch("course/updateCourse", payload);
+          Swal.fire({
+            title: "สำเร็จ!",
+            text: "การอัพเดทข้อมูลสำเร็จ",
+            icon: "success",
+            confirmButtonText: "ตกลง",
+          });
+        } catch (error) {
+          if (error.message === "This name is already in use !!!") {
+            Swal.fire({
+              title: "ข้อผิดพลาด!",
+              text: "This name is already in use !!!",
+              icon: "error",
+              confirmButtonText: "ตกลง",
+            });
+          } else {
+            Swal.fire({
+              title: "ข้อผิดพลาด!",
+              text: "Unable to update information",
+              icon: "error",
+              confirmButtonText: "ตกลง",
+            });
+          }
+        }
       }
     },
-
+    updateImage(event, index) {
+      const newImage = event.target.files[0];
+      this.course.images.splice(index, 1, newImage);
+    },
+    removeImage(index) {
+      this.course.images.splice(index, 1);
+    },
     cancel() {
       this.$router.push({ name: "coursemanage" });
     },

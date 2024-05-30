@@ -12,18 +12,18 @@ const mutations = {
   SET_COURSE: (state, payload) => {
     state.course = payload;
   },
-  SET_SELECTED_COURSE: (state, payload) => { 
+  SET_SELECTED_COURSE: (state, payload) => {
     state.selectedCourse = payload;
   },
   ADD_COURSE: (state, payload) => {
     state.course.push(payload);
   },
   UPDATE_COURSE: (state, payload) => {
-    const index = state.course.findIndex(c => c.id === payload.id);
+    const index = state.course.findIndex((c) => c.id === payload.id);
     if (index !== -1) {
       state.course.splice(index, 1, payload);
     }
-  }
+  },
 };
 
 const actions = {
@@ -31,19 +31,20 @@ const actions = {
     let url = `${ENDPOINT.COURSE}?orderById=DESC`;
     try {
       const res = await axios(configAxios("get", url));
-      console.log("Fetched courses:", res.data);  // Debug log
+      console.log("Fetched courses:", res.data); // Debug log
       commit("SET_COURSE", res.data);
     } catch (error) {
       console.error("Failed to fetch courses", error);
       throw new Error();
     }
   },
-  async getCourseById({ commit }, id) { 
+  async getCourseById({ commit }, id) {
     console.log("id", id);
     let url = `${ENDPOINT.COURSE}/${id}`;
     try {
       const res = await axios(configAxios("get", url));
-      console.log("Fetched course by ID:", res.data);  // Debug log
+      console.log("Fetched course by ID:", res.data);
+
       commit("SET_SELECTED_COURSE", res.data);
     } catch (error) {
       console.error("Failed to fetch course by ID", error);
@@ -70,28 +71,69 @@ const actions = {
     formData.append("description", addcourse.detail);
     formData.append("categoryId", addcourse.category);
     for (const item of addcourse.images) {
-      formData.append("files", item); 
+      formData.append("files", item.file);
+      console.log("TTTTTTT", item.file);
     }
     for (const value of formData.values()) {
-      console.log(value);
+      console.log("VALUE", value);
     }
 
     try {
+      const courses = await axios(configAxios("get", `${ENDPOINT.COURSE}`));
+      const duplicate = courses.data.find(
+        (course) => course.courseName === addcourse.name
+      );
+      if (duplicate) {
+        throw { response: { status: 409 } };
+      }
+
       const res = await axios(configAxios("post", url, formData));
       commit("ADD_COURSE", res.data);
     } catch (error) {
       console.error("Failed to add course", error);
+      if (error.response && error.response.status === 409) {
+        throw new Error("This name is already in use");
+      } else {
+        throw new Error("Unable to add course");
+      }
     }
   },
 
   async updateCourse({ commit }, updatedCourse) {
     const url = `${ENDPOINT.COURSE}/${updatedCourse.id}`;
-    console.log("url is", url);
+    console.log("ตี๋น้อย",updatedCourse.updateData.files);
     try {
-      const res = await axios(configAxios("patch", url, updatedCourse.updateData));
-      commit("UPDATE_COURSE", res.data);
+    //   const courses = await axios(configAxios("get", `${ENDPOINT.COURSE}`));
+    //   const duplicate = courses.data.find(
+    //     (course) =>
+    //       course.courseName === updatedCourse.updateData.courseName &&
+    //       course.id !== updatedCourse.id
+    //   );
+    //   if (duplicate) {
+    //     throw { response: { status: 409 } };
+    //   }
+
+      const formData = new FormData();
+      console.log("addcourse", updatedCourse);
+      formData.append("courseName", updatedCourse.updateData.name);
+      formData.append("price", updatedCourse.updateData.price);
+      formData.append("description", updatedCourse.updateData.detail);
+      formData.append("categoryId", updatedCourse.updateData.category);
+      for (const item of updatedCourse.updateData.files) {
+        formData.append("files",item || item.item);
+        console.log("SDSDSDSDSD", item);
+      }
+
+      const res = await axios(
+        configAxios("patch", url, formData)
+      );
     } catch (error) {
       console.error("Failed to update course", error);
+      if (error.response && error.response.status === 409) {
+        throw new Error("This name is already in use");
+      } else {
+        throw new Error("Unable to update information");
+      }
     }
   },
 

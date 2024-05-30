@@ -1,4 +1,4 @@
-<template>
+<template lang="">
   <div class="px-8 mt-8">
     <div class="head-course">
       <h1>Manage Course</h1>
@@ -162,6 +162,7 @@ export default {
       await this.$router.push(`/${path}`);
     },
     formatDate(date) {
+      // console.log("ยาน",date);
       return new Date(date).toLocaleString();
     },
     formatPrice(price) {
