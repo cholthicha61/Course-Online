@@ -1,5 +1,4 @@
 <template>
-  
   <div class="container mx-auto px-96 mt-8">
     <h1 class="text-3xl font-bold mb-10 text-left">Edit Course</h1>
     <div class="mb-4 flex items-center">
@@ -111,6 +110,13 @@
           </label>
           <div v-for="(item, i) in course.images" :key="i">
             <span class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
+            <img :src="imageUrl" :alt="'Image Preview ' + (i + 1)" style="max-width: 100%; height: auto" />
+            <button
+              @click="removeImage(i)"
+              class="absolute top-auto -right bg-red-500 text-white p-1 rounded-full"
+            >
+              X
+            </button>
           </div>
         </div>
       </div>
@@ -223,6 +229,9 @@ export default {
         await this.$store.dispatch("course/updateCourse", payload);
       console.log("image",course.images)
       }
+    },
+    removeImage(index) {
+      this.course.images.splice(index, 1);
     },
 
     cancel() {

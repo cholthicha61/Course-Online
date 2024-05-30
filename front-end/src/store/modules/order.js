@@ -101,7 +101,7 @@ const actions = {
       const res = await axios.patch(
         url,
         { startdate : payload.startdate, 
-          enddate: payload.enddate
+          enddate: payload.enddate,
         },
         {
           headers: {

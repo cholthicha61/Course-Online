@@ -66,6 +66,14 @@ const actions = {
       commit("ADD_COURSE", res.data);
     } catch (error) {
       console.error("Failed to add course", error);
+      // if (error === 409) {
+      //   Swal.fire({
+      //     icon: "warning",
+      //     title: "This course name is already in use",
+      //     showConfirmButton: false,
+      //     // timer: 2000,
+      //   });
+      // }
     }
   },
 
@@ -85,10 +93,10 @@ const actions = {
       const url = `${ENDPOINT.COURSE}/update-priority/${payload.id}`;
       const res = await axios(configAxios("patch", url, payload));
       if (res.status === 200) {
-        // ปรับปรุงค่าของ course ใน state
+        
         const updatedCourse = res.data.updatedCourse;
         commit("SET_COURSE", updatedCourse);
-        // แจ้งเตือนการปรับปรุงเรียบร้อย
+        
         Swal.fire({
           icon: "success",
           title: "Updated successfully",
