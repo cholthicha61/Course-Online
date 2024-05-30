@@ -53,6 +53,14 @@
         >
       </p>
     </div>
+    <!-- <div class="mt-5 flex justify-center">
+      <p>
+        Have you forgot your password?
+        <a href="/change-password" class="text-sky-600 hover:text-sky-800"
+          >Change password</a
+        >
+      </p> -->
+    <!-- </div> -->
   </div>
 </template>
 

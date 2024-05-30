@@ -8,11 +8,14 @@ export class Order extends BaseEntity {
   @Column({ nullable: true })
   status: string;
 
-  @Column({ nullable: true })
-  startdate: string;
+  @Column({ type: 'date', nullable: true })
+  startdate: Date;
 
-  @Column({ nullable: true })
-  enddate: string;
+  @Column({ type: 'date', nullable: true })
+  enddate: Date;
+
+  @Column({type: 'timestamp', nullable: true})
+  confirmDate: Date;
 
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })

@@ -37,6 +37,10 @@ export default {
           link: '/edit-profile',
         },
         {
+          title: "Change Password",
+          link: "/change-password",
+        },
+        {
           title: "Logout",
           link: "/homepage",
         },
