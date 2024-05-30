@@ -3,9 +3,7 @@
     <h2 class="text-3xl font-bold text-center mt-18 md:mt-12 lg:mt-24">
       Edit Profile
     </h2>
-    <div
-      class="flex flex-col items-center w-full py-3 border-gray-200 rounded-lg"
-    >
+    <div class="flex flex-col items-center w-full py-3 border-gray-200 rounded-lg">
       <div class="flex flex-col w-96">
         <label class="mb-2 text-gray-700">Firstname</label>
         <input
@@ -85,39 +83,33 @@ import Swal from "sweetalert2";
 export default {
   data() {
     return {
-      user: {},
-      fname: "",
-      lname: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
-      payload: {
+      user: {
         fname: "",
         lname: "",
-        phone: "",
         email: "",
+        phone: "",
         password: "",
-        confirmPassword: "",
       },
+      confirmPassword: "",
     };
   },
   methods: {
     async updateUser() {
       if (
-        !this.user.fname ||
-        !this.user.lname ||
-        !this.user.email ||
-        !this.user.password ||
-        !this.confirmPassword
+        !this.user.fname.trim() ||
+        !this.user.lname.trim() ||
+        !this.user.email.trim() ||
+        !this.user.password.trim() ||
+        !this.confirmPassword.trim()
       ) {
         await Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Please fill in all fields!",
+          text: "Please fill in all fields with non-empty values!",
         });
         return;
       }
+
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(this.user.email)) {
         await Swal.fire({
@@ -127,6 +119,7 @@ export default {
         });
         return;
       }
+
       const phoneRegex = /^[0-9]{10}$/;
       if (!phoneRegex.test(this.user.phone)) {
         await Swal.fire({
@@ -136,6 +129,7 @@ export default {
         });
         return;
       }
+
       if (this.user.password !== this.confirmPassword) {
         await Swal.fire({
           icon: "error",
@@ -150,11 +144,13 @@ export default {
         newData: this.user,
       });
 
-      // Update localStorage
       localStorage.setItem("user", JSON.stringify(this.user));
 
       this.clearForm();
       console.log("User information updated successfully!");
+
+      // Refresh the page
+      location.reload();
     },
 
     clearForm() {
@@ -169,8 +165,13 @@ export default {
     },
   },
   mounted() {
-    this.user = JSON.parse(localStorage.getItem("user"));
-    console.log("user", this.user);
+    this.user = JSON.parse(localStorage.getItem("user")) || {
+      fname: "",
+      lname: "",
+      email: "",
+      phone: "",
+      password: "",
+    };
   },
 };
 </script>
