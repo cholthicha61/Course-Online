@@ -1,61 +1,41 @@
 <template>
-  
+
   <div class="container mx-auto px-96 mt-8">
     <h1 class="text-3xl font-bold mb-10 text-left">Edit Course</h1>
     <div class="mb-4 flex items-center">
-      <label for="courseName" class="block w-1/4 mr-4">Name:</label>
-      <input
-        type="text"
-        id="courseName"
-        v-model="course.courseName"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-      />
+      <label for="courseName" class="block w-1/4 mr-4">Name:
+        <span class="text-red-500" v-if="!course.courseName.trim()">*</span>
+      </label>
+      <input type="text" id="courseName" v-model="course.courseName" class="w-3/4 p-2 border border-gray-300 rounded" />
     </div>
     <div class="mb-4 flex items-center">
       <label for="price" class="block w-1/4 mr-4">Price:</label>
-      <input
-        type="text"
-        id="price"
-        v-model="course.price"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-      />
+      <input type="text" id="price" v-model="course.price" class="w-3/4 p-2 border border-gray-300 rounded" />
     </div>
     <div class="mb-4 flex items-center">
-      <label for="description" class="block w-1/4 mr-4">Detail:</label>
-      <textarea
-        id="description"
-        v-model="course.description"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-      ></textarea>
+      <label for="description" class="block w-1/4 mr-4">Detail:
+        <span class="text-red-500" v-if="!course.description.trim()">*</span>
+      </label>
+      <textarea id="description" v-model="course.description"
+        class="w-3/4 p-2 border border-gray-300 rounded"></textarea>
     </div>
+
     <div class="mb-4 flex items-center">
       <label for="status" class="block w-1/4 mr-4">Status:</label>
-      <select
-        id="status"
-        v-model="course.status"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-      >
+      <select id="status" v-model="course.status" class="w-3/4 p-2 border border-gray-300 rounded">
         <option value="" disabled>Select status</option>
         <option value="New">New</option>
-        <option value="Recommand">Recommand</option>
+        <option value="Recommended">Recommended</option>
         <option value="General">General</option>
         <option value="off">Off</option>
       </select>
     </div>
     <div class="mb-4 flex items-center">
       <label for="categoryId" class="block w-1/4 mr-4">Category:</label>
-      <select
-        id="categoryId"
-        v-model="category"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-        @change="categoryChangeHandler"
-      >
+      <select id="categoryId" v-model="category" class="w-3/4 p-2 border border-gray-300 rounded"
+        @change="categoryChangeHandler">
         <option value="" disabled>Select category</option>
-        <option
-          v-for="option in categories"
-          :key="option.id"
-          :value="option.id"
-        >
+        <option v-for="option in categories" :key="option.id" :value="option.id">
           {{ option.name }}
         </option>
       </select>
@@ -66,36 +46,14 @@
         <label class="block">Upload image :</label>
       </div>
       <div class="flex items-center ml-13">
-        <div
-          id="image-preview-1"
-          class="max-w-sm p-6 mb-4 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer mr-4 overflow-scroll-y"
-        >
-          <input
-            id="upload-1"
-            type="file"
-            class="hidden"
-            accept=".jpg,.png,.gif"
-            multiple
-            @change="handleFileUpload"
-          />
-          <label
-            v-if="course.images.length == 0"
-            for="upload-1"
-            class="cursor-pointer"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-8 h-8 text-gray-700 mx-auto mb-4"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-              />
+        <div id="image-preview-1"
+          class="max-w-sm p-6 mb-4 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer mr-4 overflow-scroll-y">
+          <input id="upload-1" type="file" class="hidden" accept=".jpg,.png,.gif" multiple @change="handleFileUpload" />
+          <label v-if="course.images.length == 0" for="upload-1" class="cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-8 h-8 text-gray-700 mx-auto mb-4">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
             </svg>
             <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-700">
               Upload picture
@@ -111,23 +69,28 @@
           </label>
           <div v-for="(item, i) in course.images" :key="i">
             <span class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
+            <img
+              :src="imageUrl"
+              :alt="'Image Preview ' + (i + 1)"
+              style="max-width: 100%; height: auto"
+            />
+            <button
+              @click="removeImage(i)"
+              class="absolute top-auto -right bg-red-500 text-white p-1 rounded-full"
+            >
+              X
+            </button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="flex justify-center py-5 mb-8">
-      <button
-        @click="confirmSave"
-        class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800"
-      >
+      <button @click="confirmSave" class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800">
         Save
       </button>
       <div class="w-4"></div>
-      <button
-        @click="cancel"
-        class="bg-gray-500 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-gray-500"
-      >
+      <button @click="cancel" class="bg-gray-500 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-gray-500">
         Cancel
       </button>
     </div>
@@ -135,10 +98,6 @@
 </template>
 
 <script>
-// import configAxios from "@/axios/configAxios";
-// import course from "@/store/modules/course";
-// import axios from "axios";
-// import { update } from "lodash";
 import category from "@/store/modules/category";
 import Swal from "sweetalert2";
 import { mapState } from "vuex";
@@ -154,7 +113,7 @@ export default {
         categorys: null,
         images: [],
       },
-      category:null,
+      category: null,
     };
   },
 
@@ -169,7 +128,6 @@ export default {
       return newVal;
     },
   },
-  
 
   async mounted() {
     const courseId = this.$route.params.id;
@@ -178,8 +136,8 @@ export default {
     if (courseData) {
       this.course = { ...courseData };
     }
-    console.log('this.course',this.course);
-    this.category = this.course.categorys.id  
+    console.log('this.course', this.course);
+    this.category = this.course.categorys.id
     await this.$store.dispatch("category/getCategory");
   },
 
@@ -191,24 +149,60 @@ export default {
         this.showNewCategoryInput = false;
       }
     },
+    validateNoSpace(field) {
+      if (this.course[field].includes(" ")) {
+        Swal.fire({
+          icon: "error",
+          title: "No space for channels!",
+          text: `The ${field} field cannot contain spaces.`,
+        });
+        this.course[field] = this.course[field].replace(/\s/g, "");
+      }
+    },
+    validatePrice(event) {
+      const inputValue = event.target.value;
+      if (!/^\d*\.?\d*$/.test(inputValue)) {
+        Swal.fire({
+          icon: "error",
+          title: "Incorrect information",
+          text: "Numbers only",
+        });
+        this.course.price = "";
+      }
+    },
     handleFileUpload(event) {
       for (const item of event.target.files) {
         this.course.images.push(item);
       }
     },
     async confirmSave() {
+      if (!this.course.courseName.trim() || !this.course.price || !this.course.description.trim()) {
+        Swal.fire({
+          title: "Invalid Input",
+          text: "fields must not be empty",
+          icon: "error",
+        });
+        return;
+      }
+      if (isNaN(this.course.price)) {
+        Swal.fire({
+          title: "Invalid Price",
+          text: "Price must be a number",
+          icon: "error",
+        });
+        return;
+      }
       const confirmResult = await Swal.fire({
-        title: "Confirm edits",
-        text: "Are you sure to save changes?",
+        title: "ยืนยันการแก้ไข",
+        text: "คุณแน่ใจที่จะบันทึกการเปลี่ยนแปลงหรือไม่?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
+        confirmButtonText: "ใช่",
+        cancelButtonText: "ไม่",
       });
 
       if (confirmResult.isConfirmed) {
         const courseId = this.$route.params.id;
-        // course
         const payload = {
           id: courseId,
           updateData: {
@@ -220,11 +214,26 @@ export default {
             files: this.course?.images,
           },
         };
+        Swal.fire({
+          title: "Edit course successfully",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        this.$router.push({ name: "coursemanage" });
+
         await this.$store.dispatch("course/updateCourse", payload);
-      console.log("image",course.images)
+        console.log("image", course.images)
+
       }
     },
-
+    updateImage(event, index) {
+      const newImage = event.target.files[0];
+      this.course.images.splice(index, 1, newImage);
+    },
+    removeImage(index) {
+      this.course.images.splice(index, 1);
+    },
     cancel() {
       this.$router.push({ name: "coursemanage" });
     },

@@ -104,7 +104,7 @@ const actions = {
       if (res.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "Profile Teacher edited successfully",
+          title: "Profile edited successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -132,13 +132,18 @@ const actions = {
       }
     }
   },
-  //เพื่อนยังทำไม่เสร็จ
-  async updateTeacher({ commit }, { userId, newData }) {
+  async updateTeacher({ commit }, { newData }) {
+    const url = `${ENDPOINT.USER}/teacher-profile`;
+    const formData = new FormData();
+    formData.append("fname", newData.fname);
+    formData.append("lname", newData.lname);
+    formData.append("phone", newData.phone);
+    formData.append("email", newData.email);
+    formData.append("desc", newData.desc);
+    formData.append("file", newData.userImage);
+    console.log("newData:", newData);
     try {
-      console.log("updateTeacher :", userId);
-      console.log("newData:", newData);
-      const url = `${ENDPOINT.USER}/teacher-profile`;
-      const res = await axios(configAxios("patch", url, newData));
+      const res = await axios(configAxios("patch", url, formData));
 
       if (res.status === 200) {
         Swal.fire({
@@ -150,7 +155,25 @@ const actions = {
         });
       }
     } catch (error) {
-      console.error("Error updating category:", error);
+      console.error("Error updating fail:", error);
+    }
+  },
+  async updateTeachernoImage({ commit }, { newData }) {
+    const url = `${ENDPOINT.USER}/teacher-profile-non-image`;
+    try {
+      const res = await axios(configAxios("patch", url, newData));
+      console.log("res data", res);
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Profile edited successfully",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    } catch (error) {
+      console.error("Error updating fail:", error);
     }
   },
   async updateStatus({ commit }, payload) {
@@ -158,7 +181,7 @@ const actions = {
     try {
       const url = `${ENDPOINT.USER}/update-status/${payload.id}`;
       const res = await axios(configAxios("patch", url, payload));
-      console.log('response', res);
+      console.log("response", res);
       if (res.status == 200) {
         Swal.fire({
           icon: "success",
@@ -190,11 +213,10 @@ const actions = {
     } catch (error) {
       throw error;
     }
-  }
+  },
 };
 
 export default {
-
   namespaced: true,
   state,
   mutations,

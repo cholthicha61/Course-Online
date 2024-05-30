@@ -7,6 +7,7 @@ const state = {
   course: [],
   selectedCourse: null,
 };
+
 const mutations = {
   SET_COURSE: (state, payload) => {
     state.course = payload;
@@ -14,25 +15,38 @@ const mutations = {
   SET_SELECTED_COURSE: (state, payload) => { 
     state.selectedCourse = payload;
   },
+  ADD_COURSE: (state, payload) => {
+    state.course.push(payload);
+  },
+  UPDATE_COURSE: (state, payload) => {
+    const index = state.course.findIndex(c => c.id === payload.id);
+    if (index !== -1) {
+      state.course.splice(index, 1, payload);
+    }
+  }
 };
+
 const actions = {
-  async getCourse({ commit }, payload) {
+  async getCourse({ commit }) {
     let url = `${ENDPOINT.COURSE}?orderById=DESC`;
     try {
       const res = await axios(configAxios("get", url));
+      console.log("Fetched courses:", res.data);  // Debug log
       commit("SET_COURSE", res.data);
     } catch (error) {
+      console.error("Failed to fetch courses", error);
       throw new Error();
     }
   },
   async getCourseById({ commit }, id) { 
-    console.log("id",id);
+    console.log("id", id);
     let url = `${ENDPOINT.COURSE}/${id}`;
     try {
       const res = await axios(configAxios("get", url));
-      console.log("resdata",res.data);
+      console.log("Fetched course by ID:", res.data);  // Debug log
       commit("SET_SELECTED_COURSE", res.data);
     } catch (error) {
+      console.error("Failed to fetch course by ID", error);
       throw new Error();
     }
   },
@@ -40,8 +54,9 @@ const actions = {
   async deleteCourse({ commit }, id) {
     try {
       const url = `${ENDPOINT.COURSE}/${id}`;
-      const res = await axios(configAxios("delete", url));
+      await axios(configAxios("delete", url));
     } catch (error) {
+      console.error("Failed to delete course", error);
       throw new Error();
     }
   },
@@ -49,7 +64,7 @@ const actions = {
   async addCourse({ commit }, addcourse) {
     const url = `${ENDPOINT.COURSE}`;
     const formData = new FormData();
-    console.log("addcourse",addcourse);
+    console.log("addcourse", addcourse);
     formData.append("courseName", addcourse.name);
     formData.append("price", addcourse.price);
     formData.append("description", addcourse.detail);
@@ -62,33 +77,54 @@ const actions = {
     }
 
     try {
+      
+      const courses = await axios(configAxios("get", `${ENDPOINT.COURSE}`));
+      const duplicate = courses.data.find(course => course.courseName === addcourse.name);
+      if (duplicate) {
+        throw { response: { status: 409 } };  
+      }
+
       const res = await axios(configAxios("post", url, formData));
       commit("ADD_COURSE", res.data);
     } catch (error) {
       console.error("Failed to add course", error);
+      if (error.response && error.response.status === 409) {
+        throw new Error("This name is already in use");
+      } else {
+        throw new Error("Unable to add course");
+      }
     }
   },
 
   async updateCourse({ commit }, updatedCourse) {
     const url = `${ENDPOINT.COURSE}/${updatedCourse.id}`;
-    console.log("url is", url);
     try {
+      
+      const courses = await axios(configAxios("get", `${ENDPOINT.COURSE}`));
+      const duplicate = courses.data.find(course => course.courseName === updatedCourse.updateData.courseName && course.id !== updatedCourse.id);
+      if (duplicate) {
+        throw { response: { status: 409 } };  
+      }
+      
       const res = await axios(configAxios("patch", url, updatedCourse.updateData));
-      commit("UPDATE_COURSE", res.data);
-    } catch (error) {
-      console.error("Failed to update course", error);
+    commit("UPDATE_COURSE", res.data);
+  } catch (error) {
+    console.error("Failed to update course", error);
+    if (error.response && error.response.status === 409) {
+      throw new Error("This name is already in use");
+    } else {
+      throw new Error("Unable to update information");
     }
-  },
+  }
+},
 
   async updatePriority({ commit, dispatch }, payload) {
     try {
       const url = `${ENDPOINT.COURSE}/update-priority/${payload.id}`;
       const res = await axios(configAxios("patch", url, payload));
       if (res.status === 200) {
-        // ปรับปรุงค่าของ course ใน state
         const updatedCourse = res.data.updatedCourse;
         commit("SET_COURSE", updatedCourse);
-        // แจ้งเตือนการปรับปรุงเรียบร้อย
         Swal.fire({
           icon: "success",
           title: "Updated successfully",
@@ -96,19 +132,19 @@ const actions = {
           showConfirmButton: false,
           timer: 2000,
         });
-        // อัพเดทรายการคอร์ส
         await dispatch("getCourse");
       }
     } catch (error) {
-      console.error("เกิดข้อผิดพลาดในการอัพเดทลำดับ:", error);
+      console.error("Failed to update course priority", error);
       Swal.fire({
         icon: "error",
         title: "An error occurred.",
-        text: "Unable to update sequence Please try again later.",
+        text: "Unable to update sequence. Please try again later.",
       });
     }
   },
 };
+
 export default {
   namespaced: true,
   state,

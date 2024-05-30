@@ -10,8 +10,8 @@
         <tr :key="index">
           <td class="table-cell">{{ index + 1 }}</td>
           <td class="table-cell">{{ formatDate(item.createdAt) }}</td>
-          <td class="table-cell">{{ formatDate(item.startDate) }}</td>
-          <td class="table-cell">{{ formatDate(item.endDate) }}</td>
+          <td class="table-cell">{{ formatDate(item.startdate) }}</td>
+          <td class="table-cell">{{ formatDate(item.enddate) }}</td>
           <td class="table-cell">{{ item.user.email }}</td>
           <td class="table-cell">{{ item.course ? item.course.courseName : "None" }}</td>
           <td class="table-cell">{{ item.course && item.course.categorys ? item.course.categorys.name : "None" }}</td>
@@ -45,9 +45,9 @@ export default {
     return {
       headers: [
         { title: "No.", align: "start", value: "index" },
-        { title: "CreatedAt", align: "start", value: "createdAt", sortable: true },
-        { title: "StartDate", align: "start", value: "startDate", sortable: true },
-        { title: "EndDate", align: "start", value: "endDate", sortable: true },
+        { title: "Date", align: "start", value: "createdAt", sortable: true },
+        { title: "Start Course", align: "start", value: "startDate", sortable: true },
+        { title: "End Course", align: "start", value: "endDate", sortable: true },
         { title: "Email", align: "start", value: "email", sortable: true },
         { title: "Course Name", align: "start", value: "courseName", sortable: true },
         { title: "Category", align: "start", value: "categorys.name", sortable: true },
@@ -67,12 +67,12 @@ export default {
     await this.getOrder();
   },
   methods: {
-    formatDate(startDate) {
-      if (startDate && Date.parse(startDate)) {
-        return new Date(startDate).toLocaleString();
-      } else {
-        return "None";
-      }
+    formatDate(date) {
+      // if (date && Date.parse(date)) {
+        return new Date(date).toLocaleString();
+      // } else {
+        // return "None";
+      // }
     },
     async getOrder() {
       const payload = { status: StatusOrder.Incourse };
@@ -85,8 +85,8 @@ export default {
         .replace("THB", "฿");
     },
     mounted() {
-    console.log("Start Date:", this.startDate);
-    console.log("End Date:", this.endDate);
+    console.log("Start Date:", this.startdate);
+    console.log("End Date:", this.enddate);
   }
   },
 };

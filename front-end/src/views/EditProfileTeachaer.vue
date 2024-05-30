@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import { mapState } from "vuex";
 
 export default {
@@ -60,7 +61,7 @@ export default {
         email: "",
         phone: "",
         desc: "",
-        file: null,
+        userImage: null,
       },
       files: {
         name: "",
@@ -73,7 +74,6 @@ export default {
     ...mapState({
       user: (state) => state.user.user,
     }),
-
   },
   async mounted() {
     this.getTeacher();
@@ -82,16 +82,48 @@ export default {
     async getTeacher() {
       await this.$store.dispatch("user/getTeacher");
       this.teacher = this.user;
-      this.files.name = this.teacher.userImage;
-      console.log("teacher", this.teacher);
-      console.log("teacherwwwwww", this.files.name);
     },
-    async updateUser() {
-      await this.$store.dispatch("user/updateUser", {
-        userId: this.teacher.id,
-        newData: this.teacher,
-      });
-      console.log("Updated teacher data", this.teacher);
+    async updateTeacher() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.user.email)) {
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please enter a valid email address!",
+        });
+        return;
+      }
+      const phoneRegex = /^[0-9]{10}$/;
+      if (!phoneRegex.test(this.user.phone)) {
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please enter a valid phone number!",
+        });
+        return;
+      }
+      if (this.teacher.userImage instanceof File) {
+        await this.$store.dispatch("user/updateTeacher", {
+          newData: {
+            fname: this.teacher.fname,
+            lname: this.teacher.lname,
+            phone: this.teacher.phone,
+            email: this.teacher.email,
+            desc: this.teacher.desc,
+            userImage: this.teacher.userImage,
+          },
+        });
+      } else {
+        await this.$store.dispatch("user/updateTeachernoImage", {
+          newData: {
+            fname: this.teacher.fname,
+            lname: this.teacher.lname,
+            phone: this.teacher.phone,
+            email: this.teacher.email,
+            desc: this.teacher.desc,
+          },
+        });
+      }
     },
   },
 };

@@ -12,9 +12,15 @@ const routes = [
         meta: { requiresGuest: true },
       },
       {
-        path: "/allcourse-user",
-        name: "allcourse-user",
+        path: "/guestallcourse",
+        name: "guestallcourse",
         component: () => import("../components/AllCourseUnlog.vue"),
+        meta: { requiresGuest: true },
+      },
+      {
+        path: "/guestdetailcourse/:id",
+        name: "guestdatailcourse",
+        component: () => import("../views/DetailCourseUnlog.vue"),
         meta: { requiresGuest: true },
       },
       {
@@ -134,18 +140,8 @@ const routes = [
         component: () => import("../views/DetailCourse.vue"),
         meta: { requiresAuth: true },
       },
-      {
-        path: "/guestdetailcourse/:id",
-        name: "guestdatailcourse",
-        component: () => import("../views/DetailCourseUnlog.vue"),
-        meta: { requiresGuest: true },
-      },
-      {
-        path: "/guestallcourse",
-        name: "guestallcourse",
-        component: () => import("../components/AllCourseUnlog.vue"),
-        meta: { requiresGuest: true },
-      }
+      
+      
     ],
   },
   {

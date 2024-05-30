@@ -2,7 +2,7 @@ import axios from "axios";
 import { ENDPOINT } from "../../constants/endpoint";
 import configAxios from "@/axios/configAxios";
 import Swal from "sweetalert2";
-import { StatusOrder } from "@/constants/enum"; 
+import { StatusOrder } from "@/constants/enum";
 
 const state = {
   orders: [],
@@ -69,14 +69,13 @@ const actions = {
   async confirmOrder({ commit, dispatch }, payload) {
     let url = `${ENDPOINT.ORDER}/update-status/${payload.orderId}`;
     console.log("Request URL:", url);
+    console.log("FFFFFFF",payload);
 
     try {
       const res = await axios.patch(
         url,
         {
           status: payload.status,
-          startDate: payload.startDate,
-          endDate: payload.endDate,
         },
         {
           headers: {
@@ -88,9 +87,32 @@ const actions = {
       console.log("Response:", res);
       if (res.status === 200) {
         console.log("Updated Order Data:", res.data);
-        commit('SET_START_DATE', payload.startDate);
-        commit('SET_END_DATE', payload.endDate);
         await dispatch("getOrder", { status: StatusOrder.Waiting });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  },
+  async dateOrder({ commit, dispatch }, payload) {
+    let url = `${ENDPOINT.ORDER}/${payload.orderId}`;
+    console.log("Request URL:", url);
+
+    try {
+      const res = await axios.patch(
+        url,
+        { startdate : payload.startdate, 
+          enddate: payload.enddate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      console.log("Response:", res);
+      if (res.status === 200) {
+        console.log("Updated Order Data:", res.data);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -120,13 +142,13 @@ const actions = {
       console.error("Error:", error);
     }
   },
+
   async createOrder({ commit }, payload) {
     console.log("payload", payload);
     try {
       const url = `${ENDPOINT.ORDER}`;
       const res = await axios(configAxios("post", url, payload));
       if (res.status == 201) {
-       
       }
     } catch (error) {
       console.log("error  >>> ", error);
@@ -147,7 +169,7 @@ const actions = {
       const url = `${ENDPOINT.ORDER}/check`;
       const res = await axios(configAxios("post", url, payload));
       if (res.status === 200) {
-        return res.data.orderExists; 
+        return res.data.orderExists;
       }
       return false;
     } catch (error) {
@@ -160,13 +182,13 @@ const actions = {
           showConfirmButton: false,
           timer: 2000,
         });
-        return true; 
+        return true;
       }
-      throw error; 
+      throw error;
     }
   },
-  
-  async countWaitingOrder({ commit }, payload){
+
+  async countWaitingOrder({ commit }, payload) {
     let url = `${ENDPOINT.ORDER}/count-waiting-order`;
     try {
       const res = await axios(configAxios("get", url));
@@ -175,7 +197,7 @@ const actions = {
       throw error;
     }
   },
-  async countIncourseOrder({ commit }, payload){
+  async countIncourseOrder({ commit }, payload) {
     let url = `${ENDPOINT.ORDER}/count-incourse-order`;
     try {
       const res = await axios(configAxios("get", url));
@@ -184,7 +206,7 @@ const actions = {
       throw error;
     }
   },
-  async countCancleOrder({ commit }, payload){
+  async countCancleOrder({ commit }, payload) {
     let url = `${ENDPOINT.ORDER}/count-canceled-order`;
     try {
       const res = await axios(configAxios("get", url));
@@ -192,7 +214,7 @@ const actions = {
     } catch (error) {
       throw error;
     }
-  }
+  },
 };
 
 export default {
