@@ -33,7 +33,7 @@
 
         <div class="flex justify-center mt-10 space-x-4">
           <button
-            @click="submitPassword"
+            @click="updateUserPassword()"
             class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800"
           >
             Submit
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -65,10 +65,24 @@ export default {
       },
     };
   },
-
   methods: {
-    async updateUser() {
-      if (this.password.newpassword !== this.password.confirmpassword) {
+    async updateUserPassword() {
+      if (
+        !this.user.fname ||
+        !this.user.lname ||
+        !this.user.email ||
+        !this.user.password ||
+        !this.confirmPassword
+      ) {
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please fill in all fields!",
+        });
+        return;
+      }
+
+      if (this.user.password !== this.confirmPassword) {
         await Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -76,12 +90,18 @@ export default {
         });
         return;
       }
-      await this.$store.dispatch("user/updateUser", {
+
+      await this.$store.dispatch("user/updateUserPassword", {
         userId: this.user.id,
         newData: this.user,
       });
+
+      localStorage.setItem("user", JSON.stringify(this.user));
+
       this.clearForm();
+      console.log("User information updated successfully!");
     },
+
     clearForm() {
       this.user = {
         password: "",
@@ -89,8 +109,12 @@ export default {
       this.confirmPassword = "";
     },
     cancel() {
-      console.log("Cancel logic goes here");
+      this.$router.push("/home"); 
     },
+  },
+  mounted() {
+    this.user = JSON.parse(localStorage.getItem("user"));
+    console.log("user", this.user);
   },
 };
 </script>
