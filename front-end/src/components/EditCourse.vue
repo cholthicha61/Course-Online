@@ -25,7 +25,7 @@
       <select id="status" v-model="course.status" class="w-3/4 p-2 border border-gray-300 rounded">
         <option value="" disabled>Select status</option>
         <option value="New">New</option>
-        <option value="Recommand">Recommand</option>
+        <option value="Recommended">Recommended</option>
         <option value="General">General</option>
         <option value="off">Off</option>
       </select>
@@ -69,6 +69,17 @@
           </label>
           <div v-for="(item, i) in course.images" :key="i">
             <span class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
+            <img
+              :src="imageUrl"
+              :alt="'Image Preview ' + (i + 1)"
+              style="max-width: 100%; height: auto"
+            />
+            <button
+              @click="removeImage(i)"
+              class="absolute top-auto -right bg-red-500 text-white p-1 rounded-full"
+            >
+              X
+            </button>
           </div>
         </div>
       </div>
@@ -87,10 +98,6 @@
 </template>
 
 <script>
-// import configAxios from "@/axios/configAxios";
-// import course from "@/store/modules/course";
-// import axios from "axios";
-// import { update } from "lodash";
 import category from "@/store/modules/category";
 import Swal from "sweetalert2";
 import { mapState } from "vuex";
@@ -122,7 +129,6 @@ export default {
     },
   },
 
-
   async mounted() {
     const courseId = this.$route.params.id;
     await this.$store.dispatch("course/getCourseById", courseId);
@@ -141,6 +147,27 @@ export default {
         this.showNewCategoryInput = true;
       } else {
         this.showNewCategoryInput = false;
+      }
+    },
+    validateNoSpace(field) {
+      if (this.course[field].includes(" ")) {
+        Swal.fire({
+          icon: "error",
+          title: "No space for channels!",
+          text: `The ${field} field cannot contain spaces.`,
+        });
+        this.course[field] = this.course[field].replace(/\s/g, "");
+      }
+    },
+    validatePrice(event) {
+      const inputValue = event.target.value;
+      if (!/^\d*\.?\d*$/.test(inputValue)) {
+        Swal.fire({
+          icon: "error",
+          title: "Incorrect information",
+          text: "Numbers only",
+        });
+        this.course.price = "";
       }
     },
     handleFileUpload(event) {
@@ -166,17 +193,16 @@ export default {
         return;
       }
       const confirmResult = await Swal.fire({
-        title: "Confirm edits",
-        text: "Are you sure to save changes?",
+        title: "ยืนยันการแก้ไข",
+        text: "คุณแน่ใจที่จะบันทึกการเปลี่ยนแปลงหรือไม่?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
+        confirmButtonText: "ใช่",
+        cancelButtonText: "ไม่",
       });
 
       if (confirmResult.isConfirmed) {
         const courseId = this.$route.params.id;
-        // course
         const payload = {
           id: courseId,
           updateData: {
@@ -201,7 +227,13 @@ export default {
 
       }
     },
-
+    updateImage(event, index) {
+      const newImage = event.target.files[0];
+      this.course.images.splice(index, 1, newImage);
+    },
+    removeImage(index) {
+      this.course.images.splice(index, 1);
+    },
     cancel() {
       this.$router.push({ name: "coursemanage" });
     },

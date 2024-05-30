@@ -94,14 +94,14 @@ const actions = {
     }
   },
   async dateOrder({ commit, dispatch }, payload) {
-    let url = `${ENDPOINT.ORDER}/order/${payload.orderId}`;
+    let url = `${ENDPOINT.ORDER}/${payload.orderId}`;
     console.log("Request URL:", url);
 
     try {
       const res = await axios.patch(
         url,
         { startdate : payload.startdate, 
-          enddate: payload.enddate
+          enddate: payload.enddate,
         },
         {
           headers: {

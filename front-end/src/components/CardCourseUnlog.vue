@@ -147,7 +147,7 @@ export default {
   },
   mounted() {},
   methods: {
-    goToDetailPage(course) {
+    goToDetailPage() {
       this.$router.push(`/guestdetailcourse/${this.course.id}`);
     },
     toggleShadow() {
@@ -196,9 +196,6 @@ export default {
     },
     toggleDescription() {
       this.showFullDescription = !this.showFullDescription;
-      if (this.showFullDescription) {
-        this.$router.push(`/detailcourse/${this.course.id}`);
-      }
     },
     formatPrice(price) {
       return price
