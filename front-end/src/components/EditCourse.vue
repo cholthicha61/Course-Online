@@ -234,6 +234,13 @@ export default {
     removeImage(index) {
       this.course.images.splice(index, 1);
     },
+    updateImage(event, index) {
+      const newImage = event.target.files[0];
+      this.course.images.splice(index, 1, newImage);
+    },
+    removeImage(index) {
+      this.course.images.splice(index, 1);
+    },
     cancel() {
       this.$router.push({ name: "coursemanage" });
     },
