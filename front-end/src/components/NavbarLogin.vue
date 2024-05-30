@@ -7,7 +7,6 @@
     </div>
     <DropdownLogin
       class="menu-item dropdown-item"
-      :title="userEmail.email"
       :items="services"
     />
   </nav>
@@ -43,9 +42,6 @@ export default {
       ],
       userEmail: '',
     };
-  },
-  mounted() {
-    this.userEmail = JSON.parse(localStorage.getItem('user'));
   },
 };
 </script>
