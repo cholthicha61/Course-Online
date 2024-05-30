@@ -84,4 +84,4 @@ export default {
   word-wrap: break-word;
   white-space: normal;
 }
-</style>
+</style> 
