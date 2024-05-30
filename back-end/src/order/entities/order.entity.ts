@@ -16,6 +16,8 @@ export class Order extends BaseEntity {
 
   @Column({type: 'timestamp', nullable: true})
   confirmDate: Date;
+  @Column({type: 'timestamp', nullable: true})
+  cancelDate: Date;
 
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
