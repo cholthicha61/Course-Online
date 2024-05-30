@@ -16,7 +16,7 @@
         </svg>
       </a>
       <!-- email -->
-      <a :href="'mailto:'+teacher.linkFacebook" class="px-3">
+      <a :href="'mailto:'+teacher.linkEmail" class="px-3">
         <svg
           width="20px"
           height="20px"
@@ -42,7 +42,7 @@
           />
         </svg>
       </a>
-      <a :href="teacher.linkFacebook" class="px-1">
+      <a :href="teacher.linkLine" class="px-1">
         <svg
           fill="#f8fafc"
           width="25px"

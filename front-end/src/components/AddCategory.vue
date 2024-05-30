@@ -58,11 +58,9 @@ export default {
         });
         return;
       }
-
       const payload = {
         name: trimmedName,
       };
-
       try {
         await this.$store.dispatch("category/names", payload);
         this.dialog = false;
