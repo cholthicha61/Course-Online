@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="mt-9">
-    <v-data-table-virtual :headers="headers" :items="users">
+    <v-data-table-virtual :headers="headers" :items="filterUser">
       <template #item="{ item, index }">
         <tr :key="index">
           <td>{{ index + 1 }}</td>
@@ -45,23 +45,26 @@ export default {
       { title: "Tel.", align: "start", value: "phone", sortable: true },
       { title: "Status", align: "start", value: "active", sortable: true },
     ],
-    users: [],
     status: ["true", "false"],
   }),
 
   computed: mapState({
     user: (state) => state.user.user,
+    filterUser() {
+      return this.user.filter(item => item.id !== 2 && item.id !== 1);
+    },
   }),
 
   async mounted() {
     await this.getData();
+
   },
 
   methods: {
     formatDate,
     async getData() {
       await this.$store.dispatch("user/getUser");
-      this.users = this.user.map((item, index) => ({ ...item, index: index + 1 }));
+      // this.user = this.user.map((item, index) => ({ ...item, index: index + 1 }));
     },
 
     async updateUser(item) {
