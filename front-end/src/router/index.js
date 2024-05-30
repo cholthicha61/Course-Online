@@ -73,7 +73,7 @@ const routes = [
       {
         path: "/teacherprofile",
         name: "teacherprofile",
-        component: () => import("../views/EditProfileTeachaer.vue")
+        component: () => import("../views/EditProfileTeacher.vue")
       },
       {
         path: "/inbox",
@@ -92,6 +92,7 @@ const routes = [
         component: () => import("../views/Register.vue"),
         meta: { requiresGuest: true },
       },
+      
     ],
   },
   {
@@ -123,6 +124,12 @@ const routes = [
         meta: { requiresAuth: true },
       },
       {
+        path: "/change-password",
+        name: "change-password",
+        component: () => import("../views/ChangePassword.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
         path: "/mycourse",
         name: "mycourse",
         component: () => import("../views/MyCourse.vue"),
@@ -146,7 +153,7 @@ const routes = [
         component: () => import("../views/EndCourse.vue"),
         meta: { requiresAuth: true },
       },
-      
+     
     ],
   },
   {
