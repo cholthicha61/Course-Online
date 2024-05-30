@@ -43,11 +43,43 @@
       <div class="flex flex-col w-96 m-1">
         <label class="mb-2 text-gray-700">Information</label>
         <textarea
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full h-32 resize-none overflow-auto"
+          v-model="teacher.desc"
+        ></textarea>
+      </div>
+
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Link Facebook</label>
+        <input
+          type="tel"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.desc"
+        />
+      </div>
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Link Email</label>
+        <input
+          type="tel"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.desc"
+        />
+      </div>
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Link Line</label>
+        <input
+          type="tel"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.desc"
+        />
+      </div>
+      <!-- <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Information</label>
+        <textarea
           id="detail"
           v-model="teacher.desc"
           class="w-96 p-2 border border-gray-300 rounded"
         ></textarea>
-      </div>
+      </div> -->
       <div class="flex flex-col mb-4 w-96">Picture</div>
       <div class="flex flex-col picture mr-11">
         <v-file-input

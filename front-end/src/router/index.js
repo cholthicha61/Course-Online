@@ -140,7 +140,12 @@ const routes = [
         component: () => import("../views/DetailCourse.vue"),
         meta: { requiresAuth: true },
       },
-      
+      {
+        path: "/endcourse",
+        name: "endcourse",
+        component: () => import("../views/EndCourse.vue"),
+        meta: { requiresAuth: true },
+      },
       
     ],
   },
