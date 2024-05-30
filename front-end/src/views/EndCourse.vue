@@ -61,7 +61,7 @@ export default {
       // }
     },
     async getOrder() {
-      const payload = { status: StatusOrder.Incourse };
+      const payload = { status: StatusOrder.Endcourse };
       await this.$store.dispatch("order/getOrder", payload);
       console.log("Fetched Orders:", this.order);
     },
