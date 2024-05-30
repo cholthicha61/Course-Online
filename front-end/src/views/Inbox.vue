@@ -10,9 +10,22 @@
         <tr :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ formatDate(item.createdAt) }}</td>
-          <td v-if="item.email == null">{{ item.user ? item.user.email : 'N/A' }}</td>
+          <td v-if="item.email == null">
+            {{ item.user ? item.user.email : "N/A" }}
+          </td>
           <td v-else>{{ item.email }}</td>
-          <td>{{ item.message }}</td>
+          <td>
+            {{
+              item.message.length > 50
+                ? `${item.message.substring(0, 50)}...`
+                : item.message
+            }}
+            <template v-if="item.message.length > 50">
+              <span class="text-sky-800" @click="showFullMessage(item.message)" 
+                >See more</span
+              >
+            </template>
+          </td>
           <td class="action-column">
             <div class="action-buttons">
               <template v-if="!item.answered && item.status">
@@ -44,11 +57,11 @@
 import { mapState } from "vuex";
 import _ from "lodash";
 import Swal from "sweetalert2";
-import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiCheckboxMarkedOutline } from '@mdi/js'
+import SvgIcon from "@jamescoyle/vue-icon";
+import { mdiCheckboxMarkedOutline } from "@mdi/js";
 export default {
   components: {
-    SvgIcon
+    SvgIcon,
   },
   data: () => ({
     headers: [
@@ -59,7 +72,7 @@ export default {
       { title: "Action", align: "center" },
     ],
     email: [],
-    mdiCheckboxMarkedOutline
+    mdiCheckboxMarkedOutline,
   }),
   computed: {
     ...mapState({
@@ -72,6 +85,13 @@ export default {
   methods: {
     formatDate(date) {
       return new Date(date).toLocaleString();
+    },
+    showFullMessage(message) {
+      Swal.fire({
+        title: "Detail Message",
+        text: message,
+        confirmButtonText: "Close",
+      });
     },
     async getQuestion() {
       await this.$store.dispatch("inbox/getQuestion");
@@ -89,7 +109,10 @@ export default {
         });
 
         if (result.isConfirmed) {
-          await this.$store.dispatch("inbox/updateQuestionStatus", { id, status: false });
+          await this.$store.dispatch("inbox/updateQuestionStatus", {
+            id,
+            status: false,
+          });
           const item = this.email.find((email) => email.id === id);
           if (item) {
             item.answered = true;

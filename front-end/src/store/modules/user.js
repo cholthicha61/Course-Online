@@ -132,6 +132,27 @@ const actions = {
       }
     }
   },
+  async updateUserPassword({ commit }, { userId, newData }) {
+    try {
+      console.log("updateUser :", userId);
+      console.log("newData:", newData);
+      const url = `${ENDPOINT.USER}/${userId}`;
+      const res = await axios(configAxios("patch", url, newData));
+
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Password changed successfully",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    } catch (error) {
+      console.error("Error >> ", error);
+
+    }
+  },
   async updateTeacher({ commit }, { newData }) {
     const url = `${ENDPOINT.USER}/teacher-profile`;
     const formData = new FormData();
@@ -214,6 +235,7 @@ const actions = {
       throw error;
     }
   },
+  
 };
 
 export default {

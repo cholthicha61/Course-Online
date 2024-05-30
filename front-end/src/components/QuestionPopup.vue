@@ -48,7 +48,7 @@
         ></textarea>
         <div class="flex justify-end">
           <button
-            @click="addEmail()" 
+            @click="addEmail()"
             class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full mr-2"
           >
             Submit
@@ -60,13 +60,14 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   data() {
     return {
       showPopup: false,
-      userEmail: { email: "" }, 
+      userEmail: { email: "" },
       message: "",
-      
     };
   },
   methods: {
@@ -74,21 +75,27 @@ export default {
       this.showPopup = !this.showPopup;
     },
     async addEmail() {
+      if (!this.message.trim()) {
+        Swal.fire({
+          icon: "warning",
+          title: "Oops...",
+          text: "Please enter your message!",
+        });
+        return;
+      }
+
       const payload = {
         userId: this.userEmail.id,
-        email: this.userEmail.email, 
+        email: this.userEmail.email,
         message: this.message,
       };
-      console.log("payload",payload);
-      await this.$store.dispatch("inbox/addEmails", payload); 
+      console.log("payload", payload);
+      await this.$store.dispatch("inbox/addEmails", payload);
       this.message = "";
-
     },
   },
   mounted() {
-    this.userEmail = JSON.parse(localStorage.getItem('user'))
-    
-  }
-  
+    this.userEmail = JSON.parse(localStorage.getItem("user"));
+  },
 };
 </script>
