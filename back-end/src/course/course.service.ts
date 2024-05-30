@@ -205,7 +205,7 @@ export class CourseService {
       }
 
       const saveImgs = [];
-      for (let i = 1; i < files.length; i++) {
+      for (let i = 0; i < files.length; i++) {
         console.log(i);
         const createImg = this.imageRepository.create({
           name: files[i].filename,
