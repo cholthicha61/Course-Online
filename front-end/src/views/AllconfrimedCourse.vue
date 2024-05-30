@@ -39,6 +39,7 @@
 <script>
 import { mapState } from "vuex";
 import { StatusOrder } from "@/constants/enum";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   data() {
@@ -67,13 +68,7 @@ export default {
     await this.getOrder();
   },
   methods: {
-    formatDate(date) {
-      // if (date && Date.parse(date)) {
-        return new Date(date).toLocaleString();
-      // } else {
-        // return "None";
-      // }
-    },
+    formatDate,
     async getOrder() {
       const payload = { status: StatusOrder.Incourse };
       await this.$store.dispatch("order/getOrder", payload);

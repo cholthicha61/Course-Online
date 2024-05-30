@@ -32,6 +32,7 @@
 <script>
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   data: () => ({
@@ -57,6 +58,7 @@ export default {
   },
 
   methods: {
+    formatDate,
     async getData() {
       await this.$store.dispatch("user/getUser");
       this.users = this.user.map((item, index) => ({ ...item, index: index + 1 }));
@@ -95,10 +97,6 @@ export default {
         item.active = !item.active;
 
       }
-    },
-
-    formatDate(date) {
-      return new Date(date).toLocaleString();
     },
     getStatusLabel(active) {
       return active ? "active" : "inactive";

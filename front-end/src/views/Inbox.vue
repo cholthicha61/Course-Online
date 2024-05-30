@@ -46,6 +46,7 @@ import _ from "lodash";
 import Swal from "sweetalert2";
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiCheckboxMarkedOutline } from '@mdi/js'
+import { formatDate } from "@/constants/formatdate";
 export default {
   components: {
     SvgIcon
@@ -70,9 +71,7 @@ export default {
     this.getQuestion();
   },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleString();
-    },
+    formatDate,
     async getQuestion() {
       await this.$store.dispatch("inbox/getQuestion");
       this.email = this.emails;

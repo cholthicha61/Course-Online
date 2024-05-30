@@ -46,6 +46,7 @@
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
 import { StatusOrder } from "@/constants/enum";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   name: "CourseOrders",
@@ -87,9 +88,7 @@ export default {
     await this.getOrder();
   },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleString();
-    },
+    formatDate,
     async getOrder() {
       const payload = { status: StatusOrder.Waiting };
       await this.$store.dispatch("order/getOrder", payload);

@@ -33,13 +33,14 @@
           </td>
         </tr>
       </template>
-    </v-data-table-virtual>
-  </div>
+</v-data-table-virtual>
+</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import { StatusOrder } from "@/constants/enum";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   data() {
@@ -81,9 +82,7 @@ export default {
     await this.getOrder();
   },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleString();
-    },
+    formatDate,
     async getOrder() {
       const payload = {
         status: StatusOrder.Canceled,

@@ -47,14 +47,14 @@
                       <span>End : {{ formatDate(item.enddate) }}</span>
                     </v-card>
                   </div>
-                  <!-- <div v-else class="mt-2">
+                  <div v-else class="mt-2">
                     <v-card>
-                      <span>Start : </span>
+                      <span>Start : waiting</span>
                     </v-card>
                     <v-card class="mt-2">
                       <span>End : waiting</span>
                     </v-card>
-                  </div> -->
+                  </div>
                 </div>
               </v-card-text>
             </v-card>
@@ -97,7 +97,7 @@
                 </div>
                 <div class="status mt-4 size-auto w-auto">
                   <v-card v-if="item.course" class="status d-flex justify-center align-center h-6"
-                    :class="{ 'incourse': item.status === 'Incourse', 'waiting': item.status === 'Waiting', 'canceled': item.status === 'Canceled' }">
+                    :class="{ 'canceled': item.status === 'Canceled' }">
                     {{ item.status }}
                   </v-card>
                   <v-card v-else></v-card>
@@ -107,7 +107,6 @@
           </v-sheet>
         </v-col>
       </v-row>
-
     </v-container>
   </template>
 

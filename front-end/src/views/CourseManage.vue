@@ -60,6 +60,7 @@
 <script>
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   data() {
@@ -108,6 +109,7 @@ export default {
     this.getCourse();
   },
   methods: {
+    formatDate,
     showFullDescription(index) {
       const fullDescription = this.course[index].description;
       Swal.fire({
@@ -161,9 +163,6 @@ export default {
 },
     async goTo(path) {
       await this.$router.push(`/${path}`);
-    },
-    formatDate(date) {
-      return new Date(date).toLocaleString();
     },
     formatPrice(price) {
       return price
