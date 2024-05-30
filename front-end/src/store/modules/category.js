@@ -19,6 +19,8 @@ const actions = {
     console.log("payload", payload);
     try {
       const url = `${ENDPOINT.CATEGORY}`;
+      console.log("url is ", url);
+
       const res = await axios(configAxios("post", url, payload));
 
       if (res.status == 201) {
@@ -96,7 +98,6 @@ const actions = {
       console.log("newData:", newData);
       const url = `${ENDPOINT.CATEGORY}/${categoryId}`;
       const res = await axios(configAxios("patch", url, newData));
-
       if (res.status === 200) {
         await this.dispatch("category/getCategory", {
           category: true,

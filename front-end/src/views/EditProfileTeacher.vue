@@ -1,9 +1,7 @@
 <template>
   <div class="mx-auto">
-    <h2 class="text-2xl font-bold text-center my-6">Edit Profile Teacher</h2>
-    <div
-      class="flex items-center flex-col w-full max-w-lg mx-auto border-gray-200 rounded-lg"
-    >
+    <h2 class="text-3xl font-bold text-center my-6">Edit Profile Teacher</h2>
+    <div class="flex items-center flex-col w-full max-w-lg mx-auto border-gray-200 rounded-lg">
       <div class="flex flex-col w-96">
         <label class="mb-2 text-gray-700">Firstname</label>
         <input
@@ -43,10 +41,34 @@
       <div class="flex flex-col w-96 m-1">
         <label class="mb-2 text-gray-700">Information</label>
         <textarea
-          id="detail"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full h-32 resize-none overflow-auto"
           v-model="teacher.desc"
-          class="w-96 p-2 border border-gray-300 rounded"
         ></textarea>
+      </div>
+
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Link Facebook</label>
+        <input
+          type="text"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.linkFacebook"
+        />
+      </div>
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Link Email</label>
+        <input
+          type="text"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.linkEmail"
+        />
+      </div>
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Link Line</label>
+        <input
+          type="text"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.linkLine"
+        />
       </div>
       <div class="flex flex-col mb-4 w-96">Picture</div>
       <div class="flex flex-col picture mr-11">
@@ -84,6 +106,9 @@ export default {
         email: "",
         phone: "",
         desc: "",
+        linkEmail: "",
+        linkFacebook: "",
+        linkLine: "",
         userImage: null,
       },
     };
@@ -101,9 +126,21 @@ export default {
       await this.$store.dispatch("user/getTeacher");
       this.teacher = this.user;
     },
+    isWhitespaceOrEmpty(string) {
+      return !string || !string.trim();
+    },
     async updateTeacher() {
+      if (this.isWhitespaceOrEmpty(this.teacher.fname) || this.isWhitespaceOrEmpty(this.teacher.lname) || this.isWhitespaceOrEmpty(this.teacher.email) || this.isWhitespaceOrEmpty(this.teacher.phone)) {
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please fill out all fields without whitespace!",
+        });
+        return;
+      }
+
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(this.user.email)) {
+      if (!emailRegex.test(this.teacher.email)) {
         await Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -112,7 +149,7 @@ export default {
         return;
       }
       const phoneRegex = /^[0-9]{10}$/;
-      if (!phoneRegex.test(this.user.phone)) {
+      if (!phoneRegex.test(this.teacher.phone)) {
         await Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -128,6 +165,9 @@ export default {
             phone: this.teacher.phone,
             email: this.teacher.email,
             desc: this.teacher.desc,
+            linkEmail: this.teacher.linkEmail,
+            linkFacebook: this.teacher.linkFacebook,
+            linkLine: this.teacher.linkLine,
             userImage: this.teacher.userImage,
           },
         });
@@ -139,6 +179,9 @@ export default {
             phone: this.teacher.phone,
             email: this.teacher.email,
             desc: this.teacher.desc,
+            linkEmail: this.teacher.linkEmail,
+            linkFacebook: this.teacher.linkFacebook,
+            linkLine: this.teacher.linkLine,
           },
         });
       }
@@ -155,4 +198,5 @@ export default {
 .picture {
   width: 82%;
 }
-</style>
+</style> 
+

@@ -59,7 +59,9 @@ export default {
   methods: {
     async getData() {
       await this.$store.dispatch("user/getUser");
-      this.users = this.user.map((item, index) => ({ ...item, index: index + 1 }));
+      this.users = this.user
+        .map((item, index) => ({ ...item, index: index + 1 }))
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     },
 
     async updateUser(item) {

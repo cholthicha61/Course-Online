@@ -86,6 +86,8 @@ export class OrderService {
       if (keyword.orderById) {
         findAllOrders.orderBy('order.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`);
       }
+      findAllOrders.orderBy('order.confirmDate', 'DESC');
+      findAllOrders.orderBy('order.cancelDate', 'DESC');
       if (keyword?.limit) {
         findAllOrders.take(+keyword?.limit);
       }
@@ -149,7 +151,7 @@ export class OrderService {
   async updateStatus(id: number, updateOrderDto: UpdateOrderDto) {
     try {
       const order = await this.findOne(id);
-
+  
       function convertStatusOrder(status: string): StatusOrder {
         const statusMap: { [key: string]: StatusOrder } = {
           Waiting: StatusOrder.Waiting,
@@ -162,13 +164,29 @@ export class OrderService {
         }
         throw new HttpException('Invalid status', HttpStatus.BAD_REQUEST);
       }
-      // ใช้ฟังก์ชัน convertStatusOrder เพื่อแปลงค่า string เป็น StatusOrder
-      order.status = convertStatusOrder(updateOrderDto.status);
+  
+      // Save the current status
+      const currentStatus = order.status;
+  
+      // Convert and update the status
+      const newStatus = convertStatusOrder(updateOrderDto.status);
+      order.status = newStatus;
+  
+      // Set the confirmDate if status changes from Waiting to Incourse
+      if (currentStatus === StatusOrder.Waiting && newStatus === StatusOrder.Incourse) {
+        order.confirmDate = new Date(); // set to the current date
+      }
+      if (currentStatus === StatusOrder.Waiting && newStatus === StatusOrder.Canceled) {
+        order.cancelDate = new Date(); // set to the current date
+      }
+  
+  
       return await this.orderRepository.save(order);
     } catch (error) {
       throw error;
     }
   }
+  
   async checkOrderExistence(userId: number, courseId: number): Promise<boolean> {
     try {
       const order = await this.orderRepository.findOne({

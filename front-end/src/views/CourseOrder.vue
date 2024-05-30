@@ -5,7 +5,7 @@
         Course Orders
       </h1>
       <div class="overflow-x-auto">
-        <v-data-table-virtual :headers="headers" :items="order" height="500">
+        <v-data-table-virtual :headers="headers" :items="sortedOrders" height="500">
           <template #item="{ item, index }">
             <tr :key="index">
               <td>{{ index + 1 }}</td>
@@ -82,6 +82,9 @@ export default {
     ...mapState({
       order: (state) => state.order.order,
     }),
+    sortedOrders() {
+      return this.order.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    },
   },
   async mounted() {
     await this.getOrder();
@@ -95,6 +98,7 @@ export default {
       await this.$store.dispatch("order/getOrder", payload);
     },
     async confirmOrder(orderId) {
+<<<<<<< HEAD
   const result = await Swal.fire({
     title: "Are you sure?",
     text: "Do you want to confirm this order?",
@@ -162,10 +166,67 @@ export default {
         "success"
       ).then(() => {
         window.location.reload(); // รีโหลดหน้าหลังจากการยืนยันเสร็จสิ้น
+=======
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to confirm this order?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, confirm it!",
+        cancelButtonText: "Cancel",
+>>>>>>> 7d9794efdbb1113cee0b71acb330e01d31579ba1
       });
-    }
-  }
-},
+
+      if (result.isConfirmed) {
+        const { value: formValues } = await Swal.fire({
+          title: "Enter Start and End Dates",
+          html:
+            '<input id="start-date" type="date" class="swal2-input">' +
+            '<input id="end-date" type="date" class="swal2-input">',
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: "Submit",
+          cancelButtonText: "Cancel",
+          preConfirm: () => {
+            return [
+              document.getElementById("start-date").value,
+              document.getElementById("end-date").value,
+            ];
+          },
+        });
+
+        if (formValues) {
+          const [startdate, enddate] = formValues;
+          const confirmPayload = {
+            orderId,
+            startdate,
+            enddate,
+            status: StatusOrder.Incourse,
+          };
+          const dateOrderPayload = {
+            orderId,
+            startdate,
+            enddate,
+          };
+
+          // Dispatch confirmOrder and dateOrder simultaneously
+          await Promise.all([
+            this.$store.dispatch("order/confirmOrder", confirmPayload),
+            this.$store.dispatch("order/dateOrder", dateOrderPayload),
+          ]);
+
+          Swal.fire(
+            "Confirmed!",
+            "The order has been confirmed with the start and end dates.",
+            "success"
+          ).then(() => {
+            window.location.reload(); // Reload the page after confirmation
+          });
+        }
+      }
+    },
 
     formatPrice(price) {
       return price
@@ -175,3 +236,27 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.head-course h1 {
+  font-size: 30px;
+  color: rgb(11, 94, 188);
+  border-bottom: 1px solid #d9d9d9;
+  font-style: italic;
+}
+
+.action-column {
+  text-align: center;
+  min-width: 120px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  cursor: pointer;
+}
+</style>
