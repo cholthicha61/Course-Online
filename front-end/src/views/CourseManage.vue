@@ -103,6 +103,7 @@ export default {
       course: (state) => state.course.course,
       names: (state) => state.category.names,
     }),
+    
   },
   async mounted() {
     this.getCourse();
