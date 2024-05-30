@@ -163,6 +163,15 @@ export class UserService {
   async update(id: number, updateUserDto: UpdateUserDto, roleId: number) {
     try {
       const user = await this.findOneWithPassword(id);
+      const findByEmail = await this.userRepository.findOne({
+        where: {
+          email: updateUserDto.email,
+        },
+      });
+
+      if (!_.isEmpty(findByEmail)) {
+        throw new HttpException('email already exists', HttpStatus.CONFLICT);
+      }
 
       const findRole = await this.roleRepository.findOne({
         where: {

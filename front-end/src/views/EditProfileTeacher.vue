@@ -198,4 +198,5 @@ export default {
 .picture {
   width: 82%;
 }
-</style>
+</style> 
+

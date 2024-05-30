@@ -106,28 +106,6 @@ export default {
       this.setCloseModal();
       this.dialog = false;
     },
-    // async showConfirmationDialog() {
-    //   this.dialog = false;
-    //   await this.checkOrder();
-    //   if (this.checkOrderData) {
-    //     const { isConfirmed } = await Swal.fire({
-    //       title: "Do you want to buy this course?",
-    //       text: `Course: ${this.course.courseName}\n Price: ${this.course.price} บาท`,
-    //       icon: "warning",
-    //       showCancelButton: true,
-    //       confirmButtonColor: "#3085d6",
-    //       cancelButtonColor: "#d33",
-    //       confirmButtonText: "Confirm course purchase",
-    //       cancelButtonText: "Cancel",
-    //     });
-
-    //     if (isConfirmed) {
-    //       this.createOrder();
-    //     } else {
-    //       this.dialog = true;
-    //     }
-    //   }
-    // },
 
     async checkOrder() {
       const payload = {

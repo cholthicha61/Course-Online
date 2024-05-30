@@ -3,13 +3,13 @@
     <v-dialog v-model="dialog" max-width="600">
       <v-card title="Edit Category" class="items-center">
         <div class="flex flex-col w-full px-12 mt-2">
-              <label class="mb-2 text-gray-700">Category Name</label>
-              <input
-                type="text"
-                class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-                v-model="name"
-              />
-            </div>
+          <label class="mb-2 text-gray-700">Category Name</label>
+          <input
+            type="text"
+            class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+            v-model="name"
+          />
+        </div>
         <v-card-actions>
           <v-spacer></v-spacer>
 
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
 export default {
   data: () => ({
     dialog: false,
@@ -57,6 +59,20 @@ export default {
   },
   methods: {
     async saveCategory() {
+      const trimmedName = this.name.trim();
+      
+      if (!trimmedName) {
+        this.dialog = false;
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Category name cannot be empty or just spaces!",
+        });
+        return;
+      }
+      const payload = {
+        name: trimmedName,
+      };
       await this.$store.dispatch("category/updateCategory", {
         categoryId: this.selectCategory.id,
         newData: {

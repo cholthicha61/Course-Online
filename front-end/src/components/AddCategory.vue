@@ -12,26 +12,14 @@
       </template>
 
       <v-card title="Add Category" class="items-center">
-        <!-- <v-card-text>
-          <v-row dense>
-            <v-col>
-              <v-text-field
-                label="Category Name"
-                v-model="name"
-                class=""
-              ></v-text-field>
-            </v-col>
-          </v-row>
-        </v-card-text> -->
-
         <div class="flex flex-col w-full px-12 mt-2">
-              <label class="mb-2 text-gray-700">Category Name</label>
-              <input
-                type="text"
-                class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-                v-model="name"
-              />
-            </div>
+          <label class="mb-2 text-gray-700">Category Name</label>
+          <input
+            type="text"
+            class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+            v-model="name"
+          />
+        </div>
         <v-card-actions>
           <v-spacer></v-spacer>
 
@@ -50,26 +38,46 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
 export default {
   data: () => ({
     dialog: false,
     name: "",
-    formData: {},
   }),
   methods: {
     async saveCategory() {
+      const trimmedName = this.name.trim();
+      
+      if (!trimmedName) {
+        this.dialog = false;
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Category name cannot be empty or just spaces!",
+        });
+        return;
+      }
       const payload = {
-        name: this.name,
+        name: trimmedName,
       };
-      await this.$store.dispatch("category/names", payload);
-      this.dialog = false;
-      this.name = "";
+      try {
+        await this.$store.dispatch("category/names", payload);
+        this.dialog = false;
+        this.name = "";
+      } catch (error) {
+        console.error("Error saving category:", error);
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Failed to save category. Please try again.",
+        });
+      }
     },
     setData(item) {
       this.name = item.name;
       this.dialog = true;
     },
-
     clearForm() {
       this.name = "";
       this.dialog = true;
@@ -77,3 +85,5 @@ export default {
   },
 };
 </script>
+
+<style scoped></style>

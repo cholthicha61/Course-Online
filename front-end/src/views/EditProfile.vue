@@ -1,11 +1,13 @@
 <template>
   <div class="container mx-auto mt-2 px-4 md:px-16 lg:px-64">
-    <h2 class="text-3xl font-bold text-center mt-18 md:mt-12 lg:mt-24">
+    <h2 class="text-3xl font-bold text-center mt-22 md:mt-12 lg:mt-24">
       Edit Profile
     </h2>
-    <div class="flex flex-col items-center w-full py-3 border-gray-200 rounded-lg">
-      <div class="flex flex-col w-96">
-        <label class="mb-2 text-gray-700">Firstname</label>
+    <div
+      class="flex flex-col items-center w-full py-10 border-gray-200 rounded-lg"
+    >
+      <div class="flex flex-col w-96 py-1">
+        <label class="mb-2 text-gray-700 ">Firstname</label>
         <input
           type="text"
           class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
@@ -14,7 +16,7 @@
         <span class="text-red-600">{{ fnameError }}</span>
       </div>
 
-      <div class="flex flex-col w-96">
+      <div class="flex flex-col w-96 py-1">
         <label class="mb-2 text-gray-700">Lastname</label>
         <input
           type="text"
@@ -23,7 +25,7 @@
         />
       </div>
 
-      <div class="flex flex-col w-96">
+      <div class="flex flex-col w-96 py-1">
         <label class="mb-2 text-gray-700">Email</label>
         <input
           type="email"
@@ -32,31 +34,7 @@
         />
       </div>
 
-      <div class="flex flex-col w-96">
-        <label class="mb-2 text-gray-700">
-          Password <span class="text-red-600"></span>
-        </label>
-        <input
-          type="password"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-          v-model="user.password"
-        />
-        <span class="text-red-600">{{ passwordError }}</span>
-      </div>
-
-      <div class="flex flex-col w-96">
-        <label class="mb-2 text-gray-700">
-          Confirm password <span class="text-red-600"></span>
-        </label>
-        <input
-          type="password"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-          v-model="confirmPassword"
-        />
-        <span class="text-red-600">{{ confirmPasswordError }}</span>
-      </div>
-
-      <div class="flex flex-col mb-2 w-96">
+      <div class="flex flex-col mb-2 w-96 py-1">
         <label class="mb-2 text-gray-700">Phone</label>
         <input
           type="tel"
@@ -83,33 +61,38 @@ import Swal from "sweetalert2";
 export default {
   data() {
     return {
-      user: {
+      user: {},
+      fname: "",
+      lname: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+      payload: {
         fname: "",
         lname: "",
-        email: "",
         phone: "",
+        email: "",
         password: "",
+        confirmPassword: "",
       },
-      confirmPassword: "",
     };
   },
   methods: {
     async updateUser() {
       if (
-        !this.user.fname.trim() ||
-        !this.user.lname.trim() ||
-        !this.user.email.trim() ||
-        !this.user.password.trim() ||
-        !this.confirmPassword.trim()
+        !this.user.fname ||
+        !this.user.lname ||
+        !this.user.email ||
+        !this.user.phone
       ) {
         await Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Please fill in all fields with non-empty values!",
+          text: "Please fill in all fields!",
         });
         return;
       }
-
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(this.user.email)) {
         await Swal.fire({
@@ -119,7 +102,6 @@ export default {
         });
         return;
       }
-
       const phoneRegex = /^[0-9]{10}$/;
       if (!phoneRegex.test(this.user.phone)) {
         await Swal.fire({
@@ -130,27 +112,16 @@ export default {
         return;
       }
 
-      if (this.user.password !== this.confirmPassword) {
-        await Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Passwords do not match!",
-        });
-        return;
-      }
-
       await this.$store.dispatch("user/updateUser", {
         userId: this.user.id,
         newData: this.user,
       });
 
+      // Update localStorage
       localStorage.setItem("user", JSON.stringify(this.user));
 
       this.clearForm();
       console.log("User information updated successfully!");
-
-      // Refresh the page
-      location.reload();
     },
 
     clearForm() {
@@ -159,19 +130,13 @@ export default {
         lname: "",
         email: "",
         phone: "",
-        password: "",
       };
       this.confirmPassword = "";
     },
   },
   mounted() {
-    this.user = JSON.parse(localStorage.getItem("user")) || {
-      fname: "",
-      lname: "",
-      email: "",
-      phone: "",
-      password: "",
-    };
+    this.user = JSON.parse(localStorage.getItem("user"));
+    console.log("user", this.user);
   },
 };
 </script>
