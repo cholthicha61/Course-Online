@@ -12,6 +12,7 @@ import {
   UploadedFiles,
   UseGuards,
   Query,
+  Res,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { unlink } from 'fs/promises';
@@ -33,7 +34,12 @@ export class CourseController {
   async findAll(@Query() keyword) {
     return await this.courseService.findAll(keyword);
   }
-
+  @Get('/file-img/:img')
+  getFileImg(@Param('img') image, @Res() res) {
+    return res.sendFile(image, {
+      root: './public/images',
+    });
+  }
   // @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
@@ -125,7 +131,9 @@ export class CourseController {
       successfully: [],
       failed: [],
     };
-    console.log(files);
+    // console.log(files);
+    
+    
 
     const successFile = [];
     for (const file of files) {
@@ -134,7 +142,7 @@ export class CourseController {
         const filePath = `${FOLDERPATH.Imgs}/${file.filename}`; //ดูฟังก์ชั่นนี้เพื่อลบไฟล์
         try {
           await unlink(filePath); // ใช้ unlink เพื่อลบไฟล์
-          console.log(`File ${filePath} deleted successfully`);
+          // console.log(`File ${filePath} deleted successfully`);
         } catch (error) {
           console.error(`Error deleting file ${filePath}:`, error);
           throw new Error(`Failed to delete file ${filePath}`);

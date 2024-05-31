@@ -1,14 +1,15 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
-import { FindOneOptions, Repository } from 'typeorm';
+import { LessThanOrEqual, Repository } from 'typeorm';
 import * as _ from 'lodash';
 import { User } from 'src/user/entities/user.entity';
 import { Course } from 'src/course/entities/course.entity';
 import { StatusOrder } from 'src/enums/status-order';
-import { FindAllOrderDto, FindAllUserDto } from 'src/user/dto/find-all-dto';
+import { FindAllOrderDto } from 'src/user/dto/find-all-dto';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class OrderService {
@@ -86,6 +87,9 @@ export class OrderService {
       if (keyword.orderById) {
         findAllOrders.orderBy('order.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`);
       }
+      findAllOrders.orderBy('order.confirmDate', 'DESC');
+      findAllOrders.orderBy('order.cancelDate', 'DESC');
+      findAllOrders.orderBy('order.finishedDate', 'DESC');
       if (keyword?.limit) {
         findAllOrders.take(+keyword?.limit);
       }
@@ -146,10 +150,36 @@ export class OrderService {
     }
   }
 
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)  // Runs every day at midnight
+  async updateCourseStatus() {
+    await this.updateStatusForExpiredCourses();
+  }
+
+  async updateStatusForExpiredCourses() {
+    try {
+      const now = new Date();
+
+      const ordersToUpdate = await this.orderRepository.find({
+        where: {
+          status: StatusOrder.Incourse,
+          enddate: LessThanOrEqual(now),
+        },
+      });
+
+      for (const order of ordersToUpdate) {
+        order.status = StatusOrder.Endcourse;
+        order.finishedDate = now;
+        await this.orderRepository.save(order);
+      }
+    } catch (error) {
+      console.error('Error updating course statuses', error);
+    }
+  }
+
   async updateStatus(id: number, updateOrderDto: UpdateOrderDto) {
     try {
       const order = await this.findOne(id);
-
+  
       function convertStatusOrder(status: string): StatusOrder {
         const statusMap: { [key: string]: StatusOrder } = {
           Waiting: StatusOrder.Waiting,
@@ -162,13 +192,36 @@ export class OrderService {
         }
         throw new HttpException('Invalid status', HttpStatus.BAD_REQUEST);
       }
-      // ใช้ฟังก์ชัน convertStatusOrder เพื่อแปลงค่า string เป็น StatusOrder
-      order.status = convertStatusOrder(updateOrderDto.status);
-      return await this.orderRepository.save(order);
+  
+      // Save the current status
+      const currentStatus = order.status;
+  
+      // Convert and update the status
+      const newStatus = convertStatusOrder(updateOrderDto.status);
+      order.status = newStatus;
+  
+      // Set the confirmDate if status changes from Waiting to Incourse
+      if (currentStatus === StatusOrder.Waiting && newStatus === StatusOrder.Incourse) {
+        order.confirmDate = new Date(); // set to the current date
+      }
+      if (currentStatus === StatusOrder.Waiting && newStatus === StatusOrder.Canceled) {
+        order.cancelDate = new Date(); // set to the current date
+      }
+      if (currentStatus === StatusOrder.Incourse && newStatus === StatusOrder.Endcourse) {
+        order.finishedDate = new Date(); // set to the current date
+      }
+
+      const updatedOrder = await this.orderRepository.save(order);
+      
+      // Update the status of all orders whose end date has passed
+      await this.updateStatusForExpiredCourses();
+
+      return updatedOrder;
     } catch (error) {
       throw error;
     }
   }
+  
   async checkOrderExistence(userId: number, courseId: number): Promise<boolean> {
     try {
       const order = await this.orderRepository.findOne({
@@ -223,4 +276,17 @@ export class OrderService {
       throw error;
     }
   }
+  async countEndCourseOrder() {
+    try {
+      const count = await this.orderRepository
+        .createQueryBuilder('order')
+        .where('order.status = :status', { status: StatusOrder.Endcourse })
+        .getCount();
+  
+      return count;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 }

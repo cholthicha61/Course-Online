@@ -5,11 +5,14 @@ export class CreateOrderDto {
 
   // @IsNotEmpty()
   // @IsString()
-  startdate?: string;
+  startdate?: Date;
 
   // @IsNotEmpty()
   // @IsString()
-  enddate?: string;
+  enddate?: Date;
+  
+  
+  confirmDate?: Date;
 
   userId?: number;
 

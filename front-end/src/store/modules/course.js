@@ -19,11 +19,11 @@ const mutations = {
     state.course.push(payload);
   },
   UPDATE_COURSE: (state, payload) => {
-    const index = state.course.findIndex(c => c.id === payload.id);
+    const index = state.course.findIndex((c) => c.id === payload.id);
     if (index !== -1) {
       state.course.splice(index, 1, payload);
     }
-  }
+  },
 };
 
 const actions = {
@@ -31,7 +31,7 @@ const actions = {
     let url = `${ENDPOINT.COURSE}?orderById=DESC`;
     try {
       const res = await axios(configAxios("get", url));
-      console.log("Fetched courses:", res.data);  // Debug log
+      console.log("Fetched courses:", res.data); // Debug log
       commit("SET_COURSE", res.data);
     } catch (error) {
       console.error("Failed to fetch courses", error);
@@ -43,7 +43,8 @@ const actions = {
     let url = `${ENDPOINT.COURSE}/${id}`;
     try {
       const res = await axios(configAxios("get", url));
-      console.log("Fetched course by ID:", res.data);  // Debug log
+      console.log("Fetched course by ID:", res.data);
+
       commit("SET_SELECTED_COURSE", res.data);
     } catch (error) {
       console.error("Failed to fetch course by ID", error);
@@ -72,16 +73,18 @@ const actions = {
     formData.append("categoryId", addcourse.category);
     formData.append("status", addcourse.status);
     for (const item of addcourse.images) {
-      formData.append("files", item);
+      formData.append("files", item.file);
+      console.log("TTTTTTT", item.file);
     }
     for (const value of formData.values()) {
-      console.log(value);
+      console.log("VALUE", value);
     }
 
     try {
-
       const courses = await axios(configAxios("get", `${ENDPOINT.COURSE}`));
-      const duplicate = courses.data.find(course => course.courseName === addcourse.name);
+      const duplicate = courses.data.find(
+        (course) => course.courseName === addcourse.name
+      );
       if (duplicate) {
         throw { response: { status: 409 } };
       }

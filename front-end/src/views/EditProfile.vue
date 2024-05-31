@@ -86,8 +86,7 @@ export default {
         !this.user.fname ||
         !this.user.lname ||
         !this.user.email ||
-        !this.user.password ||
-        !this.confirmPassword
+        !this.user.phone
       ) {
         await Swal.fire({
           icon: "error",
@@ -114,14 +113,6 @@ export default {
         });
         return;
       }
-      if (this.user.password !== this.confirmPassword) {
-        await Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Passwords do not match!",
-        });
-        return;
-      }
 
       await this.$store.dispatch("user/updateUser", {
         userId: this.user.id,
@@ -141,7 +132,6 @@ export default {
         lname: "",
         email: "",
         phone: "",
-        password: "",
       };
       this.confirmPassword = "";
     },

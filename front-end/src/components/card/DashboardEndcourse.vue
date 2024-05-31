@@ -2,10 +2,10 @@
   <v-card
     class="mx-auto w-96 drop-shadow-xl hover:shadow-xl"
     max-width="500"
-    style="background-color: #38bdf8"
+    style="background-color: #99ccff"
   >
     <v-card-text class="flex justify-start">
-      <p class="text-h4 font-weight-black text-white mt-1">Confirmed Orders</p>
+      <p class="text-h4 font-weight-black text-white mt-1">Completed course</p>
     </v-card-text>
     <div class="px-8 flex items-center">
       <div
@@ -25,15 +25,15 @@
         </svg>
       </div>
       <p class="text-4xl hover:text-sky-900 text-sky-200 ml-8">
-        {{ orderIn.count }}
+        {{ orderEnd.count }}
       </p>
-      <p class="text-2xl text-gray-200 ml-4 py-4">order</p>
+      <p class="text-2xl text-gray-200 ml-4 py-4">Course</p>
     </div>
 
     <v-card-actions class="text-sky-800">
       <v-btn
-        href="/allconfrime"
-        text="View order"
+        href="/endcourse"
+        text="View Course"
         class="absolute top-0 left-64 hover:text-sky-800 hover:bg-sky-200"
       ></v-btn>
     </v-card-actions>
@@ -41,25 +41,21 @@
 </template>
 
 <script>
-import order from "@/store/modules/order";
 import { mapState } from "vuex";
 
 export default {
-  data() {
-    return {};
-  },
   computed: {
     ...mapState({
-      orderIn: (State) => State.order.orderIn,
+      orderEnd: (State) => State.order.orderEndcourse,
     }),
   },
   async mounted() {
-    this.countIncourseOrder();
+    this.countEndCourse();
   },
   methods: {
-    async countIncourseOrder() {
-      await this.$store.dispatch("order/countIncourseOrder");
-      console.log(this.orderIn);
+    async countEndCourse() {
+      await this.$store.dispatch("order/countEndCourse");
+      console.log(this.orderEnd); // Check if this is logging the correct count
     },
   },
 };

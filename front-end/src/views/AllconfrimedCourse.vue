@@ -9,13 +9,23 @@
       <template #item="{ item, index }">
         <tr :key="index">
           <td class="table-cell">{{ index + 1 }}</td>
-          <td class="table-cell">{{ formatDate(item.createdAt) }}</td>
-          <td class="table-cell">{{ formatDate(item.startdate) }}</td>
-          <td class="table-cell">{{ formatDate(item.enddate) }}</td>
+          <td class="table-cell">{{ formatDate(item.confirmDate,'datetime') }}</td>
+          <td class="table-cell">{{ formatDate(item.startdate,'date') }}</td>
+          <td class="table-cell">{{ formatDate(item.enddate,'date') }}</td>
           <td class="table-cell">{{ item.user.email }}</td>
-          <td class="table-cell">{{ item.course ? item.course.courseName : "None" }}</td>
-          <td class="table-cell">{{ item.course && item.course.categorys ? item.course.categorys.name : "None" }}</td>
-          <td class="table-cell">{{ item.course ? formatPrice(item.course.price) : "None" }}</td>
+          <td class="table-cell">
+            {{ item.course ? item.course.courseName : "None" }}
+          </td>
+          <td class="table-cell">
+            {{
+              item.course && item.course.categorys
+                ? item.course.categorys.name
+                : "None"
+            }}
+          </td>
+          <td class="table-cell">
+            {{ item.course ? formatPrice(item.course.price) : "None" }}
+          </td>
           <td class="table-cell" style="text-align: center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -45,34 +55,62 @@ export default {
     return {
       headers: [
         { title: "No.", align: "start", value: "index" },
-        { title: "Date", align: "start", value: "createdAt", sortable: true },
-        { title: "Start Course", align: "start", value: "startDate", sortable: true },
-        { title: "End Course", align: "start", value: "endDate", sortable: true },
+        {
+          title: "Confirm Date",
+          align: "start",
+          value: "confirmDate",
+          sortable: true,
+        },
+        {
+          title: "Start Course",
+          align: "start",
+          value: "startDate",
+          sortable: true,
+        },
+        {
+          title: "End Course",
+          align: "start",
+          value: "endDate",
+          sortable: true,
+        },
         { title: "Email", align: "start", value: "email", sortable: true },
-        { title: "Course Name", align: "start", value: "courseName", sortable: true },
-        { title: "Category", align: "start", value: "categorys.name", sortable: true },
+        {
+          title: "Course Name",
+          align: "start",
+          value: "courseName",
+          sortable: true,
+        },
+        {
+          title: "Category",
+          align: "start",
+          value: "categorys.name",
+          sortable: true,
+        },
         { title: "Price", align: "start", value: "price", sortable: true },
-        { title: "Action", align: "start" },
       ],
     };
   },
   computed: {
     ...mapState({
       order: (state) => state.order.order,
-      startDate: state => state.order.startDate,
-      endDate: state => state.order.endDate,
+      startDate: (state) => state.order.startDate,
+      endDate: (state) => state.order.endDate,
     }),
   },
   async mounted() {
     await this.getOrder();
   },
   methods: {
+    // formatDate(date, type) {
+    //   if (type === 'datetime') {
+    //     return new Date(date).toLocaleString();
+    //   } else if (type === 'date') {
+    //     return new Date(date).toLocaleDateString();
+    //   }
+    //   return date;
+    // },
     formatDate(date) {
-      // if (date && Date.parse(date)) {
-        return new Date(date).toLocaleString();
-      // } else {
-        // return "None";
-      // }
+      return new Date(date).toLocaleString();
     },
     async getOrder() {
       const payload = { status: StatusOrder.Incourse };
@@ -85,9 +123,9 @@ export default {
         .replace("THB", "฿");
     },
     mounted() {
-    console.log("Start Date:", this.startdate);
-    console.log("End Date:", this.enddate);
-  }
+      console.log("Start Date:", this.startdate);
+      console.log("End Date:", this.enddate);
+    },
   },
 };
 </script>

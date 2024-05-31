@@ -1,7 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateTeacherProfileDto {
-
   @IsNotEmpty()
   @IsString()
   fname?: string;
@@ -22,4 +21,13 @@ export class CreateTeacherProfileDto {
 
   @IsString()
   desc?: string;
+
+  @IsString()
+  linkFacebook?: string;
+
+  @IsString()
+  linkLine?: string;
+
+  @IsString()
+  linkEmail?: string;
 }

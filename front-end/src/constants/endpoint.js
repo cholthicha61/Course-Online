@@ -8,7 +8,8 @@ export const ENDPOINT = {
     CATEGORY: `${baseURL}/category`,
     IMG: `${base}/public/images/`,
     ORDER: `${baseURL}/order`,
-    FAVORITE: `${baseURL}/user/favorite`
+    FAVORITE: `${baseURL}/user/favorite`,
+    IMAGE: `${baseURL}/course/file-img/`
 
 
         

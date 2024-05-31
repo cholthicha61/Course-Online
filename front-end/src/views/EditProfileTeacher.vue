@@ -61,6 +61,9 @@ export default {
         email: "",
         phone: "",
         desc: "",
+        linkEmail: "",
+        linkFacebook: "",
+        linkLine: "",
         userImage: null,
       },
       files: {
@@ -81,11 +84,29 @@ export default {
   methods: {
     async getTeacher() {
       await this.$store.dispatch("user/getTeacher");
-      this.teacher = this.user;
+      console.log("User data from Vuex:", this.user); // ตรวจสอบข้อมูลที่ได้จาก Vuex store
+      this.teacher = { ...this.user }; 
+    },
+    isWhitespaceOrEmpty(string) {
+      return !string || !string.trim();
     },
     async updateTeacher() {
+      if (
+        this.isWhitespaceOrEmpty(this.teacher.fname) ||
+        this.isWhitespaceOrEmpty(this.teacher.lname) ||
+        this.isWhitespaceOrEmpty(this.teacher.email) ||
+        this.isWhitespaceOrEmpty(this.teacher.phone) 
+      ) {
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please fill out all fields without whitespace!",
+        });
+        return;
+      }
+
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(this.user.email)) {
+      if (!emailRegex.test(this.teacher.email)) {
         await Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -94,7 +115,7 @@ export default {
         return;
       }
       const phoneRegex = /^[0-9]{10}$/;
-      if (!phoneRegex.test(this.user.phone)) {
+      if (!phoneRegex.test(this.teacher.phone)) {
         await Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -110,6 +131,9 @@ export default {
             phone: this.teacher.phone,
             email: this.teacher.email,
             desc: this.teacher.desc,
+            linkEmail: this.teacher.linkEmail,
+            linkFacebook: this.teacher.linkFacebook,
+            linkLine: this.teacher.linkLine,
             userImage: this.teacher.userImage,
           },
         });
@@ -121,6 +145,9 @@ export default {
             phone: this.teacher.phone,
             email: this.teacher.email,
             desc: this.teacher.desc,
+            linkEmail: this.teacher.linkEmail,
+            linkFacebook: this.teacher.linkFacebook,
+            linkLine: this.teacher.linkLine,
           },
         });
       }

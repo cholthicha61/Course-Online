@@ -69,8 +69,12 @@
             </p>
           </label>
           <div v-for="(item, i) in course.images" :key="i">
-            <span class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
-            <img :src="imageUrl" :alt="'Image Preview ' + (i + 1)" style="max-width: 100%; height: auto" />
+            <span class="text-gray-500 bg-gray-200 z-50">{{ item.name || item.item.name }}</span>
+            <img :src="`${path}${item.name}`" style="max-width: 100%; height: auto" />
+            <div v-if="item.result">
+              <img :src="`${item.result}`" style="max-width: 100%; height: auto" />
+
+            </div>
             <button @click="removeImage(i)" class="absolute top-auto -right bg-red-500 text-white p-1 rounded-full">
               X
             </button>
@@ -92,9 +96,11 @@
 </template>
 
 <script>
+import { ENDPOINT } from "@/constants/endpoint";
 import category from "@/store/modules/category";
 import Swal from "sweetalert2";
 import { mapState } from "vuex";
+
 
 export default {
   data() {
@@ -106,6 +112,7 @@ export default {
         status: "",
         categorys: null,
         images: [],
+        path: null,
       },
       category: null,
     };
@@ -125,6 +132,8 @@ export default {
 
   async mounted() {
     const courseId = this.$route.params.id;
+    console.log("ไหนค่า", ENDPOINT.IMAGE);
+    this.path = ENDPOINT.IMAGE;
     await this.$store.dispatch("course/getCourseById", courseId);
     const courseData = this.courseFromStore;
     if (courseData) {
@@ -166,7 +175,18 @@ export default {
     },
     handleFileUpload(event) {
       for (const item of event.target.files) {
-        this.course.images.push(item);
+        if (item && item.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.course.images.push({ item, result: e.target.result });
+            console.log("XC", item);
+            console.log("IMG", this.course.images);
+            this.imageUrl = e.target.result;
+          };
+          reader.readAsDataURL(item);
+        } else {
+          this.imageUrl = null;
+        }
       }
     },
     async confirmSave() {

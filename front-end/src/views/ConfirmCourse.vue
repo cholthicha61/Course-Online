@@ -31,10 +31,12 @@
               <textarea
                 id="detail"
                 v-model="course.description"
-                class="w-full p-2 border border-gray-300 rounded"
+                class="w-full p-2 border border-gray-300 rounded resize-none overflow-auto"
                 readonly
+                @input="autoResize"
               ></textarea>
             </div>
+
             <div class="flex flex-col w-full m-1">
               <label class="mb-2 text-gray-700">Email</label>
               <input
@@ -104,28 +106,6 @@ export default {
       this.setCloseModal();
       this.dialog = false;
     },
-    // async showConfirmationDialog() {
-    //   this.dialog = false;
-    //   await this.checkOrder();
-    //   if (this.checkOrderData) {
-    //     const { isConfirmed } = await Swal.fire({
-    //       title: "Do you want to buy this course?",
-    //       text: `Course: ${this.course.courseName}\n Price: ${this.course.price} บาท`,
-    //       icon: "warning",
-    //       showCancelButton: true,
-    //       confirmButtonColor: "#3085d6",
-    //       cancelButtonColor: "#d33",
-    //       confirmButtonText: "Confirm course purchase",
-    //       cancelButtonText: "Cancel",
-    //     });
-
-    //     if (isConfirmed) {
-    //       this.createOrder();
-    //     } else {
-    //       this.dialog = true;
-    //     }
-    //   }
-    // },
 
     async checkOrder() {
       const payload = {
@@ -141,7 +121,8 @@ export default {
 
         if (orderExists) {
           const { isConfirmed } = await Swal.fire({
-            title: "This course has already been purchased. Do you want to buy again?",
+            title:
+              "This course has already been purchased. Do you want to buy again?",
             text: `Course name: ${this.course.courseName}\n Price: THB ${this.course.price} `,
             icon: "warning",
             showCancelButton: true,
@@ -200,6 +181,11 @@ export default {
         timer: 2000,
       });
     },
+    autoResize(event) {
+      const textarea = event.target;
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    },
   },
   mounted() {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -209,6 +195,12 @@ export default {
       this.userEmail.id = user.id;
       console.log("userEmail after setting:", this.userEmail);
     }
+    this.$nextTick(() => {
+      const textarea = document.getElementById("detail");
+      if (textarea) {
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    });
   },
 };
 </script>

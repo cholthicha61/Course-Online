@@ -49,12 +49,12 @@ const actions = {
     for (const item of updatedCourse.images) {
       formData.append("files", item)
     }
-    try {
-      const res = await axios(configAxios("patch", url, formData));
-      commit("UPDATE_COURSE", res.data);
-    } catch (error) {
-      console.error("Failed to update course", error);
-    }
+    // try {
+    //   const res = await axios(configAxios("patch", url, formData));
+    //   commit("UPDATE_COURSE", res.data);
+    // } catch (error) {
+    //   console.error("Failed to update course", error);
+    // }
   },
 };
 

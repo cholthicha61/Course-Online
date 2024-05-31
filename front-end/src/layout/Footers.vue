@@ -1,7 +1,8 @@
 <template>
   <v-card color="#4A6FA5" style="height: 55px">
     <div class="flex items-center justify-center py-4">
-      <a href="#" class="px-3">
+      <!-- facbook -->
+      <a :href="teacher.linkFacebook" class="px-3">
         <svg
           fill="#f8fafc"
           width="20px"
@@ -14,7 +15,8 @@
           />
         </svg>
       </a>
-      <a href="" class="px-3">
+      <!-- email -->
+      <a :href="'mailto:'+teacher.linkEmail" class="px-3">
         <svg
           width="20px"
           height="20px"
@@ -32,6 +34,7 @@
           />
           <path
             fill="#f8fafc"
+            
             d="M4.187 9.342a4.17 4.17 0 010-2.68V4.859H1.849a6.97 6.97 0 000 6.286l2.338-1.803z"
           />
           <path
@@ -40,7 +43,7 @@
           />
         </svg>
       </a>
-      <a href="" class="px-1">
+      <a :href="teacher.linkLine" class="px-1">
         <svg
           fill="#f8fafc"
           width="25px"
@@ -56,17 +59,54 @@
         </svg>
       </a>
     </div>
-
-    <!-- <div class="flex items-center justify-center py-2">
-      <a href="#" class="text-sm underline px-2">FAQ</a>
-      <h1 class="text-sm">|</h1>
-      <a href="#" class="text-sm px-2 underline">Contact Us</a>
-    </div> -->
   </v-card>
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+import { ENDPOINT } from "@/constants/endpoint";
+
+export default {
+  data() {
+    return {
+      img: ENDPOINT.IMG,
+      teacher: {},
+    };
+  },
+  computed: {
+    ...mapState({
+      user: (state) => state.user.user,
+    }),
+  },
+  async mounted() {
+    this.getTeacher();
+  },
+  methods: {
+    methods: {
+      openEmail(email) {
+        console.log("email is ", email);
+        // window.location.href("mailto:" + 'watcharachai.sa@gmail.com')
+      },
+      async getTeacher() {
+        try {
+          await this.$store.dispatch("user/getTeacher");
+          this.teacher = this.user;
+        } catch (error) {
+          console.error("Error fetching teacher data:", error);
+        }
+      },
+    },
+
+    async getTeacher() {
+      try {
+        await this.$store.dispatch("user/getTeacher");
+        this.teacher = this.user;
+      } catch (error) {
+        console.error("Error fetching teacher data:", error);
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>

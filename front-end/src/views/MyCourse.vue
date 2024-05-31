@@ -136,18 +136,13 @@ export default {
   },
   methods: {
     async getOrder() {
-      // ดึงข้อมูล userId จาก Local Storage
       const userDataString = localStorage.getItem("user");
 
-      // ตรวจสอบว่า userDataString มีค่าหรือไม่
       if (userDataString) {
-        // แปลงข้อมูล JSON เป็น Object
         const userData = JSON.parse(userDataString);
 
-        // ดึงค่า id ออกมาใช้งาน
         const id = userData.id;
 
-        // ตรวจสอบว่า id มีค่าหรือไม่
         if (id) {
           console.log("User ID:", id);
           const payload = {

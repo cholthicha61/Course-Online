@@ -103,6 +103,7 @@ export default {
       course: (state) => state.course.course,
       names: (state) => state.category.names,
     }),
+    
   },
   async mounted() {
     this.getCourse();
@@ -122,13 +123,12 @@ export default {
     },
     async deleteCourse(courseId) {
       Swal.fire({
-        title: "คุณต้องการลบคอร์สหรือไม่",
-        // text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้!",
+        title: "Do you want to delete the course?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "ใช่, ต้องการลบ",
+        confirmButtonText: "Yes, want to delete",
         cancelButtonText: "ยกเลิก",
       }).then(async (result) => {
         if (result.isConfirmed) {
@@ -136,8 +136,7 @@ export default {
           await this.$store.dispatch("course/getCourse");
           Swal.fire({
             icon: "success",
-            title: "ลบคอร์สสำเร็จ",
-            // text: "ลบคอร์สสำเร็จ",
+            title: "Successfully deleted course",
             showConfirmButton: false,
             timer: 2000,
           });
