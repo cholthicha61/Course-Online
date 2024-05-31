@@ -20,7 +20,7 @@
                 }}
               </td>
               <td>
-                {{ item.course ? formatPrice(item.course.price) : "None" }}
+                {{ item.course ? formatPrice(item.order.price) : "None" }}
               </td>
               <td style="text-align: center; min-width: 120px">
                 <v-btn
