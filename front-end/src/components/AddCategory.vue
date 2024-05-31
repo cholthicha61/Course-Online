@@ -48,7 +48,7 @@ export default {
   methods: {
     async saveCategory() {
       const trimmedName = this.name.trim();
-      
+
       if (!trimmedName) {
         this.dialog = false;
         await Swal.fire({
@@ -58,9 +58,11 @@ export default {
         });
         return;
       }
+
       const payload = {
         name: trimmedName,
       };
+
       try {
         await this.$store.dispatch("category/names", payload);
         this.dialog = false;
