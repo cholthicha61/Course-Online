@@ -47,13 +47,16 @@
                       <span>End : {{ formatDate(item.enddate) }}</span>
                     </v-card>
                   </div>
-                  <div v-else class="mt-2">
+                  <div v-else-if="item.status === 'Waiting'" class="mt-2">
                     <v-card>
                       <span>Start : waiting</span>
                     </v-card>
                     <v-card class="mt-2">
                       <span>End : waiting</span>
                     </v-card>
+                  </div>
+                  <div v-else-if="item.status === 'Endcourse'" class="mt-2">
+                    <!-- No cards to display -->
                   </div>
                 </div>
               </v-card-text>
@@ -96,11 +99,24 @@
                   <h2 class="">{{ formatPrice(item.course.price) }}</h2>
                 </div>
                 <div class="status mt-4 size-auto w-auto">
-                  <v-card v-if="item.course" class="status d-flex justify-center align-center h-6"
+                  <v-card v-if="item.course" class="status d-flex justify-center align-center h-10"
                     :class="{ 'canceled': item.status === 'Canceled' }">
-                    {{ item.status }}
+                    <div class="text-center">
+                      {{ item.status }}
+                      <br>
+                      {{ formatDate(item.updatedAt) }}
+                    </div>
                   </v-card>
-                  <v-card v-else></v-card>
+                  <!-- <v-card v-if="item.course" class="status d-flex justify-center align-center h-10"
+                    :class="{ 'canceled': item.status === 'Canceled' }">
+                    <div style="margin-top: 5px;">{{ item.status }}</div>
+                    {{ formatDate(item.updatedAt) }}
+                  </v-card> -->
+
+                  <v-card v-else>
+
+                  </v-card>
+                  <!-- <v-card class="mt-2">{{ formatDate(item.updatedAt) }}</v-card> -->
                 </div>
               </v-card-text>
             </v-card>
@@ -115,6 +131,7 @@ import CardOrder from "@/components/CardOrder.vue";
 import { ENDPOINT } from "@/constants/endpoint";
 import { mapState } from "vuex";
 import QuestionPopup from "@/components/QuestionPopup.vue";
+import { formatDate } from "@/constants/formatdate";
 export default {
   components: {
     CardOrder,
@@ -157,14 +174,14 @@ export default {
     await this.getOrder();
   },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleDateString('en-EN', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
-    },
-
+    // formatDate(date) {
+    //   return new Date(date).toLocaleDateString('en-EN', {
+    //     day: 'numeric',
+    //     month: 'long',
+    //     year: 'numeric'
+    //   });
+    // },
+    formatDate,
     async getOrder() {
       const userDataString = localStorage.getItem("user");
 
@@ -251,6 +268,11 @@ export default {
 
 .canceled {
   background-color: rgb(253, 69, 69);
+  color: rgb(255, 255, 255);
+}
+
+.endcourse {
+  background-color: #9093a3;
   color: rgb(255, 255, 255);
 }
 
