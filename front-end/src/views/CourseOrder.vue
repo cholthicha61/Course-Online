@@ -195,7 +195,11 @@ export default {
         });
       }
     },
+<<<<<<< Updated upstream
       formatPrice(price) {
+=======
+    formatPrice(price) {
+>>>>>>> Stashed changes
       return price
         .toLocaleString("en-US", { style: "currency", currency: "THB" })
         .replace("THB", "฿");

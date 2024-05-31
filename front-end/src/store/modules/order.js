@@ -54,6 +54,10 @@ const mutations = {
 const actions = {
   async getOrder({ commit }, payload) {
     let url = `${ENDPOINT.ORDER}`;
+<<<<<<< Updated upstream
+=======
+    console.log("Request URL:", url);
+>>>>>>> Stashed changes
     try {
       const res = await axios.get(url, {
         headers: {
@@ -73,6 +77,10 @@ const actions = {
   },
   async confirmOrder({ commit, dispatch }, payload) {
     let url = `${ENDPOINT.ORDER}/update-status/${payload.orderId}`;
+<<<<<<< Updated upstream
+=======
+    console.log("Request URL:", url);
+>>>>>>> Stashed changes
     try {
       const res = await axios.patch(
         url,
@@ -85,6 +93,10 @@ const actions = {
           },
         }
       );
+<<<<<<< Updated upstream
+=======
+      console.log("Response:", res);
+>>>>>>> Stashed changes
       if (res.status === 200) {
         await dispatch("getOrder", { status: StatusOrder.Waiting });
       }
@@ -108,6 +120,10 @@ const actions = {
           },
         }
       );
+<<<<<<< Updated upstream
+=======
+      console.log("Response:", res);
+>>>>>>> Stashed changes
       if (res.status === 200) {
         console.log("Updated Order Data:", res.data);
         commit("SET_START_DATE", payload.startdate);

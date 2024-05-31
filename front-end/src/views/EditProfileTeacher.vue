@@ -30,6 +30,7 @@
         />
       </div>
 
+<<<<<<< Updated upstream
       <div class="flex flex-col w-96 m-1">
         <label class="mb-2 text-gray-700">Phone</label>
         <input
@@ -88,6 +89,29 @@
         >
           Save
         </button>
+=======
+        <div class="flex flex-col w-full md:w-96 mb-4">
+          <label class="mb-2 text-gray-700">Phone</label>
+          <input type="tel" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+            v-model="teacher.phone" />
+        </div>
+        <div class="flex flex-col w-full md:w-96 mb-4">
+          <label class="flex flex-col w-full md:w-96 mb-4 text-gray-700">Information</label>
+          <textarea id="detail" v-model="teacher.desc"
+            class="flex flex-col w-full md:w-96 mb-4 p-2 border border-gray-300 rounded"></textarea>
+        </div>
+        <div class="flex flex-col w-full md:w-96 mb-4">Picture</div>
+        <div class="flex flex-col picture mr-11">
+          <v-file-input variant="outlined" accept=".jpg,.png,.gif" label="Add Picture" placeholder="Pick an avatar"
+            v-model="teacher.userImage">
+          </v-file-input>
+        </div>
+        <div class="flex flex-col w-full md:w-96 mb-4">
+          <button @click="updateUser" class="w-full bg-sky-600 text-white font-bold py-2 rounded-md hover:bg-sky-800">
+            Save
+          </button>
+        </div>
+>>>>>>> Stashed changes
       </div>
     </div>
   </div>
