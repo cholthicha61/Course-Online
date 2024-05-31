@@ -1,9 +1,7 @@
 <template>
   <div class="mx-auto">
     <h2 class="text-3xl font-bold text-center my-6">Edit Profile Teacher</h2>
-    <div
-      class="flex items-center flex-col w-full max-w-lg mx-auto border-gray-200 rounded-lg"
-    >
+    <div class="flex items-center flex-col w-full max-w-lg mx-auto border-gray-200 rounded-lg">
       <div class="flex flex-col w-96">
         <label class="mb-2 text-gray-700">Firstname</label>
         <input
@@ -125,9 +123,13 @@ export default {
   },
   methods: {
     async getTeacher() {
-      await this.$store.dispatch("user/getTeacher");
-      console.log("User data from Vuex:", this.user); // ตรวจสอบข้อมูลที่ได้จาก Vuex store
-      this.teacher = { ...this.user }; 
+      try {
+        await this.$store.dispatch("user/getTeacher");
+        console.log("User data from Vuex:", this.user);
+        this.teacher = { ...this.user };
+      } catch (error) {
+        console.error("Error fetching teacher data:", error);
+      }
     },
     isWhitespaceOrEmpty(string) {
       return !string || !string.trim();
@@ -137,7 +139,7 @@ export default {
         this.isWhitespaceOrEmpty(this.teacher.fname) ||
         this.isWhitespaceOrEmpty(this.teacher.lname) ||
         this.isWhitespaceOrEmpty(this.teacher.email) ||
-        this.isWhitespaceOrEmpty(this.teacher.phone) 
+        this.isWhitespaceOrEmpty(this.teacher.phone)
       ) {
         await Swal.fire({
           icon: "error",
@@ -156,6 +158,7 @@ export default {
         });
         return;
       }
+
       const phoneRegex = /^[0-9]{10}$/;
       if (!phoneRegex.test(this.teacher.phone)) {
         await Swal.fire({
@@ -165,33 +168,38 @@ export default {
         });
         return;
       }
-      if (this.teacher.userImage instanceof File) {
-        await this.$store.dispatch("user/updateTeacher", {
-          newData: {
-            fname: this.teacher.fname,
-            lname: this.teacher.lname,
-            phone: this.teacher.phone,
-            email: this.teacher.email,
-            desc: this.teacher.desc,
-            linkEmail: this.teacher.linkEmail,
-            linkFacebook: this.teacher.linkFacebook,
-            linkLine: this.teacher.linkLine,
-            userImage: this.teacher.userImage,
-          },
-        });
-      } else {
-        await this.$store.dispatch("user/updateTeachernoImage", {
-          newData: {
-            fname: this.teacher.fname,
-            lname: this.teacher.lname,
-            phone: this.teacher.phone,
-            email: this.teacher.email,
-            desc: this.teacher.desc,
-            linkEmail: this.teacher.linkEmail,
-            linkFacebook: this.teacher.linkFacebook,
-            linkLine: this.teacher.linkLine,
-          },
-        });
+
+      try {
+        if (this.teacher.userImage instanceof File) {
+          await this.$store.dispatch("user/updateTeacher", {
+            newData: {
+              fname: this.teacher.fname,
+              lname: this.teacher.lname,
+              phone: this.teacher.phone,
+              email: this.teacher.email,
+              desc: this.teacher.desc,
+              linkEmail: this.teacher.linkEmail,
+              linkFacebook: this.teacher.linkFacebook,
+              linkLine: this.teacher.linkLine,
+              userImage: this.teacher.userImage,
+            },
+          });
+        } else {
+          await this.$store.dispatch("user/updateTeachernoImage", {
+            newData: {
+              fname: this.teacher.fname,
+              lname: this.teacher.lname,
+              phone: this.teacher.phone,
+              email: this.teacher.email,
+              desc: this.teacher.desc,
+              linkEmail: this.teacher.linkEmail,
+              linkFacebook: this.teacher.linkFacebook,
+              linkLine: this.teacher.linkLine,
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error updating teacher profile:", error);
       }
     },
   },
@@ -207,4 +215,3 @@ export default {
   width: 82%;
 }
 </style>
-<!-- test -->
