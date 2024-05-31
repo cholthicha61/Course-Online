@@ -9,9 +9,9 @@
       <template #item="{ item, index }">
         <tr :key="index">
           <td class="table-cell">{{ index + 1 }}</td>
-          <td class="table-cell">{{ formatDate(item.confirmDate,'datetime') }}</td>
-          <td class="table-cell">{{ formatDate(item.startdate,'date') }}</td>
-          <td class="table-cell">{{ formatDate(item.enddate,'date') }}</td>
+          <td class="table-cell">{{ formatDate(item.confirmDate, 'datetime') }}</td>
+          <td class="table-cell">{{ formatDate(item.startdate, ) }}</td>
+          <td class="table-cell">{{ formatDate(item.enddate, ) }}</td>
           <td class="table-cell">{{ item.user.email }}</td>
           <td class="table-cell">
             {{ item.course ? item.course.courseName : "None" }}
@@ -93,8 +93,6 @@ export default {
   computed: {
     ...mapState({
       order: (state) => state.order.order,
-      startDate: (state) => state.order.startDate,
-      endDate: (state) => state.order.endDate,
     }),
   },
   async mounted() {
@@ -118,10 +116,6 @@ export default {
       return price
         .toLocaleString("en-US", { style: "currency", currency: "THB" })
         .replace("THB", "฿");
-    },
-    mounted() {
-      console.log("Start Date:", this.startdate);
-      console.log("End Date:", this.enddate);
     },
   },
 };

@@ -227,60 +227,57 @@ export default {
       }
     },
     async confirmSave() {
-      if (!this.course.courseName.trim() || !this.course.price || !this.course.description.trim()) {
-        Swal.fire({
-          title: "Invalid Input",
-          text: "fields must not be empty",
-          icon: "error",
-        });
-        return;
-      }
-      if (isNaN(this.course.price)) {
-        Swal.fire({
-          title: "Invalid Price",
-          text: "Price must be a number",
-          icon: "error",
-        });
-        return;
-      }
-      const confirmResult = await Swal.fire({
-        title: "ยืนยันการแก้ไข",
-        text: "คุณแน่ใจที่จะบันทึกการเปลี่ยนแปลงหรือไม่?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "ใช่",
-        cancelButtonText: "ไม่",
+    if (!this.course.courseName.trim() || !this.course.price || !this.course.description.trim()) {
+      Swal.fire({
+        title: "Invalid Input",
+        text: "fields must not be empty",
+        icon: "error",
       });
+      return;
+    }
+    if (isNaN(this.course.price)) {
+      Swal.fire({
+        title: "Invalid Price",
+        text: "Price must be a number",
+        icon: "error",
+      });
+      return;
+    }
+      const confirmResult = await Swal.fire({
+      title: "ยืนยันการแก้ไข",
+      text: "Are you sure to save changes??",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    });
 
-      if (confirmResult.isConfirmed) {
-        const courseId = this.$route.params.id;
-        const payload = {
-          id: courseId,
-          updateData: {
-            courseName: this.course?.courseName,
-            price: this.course?.price,
-            description: this.course?.description,
-            status: this.course?.status,
-            categoryId: this.category,
-            files: this.course?.images,
-            images: this.course?.images,
-
-            
-          },
-        };
+    if (confirmResult.isConfirmed) {
+      const courseId = this.$route.params.id;
+      const payload = {
+        id: courseId,
+        updateData: {
+          courseName: this.course.courseName,
+          price: this.course.price,
+          description: this.course.description,
+          status: this.course.status,
+          categoryId: this.category,
+          files: this.course.images,
+        },
+      };
         Swal.fire({
           title: "Edit course successfully",
           icon: "success",
           showConfirmButton: false,
-          timer: 2000,
+          // timer: 2000,
         });
-        this.$router.push({ name: "coursemanage" });
+        // this.$router.push({ name: "coursemanage" });
 
         await this.$store.dispatch("course/updateCourse", payload);
-        console.log("image", course.images)
+        console.log("image", this.course.images)
 
       }
-    },
+    },  
     updateImage(event, index) {
       const newImage = event.target.files[0];
       this.course.images.splice(index, 1, newImage);

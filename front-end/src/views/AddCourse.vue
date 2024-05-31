@@ -122,7 +122,9 @@
             </p>
           </label>
           <div v-for="(item, i) in course.images" :key="i" class="relative">
-            <span class="text-gray-500 bg-gray-200 z-50">{{ item.file.name }}</span>
+            <span class="text-gray-500 bg-gray-200 z-50">{{
+              item.file.name
+            }}</span>
             <img
               :src="item.result"
               :alt="'Image Preview ' + (i + 1)"
@@ -200,16 +202,16 @@ export default {
         if (item && item.type.startsWith("image/")) {
           const reader = new FileReader();
           reader.onload = (e) => {
-            this.course.images.push({file: item, result: e.target.result });
-            console.log("XC",item);
+            this.course.images.push({ file: item, result: e.target.result });
+            console.log("XC", item);
             this.imageUrl = e.target.result;
           };
           reader.readAsDataURL(item);
         } else {
           this.imageUrl = null;
         }
-        console.log("OP", this.imageUrl);
-        console.log("AAAAAA", this.course.images);
+        // console.log("OP", this.imageUrl);
+        // console.log("AAAAAA", this.course.images);
       }
     },
     removeImage(index) {
@@ -263,6 +265,7 @@ export default {
           this.$router.go();
         });
       } catch (error) {
+        console.log("X10",this.course);
         console.error("Failed to add course", error);
         console.log("Error response: ", error.response);
 
@@ -271,7 +274,7 @@ export default {
             icon: "warning",
             title: "This course name is already in use",
             showConfirmButton: false,
-            timer: 2000,
+            // timer: 2000,
           });
         } else {
           Swal.fire({

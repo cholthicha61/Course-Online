@@ -22,7 +22,6 @@
               <td>
                 {{ item.course ? formatPrice(item.course.price) : "None" }}
               </td>
-
               <td style="text-align: center; min-width: 120px">
                 <v-btn
                   color="blue"
@@ -98,91 +97,44 @@ export default {
       await this.$store.dispatch("order/getOrder", payload);
     },
     async confirmOrder(orderId) {
-  const result = await Swal.fire({
-    title: "Are you sure?",
-    text: "Do you want to confirm this order?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, confirm it!",
-    cancelButtonText: "Cancel",
-  });
-
-  if (result.isConfirmed) {
-    const today = new Date().toISOString().split('T')[0]; // วันที่ปัจจุบัน
-    const { value: formValues } = await Swal.fire({
-      title: "Enter Start and End Dates",
-      html:
-        `<input id="start-date" type="date" class="swal2-input" min="${today}">` +
-        `<input id="end-date" type="date" class="swal2-input" min="${today}">`,
-      focusConfirm: false,
-      showCancelButton: true,
-      confirmButtonText: "Submit",
-      cancelButtonText: "Cancel",
-      preConfirm: () => {
-        const startDate = document.getElementById("start-date").value;
-        const endDate = document.getElementById("end-date").value;
-        if (!startDate || !endDate) {
-          Swal.showValidationMessage("Please enter both Start and End Dates");
-          return false;
-        }
-        if (new Date(startDate) < new Date(today) || new Date(endDate) < new Date(today)) {
-          Swal.showValidationMessage("Start and End Dates must be today or later");
-          return false;
-        }
-        if (new Date(endDate) <= new Date(startDate)) {
-          Swal.showValidationMessage("End Date must be greater than Start Date");
-          return false;
-        }
-        return [startDate, endDate];
-      },
-    });
-
-
-    if (formValues) {
-      const [startdate, enddate] = formValues;
-      const confirmPayload = {
-        orderId,
-        startdate,
-        enddate,
-        status: StatusOrder.Incourse,
-      };
-      const dateOrderPayload = {
-        orderId,
-        startdate,
-        enddate
-      };
-
-      // Dispatch confirmOrder and dateOrder simultaneously
-      await Promise.all([
-        this.$store.dispatch("order/confirmOrder", confirmPayload),
-        this.$store.dispatch("order/dateOrder", dateOrderPayload)
-      ]);
-
-      Swal.fire(
-        "Confirmed!",
-        "The order has been confirmed with the start and end dates.",
-        "success"
-      ).then(() => {
-        window.location.reload(); // รีโหลดหน้าหลังจากการยืนยันเสร็จสิ้น
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to confirm this order?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, confirm it!",
+        cancelButtonText: "Cancel",
       });
 
       if (result.isConfirmed) {
+        const today = new Date().toISOString().split('T')[0];
         const { value: formValues } = await Swal.fire({
           title: "Enter Start and End Dates",
           html:
-            '<input id="start-date" type="date" class="swal2-input">' +
-            '<input id="end-date" type="date" class="swal2-input">',
+            `<input id="start-date" type="date" class="swal2-input" min="${today}T00:00">` +
+            `<input id="end-date" type="date" class="swal2-input" min="${today}T00:00">`,
           focusConfirm: false,
           showCancelButton: true,
           confirmButtonText: "Submit",
           cancelButtonText: "Cancel",
           preConfirm: () => {
-            return [
-              document.getElementById("start-date").value,
-              document.getElementById("end-date").value,
-            ];
+            const startDate = document.getElementById("start-date").value;
+            const endDate = document.getElementById("end-date").value;
+            if (!startDate || !endDate) {
+              Swal.showValidationMessage("Please enter both Start and End Dates");
+              return false;
+            }
+            if (new Date(startDate) < new Date(today) || new Date(endDate) < new Date(today)) {
+              Swal.showValidationMessage("Start and End Dates must be today or later");
+              return false;
+            }
+            if (new Date(endDate) <= new Date(startDate)) {
+              Swal.showValidationMessage("End Date must be greater than Start Date");
+              return false;
+            }
+            return [startDate, endDate];
           },
         });
 
@@ -197,13 +149,12 @@ export default {
           const dateOrderPayload = {
             orderId,
             startdate,
-            enddate,
+            enddate
           };
 
-          // Dispatch confirmOrder and dateOrder simultaneously
           await Promise.all([
             this.$store.dispatch("order/confirmOrder", confirmPayload),
-            this.$store.dispatch("order/dateOrder", dateOrderPayload),
+            this.$store.dispatch("order/dateOrder", dateOrderPayload)
           ]);
 
           Swal.fire(
@@ -211,15 +162,41 @@ export default {
             "The order has been confirmed with the start and end dates.",
             "success"
           ).then(() => {
-            window.location.reload(); // Reload the page after confirmation
+            window.location.reload();
           });
         }
       }
-    }
-  }
     },
+    async rejectOrder(orderId) {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to reject this order?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, reject it!",
+        cancelButtonText: "Cancel",
+      });
 
-    formatPrice(price) {
+      if (result.isConfirmed) {
+        const rejectPayload = {
+          orderId,
+          status: StatusOrder.Canceled,
+        };
+
+        await this.$store.dispatch("order/rejectOrder", rejectPayload);
+
+        Swal.fire(
+          "Rejected!",
+          "The order has been rejected.",
+          "success"
+        ).then(() => {
+          window.location.reload();
+        });
+      }
+    },
+      formatPrice(price) {
       return price
         .toLocaleString("en-US", { style: "currency", currency: "THB" })
         .replace("THB", "฿");

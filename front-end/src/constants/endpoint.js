@@ -1,4 +1,5 @@
 import { base, baseURL } from "@/axios/baseURL"; // base => for img
+import EditCourse from "@/components/EditCourse.vue";
 export const ENDPOINT = {
     //------------- auth -----------
     LOGIN: `${baseURL}/auth/login`,

@@ -22,66 +22,6 @@
             v-model="teacher.email" />
         </div>
 
-<<<<<<< HEAD:front-end/src/views/EditProfileTeacher.vue
-      <div class="flex flex-col w-96 m-1">
-        <label class="mb-2 text-gray-700">Phone</label>
-        <input
-          type="tel"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-          v-model="teacher.phone"
-        />
-      </div>
-      <div class="flex flex-col w-96 m-1">
-        <label class="mb-2 text-gray-700">Information</label>
-        <textarea
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full h-32 resize-none overflow-auto"
-          v-model="teacher.desc"
-        ></textarea>
-      </div>
-
-      <div class="flex flex-col w-96 m-1">
-        <label class="mb-2 text-gray-700">Link Facebook</label>
-        <input
-          type="text"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-          v-model="teacher.linkFacebook"
-        />
-      </div>
-      <div class="flex flex-col w-96 m-1">
-        <label class="mb-2 text-gray-700">Link Email</label>
-        <input
-          type="text"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-          v-model="teacher.linkEmail"
-        />
-      </div>
-      <div class="flex flex-col w-96 m-1">
-        <label class="mb-2 text-gray-700">Link Line</label>
-        <input
-          type="text"
-          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-          v-model="teacher.linkLine"
-        />
-      </div>
-      <div class="flex flex-col mb-4 w-96">Picture</div>
-      <div class="flex flex-col picture mr-11">
-        <v-file-input
-          variant="outlined"
-          accept=".jpg,.png,.gif"
-          label="Add Picture"
-          placeholder="Pick an avatar"
-          v-model="teacher.userImage"
-        >
-        </v-file-input>
-      </div>
-      <div class="flex flex-col w-96 py-3">
-        <button
-          @click="updateTeacher"
-          class="w-full bg-sky-600 text-white font-bold py-2 rounded-md hover:bg-sky-800"
-        >
-          Save
-        </button>
-=======
         <div class="flex flex-col w-full md:w-96 mb-4">
           <label class="mb-2 text-gray-700">Phone</label>
           <input type="tel" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
@@ -103,7 +43,6 @@
             Save
           </button>
         </div>
->>>>>>> origin/pat-dev:front-end/src/views/EditProfileTeachaer.vue
       </div>
     </div>
   </div>

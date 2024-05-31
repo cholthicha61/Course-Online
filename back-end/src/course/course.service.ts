@@ -22,7 +22,7 @@ export class CourseService {
     private categoryRepository: Repository<Category>,
     @InjectRepository(Image)
     private imageRepository: Repository<Image>
-  ) { }
+  ) {}
 
   async createNewPriority() {
     // Find maximum priority in database
@@ -47,7 +47,7 @@ export class CourseService {
         .leftJoinAndSelect('course.categorys', 'category')
         .leftJoinAndSelect('course.images', 'images')
         .leftJoinAndSelect('course.orders', 'orders')
-        .leftJoinAndSelect('course.favoriteByUsers', 'favoriteByUsers')
+        .leftJoinAndSelect('course.favoriteByUsers', 'favoriteByUsers');
 
       if (keyword?.categorys == 'true') {
         findAllCourse.leftJoinAndSelect('course.categorys', 'category');
@@ -82,7 +82,7 @@ export class CourseService {
         relations: {
           images: true,
           categorys: true,
-          favoriteByUsers: true
+          favoriteByUsers: true,
         },
       });
       if (_.isEmpty(course)) {
@@ -96,22 +96,22 @@ export class CourseService {
 
   async update(files, id: number, updateCourseDto: UpdateCourseDto) {
     try {
-
+    
       const course = await this.courseRepository.findOne({ where: { id } });
       if (_.isEmpty(course)) {
         throw new HttpException('course not found', HttpStatus.NOT_FOUND);
       }
 
       const exitingCourse = await this.courseRepository.findOne({
-        where: { courseName: updateCourseDto.courseName, id: Not(id) }
+        where: { courseName: updateCourseDto.courseName, id: Not(id) },
       });
       if (exitingCourse) {
         throw new HttpException(`course ${updateCourseDto.courseName} already exists`, HttpStatus.CONFLICT);
       }
 
       const findCategory = await this.categoryRepository.findOne({
-        where: { id: updateCourseDto.categoryId, },
-      })
+        where: { id: updateCourseDto.categoryId },
+      });
 
       if (_.isEmpty(findCategory)) {
         throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
@@ -129,15 +129,31 @@ export class CourseService {
       course.categorys = findCategory;
 
       const saveImgs = [];
-      if (files && files.length > 1) {
-        for (let i = 1; i < files.length; i++) {
+
+      if (files && files.length >= 1) {
+        // console.log('files', files);
+          const keepdataimg = await this.imageRepository.manager
+        .createQueryBuilder(Image, 'image')
+        .where('image.course = :course', { course :id })
+        .getMany();
+        // console.log("keepdataimg",keepdataimg);
+
+      if (_.isEmpty(keepdataimg)) {
+        throw new HttpException('course not found', HttpStatus.NOT_FOUND);
+      }
+        
+        for (let i = 0; i < files.length; i++) {
           const createImg = this.imageRepository.create({
             name: files[i].filename,
           });
+          // console.log('createImg', createImg);
+
           const saveImg = await this.imageRepository.save(createImg);
-          saveImgs.push(saveImg);
+          saveImgs.push(saveImg,...keepdataimg);
         }
       }
+
+      console.log('saveImgs', saveImgs);
 
       if (saveImgs.length > 0) {
         course.images = saveImgs;
@@ -253,6 +269,7 @@ export class CourseService {
         priority: newPriority,
         images: saveImgs,
         categorys: findCategory,
+        status: createCourseDto.status,
       });
       return await this.courseRepository.save(courseImage);
     } catch (error) {

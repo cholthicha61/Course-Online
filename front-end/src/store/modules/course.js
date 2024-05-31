@@ -44,7 +44,6 @@ const actions = {
     try {
       const res = await axios(configAxios("get", url));
       console.log("Fetched course by ID:", res.data);
-
       commit("SET_SELECTED_COURSE", res.data);
     } catch (error) {
       console.error("Failed to fetch course by ID", error);
@@ -64,18 +63,20 @@ const actions = {
 
   async addCourse({ commit }, addcourse) {
     const url = `${ENDPOINT.COURSE}`;
+    console.log("url",url);
     const formData = new FormData();
     console.log("addcourse", addcourse);
     formData.append("courseName", addcourse.name);
     formData.append("price", addcourse.price);
     formData.append("description", addcourse.detail);
+    formData.append("status", addcourse.status);
     formData.append("categoryId", addcourse.category);
     for (const item of addcourse.images) {
       formData.append("files", item.file);
       console.log("TTTTTTT", item.file);
     }
     for (const value of formData.values()) {
-      console.log("VALUE", value);
+      // console.log("VALUE", value);
     }
 
     try {
@@ -100,33 +101,35 @@ const actions = {
   },
 
   async updateCourse({ commit }, updatedCourse) {
-    const url = `${ENDPOINT.COURSE}/${updatedCourse.id}`;
-    console.log("ตี๋น้อย",updatedCourse.updateData.files);
+    const url = `${ENDPOINT.COURSE}/update-course/${updatedCourse.id}`;
+    console.log("URL",url);
+    console.log("ตี๋น้อย", updatedCourse.updateData.files);
     try {
-    //   const courses = await axios(configAxios("get", `${ENDPOINT.COURSE}`));
-    //   const duplicate = courses.data.find(
-    //     (course) =>
-    //       course.courseName === updatedCourse.updateData.courseName &&
-    //       course.id !== updatedCourse.id
-    //   );
-    //   if (duplicate) {
-    //     throw { response: { status: 409 } };
-    //   }
+      const courses = await axios(configAxios("get", `${ENDPOINT.COURSE}`));
+      const duplicate = courses.data.find(
+        (course) =>
+          course.courseName === updatedCourse.updateData.courseName &&
+          course.id !== updatedCourse.id
+      );
+      // if (duplicate) {
+      //   throw { response: { status: 409 } };
+      // }
 
       const formData = new FormData();
-      console.log("addcourse", updatedCourse);
-      formData.append("courseName", updatedCourse.updateData.name);
+      console.log("updatedCourse", updatedCourse);
+      formData.append("courseName", updatedCourse.updateData.courseName);
       formData.append("price", updatedCourse.updateData.price);
-      formData.append("description", updatedCourse.updateData.detail);
-      formData.append("categoryId", updatedCourse.updateData.category);
+      formData.append("description", updatedCourse.updateData.description);
+      formData.append("status", updatedCourse.updateData.status),
+      formData.append("categoryId", updatedCourse.updateData.categoryId);
       for (const item of updatedCourse.updateData.files) {
-        formData.append("files",item || item.item);
+        formData.append("files", item.file || item.item);
         console.log("SDSDSDSDSD", item);
       }
 
-      const res = await axios(
-        configAxios("patch", url, formData)
-      );
+      const res = await axios(configAxios("patch", url, formData));
+      // Ensure that the course in the state is updated after a successful API call
+      commit("UPDATE_COURSE", res.data);
     } catch (error) {
       console.error("Failed to update course", error);
       if (error.response && error.response.status === 409) {
