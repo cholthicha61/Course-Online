@@ -98,7 +98,6 @@ export default {
       await this.$store.dispatch("order/getOrder", payload);
     },
     async confirmOrder(orderId) {
-<<<<<<< HEAD
   const result = await Swal.fire({
     title: "Are you sure?",
     text: "Do you want to confirm this order?",
@@ -140,6 +139,7 @@ export default {
       },
     });
 
+
     if (formValues) {
       const [startdate, enddate] = formValues;
       const confirmPayload = {
@@ -166,17 +166,6 @@ export default {
         "success"
       ).then(() => {
         window.location.reload(); // รีโหลดหน้าหลังจากการยืนยันเสร็จสิ้น
-=======
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "Do you want to confirm this order?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, confirm it!",
-        cancelButtonText: "Cancel",
->>>>>>> 7d9794efdbb1113cee0b71acb330e01d31579ba1
       });
 
       if (result.isConfirmed) {
@@ -226,6 +215,8 @@ export default {
           });
         }
       }
+    }
+  }
     },
 
     formatPrice(price) {
