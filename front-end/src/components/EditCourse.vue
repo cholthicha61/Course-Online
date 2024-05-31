@@ -10,7 +10,8 @@
     </div>
     <div class="mb-4 flex items-center">
       <label for="price" class="block w-1/4 mr-4">Price:</label>
-      <input type="text" id="price" v-model="course.price" class="w-3/4 p-2 border border-gray-300 rounded" />
+      <input type="text" id="price" v-model="course.price" @input="validatePrice"
+        class="w-3/4 p-2 border border-gray-300 rounded" />
     </div>
     <div class="mb-4 flex items-center">
       <label for="description" class="block w-1/4 mr-4">Detail:
@@ -69,15 +70,8 @@
           </label>
           <div v-for="(item, i) in course.images" :key="i">
             <span class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
-            <img
-              :src="imageUrl"
-              :alt="'Image Preview ' + (i + 1)"
-              style="max-width: 100%; height: auto"
-            />
-            <button
-              @click="removeImage(i)"
-              class="absolute top-auto -right bg-red-500 text-white p-1 rounded-full"
-            >
+            <img :src="imageUrl" :alt="'Image Preview ' + (i + 1)" style="max-width: 100%; height: auto" />
+            <button @click="removeImage(i)" class="absolute top-auto -right bg-red-500 text-white p-1 rounded-full">
               X
             </button>
           </div>
@@ -193,26 +187,24 @@ export default {
         return;
       }
       const confirmResult = await Swal.fire({
-        title: "ยืนยันการแก้ไข",
-        text: "คุณแน่ใจที่จะบันทึกการเปลี่ยนแปลงหรือไม่?",
+        title: "Confirm to edit",
+        text: "Are you sure for submit your change",
         icon: "question",
         showCancelButton: true,
-        confirmButtonText: "ใช่",
-        cancelButtonText: "ไม่",
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
       });
 
       if (confirmResult.isConfirmed) {
         const courseId = this.$route.params.id;
         const payload = {
           id: courseId,
-          updateData: {
-            courseName: this.course?.courseName,
-            price: this.course?.price,
-            description: this.course?.description,
-            status: this.course?.status,
-            categoryId: this.course?.category,
-            files: this.course?.images,
-          },
+          courseName: this.course?.courseName,
+          price: this.course?.price,
+          description: this.course?.description,
+          status: this.course?.status,
+          categoryId: this.course?.categorys.id,
+          files: this.course?.images,
         };
         Swal.fire({
           title: "Edit course successfully",
@@ -223,7 +215,7 @@ export default {
         this.$router.push({ name: "coursemanage" });
 
         await this.$store.dispatch("course/updateCourse", payload);
-        console.log("image", course.images)
+        // console.log("image", course.images)
 
       }
     },

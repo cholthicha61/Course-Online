@@ -4,7 +4,7 @@
 
     <div class="mb-4 flex items-center">
       <label for="name" class="block w-1/4 mr-4">Name:<span class="text-red-500" v-if="!course.name">*</span></label>
-      <input type="text" id="name" v-model="course.name" @input="validateNoSpace('name')" class="w-3/4 p-2 border border-gray-300 rounded" />
+      <input type="text" id="name" v-model="course.name" class="w-3/4 p-2 border border-gray-300 rounded" />
     </div>
     <div class="mb-4 flex items-center">
       <label for="price" class="block w-1/4 mr-4">Price:<span class="text-red-500" v-if="!course.price">*</span></label>
@@ -12,7 +12,7 @@
     </div>
     <div class="mb-4 flex items-center">
       <label for="detail" class="block w-1/4 mr-4">Detail:<span class="text-red-500" v-if="!course.detail">*</span></label>
-      <textarea id="detail" v-model="course.detail" @input="validateNoSpace('detail')" class="w-3/4 p-2 border border-gray-300 rounded"></textarea>
+      <textarea id="detail" v-model="course.detail" class="w-3/4 p-2 border border-gray-300 rounded"></textarea>
     </div>
     <div class="mb-4 flex items-center">
       <label for="status" class="block w-1/4 mr-4">Status:<span class="text-red-500" v-if="!course.status">*</span></label>
@@ -140,11 +140,11 @@ export default {
       }
     },
     async submitCourse() {
-      if (!this.course.name || !this.course.price || !this.course.detail || !this.course.status || !this.course.category || this.course.images.length === 0) {
+      if (!this.course.name.trim() || !this.course.price || !this.course.detail.trim() || !this.course.status || !this.course.category || this.course.images.length === 0) {
         Swal.fire({
           icon: "error",
-          title: "Oops...",
-          text: "Please fill in all required fields!",
+          title: "Oops... Invalid Input",
+          text: "fields must not be empty",
         });
         return;
       }
@@ -155,9 +155,9 @@ export default {
           icon: "success",
           title: "Successfully added course",
           showConfirmButton: false,
-        }).then(() => {
-          this.$router.go();
+          timer: 2000,
         });
+        this.$router.push({ name: "coursemanage" });
       } catch (error) {
         console.error("Failed to add course", error);
         console.log("Error response: ", error.response); 
