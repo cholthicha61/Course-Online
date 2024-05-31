@@ -81,7 +81,7 @@
 
       <h2
         v-if="coursebyid"
-        class="text-4xl font-bold text-orange-500 mt-10 ml-5"
+        class="text-4xl font-bold text-orange-500 mt-10 ml-5 break-words"
       >
         {{ formatPrice(coursebyid.price) }}
       </h2>
