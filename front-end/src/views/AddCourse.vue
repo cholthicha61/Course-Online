@@ -189,9 +189,9 @@ export default {
           icon: "success",
           title: "Successfully added course",
           showConfirmButton: false,
-          timer: 2000,
+          // timer: 2000,
         });
-        this.$router.push({ name: "coursemanage" });
+       this.$router.push({ name: "coursemanage" });
       } catch (error) {
         console.log("X10",this.course);
         console.error("Failed to add course", error);
@@ -202,7 +202,7 @@ export default {
             icon: "warning",
             title: "This course name is already in use",
             showConfirmButton: false,
-            // timer: 2000,
+            timer: 2000,
           });
         } else {
           Swal.fire({

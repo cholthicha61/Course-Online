@@ -72,7 +72,7 @@ const actions = {
     formData.append("description", addcourse.detail);
     formData.append("status", addcourse.status);
     formData.append("categoryId", addcourse.category);
-    formData.append("status", addcourse.status);
+    // formData.append("status", addcourse.status);
     for (const item of addcourse.images) {
       formData.append("files", item.file);
       console.log("TTTTTTT", item.file);
