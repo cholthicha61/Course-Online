@@ -29,6 +29,6 @@ export class Order extends BaseEntity {
   @JoinColumn({ name: 'course_id', referencedColumnName: 'id' })
   course: Course;
 
-  @Column()
+  @Column({type: 'float'})
   price: number;
 }
