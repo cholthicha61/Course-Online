@@ -1,48 +1,93 @@
 <template>
-  <div class="mx-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl">
-    <div class="container mx-auto mt-2 px-0 md:px-16 lg:px-64">
-      <h2 class="text-2xl font-bold text-center my-6">Edit Profile Teacher</h2>
-      <div class="flex items-center flex-col w-full max-w-lg mx-auto border-gray-200 rounded-lg">
-        <div class="flex flex-col w-full md:w-96 mb-4">
-          <label class="mb-2 text-gray-700">Firstname</label>
-          <input type="text" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-            v-model="teacher.fname" />
-          <span class="text-red-500">{{ fnameError }}</span>
-        </div>
+  <div class="mx-auto">
+    <h2 class="text-3xl font-bold text-center my-6">Edit Profile Teacher</h2>
+    <div class="flex items-center flex-col w-full max-w-lg mx-auto border-gray-200 rounded-lg">
+      <div class="flex flex-col w-96">
+        <label class="mb-2 text-gray-700">Firstname</label>
+        <input
+          type="text"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.fname"
+        />
+        <span class="text-red-500">{{ fnameError }}</span>
+      </div>
 
-        <div class="flex flex-col w-full md:w-96 mb-4">
-          <label class="mb-2 text-gray-700">Lastname</label>
-          <input type="text" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-            v-model="teacher.lname" />
-        </div>
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Lastname</label>
+        <input
+          type="text"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.lname"
+        />
+      </div>
 
-        <div class="flex flex-col w-full md:w-96 mb-4">
-          <label class="mb-2 text-gray-700">Email</label>
-          <input type="email" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-            v-model="teacher.email" />
-        </div>
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Email</label>
+        <input
+          type="email"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.email"
+        />
+      </div>
 
-        <div class="flex flex-col w-full md:w-96 mb-4">
-          <label class="mb-2 text-gray-700">Phone</label>
-          <input type="tel" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-            v-model="teacher.phone" />
-        </div>
-        <div class="flex flex-col w-full md:w-96 mb-4">
-          <label class="flex flex-col w-full md:w-96 mb-4 text-gray-700">Information</label>
-          <textarea id="detail" v-model="teacher.desc"
-            class="flex flex-col w-full md:w-96 mb-4 p-2 border border-gray-300 rounded"></textarea>
-        </div>
-        <div class="flex flex-col w-full md:w-96 mb-4">Picture</div>
-        <div class="flex flex-col picture mr-11">
-          <v-file-input variant="outlined" accept=".jpg,.png,.gif" label="Add Picture" placeholder="Pick an avatar"
-            v-model="teacher.userImage">
-          </v-file-input>
-        </div>
-        <div class="flex flex-col w-full md:w-96 mb-4">
-          <button @click="updateUser" class="w-full bg-sky-600 text-white font-bold py-2 rounded-md hover:bg-sky-800">
-            Save
-          </button>
-        </div>
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Phone</label>
+        <input
+          type="tel"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.phone"
+        />
+      </div>
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Information</label>
+        <textarea
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full h-32 resize-none overflow-auto"
+          v-model="teacher.desc"
+        ></textarea>
+      </div>
+
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Link Facebook</label>
+        <input
+          type="text"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.linkFacebook"
+        />
+      </div>
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Link Email</label>
+        <input
+          type="text"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.linkEmail"
+        />
+      </div>
+      <div class="flex flex-col w-96 m-1">
+        <label class="mb-2 text-gray-700">Link Line</label>
+        <input
+          type="text"
+          class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+          v-model="teacher.linkLine"
+        />
+      </div>
+      <div class="flex flex-col mb-4 w-96">Picture</div>
+      <div class="flex flex-col picture mr-11">
+        <v-file-input
+          variant="outlined"
+          accept=".jpg,.png,.gif"
+          label="Add Picture"
+          placeholder="Pick an avatar"
+          v-model="teacher.userImage"
+        >
+        </v-file-input>
+      </div>
+      <div class="flex flex-col w-96 py-3">
+        <button
+          @click="updateTeacher"
+          class="w-full bg-sky-600 text-white font-bold py-2 rounded-md hover:bg-sky-800"
+        >
+          Save
+        </button>
       </div>
     </div>
   </div>
@@ -66,11 +111,6 @@ export default {
         linkLine: "",
         userImage: null,
       },
-      files: {
-        name: "",
-
-      }
-
     };
   },
   computed: {
@@ -83,14 +123,24 @@ export default {
   },
   methods: {
     async getTeacher() {
-      await this.$store.dispatch("user/getTeacher");
-      this.teacher = this.user;
+      try {
+        await this.$store.dispatch("user/getTeacher");
+        console.log("User data from Vuex:", this.user);
+        this.teacher = { ...this.user };
+      } catch (error) {
+        console.error("Error fetching teacher data:", error);
+      }
     },
     isWhitespaceOrEmpty(string) {
       return !string || !string.trim();
     },
     async updateTeacher() {
-      if (this.isWhitespaceOrEmpty(this.teacher.fname) || this.isWhitespaceOrEmpty(this.teacher.lname) || this.isWhitespaceOrEmpty(this.teacher.email) || this.isWhitespaceOrEmpty(this.teacher.phone)) {
+      if (
+        this.isWhitespaceOrEmpty(this.teacher.fname) ||
+        this.isWhitespaceOrEmpty(this.teacher.lname) ||
+        this.isWhitespaceOrEmpty(this.teacher.email) ||
+        this.isWhitespaceOrEmpty(this.teacher.phone)
+      ) {
         await Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -108,6 +158,7 @@ export default {
         });
         return;
       }
+
       const phoneRegex = /^[0-9]{10}$/;
       if (!phoneRegex.test(this.teacher.phone)) {
         await Swal.fire({
@@ -117,33 +168,38 @@ export default {
         });
         return;
       }
-      if (this.teacher.userImage instanceof File) {
-        await this.$store.dispatch("user/updateTeacher", {
-          newData: {
-            fname: this.teacher.fname,
-            lname: this.teacher.lname,
-            phone: this.teacher.phone,
-            email: this.teacher.email,
-            desc: this.teacher.desc,
-            linkEmail: this.teacher.linkEmail,
-            linkFacebook: this.teacher.linkFacebook,
-            linkLine: this.teacher.linkLine,
-            userImage: this.teacher.userImage,
-          },
-        });
-      } else {
-        await this.$store.dispatch("user/updateTeachernoImage", {
-          newData: {
-            fname: this.teacher.fname,
-            lname: this.teacher.lname,
-            phone: this.teacher.phone,
-            email: this.teacher.email,
-            desc: this.teacher.desc,
-            linkEmail: this.teacher.linkEmail,
-            linkFacebook: this.teacher.linkFacebook,
-            linkLine: this.teacher.linkLine,
-          },
-        });
+
+      try {
+        if (this.teacher.userImage instanceof File) {
+          await this.$store.dispatch("user/updateTeacher", {
+            newData: {
+              fname: this.teacher.fname,
+              lname: this.teacher.lname,
+              phone: this.teacher.phone,
+              email: this.teacher.email,
+              desc: this.teacher.desc,
+              linkEmail: this.teacher.linkEmail,
+              linkFacebook: this.teacher.linkFacebook,
+              linkLine: this.teacher.linkLine,
+              userImage: this.teacher.userImage,
+            },
+          });
+        } else {
+          await this.$store.dispatch("user/updateTeachernoImage", {
+            newData: {
+              fname: this.teacher.fname,
+              lname: this.teacher.lname,
+              phone: this.teacher.phone,
+              email: this.teacher.email,
+              desc: this.teacher.desc,
+              linkEmail: this.teacher.linkEmail,
+              linkFacebook: this.teacher.linkFacebook,
+              linkLine: this.teacher.linkLine,
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error updating teacher profile:", error);
       }
     },
   },
@@ -158,5 +214,4 @@ export default {
 .picture {
   width: 82%;
 }
-</style> 
-
+</style>

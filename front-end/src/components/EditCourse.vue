@@ -10,14 +10,15 @@
     </div>
     <div class="mb-4 flex items-center">
       <label for="price" class="block w-1/4 mr-4">Price:</label>
-      <input type="text" id="price" v-model="course.price" class="w-3/4 p-2 border border-gray-300 rounded" />
+      <input type="text" id="price" v-model="course.price" @input="validatePrice"
+        class="w-3/4 p-2 border border-gray-300 rounded" />
     </div>
     <div class="mb-4 flex items-center">
       <label for="description" class="block w-1/4 mr-4">Detail:
         <span class="text-red-500" v-if="!course.description.trim()">*</span>
       </label>
-      <textarea id="description" v-model="course.description"
-        class="w-3/4 p-2 border border-gray-300 rounded"></textarea>
+      <input type="text" id="description" v-model="course.description"
+        class="w-3/4 p-2 border border-gray-300 rounded"/>
     </div>
 
     <div class="mb-4 flex items-center">
@@ -26,7 +27,6 @@
         <option value="" disabled>Select status</option>
         <option value="New">New</option>
         <option value="Recommended">Recommended</option>
-        <option value="General">General</option>
         <option value="off">Off</option>
       </select>
     </div>
@@ -98,21 +98,12 @@
           </label>
           <div v-for="(item, i) in course.images" :key="i">
             <span class="text-gray-500 bg-gray-200 z-50">{{ item.name || item.item.name }}</span>
-            <img
-              :src="`${path}${item.name}`"
-              style="max-width: 100%; height: auto"
-            />
+            <img :src="`${path}${item.name}`" style="max-width: 100%; height: auto" />
             <div v-if="item.result">
-              <img
-              :src="`${item.result}`"
-              style="max-width: 100%; height: auto"
-            />
+              <img :src="`${item.result}`" style="max-width: 100%; height: auto" />
 
             </div>
-            <button
-              @click="removeImage(i)"
-              class="absolute top-auto -right bg-red-500 text-white p-1 rounded-full"
-            >
+            <button @click="removeImage(i)" class="absolute top-auto -right bg-red-500 text-white p-1 rounded-full">
               X
             </button>
           </div>
@@ -169,7 +160,7 @@ export default {
 
   async mounted() {
     const courseId = this.$route.params.id;
-    console.log("ไหนค่า",ENDPOINT.IMAGE);
+    console.log("ไหนค่า", ENDPOINT.IMAGE);
     this.path = ENDPOINT.IMAGE;
     await this.$store.dispatch("course/getCourseById", courseId);
     const courseData = this.courseFromStore;
@@ -216,8 +207,8 @@ export default {
           const reader = new FileReader();
           reader.onload = (e) => {
             this.course.images.push({ item, result: e.target.result });
-            console.log("XC",item);
-            console.log("IMG",this.course.images);
+            console.log("XC", item);
+            console.log("IMG", this.course.images);
             this.imageUrl = e.target.result;
           };
           reader.readAsDataURL(item);

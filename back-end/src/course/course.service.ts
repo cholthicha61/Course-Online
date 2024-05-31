@@ -232,6 +232,8 @@ export class CourseService {
 
   async createCourse(files: any[], createCourseDto: CreateCourseDto) {
     try {
+      console.log('createCourseDto', createCourseDto);
+      
       const findCourse = await this.courseRepository.findOne({
         where: {
           courseName: createCourseDto.courseName,
@@ -241,11 +243,17 @@ export class CourseService {
         throw new HttpException(`course ${createCourseDto.courseName} already exists`, HttpStatus.CONFLICT);
       }
 
-      const findCategory = await this.categoryRepository.findOne({
-        where: {
-          id: createCourseDto.categoryId,
-        },
-      });
+      let findCategory
+      if(createCourseDto?.categoryId) {
+        findCategory = await this.categoryRepository.findOne({
+          where: {
+            id: createCourseDto.categoryId,
+          },
+        });
+      }
+      
+      console.log('findCategory',findCategory, 'id = ',createCourseDto.categoryId);
+      
 
       if (_.isEmpty(findCategory)) {
         throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
@@ -261,7 +269,7 @@ export class CourseService {
         saveImgs.push(saveImg);
       }
       const newPriority = await this.createNewPriority();
-      const courseImage = this.courseRepository.create({
+      const courseCreate = this.courseRepository.create({
         courseImage: files[0].filename,
         courseName: createCourseDto.courseName,
         description: createCourseDto.description,
@@ -271,7 +279,9 @@ export class CourseService {
         categorys: findCategory,
         status: createCourseDto.status,
       });
-      return await this.courseRepository.save(courseImage);
+      console.log('courseCreate',courseCreate);
+      
+      return await this.courseRepository.save(courseCreate);
     } catch (error) {
       throw error;
     }

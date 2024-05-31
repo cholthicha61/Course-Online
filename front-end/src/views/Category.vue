@@ -7,24 +7,15 @@
       <AddCategory />
     </div>
 
-    <EditCategory
-      v-if="isEditCategory"
-      :isEditCategory="isEditCategory"
-      :selectCategory="selectCategory"
-      :onCloseEdit="onCloseEdit"
-    />
+    <EditCategory v-if="isEditCategory" :isEditCategory="isEditCategory" :selectCategory="selectCategory"
+      :onCloseEdit="onCloseEdit" />
 
-    <v-data-table-virtual
-      :headers="headers"
-      :items="names"
-      height="467"
-      item-value="name"
-    >
+    <v-data-table-virtual :headers="headers" :items="names" height="467" item-value="name">
       <template v-slot:[`item.no`]="{ index }">
         {{ index + 1 }}
       </template>
-       <template v-slot:[`item.createdAt`]="{ item }">
-        <p >{{ formatDate(item.createdAt) }}</p>
+      <template v-slot:[`item.createdAt`]="{ item }">
+        <p>{{ formatDate(item.createdAt) }}</p>
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
@@ -43,6 +34,7 @@ import AddCategory from "../components/AddCategory.vue";
 import category from "@/store/modules/category";
 import EditCategory from "../components/EditCategory.vue";
 import Swal from "sweetalert2";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   components: {
@@ -52,16 +44,16 @@ export default {
   data() {
     return {
       headers: [
-        { title: "No.", align: "center", value: "no" ,sortable: true},
+        { title: "No.", align: "center", value: "no", sortable: true },
         {
           title: "CreateAt",
           align: "center",
           value: "createdAt",
           sortable: true,
         },
-        { title: "Category Name", align: "center", value: "name",sortable: true },
-        { title: "Actions", align: "center", value: "actions",sortable: true },
-        
+        { title: "Category Name", align: "center", value: "name", sortable: true },
+        { title: "Actions", align: "center", value: "actions", sortable: true },
+
       ],
       categorys: [],
       isEditCategory: false,
@@ -82,9 +74,7 @@ export default {
     this.getData();
   },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleString();
-    },
+    formatDate,
     async getData() {
       const payload = {
         category: true,
@@ -114,9 +104,9 @@ export default {
     onCloseEdit(isClose) {
       this.isEditCategory = false;
     },
-    
+
   },
-  
+
 };
 </script>
 

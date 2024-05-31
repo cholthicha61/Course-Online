@@ -62,6 +62,7 @@ const actions = {
   },
 
   async addCourse({ commit }, addcourse) {
+    console.log('addcourse payload', addcourse);
     const url = `${ENDPOINT.COURSE}`;
     console.log("url",url);
     const formData = new FormData();
@@ -71,6 +72,7 @@ const actions = {
     formData.append("description", addcourse.detail);
     formData.append("status", addcourse.status);
     formData.append("categoryId", addcourse.category);
+    formData.append("status", addcourse.status);
     for (const item of addcourse.images) {
       formData.append("files", item.file);
       console.log("TTTTTTT", item.file);
@@ -132,10 +134,14 @@ const actions = {
       commit("UPDATE_COURSE", res.data);
     } catch (error) {
       console.error("Failed to update course", error);
-      if (error.response && error.response.status === 409) {
-        throw new Error("This name is already in use");
-      } else {
-        throw new Error("Unable to update information");
+      if (error.response.status === 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "Course name has been used",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     }
   },

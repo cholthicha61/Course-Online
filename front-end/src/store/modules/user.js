@@ -12,6 +12,7 @@ const state = {
 };
 const mutations = {
   SET_USER: (state, payload) => {
+    console.log("Commit SET_USER with data:", payload); // Debugging line
     state.user = payload;
   },
   SET_USERS: (state, payload) => {
@@ -161,7 +162,11 @@ const actions = {
     formData.append("phone", newData.phone);
     formData.append("email", newData.email);
     formData.append("desc", newData.desc);
+    formData.append("linkEmail", newData.linkEmail);
+    formData.append("linkFacebook", newData.linkFacebook);
+    // formData.append("linkLine", newData.linkLine);
     formData.append("file", newData.userImage);
+
     console.log("newData:", newData);
     try {
       const res = await axios(configAxios("patch", url, formData));
@@ -212,15 +217,45 @@ const actions = {
           timer: 2000,
         });
         await this.dispatch("user/getUser");
+        await this.dispatch('auth/checkUser', this.state.user)
+
       }
     } catch (error) {
       console.log("error >> ", error);
     }
   },
+  // async updateStatus({ commit }, payload) {
+  //   console.log("payload", `${ENDPOINT.USER}/update-status/${payload.id}`);
+  //   try {
+  //     const url = `${ENDPOINT.USER}/update-status/${payload.id}`;
+  //     const res = await axios(configAxios("patch", url, payload));
+  //     console.log("response", res);
+  
+  //     if (res.status == 200) {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Successfully edited",
+  //         text: "",
+  //         showConfirmButton: false,
+  //         timer: 2000,
+  //       });
+  //     }
+  //     if (res.data.active === false) {
+  //       console.log('passss');
+  //       await commit("auth/logout");
+  //     } else {
+  //       console.log('faillll');
+  //       await this.dispatch("user/getUser");
+  //     }
+  //   } catch (error) {
+  //     console.log("error >> ", error);
+  //   }
+  // },
   async getTeacher({ commit }, payload) {
     let url = `${ENDPOINT.USER}/get-teacher-profile`;
     try {
       const res = await axios(configAxios("get", url));
+      console.log("Response data from API:", res.data); // Debugging line
       commit("SET_USER", res.data);
     } catch (error) {
       throw new Error();

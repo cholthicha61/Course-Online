@@ -43,11 +43,10 @@ export default {
   },
   watch: {
     isEditCategory(newVal) {
-      return (this.dialog = newVal);
+      this.dialog = newVal;
     },
     dialog(newVal) {
-      if (newVal == false) {
-        // this.isEditCategory = false
+      if (!newVal) {
         this.onCloseEdit(newVal);
       }
     },
@@ -62,7 +61,6 @@ export default {
       const trimmedName = this.name.trim();
       
       if (!trimmedName) {
-        this.dialog = false;
         await Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -70,14 +68,14 @@ export default {
         });
         return;
       }
+
       const payload = {
         name: trimmedName,
       };
+
       await this.$store.dispatch("category/updateCategory", {
         categoryId: this.selectCategory.id,
-        newData: {
-          name: this.name,
-        },
+        newData: payload,
       });
 
       this.dialog = false;
@@ -86,7 +84,6 @@ export default {
       this.name = item.name;
       this.dialog = true;
     },
-
     clearForm() {
       this.name = "";
       this.dialog = true;
@@ -94,3 +91,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.pa-4 {
+  padding: 16px;
+}
+.text-center {
+  text-align: center;
+}
+.drop-shadow-lg {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+</style>
