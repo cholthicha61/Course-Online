@@ -45,6 +45,7 @@
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
 import { StatusOrder } from "@/constants/enum";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   name: "CourseOrders",
@@ -89,9 +90,7 @@ export default {
     await this.getOrder();
   },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleString();
-    },
+    formatDate,
     async getOrder() {
       const payload = { status: StatusOrder.Waiting };
       await this.$store.dispatch("order/getOrder", payload);
@@ -113,8 +112,8 @@ export default {
         const { value: formValues } = await Swal.fire({
           title: "Enter Start and End Dates",
           html:
-            `<input id="start-date" type="datetime-local" class="swal2-input" min="${today}T00:00">` +
-            `<input id="end-date" type="datetime-local" class="swal2-input" min="${today}T00:00">`,
+            `<input id="start-date" type="date" class="swal2-input" min="${today}T00:00">` +
+            `<input id="end-date" type="date" class="swal2-input" min="${today}T00:00">`,
           focusConfirm: false,
           showCancelButton: true,
           confirmButtonText: "Submit",
@@ -197,6 +196,7 @@ export default {
       }
     },
     formatPrice(price) {
+
       return price
         .toLocaleString("en-US", { style: "currency", currency: "THB" })
         .replace("THB", "฿");

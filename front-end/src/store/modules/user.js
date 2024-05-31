@@ -217,11 +217,40 @@ const actions = {
           timer: 2000,
         });
         await this.dispatch("user/getUser");
+        await this.dispatch('auth/checkUser', this.state.user)
+
       }
     } catch (error) {
       console.log("error >> ", error);
     }
   },
+  // async updateStatus({ commit }, payload) {
+  //   console.log("payload", `${ENDPOINT.USER}/update-status/${payload.id}`);
+  //   try {
+  //     const url = `${ENDPOINT.USER}/update-status/${payload.id}`;
+  //     const res = await axios(configAxios("patch", url, payload));
+  //     console.log("response", res);
+  
+  //     if (res.status == 200) {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Successfully edited",
+  //         text: "",
+  //         showConfirmButton: false,
+  //         timer: 2000,
+  //       });
+  //     }
+  //     if (res.data.active === false) {
+  //       console.log('passss');
+  //       await commit("auth/logout");
+  //     } else {
+  //       console.log('faillll');
+  //       await this.dispatch("user/getUser");
+  //     }
+  //   } catch (error) {
+  //     console.log("error >> ", error);
+  //   }
+  // },
   async getTeacher({ commit }, payload) {
     let url = `${ENDPOINT.USER}/get-teacher-profile`;
     try {

@@ -60,9 +60,9 @@
 <script>
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
-import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiCheckboxMarkedOutline } from "@mdi/js";
-
+import SvgIcon from '@jamescoyle/vue-icon'
+import { mdiCheckboxMarkedOutline } from '@mdi/js'
+import { formatDate } from "@/constants/formatdate";
 export default {
   components: {
     SvgIcon,
@@ -87,9 +87,7 @@ export default {
     await this.getQuestion();
   },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleString();
-    },
+    formatDate,
     showFullMessage(message) {
       Swal.fire({
         title: "Detail Message",

@@ -212,8 +212,8 @@ export default {
         } else {
           this.imageUrl = null;
         }
-        console.log("OP", this.imageUrl);
-        console.log("AAAAAA", this.course.images);
+        // console.log("OP", this.imageUrl);
+        // console.log("AAAAAA", this.course.images);
       }
     },
     removeImage(index) {
@@ -265,8 +265,9 @@ export default {
           showConfirmButton: false,
           timer: 2000,
         });
-        this.$router.push({ name: "coursemanage" });
+       this.$router.push({ name: "coursemanage" });
       } catch (error) {
+        console.log("X10",this.course);
         console.error("Failed to add course", error);
         console.log("Error response: ", error.response);
 

@@ -9,9 +9,9 @@
       <template #item="{ item, index }">
         <tr :key="index">
           <td class="table-cell">{{ index + 1 }}</td>
-          <td class="table-cell">{{ formatDate(item.confirmDate,'datetime') }}</td>
-          <td class="table-cell">{{ formatDate(item.startdate,'date') }}</td>
-          <td class="table-cell">{{ formatDate(item.enddate,'date') }}</td>
+          <td class="table-cell">{{ formatDate(item.confirmDate, 'datetime') }}</td>
+          <td class="table-cell">{{ formatDate(item.startdate, ) }}</td>
+          <td class="table-cell">{{ formatDate(item.enddate, ) }}</td>
           <td class="table-cell">{{ item.user.email }}</td>
           <td class="table-cell">
             {{ item.course ? item.course.courseName : "None" }}
@@ -37,6 +37,7 @@
 <script>
 import { mapState } from "vuex";
 import { StatusOrder } from "@/constants/enum";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   data() {
@@ -81,25 +82,13 @@ export default {
   computed: {
     ...mapState({
       order: (state) => state.order.order,
-      startDate: (state) => state.order.startDate,
-      endDate: (state) => state.order.endDate,
     }),
   },
   async mounted() {
     await this.getOrder();
   },
   methods: {
-    // formatDate(date, type) {
-    //   if (type === 'datetime') {
-    //     return new Date(date).toLocaleString();
-    //   } else if (type === 'date') {
-    //     return new Date(date).toLocaleDateString();
-    //   }
-    //   return date;
-    // },
-    formatDate(date) {
-      return new Date(date).toLocaleString();
-    },
+    formatDate,
     async getOrder() {
       const payload = { status: StatusOrder.Incourse };
       await this.$store.dispatch("order/getOrder", payload);
@@ -109,10 +98,6 @@ export default {
       return price
         .toLocaleString("en-US", { style: "currency", currency: "THB" })
         .replace("THB", "฿");
-    },
-    mounted() {
-      console.log("Start Date:", this.startdate);
-      console.log("End Date:", this.enddate);
     },
   },
 };

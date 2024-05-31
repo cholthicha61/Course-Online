@@ -16,14 +16,14 @@
           <td class="table-cell">{{ item.course ? formatPrice(item.course.price) : "None" }}</td>
         </tr>
       </template>
-    </v-data-table-virtual>
-  </div>
+</v-data-table-virtual>
+</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import { StatusOrder } from "@/constants/enum";
-import moment from "moment";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   data() {
@@ -66,12 +66,7 @@ export default {
     await this.getOrder();
   },
   methods: {
-    formatDate(date) {
-      const newDate = moment(date)
-        .add(7, "hour")
-        .format("DD MMMM YYYY, hh:mm:ss a");
-      return newDate;
-    },
+    formatDate,
     async getOrder() {
       const payload = {
         status: StatusOrder.Canceled,

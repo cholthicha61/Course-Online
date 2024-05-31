@@ -53,7 +53,7 @@ export class CourseController {
       storage: diskStorage({
         destination: FOLDERPATH.Imgs, // แก้เป็น path ที่ต้องการเก็บไฟล์
         filename: (req, file, cb) => {
-          console.log('file is ', file);
+          // console.log('file is ', file);
           const uniqueSuffix = uniqueSuffixString();
           const extension = path.extname(file.originalname);
           const filename = `${uniqueSuffix}${extension}`;
@@ -69,12 +69,16 @@ export class CourseController {
       successfully: [],
       failed: [],
     };
-    console.log(files);
+    // console.log(files);
+    console.log("ID",id);
+    
 
     const successFile = [];
     for (const file of files) {
       const extension = path.extname(file.originalname).toLowerCase();
       if (!allowedFileTypes.includes(extension)) {
+        console.log("kjhgf");
+        
         const filePath = `${FOLDERPATH.Imgs}/${file.filename}`; //ดูฟังก์ชั่นนี้เพื่อลบไฟล์
         try {
           await unlink(filePath); // ใช้ unlink เพื่อลบไฟล์
@@ -88,9 +92,10 @@ export class CourseController {
       } else {
         successFile.push(file);
         response.successfully.push(file.originalname);
+        
       }
     }
-    console.log('files is ', successFile);
+    // console.log('files is ', successFile);
 
     const course = await this.courseService.update(successFile, id, updateCourseDto);
     return course;
@@ -115,7 +120,7 @@ export class CourseController {
       storage: diskStorage({
         destination: FOLDERPATH.Imgs, // แก้เป็น path ที่ต้องการเก็บไฟล์
         filename: (req, file, cb) => {
-          console.log('file is ', file);
+          // console.log('file is ', file);
           const uniqueSuffix = uniqueSuffixString();
           const extension = path.extname(file.originalname);
           const filename = `${uniqueSuffix}${extension}`;
@@ -131,14 +136,13 @@ export class CourseController {
       successfully: [],
       failed: [],
     };
-    // console.log(files);
-    
-    
 
     const successFile = [];
     for (const file of files) {
       const extension = path.extname(file.originalname).toLowerCase();
       if (!allowedFileTypes.includes(extension)) {
+        console.log("if");
+        
         const filePath = `${FOLDERPATH.Imgs}/${file.filename}`; //ดูฟังก์ชั่นนี้เพื่อลบไฟล์
         try {
           await unlink(filePath); // ใช้ unlink เพื่อลบไฟล์
@@ -150,6 +154,7 @@ export class CourseController {
         // throw new BadRequestException('Invalid file type');
         response.failed.push(file.originalname);
       } else {
+        console.log("else");
         successFile.push(file);
         response.successfully.push(file.originalname);
       }

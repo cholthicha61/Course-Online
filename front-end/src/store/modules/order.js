@@ -11,7 +11,9 @@ const state = {
   order: [],
   orderIn: [],
   orderCancle: [],
-  orderEndcourse: [],
+  orderEnd: [],
+  startDate: null,
+  endDate: null,
 };
 
 const mutations = {
@@ -24,8 +26,8 @@ const mutations = {
   SET_ORDERCANCLE: (state, payload) => {
     state.orderCancle = payload;
   },
-  SET_ORDERENDCOURSE: (state, payload) => {
-    state.orderEndcourse = payload;
+  SET_ORDEREND: (state, payload) => {
+    state.orderEnd = payload;
   },
   CONFIRM_ORDER: (state, index) => {
     state.orders[index].confirmed = true;
@@ -52,6 +54,7 @@ const mutations = {
 const actions = {
   async getOrder({ commit }, payload) {
     let url = `${ENDPOINT.ORDER}`;
+    console.log("Request URL:", url);
     try {
       const res = await axios.get(url, {
         headers: {
@@ -59,16 +62,19 @@ const actions = {
         },
         params: payload,
       });
+      console.log("Response:", res);
       if (res.status === 200) {
+        console.log("Order Data:", res.data);
         commit("SET_ORDERS", res.data);
         commit("SET_ORDER", res.data);
       }
     } catch (error) {
-      console.log("error", error);
+      console.log("Error:", error);
     }
   },
   async confirmOrder({ commit, dispatch }, payload) {
     let url = `${ENDPOINT.ORDER}/update-status/${payload.orderId}`;
+    console.log("Request URL:", url);
     try {
       const res = await axios.patch(
         url,
@@ -81,7 +87,7 @@ const actions = {
           },
         }
       );
-
+      console.log("Response:", res);
       if (res.status === 200) {
         await dispatch("getOrder", { status: StatusOrder.Waiting });
       }
@@ -91,20 +97,25 @@ const actions = {
   },
   async dateOrder({ commit, dispatch }, payload) {
     let url = `${ENDPOINT.ORDER}/${payload.orderId}`;
-
+    console.log("Request URL:", url);
     try {
       const res = await axios.patch(
         url,
-        { startdate: payload.startdate, enddate: payload.enddate },
+        {
+          startdate: payload.startdate,
+          enddate: payload.enddate,
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         }
       );
-
+      console.log("Response:", res);
       if (res.status === 200) {
         console.log("Updated Order Data:", res.data);
+        commit("SET_START_DATE", payload.startdate);
+        commit("SET_END_DATE", payload.enddate);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -112,7 +123,7 @@ const actions = {
   },
   async rejectOrder({ commit, dispatch }, payload) {
     let url = `${ENDPOINT.ORDER}/update-status/${payload.orderId}`;
-
+    console.log("Request URL:", url);
     try {
       const res = await axios.patch(
         url,
@@ -123,7 +134,7 @@ const actions = {
           },
         }
       );
-
+      console.log("Response:", res);
       if (res.status === 200) {
         await dispatch("getOrder", { status: StatusOrder.Waiting });
       }
@@ -131,15 +142,17 @@ const actions = {
       console.error("Error:", error);
     }
   },
-
   async createOrder({ commit }, payload) {
+    console.log("Payload:", payload);
     try {
       const url = `${ENDPOINT.ORDER}`;
       const res = await axios(configAxios("post", url, payload));
-      if (res.status == 201) {
+      if (res.status === 201) {
+        console.log("Order Created:", res.data);
       }
     } catch (error) {
-      if (error.response && error.response.status == 404) {
+      console.log("Error:", error);
+      if (error.response && error.response.status === 404) {
         Swal.fire({
           icon: "warning",
           title: "Unable to order",
@@ -151,6 +164,7 @@ const actions = {
     }
   },
   async checkOrder({ commit }, payload) {
+    console.log("Payload:", payload);
     try {
       const url = `${ENDPOINT.ORDER}/check`;
       const res = await axios(configAxios("post", url, payload));
@@ -159,6 +173,7 @@ const actions = {
       }
       return false;
     } catch (error) {
+      console.log("Error:", error);
       if (error.response && error.response.status === 409) {
         Swal.fire({
           icon: "warning",
@@ -172,7 +187,6 @@ const actions = {
       throw error;
     }
   },
-
   async countWaitingOrder({ commit }, payload) {
     let url = `${ENDPOINT.ORDER}/count-waiting-order`;
     try {
