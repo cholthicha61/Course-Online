@@ -11,7 +11,7 @@ const state = {
   order: [],
   orderIn: [],
   orderCancle: [],
-  orderEnd: [],
+  orderEndcourse: [],
 };
 
 const mutations = {
@@ -24,12 +24,9 @@ const mutations = {
   SET_ORDERCANCLE: (state, payload) => {
     state.orderCancle = payload;
   },
-  SET_ORDEREND: (state, payload) => {
-    state.orderEnd = payload;
+  SET_ORDERENDCOURSE: (state, payload) => {
+    state.orderEndcourse = payload;
   },
-  // SET_ORDEREND: (state, payload) => {
-  //   state.orderEnd = payload;
-  // },
   CONFIRM_ORDER: (state, index) => {
     state.orders[index].confirmed = true;
     state.showConfirmationDialog = true;
@@ -55,7 +52,6 @@ const mutations = {
 const actions = {
   async getOrder({ commit }, payload) {
     let url = `${ENDPOINT.ORDER}`;
-    console.log("ssss", url);
     try {
       const res = await axios.get(url, {
         headers: {
@@ -63,9 +59,7 @@ const actions = {
         },
         params: payload,
       });
-      console.log("res banana", res);
       if (res.status === 200) {
-        console.log("res cate?", res.data);
         commit("SET_ORDERS", res.data);
         commit("SET_ORDER", res.data);
       }
@@ -75,9 +69,6 @@ const actions = {
   },
   async confirmOrder({ commit, dispatch }, payload) {
     let url = `${ENDPOINT.ORDER}/update-status/${payload.orderId}`;
-    console.log("Request URL:", url);
-    console.log("FFFFFFF",payload);
-
     try {
       const res = await axios.patch(
         url,
@@ -91,9 +82,7 @@ const actions = {
         }
       );
 
-      console.log("Response:", res);
       if (res.status === 200) {
-        console.log("Updated Order Data:", res.data);
         await dispatch("getOrder", { status: StatusOrder.Waiting });
       }
     } catch (error) {
@@ -102,14 +91,11 @@ const actions = {
   },
   async dateOrder({ commit, dispatch }, payload) {
     let url = `${ENDPOINT.ORDER}/${payload.orderId}`;
-    console.log("Request URL:", url);
 
     try {
       const res = await axios.patch(
         url,
-        { startdate : payload.startdate, 
-          enddate: payload.enddate,
-        },
+        { startdate: payload.startdate, enddate: payload.enddate },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -117,7 +103,6 @@ const actions = {
         }
       );
 
-      console.log("Response:", res);
       if (res.status === 200) {
         console.log("Updated Order Data:", res.data);
       }
@@ -127,7 +112,6 @@ const actions = {
   },
   async rejectOrder({ commit, dispatch }, payload) {
     let url = `${ENDPOINT.ORDER}/update-status/${payload.orderId}`;
-    console.log("Request URL:", url);
 
     try {
       const res = await axios.patch(
@@ -140,9 +124,7 @@ const actions = {
         }
       );
 
-      console.log("Response:", res);
       if (res.status === 200) {
-        console.log("Updated Order Data:", res.data);
         await dispatch("getOrder", { status: StatusOrder.Waiting });
       }
     } catch (error) {
@@ -151,14 +133,12 @@ const actions = {
   },
 
   async createOrder({ commit }, payload) {
-    console.log("payload", payload);
     try {
       const url = `${ENDPOINT.ORDER}`;
       const res = await axios(configAxios("post", url, payload));
       if (res.status == 201) {
       }
     } catch (error) {
-      console.log("error  >>> ", error);
       if (error.response && error.response.status == 404) {
         Swal.fire({
           icon: "warning",
@@ -171,7 +151,6 @@ const actions = {
     }
   },
   async checkOrder({ commit }, payload) {
-    console.log("payload", payload);
     try {
       const url = `${ENDPOINT.ORDER}/check`;
       const res = await axios(configAxios("post", url, payload));
@@ -180,7 +159,6 @@ const actions = {
       }
       return false;
     } catch (error) {
-      console.log("error  >>> ", error);
       if (error.response && error.response.status === 409) {
         Swal.fire({
           icon: "warning",
@@ -223,13 +201,10 @@ const actions = {
     }
   },
   async countEndCourse({ commit }, payload) {
-    // let url = `${ENDPOINT.ORDER}/count-end-order`;
     let url = `${ENDPOINT.ORDER}/count-end-order`;
-    // let url = `${ENDPOINT.ORDER}/count-canceled-order`;
     try {
       const res = await axios(configAxios("get", url));
-      console.log('res',this.res.data);
-      commit("SET_ORDEREND", res.data);
+      commit("SET_ORDERENDCOURSE", res.data);
     } catch (error) {
       throw error;
     }

@@ -50,12 +50,11 @@ export default {
   },
   computed: {
     ...mapState({
-      orderEnd: (State) => State.order.orderEnd,
+      orderEnd: (State) => State.order.orderEndcourse,
     }),
   },
   async mounted() {
     this.countEndCourse();
-    console.log('wwwwwwwwwwwww');
   },
   methods: {
     async countEndCourse() {
