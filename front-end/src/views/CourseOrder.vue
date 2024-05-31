@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import Swal from "sweetalert2";
 import { StatusOrder } from "@/constants/enum";
+import { mapState } from "vuex";
 
 export default {
   name: "CourseOrders",
@@ -98,75 +98,6 @@ export default {
       await this.$store.dispatch("order/getOrder", payload);
     },
     async confirmOrder(orderId) {
-<<<<<<< HEAD
-  const result = await Swal.fire({
-    title: "Are you sure?",
-    text: "Do you want to confirm this order?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, confirm it!",
-    cancelButtonText: "Cancel",
-  });
-
-  if (result.isConfirmed) {
-    const today = new Date().toISOString().split('T')[0]; // วันที่ปัจจุบัน
-    const { value: formValues } = await Swal.fire({
-      title: "Enter Start and End Dates",
-      html:
-        `<input id="start-date" type="date" class="swal2-input" min="${today}">` +
-        `<input id="end-date" type="date" class="swal2-input" min="${today}">`,
-      focusConfirm: false,
-      showCancelButton: true,
-      confirmButtonText: "Submit",
-      cancelButtonText: "Cancel",
-      preConfirm: () => {
-        const startDate = document.getElementById("start-date").value;
-        const endDate = document.getElementById("end-date").value;
-        if (!startDate || !endDate) {
-          Swal.showValidationMessage("Please enter both Start and End Dates");
-          return false;
-        }
-        if (new Date(startDate) < new Date(today) || new Date(endDate) < new Date(today)) {
-          Swal.showValidationMessage("Start and End Dates must be today or later");
-          return false;
-        }
-        if (new Date(endDate) <= new Date(startDate)) {
-          Swal.showValidationMessage("End Date must be greater than Start Date");
-          return false;
-        }
-        return [startDate, endDate];
-      },
-    });
-
-    if (formValues) {
-      const [startdate, enddate] = formValues;
-      const confirmPayload = {
-        orderId,
-        startdate,
-        enddate,
-        status: StatusOrder.Incourse,
-      };
-      const dateOrderPayload = {
-        orderId,
-        startdate,
-        enddate
-      };
-
-      // Dispatch confirmOrder and dateOrder simultaneously
-      await Promise.all([
-        this.$store.dispatch("order/confirmOrder", confirmPayload),
-        this.$store.dispatch("order/dateOrder", dateOrderPayload)
-      ]);
-
-      Swal.fire(
-        "Confirmed!",
-        "The order has been confirmed with the start and end dates.",
-        "success"
-      ).then(() => {
-        window.location.reload(); // รีโหลดหน้าหลังจากการยืนยันเสร็จสิ้น
-=======
       const result = await Swal.fire({
         title: "Are you sure?",
         text: "Do you want to confirm this order?",
@@ -176,7 +107,6 @@ export default {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, confirm it!",
         cancelButtonText: "Cancel",
->>>>>>> 7d9794efdbb1113cee0b71acb330e01d31579ba1
       });
 
       if (result.isConfirmed) {

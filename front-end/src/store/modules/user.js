@@ -12,6 +12,7 @@ const state = {
 };
 const mutations = {
   SET_USER: (state, payload) => {
+    console.log("Commit SET_USER with data:", payload); // Debugging line
     state.user = payload;
   },
   SET_USERS: (state, payload) => {
@@ -221,6 +222,7 @@ const actions = {
     let url = `${ENDPOINT.USER}/get-teacher-profile`;
     try {
       const res = await axios(configAxios("get", url));
+      console.log("Response data from API:", res.data); // Debugging line
       commit("SET_USER", res.data);
     } catch (error) {
       throw new Error();
