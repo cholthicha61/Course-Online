@@ -13,4 +13,10 @@ export class Question extends BaseEntity {
   })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
+
+  @Column({ nullable: true })
+  email: string;
+
+  @Column({ default: true })
+  status: boolean;
 }

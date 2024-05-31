@@ -7,4 +7,18 @@ export class CreateQuestionDto {
   @IsNotEmpty()
   @IsNumber()
   userId?: number;
+
+  status?: boolean;
+}
+
+export class CreateQuestionNonLoginDto{
+  
+  @IsString()
+  message?: string;
+
+  @IsNotEmpty()
+  @IsString()
+  email?: string;
+
+  status?: boolean;
 }

@@ -1,22 +1,23 @@
 <template>
-  <nav class=" px-5 flex items-center justify-end text-lg">
-    <div class="menu-item "><a href="/home">Home</a></div>
-    <div class="menu-item "><a href="/allcourse">All Course</a></div>
-
+  <nav class="navbar-container flex justify-between items-center p-4">
+    <div class="flex items-center">
+      <h1 class="course text-xl font-bold text-sky-800 ">Course-Online</h1>
+      <div class="menu-item cursor-pointer" @click="$router.push('/home')"><a>Home</a></div>
+      <div class="menu-item cursor-pointer" @click="$router.push('/allcourse')"><a>All Course</a></div>
+    </div>
     <DropdownLogin
-      class="hover:text-sky-500 px-4"
+      class="menu-item dropdown-item"
       :title="userEmail.email"
       :items="services"
-      style="z-index: 99"
     />
   </nav>
 </template>
 
 <script>
-import DropdownLogin from "./DropdownLogin.vue";
-// import Dropdown from './Dropdown.vue'
+import DropdownLogin from './DropdownLogin.vue';
+
 export default {
-  name: "navbar",
+  name: 'NavbarLogin',
   components: {
     DropdownLogin,
   },
@@ -24,61 +25,102 @@ export default {
     return {
       services: [
         {
-          title: "My Course",
-          link: "#",
+          title: 'My Course',
+          link: '/mycourse',
         },
         {
-          title: "Interested Course",
-          link: "#",
+          title: 'Interested Course',
+          link: '/interested',
         },
         {
-          title: "Edit Profile",
-          link: "#",
+          title: 'Edit Profile',
+          link: '/edit-profile',
+        },
+        {
+          title: "Change Password",
+          link: "/change-password",
         },
         {
           title: "Logout",
-          link: "/login",
+          link: "/homepage",
         },
       ],
-      userEmail: ''
+      userEmail: '',
     };
   },
-
   mounted() {
-    this.userEmail = JSON.parse(localStorage.getItem('user'))
-  }
+    this.userEmail = JSON.parse(localStorage.getItem('user'));
+  },
 };
 </script>
 
 <style scoped>
-nav {
+.navbar-container {
+  background-color: #bde4f9;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  padding: 0.75rem 1rem;
+  height: 3.75rem; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 50;
 }
 
-nav .menu-item {
-  color: #4a6fa5;
-  padding: 16px 20px;
+.menu-item {
+  color: #104a83;
+  font-size: 1.125rem; 
+  padding: 1rem 1rem;
   position: relative;
   text-align: center;
-  border-bottom: 3px solid transparent;
   display: flex;
-  transition: 0.4s;
-  
+  align-items: center; 
+  transition: background-color 0.3s, color 0.3s; 
+  cursor: pointer;
 }
 
-nav .menu-item.active,
-nav .menu-item:hover {
-  background-color: #bae6fd;
+.menu-item:hover {
+  background-color: #43bbfc;
+  color: #054364;
 }
 
-nav .menu-item:hover {
-  color: #054664;
-}
-nav .menu-item a {
+.menu-item a {
   color: inherit;
   text-decoration: none;
-  
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dropdown-item {
+  padding: 0 1rem;
+  position: relative;
+}
+.course {
+  margin-right: 950px;
+}
+
+.dropdown-item .dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100; 
+  min-width: 200px; 
+}
+
+.dropdown-item .dropdown-menu a {
+  color: #022a65;
+  font-size: 1.125rem; 
+  padding: 1rem;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+.dropdown-item .dropdown-menu a:hover {
+  background-color: #c7ebff;
+  color: #016d9e;
 }
 </style>

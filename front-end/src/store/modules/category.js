@@ -19,24 +19,37 @@ const actions = {
     console.log("payload", payload);
     try {
       const url = `${ENDPOINT.CATEGORY}`;
+      console.log("url is ", url);
+
       const res = await axios(configAxios("post", url, payload));
 
       if (res.status == 201) {
+        await this.dispatch("category/getCategory", {
+          category: true,
+        });
         Swal.fire({
           icon: "success",
-          title: "เพิ่มหมวดหมู่สำเร็จ",
+          title: "Category added successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
         });
-        location.reload();
       }
     } catch (error) {
       console.log("error  >>> ", error);
       if (error.response.status == 400) {
         Swal.fire({
           icon: "warning",
-          title: "ไม่พบข้อมูล",
+          title: "Please fill in information",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+      if (error.response.status == 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "This category has been added",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -46,19 +59,15 @@ const actions = {
   },
   async getCategory({ commit }, payload) {
     let url = `${ENDPOINT.CATEGORY}`;
-
-    if (!_.isEmpty(payload)) {
-      if (payload?.category) {
-        url = `${url}?category=${payload?.category}`;
+    try {
+      const res = await axios(configAxios("get", url));
+      if (res.status == 200) {
+        console.log("res cate?", res.data);
+        commit("SET_NAMES", res.data);
       }
-      try {
-        const res = await axios(configAxios("get", url));
-        if (res.status == 200) {
-          commit("SET_NAMES", res.data);
-        }
-      } catch (error) {}
+    } catch (error) {
+      console.log("error", error);
     }
-    console.log("payload", payload);
   },
   async deleteCategory({ commit }, categoryId) {
     try {
@@ -66,43 +75,36 @@ const actions = {
       const res = await axios(configAxios("delete", url));
 
       if (res.status === 200) {
+        await this.dispatch("category/getCategory", {
+          category: true,
+        });
         Swal.fire({
           icon: "success",
-          title: "ลบหมวดหมู่สำเร็จ",
+          title: "Category successfully deleted",
           text: "",
           showConfirmButton: false,
-          timer: 3000,
+          timer: 2000,
         });
         commit("SET_NAMES", res.data);
-        location.reload();
+        // location.reload();
       }
     } catch (error) {
       console.error("Error deleting category:", error);
-      if (error.response.status == 400) {
-        {
-          Swal.fire({
-            icon: "warning",
-            title: "ไม่พบข้อมูล",
-            text: "",
-            showConfirmButton: false,
-            timer: 2000,
-          });
-        }
-      }
     }
   },
   async updateCategory({ commit }, { categoryId, newData }) {
     try {
-      console.log("categoryId:", categoryId); 
+      console.log("categoryId:", categoryId);
       console.log("newData:", newData);
       const url = `${ENDPOINT.CATEGORY}/${categoryId}`;
       const res = await axios(configAxios("patch", url, newData));
-
       if (res.status === 200) {
-        commit("SET_NAMES", res.data);
+        await this.dispatch("category/getCategory", {
+          category: true,
+        });
         Swal.fire({
           icon: "success",
-          title: "อัปเดตหมวดหมู่สำเร็จ",
+          title: "Category updated successfully",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -110,13 +112,24 @@ const actions = {
       }
     } catch (error) {
       console.error("Error updating category:", error);
-      Swal.fire({
-        icon: "warning",
-        title: "ไม่สามารถอัปเดตหมวดหมู่ได้",
-        text: "",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+      if (error.response.status == 400) {
+        Swal.fire({
+          icon: "warning",
+          title: "Please fill in information",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+      if (error.response.status == 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "This category has been added",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     }
   },
 };

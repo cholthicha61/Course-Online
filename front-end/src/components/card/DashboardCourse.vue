@@ -1,11 +1,11 @@
 <template>
   <v-card
-    class="mx-auto w-96 drop-shadow-xl "
-    max-width="344"
+  class="mx-auto w-96 drop-shadow-xl hover:shadow-xl"
+    max-width="400"
     style="background-color: #60a5fa"
   >
-    <v-card-text class="">
-      <p  class="text-h4 font-weight-black text-white mt-1">Course order</p>
+    <v-card-text class="flex justify-start">
+      <p class="text-h4 font-weight-black text-white mt-1">Course order</p>
     </v-card-text>
     <div class="px-8 flex items-center">
       <div
@@ -22,20 +22,44 @@
           />
         </svg>
       </div>
-      <p class="text-4xl hover:text-sky-900 text-sky-100 ml-8">340</p>
+      <p class="text-4xl hover:text-sky-900 text-sky-100 ml-8">
+        {{ order.count }}
+      </p>
       <p class="text-2xl text-gray-200 ml-4 py-4">order</p>
     </div>
 
     <v-card-actions class="text-blue-800">
       <v-btn
         href="/coursemanage"
-        text="Manage Course"
-        class="absolute top-0 left-48 hover:text-sky-800 hover:bg-blue-200"
+        text="View order"
+        class="absolute top-0 left-64 hover:text-sky-800 hover:bg-blue-200"
       ></v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
-<script></script>
+<script>
+import { mapState } from "vuex";
+
+export default {
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState({
+      order: (State) => State.order.order,
+    }),
+  },
+  async mounted() {
+    this.countWaitingOrder();
+  },
+  methods: {
+    async countWaitingOrder() {
+      await this.$store.dispatch("order/countWaitingOrder");
+      console.log(this.order);
+    },
+  },
+};
+</script>
 
 <style></style>

@@ -1,9 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,7 +10,7 @@ import * as _ from 'lodash';
 export class RoleService {
   constructor(
     @InjectRepository(Role)
-    private roleRepository: Repository<Role>,
+    private roleRepository: Repository<Role>
   ) {}
 
   async findAll() {
@@ -48,10 +43,7 @@ export class RoleService {
         where: { name: createRoleDto.name },
       });
       if (!_.isEmpty(role)) {
-        throw new HttpException(
-          'Role name already exists',
-          HttpStatus.CONFLICT,
-        );
+        throw new HttpException('Role name already exists', HttpStatus.CONFLICT);
       }
       const createRolename = this.roleRepository.create({
         name: createRoleDto.name,
@@ -69,10 +61,7 @@ export class RoleService {
         where: { name: updateRole.name },
       });
       if (!_.isEmpty(role) && role.id !== id) {
-        throw new HttpException(
-          'Role name already exists',
-          HttpStatus.CONFLICT,
-        );
+        throw new HttpException('Role name already exists', HttpStatus.CONFLICT);
       }
       await this.roleRepository.update(id, updateRole);
       return 'This Role has been updated';

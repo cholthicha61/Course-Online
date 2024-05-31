@@ -6,6 +6,9 @@ import auth from './modules/auth'
 import user from './modules/user'
 import inbox from './modules/inbox'
 import category from './modules/category'
+import course from './modules/course'
+import order from './modules/order'
+import favorite from './modules/favorite'
 
 
 export default createStore({
@@ -23,6 +26,9 @@ export default createStore({
     user,
     inbox,
     category,
+    course,
+    order,
+    favorite
   }
 })
 

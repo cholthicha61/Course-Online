@@ -1,10 +1,11 @@
 <template>
+  <div class=""> 
   <v-card
-    class="mx-auto w-96 drop-shadow-xl"
-    max-width="344"
+  class="mx-auto w-96 drop-shadow-xl hover:shadow-xl"
+    max-width="400"
     style="background-color: #22d3ee"
   >
-    <v-card-text class="">
+    <v-card-text class="flex justify-start">
       <p class="text-h4 font-weight-black text-white mt-1">Inbox</p>
     </v-card-text>
     <div class="px-8 flex items-center">
@@ -26,7 +27,9 @@
           />
         </svg>
       </div>
-      <p class="text-4xl hover:text-sky-900 text-sky-200 ml-8">150</p>
+      <p class="text-4xl hover:text-sky-900 text-sky-200 ml-8">
+        {{ questions.count }}
+      </p>
       <p class="text-2xl text-gray-200 ml-4 py-4">Message</p>
     </div>
 
@@ -34,12 +37,37 @@
       <v-btn
         href="/inbox"
         text="View inbox"
-        class="absolute top-0 left-48 hover:text-sky-800 hover:bg-cyan-200"
+        class="absolute top-0 left-64 hover:text-sky-800 hover:bg-cyan-200"
       ></v-btn>
     </v-card-actions>
   </v-card>
+</div>
 </template>
 
-<script></script>
+<script>
+import { mapState } from "vuex";
 
-<style></style>
+export default {
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState({
+      questions: (State) => State.inbox.questions,
+    }),
+  },
+  async mounted() {
+    this.countQuestion();
+  },
+  methods: {
+    async countQuestion() {
+      await this.$store.dispatch("inbox/countQuestion");
+      console.log(this.questions);
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+
+</style>

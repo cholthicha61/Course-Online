@@ -1,19 +1,19 @@
 <template>
   <div
-    class="bg-white fixed z-50 w-full text-sky-800 py-4 px-4 shadow md:flex justify-between item-center"
+    class="bg-sky-200 fixed z-50 w-full text-sky-800 py-1 px-4 shadow md:flex justify-between item-center"
   >
     <div>
-      <!-- <h1 class="py-3 text-xl font-bold text-sky-800 "> Course-Online</h1>  -->
-      <img
+      <h1 class="py-3 text-xl font-bold text-sky-800 "> Course-Online</h1> 
+      <!-- <img
         src="https://png.pngtree.com/png-clipart/20200710/original/pngtree-books-logo-png-image_4136028.jpg"
         alt="Course-Online Logo"
         class="h-12 w-auto mt-3 px-2"
-      />
+      /> -->
     </div>
 
     <span
       @click="MenuOpen"
-      class="py-6 absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl"
+      class=" absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl"
     >
       <i :class="[open ? 'text-sky-700' : 'text-sky-700']" class="inline-block">
         <svg
@@ -42,7 +42,7 @@
     </span>
 
     <ul
-      class="md:flex md:items-center md:px-0 px-10 md:pb pb-0 md:static absolute bg-white md:w-auto w-full top-25 duration-700 ease-in"
+      class="md:flex md:items-center md:px-0 px-10 md:pb pb-0 md:static absolute bg-sky-200 md:w-auto w-full top-25 duration-700 ease-in"
       :class="[open ? 'left-0' : 'left-[-100%]']"
     >
       <li
@@ -52,7 +52,7 @@
       >
         <a
           :href="link.link"
-          class="transition duration-500 ease-in-out box-border py-3 px-3 text-lg text-sky-800 hover:bg-sky-200 hover:text-sky-500"
+          class="transition duration-500 ease-in-out box-border py-3 px-3 text-lg text-sky-800 hover:bg-sky-400 hover:text-sky-200"
           
         >
           {{ link.name }}
@@ -71,7 +71,7 @@ export default {
     const open = ref(false);
     const Links = [
       { name: "Home", link: "/homepage" },
-      { name: "All Course", link: "/allcourse-user" },
+      { name: "All Course", link: "/guestallcourse" },
       { name: "Login", link: "/login" },
       { name: "Register", link: "/register" },
       // { name: "Add Course", link: "/addcourse"}

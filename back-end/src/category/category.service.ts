@@ -35,8 +35,8 @@ export class CategoryService {
       const findAllCategory = this.categoryRepository
         .createQueryBuilder('category')
         .leftJoinAndSelect('category.courses', 'courses')
+        .leftJoinAndSelect('courses.favoriteByUsers', 'favoriteByUsers');
 
-      findAllCategory.where('1=1');
       if (keyword?.name) {
         findAllCategory.andWhere('category.name like :name', { name: `%${keyword?.name}%` });
       }
@@ -47,7 +47,7 @@ export class CategoryService {
         findAllCategory.orderBy('category.id', `${!_.isEmpty(keyword?.orderById) ? keyword?.orderById : 'ASC'}`);
       }
       if (keyword?.limit) {
-        findAllCategory.take(+keyword?.limit)
+        findAllCategory.take(+keyword?.limit);
       }
 
       return await findAllCategory.getMany();
@@ -63,7 +63,7 @@ export class CategoryService {
         .leftJoinAndSelect('category.courses', 'courses')
         .where('category.id = :id', { id })
         .getOne();
-        
+
       if (!category) {
         throw new NotFoundException(`Category with ID ${id} not found`);
       }
@@ -88,6 +88,10 @@ export class CategoryService {
   async update(id: number, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
     try {
       const category = await this.findOne(id);
+      const existingCategory = await this.categoryRepository.findOne({ where: { name: updateCategoryDto.name } });
+      if (!_.isEmpty(existingCategory)) {
+        throw new HttpException(`Category with name ${updateCategoryDto.name} already exists`, HttpStatus.CONFLICT);
+      }
       this.categoryRepository.merge(category, updateCategoryDto);
       return await this.categoryRepository.save(category);
     } catch (error) {

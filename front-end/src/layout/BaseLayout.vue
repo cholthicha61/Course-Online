@@ -1,29 +1,31 @@
 <template>
-  <div>
-    <div v-if="role == 'admin'">
-      <MasterVue />
+  <div class="flex flex-col min-h-screen">
+    <div class="fixed top-0 left-0 w-full z-10">
+      <div v-if="role !== 'admin'">
+        <NavbarLogin />
+      </div>
     </div>
-    <div v-else>
-      <NavbarLogin />
-      <div>
+    <div class=""> 
+      <div v-if="role == 'admin'">
+        <MasterVue />
+      </div>
+      <div v-else>
         <RouterView />
       </div>
-      <Footers />
     </div>
+    <Footers v-if="role !== 'admin'" class="mt-auto" />
   </div>
 </template>
 
 <script>
 import MasterVue from "./Master.vue";
 import Footers from "./Footers.vue";
-import Navbar from "./Navbar.vue";
 import NavbarLogin from "@/components/NavbarLogin.vue";
 
 export default {
   components: {
-    Navbar,
-    Footers,
     MasterVue,
+    Footers,
     NavbarLogin,
   },
   data() {
@@ -31,11 +33,12 @@ export default {
       role: localStorage.getItem("role"),
     };
   },
-
   mounted() {
-    console.log("ff", this.role);
+    console.log("Role:", this.role);
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+/* Tailwind CSS utilities will handle most of the styling */
+</style>

@@ -35,9 +35,18 @@ const actions = {
       console.log("error  >>> ", error);
       if (error.response.status == 401){
         Swal.fire({
-          icon: "warning",
-          title: "ข้อมูลไม่ถูกต้อง",
+          icon: "error",
+          title: "The user is disabled",
           text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+      if (error.response.status == 404){
+        Swal.fire({
+          icon: "warning",
+          title: "No user account",
+          text: "Please sign up an account",
           showConfirmButton: false,
           timer: 2000,
         });
