@@ -15,6 +15,7 @@ import { QuestionModule } from './question/question.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { FOLDERPATH } from './constant/folder-path';
 import { InitDateModule } from './init-date/init-date.module';
+import { BannerModule } from './banner/banner.module';
 import { ScheduleModule } from '@nestjs/schedule';
 
 config();
@@ -46,6 +47,7 @@ const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
     ImageModule,
     QuestionModule,
     InitDateModule,
+    BannerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
