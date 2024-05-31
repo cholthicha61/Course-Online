@@ -192,6 +192,7 @@ const actions = {
         });
         await this.dispatch("user/getUser");
         await this.dispatch('auth/checkUser', this.state.user)
+
       }
     } catch (error) {
       console.log("error >> ", error);

@@ -60,10 +60,8 @@ const actions = {
   },
 
   async checkUser({commit}, user) {
-    // await this.dispatch("user/getUser");
     // const userCheck = this.mapState.user
     // const user = JSON.parse(localStorage.getItem('user'))
-
     console.log('useremember', user)
     commit("SET_USER", user);
   },
