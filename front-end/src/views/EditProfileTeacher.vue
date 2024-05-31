@@ -30,7 +30,7 @@
         />
       </div>
 
-<<<<<<< Updated upstream
+
       <div class="flex flex-col w-96 m-1">
         <label class="mb-2 text-gray-700">Phone</label>
         <input
@@ -89,7 +89,7 @@
         >
           Save
         </button>
-=======
+
         <div class="flex flex-col w-full md:w-96 mb-4">
           <label class="mb-2 text-gray-700">Phone</label>
           <input type="tel" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
@@ -111,7 +111,6 @@
             Save
           </button>
         </div>
->>>>>>> Stashed changes
       </div>
     </div>
   </div>

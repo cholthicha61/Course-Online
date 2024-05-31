@@ -196,8 +196,11 @@ export default {
       }
     },
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       formatPrice(price) {
 =======
+=======
+>>>>>>> Stashed changes
     formatPrice(price) {
 >>>>>>> Stashed changes
       return price
