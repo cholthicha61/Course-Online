@@ -105,31 +105,33 @@ const actions = {
   async updateCourse({ commit }, updatedCourse) {
     const url = `${ENDPOINT.COURSE}/update-course/${updatedCourse.id}`;
     console.log("URL",url);
-    console.log("ตี๋น้อย", updatedCourse.updateData.files);
+    console.log("ตี๋น้อย", updatedCourse.files);
     try {
-      const courses = await axios(configAxios("get", `${ENDPOINT.COURSE}`));
-      const duplicate = courses.data.find(
-        (course) =>
-          course.courseName === updatedCourse.updateData.courseName &&
-          course.id !== updatedCourse.id
-      );
-      // if (duplicate) {
-      //   throw { response: { status: 409 } };
-      // }
-
       const formData = new FormData();
       console.log("updatedCourse", updatedCourse);
-      formData.append("courseName", updatedCourse.updateData.courseName);
-      formData.append("price", updatedCourse.updateData.price);
-      formData.append("description", updatedCourse.updateData.description);
-      formData.append("status", updatedCourse.updateData.status),
-      formData.append("categoryId", updatedCourse.updateData.categoryId);
-      for (const item of updatedCourse.updateData.files) {
+      formData.append("courseName", updatedCourse.courseName);
+      formData.append("price", updatedCourse.price);
+      formData.append("description", updatedCourse.description);
+      formData.append("status", updatedCourse.status),
+      formData.append("categoryId", updatedCourse.categoryId);
+      for (const item of updatedCourse.files) {
         formData.append("files", item.file || item.item);
         console.log("SDSDSDSDSD", item);
       }
 
       const res = await axios(configAxios("patch", url, formData));
+      if (res.status === 200) {
+        await this.dispatch("course/getCourse", {
+          course: true,
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Course updated successfully",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
       // Ensure that the course in the state is updated after a successful API call
       commit("UPDATE_COURSE", res.data);
     } catch (error) {

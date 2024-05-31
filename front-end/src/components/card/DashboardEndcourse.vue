@@ -25,7 +25,7 @@
         </svg>
       </div>
       <p class="text-4xl hover:text-sky-900 text-sky-200 ml-8">
-        {{ orderEnd.count }}
+        {{ orderEnd?.count || 0}}
       </p>
       <p class="text-2xl text-gray-200 ml-4 py-4">Course</p>
     </div>

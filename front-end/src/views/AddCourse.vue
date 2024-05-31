@@ -263,7 +263,7 @@ export default {
           icon: "success",
           title: "Successfully added course",
           showConfirmButton: false,
-          // timer: 2000,
+          timer: 2000,
         });
        this.$router.push({ name: "coursemanage" });
       } catch (error) {
