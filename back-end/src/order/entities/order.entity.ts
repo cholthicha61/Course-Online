@@ -28,4 +28,7 @@ export class Order extends BaseEntity {
   @ManyToOne(() => Course, (course) => course.id)
   @JoinColumn({ name: 'course_id', referencedColumnName: 'id' })
   course: Course;
+
+  @Column()
+  price: number;
 }

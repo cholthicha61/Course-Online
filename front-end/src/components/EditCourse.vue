@@ -18,7 +18,7 @@
         <span class="text-red-500" v-if="!course.description.trim()">*</span>
       </label>
       <input type="text" id="description" v-model="course.description"
-        class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"/>
+        class="w-3/4 p-2 border border-gray-300 rounded"/>
     </div>
 
     <div class="mb-4 flex items-center">
