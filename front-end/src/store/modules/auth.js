@@ -41,7 +41,7 @@ const actions = {
       if (error.response.status == 401){
         Swal.fire({
           icon: "error",
-          title: "Password incorrect ",
+          title: "The user is disabled",
           text: "",
           showConfirmButton: false,
           timer: 2000,

@@ -14,12 +14,13 @@
         class="w-3/4 p-2 border border-gray-300 rounded" />
     </div>
     <div class="mb-4 flex items-center">
-      <label for="description" class="block w-1/4 mr-4">Detail:
-        <span class="text-red-500" v-if="!course.description.trim()">*</span>
-      </label>
-      <input type="text" id="description" v-model="course.description"
-        class="w-3/4 p-2 border border-gray-300 rounded"/>
-    </div>
+  <label for="description" class="block w-1/4 mr-4">Detail:
+    <span class="text-red-500" v-if="!course.description.trim()">*</span>
+  </label>
+  <textarea id="description" v-model="course.description"
+    class="w-3/4 p-2 border border-gray-300 rounded" style="max-height: 150px; overflow-y: auto; resize: none;"></textarea>
+</div>
+
 
     <div class="mb-4 flex items-center">
       <label for="status" class="block w-1/4 mr-4">Status:</label>

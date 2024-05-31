@@ -83,7 +83,7 @@ const actions = {
           title: "Category successfully deleted",
           text: "",
           showConfirmButton: false,
-          timer: 3000,
+          timer: 2000,
         });
         commit("SET_NAMES", res.data);
         // location.reload();
