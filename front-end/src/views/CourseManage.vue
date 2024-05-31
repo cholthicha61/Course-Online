@@ -129,7 +129,7 @@ export default {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, want to delete",
-        cancelButtonText: "ยกเลิก",
+        cancelButtonText: "Cancle",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("course/deleteCourse", courseId);

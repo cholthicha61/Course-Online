@@ -169,6 +169,9 @@ export class UserService {
       //   },
       // });
 
+      console.log("updateUserDto>>>> ", updateUserDto);
+      
+
       const existsEmail = await this.userRepository.findOne({
         where: { email: updateUserDto.email, id: Not(id)}
       })
