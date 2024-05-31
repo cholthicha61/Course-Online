@@ -16,6 +16,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { FOLDERPATH } from './constant/folder-path';
 import { InitDateModule } from './init-date/init-date.module';
 import { BannerModule } from './banner/banner.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 config();
 const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
@@ -36,6 +37,7 @@ const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
       entities: [join(__dirname + '/**/*.entity{.ts,.js}')],
       synchronize: true,
     }),
+    ScheduleModule.forRoot(),
     UserModule,
     RoleModule,
     AuthModule,

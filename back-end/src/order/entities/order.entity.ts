@@ -18,6 +18,8 @@ export class Order extends BaseEntity {
   confirmDate: Date;
   @Column({type: 'timestamp', nullable: true})
   cancelDate: Date;
+  @Column({type: 'date', nullable: true})
+  finishedDate: Date;
 
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
@@ -26,4 +28,7 @@ export class Order extends BaseEntity {
   @ManyToOne(() => Course, (course) => course.id)
   @JoinColumn({ name: 'course_id', referencedColumnName: 'id' })
   course: Course;
+
+  @Column({type: 'float'})
+  price: number;
 }

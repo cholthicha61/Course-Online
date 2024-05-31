@@ -1,18 +1,12 @@
 <template>
   <div class="container mx-auto px-96 mt-8">
-    <div>
-      <!-- <button
-        class="bg-blue-500 text-white px-4 py-2 rounded -ml-96"
-        @click="goToCoursePage"
-      >
-        Back
-      </button> -->
-    </div>
     <h1 class="text-3xl font-bold mb-10 text-left">Add Course</h1>
 
     <div class="mb-4 flex items-center">
       <label for="name" class="block w-1/4 mr-4"
-        >Name:<span class="text-red-500" v-if="!course.name">*</span></label
+        >Name:<span class="text-red-500" v-if="!course.name.trim()"
+          >*</span
+        ></label
       >
       <input
         type="text"
@@ -29,19 +23,22 @@
         type="text"
         id="price"
         v-model="course.price"
+        @input="validatePrice"
         class="w-3/4 p-2 border border-gray-300 rounded"
       />
     </div>
     <div class="mb-4 flex items-center">
-      <label for="detail" class="block w-1/4 mr-4"
-        >Detail:<span class="text-red-500" v-if="!course.detail">*</span></label
-      >
+      <label for="detail" class="block w-1/4 mr-4">
+        Detail:<span class="text-red-500" v-if="!course.detail.trim()">*</span>
+      </label>
       <textarea
+        class="w-3/4 p-2 border border-gray-300 rounded"
         id="detail"
         v-model="course.detail"
-        class="w-3/4 p-2 border border-gray-300 rounded"
+        style="max-height: 150px; overflow-y: auto; resize: none"
       ></textarea>
     </div>
+
     <div class="mb-4 flex items-center">
       <label for="status" class="block w-1/4 mr-4"
         >Status:<span class="text-red-500" v-if="!course.status">*</span></label
@@ -53,9 +50,6 @@
       >
         <option value="" disabled selected>Select status</option>
         <option value="New">New</option>
-        <!-- <option value="Recommand">Recommand</option>
-        <option value="General">General</option>
-        <option value="off">Off</option> -->
       </select>
     </div>
     <div class="mb-4 flex items-center">
@@ -71,7 +65,7 @@
         @change="categoryChangeHandler"
       >
         <option value="" disabled>Select category</option>
-        <option v-for="option in category" :value="option.id">
+        <option v-for="option in category" :value="option.id" :key="option.id">
           {{ option.name }}
         </option>
       </select>
@@ -96,7 +90,7 @@
             class="hidden"
             accept=".jpg,.png,.gif"
             multiple
-            @change="handleFileUpload($event)"
+            @change="handleFileUpload"
           />
           <label
             v-if="course.images.length == 0"
@@ -129,13 +123,21 @@
               <b class="text-gray-600">JPG, PNG, or GIF</b> format.
             </p>
           </label>
-          <div v-for="(item, i) in course.images" :key="i">
-            <span class="text-gray-500 bg-gray-200 z-50">{{ item.name }}</span>
+          <div v-for="(item, i) in course.images" :key="i" class="relative">
+            <span class="text-gray-500 bg-gray-200 z-50">{{
+              item.file.name
+            }}</span>
             <img
-              :src="imageUrl"
-              :alt="'Image Preview '"
+              :src="item.result"
+              :alt="'Image Preview ' + (i + 1)"
               style="max-width: 100%; height: auto"
             />
+            <button
+              @click="removeImage(i)"
+              class="absolute -top-2 right-0 bg-black text-white p-1 rounded-full"
+            >
+              X
+            </button>
           </div>
         </div>
       </div>
@@ -198,83 +200,92 @@ export default {
       }
     },
     handleFileUpload(event) {
-      console.log("Hello event", event);
-
       for (const item of event.target.files) {
         if (item && item.type.startsWith("image/")) {
           const reader = new FileReader();
           reader.onload = (e) => {
+            this.course.images.push({ file: item, result: e.target.result });
+            console.log("XC", item);
             this.imageUrl = e.target.result;
           };
           reader.readAsDataURL(item);
         } else {
           this.imageUrl = null;
         }
-        this.course.images.push(item);
+        // console.log("OP", this.imageUrl);
+        // console.log("AAAAAA", this.course.images);
       }
-      console.log("SSSS", this.course.images);
-
-      console.log("pppp", event.target.result);
-      // const reader = new FileReader();
-      // reader.onload = (e) => {
-      //   const imagePreview = document.getElementById(`image-preview-${index}`);
-      //   imagePreview.innerHTML = `<img src="${event.target.files[0].name}" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
-      //   imagePreview.classList.remove("border-dashed", "border-2", "border-gray-400");
-      // };
-
-      // reader.readAsDataURL(event.target.files[0]);
     },
-    submitCourse() {
+    removeImage(index) {
+      this.course.images.splice(index, 1);
+    },
+    validatePrice(event) {
+      const inputValue = event.target.value;
+      if (!/^\d*\.?\d*$/.test(inputValue)) {
+        Swal.fire({
+          icon: "error",
+          title: "Incorrect information",
+          text: "Numbers only",
+        });
+        this.course.price = "";
+      }
+    },
+    validateNoSpace(field) {
+      if (this.course[field].includes(" ")) {
+        Swal.fire({
+          icon: "error",
+          title: "No space for channels!",
+          text: `The ${field} field cannot contain spaces.`,
+        });
+        this.course[field] = this.course[field].replace(/\s/g, "");
+      }
+    },
+    async submitCourse() {
       if (
-        !this.course.name ||
+        !this.course.name.trim() ||
         !this.course.price ||
-        !this.course.detail ||
+        !this.course.detail.trim() ||
         !this.course.status ||
         !this.course.category ||
-        this.course.images.filter((image) => image).length === 0
+        this.course.images.length === 0
       ) {
         Swal.fire({
           icon: "error",
-          title: "Oops...",
-          text: "Please fill in all required fields!",
+          title: "Oops... Invalid Input",
+          text: "fields must not be empty",
         });
         return;
       }
 
-      this.$store
-        .dispatch("course/addCourse", this.course)
-        .then(() => {
+      try {
+        await this.$store.dispatch("course/addCourse", this.course);
+        Swal.fire({
+          icon: "success",
+          title: "Successfully added course",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+       this.$router.push({ name: "coursemanage" });
+      } catch (error) {
+        console.log("X10",this.course);
+        console.error("Failed to add course", error);
+        console.log("Error response: ", error.response);
+
+        if (error.message === "This name is already in use") {
           Swal.fire({
-            icon: "success",
-            title: "Successfully added course",
+            icon: "warning",
+            title: "This course name is already in use",
             showConfirmButton: false,
             timer: 2000,
-          }).then(() => {
-            this.$router.go();
           });
-        })
-        .catch((error) => {
-          console.error("Failed to add course", error);
-          if (error.response.status == 409) {
-            Swal.fire({
-              icon: "warning",
-              title: "This course has already been added",
-              text: "",
-              showConfirmButton: false,
-              timer: 2000,
-            });
-            return; // ใส่ return เพื่อหยุดการทำงานที่นี่
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Failed to add course!",
-            });
-          }
-        });
-    },
-    goToCoursePage() {
-      this.$router.push({ name: "coursemanage" });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Failed to add course!",
+          });
+        }
+      }
     },
     cancel() {
       this.course = {

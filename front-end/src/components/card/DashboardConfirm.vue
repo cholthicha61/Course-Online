@@ -32,7 +32,7 @@
 
     <v-card-actions class="text-sky-800">
       <v-btn
-        href="/allconfriem"
+        href="/allconfrime"
         text="View order"
         class="absolute top-0 left-64 hover:text-sky-800 hover:bg-sky-200"
       ></v-btn>

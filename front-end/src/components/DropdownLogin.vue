@@ -3,6 +3,7 @@
     <a href="#">
       {{ title }}
     </a>
+    <a>{{ userEmail.email }}</a>
     <svg viewBox="0 0 1030 638" width="10">
       <path
         d="M1017 68L541 626q-11 12-26 12t-26-12L13 68Q-3 49 6 24.5T39 0h952q24 0 33 24.5t-7 43.5z"
@@ -28,7 +29,15 @@ export default {
   data() {
     return {
       isOpen: false,
+      userEmail: {}
     };
+  },
+  mounted() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      this.userEmail = user;
+    }
+
   },
   methods: {
     async logout(item) {

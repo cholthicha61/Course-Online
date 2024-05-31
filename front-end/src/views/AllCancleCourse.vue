@@ -5,29 +5,25 @@
     </h1>
   </div>
   <div>
-    <v-data-table-virtual :headers="headers" :items="order" height="450">
+    <v-data-table-virtual :headers="headers" :items="sortedOrders" height="450">
       <template #item="{ item, index }">
         <tr :key="index">
           <td class="table-cell">{{ index + 1 }}</td>
           <td class="table-cell">{{ formatDate(item.cancelDate) }}</td>
           <td>{{ item.user.email }}</td>
           <td class="table-cell">{{ item.course ? item.course.courseName : "None" }}</td>
-          <td class="table-cell">
-            <td class="table-cell">{{ item.course && item.course.categorys ? item.course.categorys.name : "None" }}</td>
-          </td>
+          <td class="table-cell">{{ item.course && item.course.categorys ? item.course.categorys.name : "None" }}</td>
           <td class="table-cell">{{ item.course ? formatPrice(item.course.price) : "None" }}</td>
-
-          
         </tr>
       </template>
-    </v-data-table-virtual>
-  </div>
+</v-data-table-virtual>
+</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import { StatusOrder } from "@/constants/enum";
-import moment from "moment";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   data() {
@@ -37,8 +33,9 @@ export default {
         {
           title: "Canceled Date",
           align: "start",
-          value: "cancleDate",
+          value: "cancelDate",
           sortable: true,
+          sort: 'desc', 
         },
         { title: "Email", align: "start", value: "email", sortable: true },
         {
@@ -60,20 +57,16 @@ export default {
   computed: {
     ...mapState({
       order: (state) => state.order.order,
-      course: (state) => state.course.course,
-      names: (state) => state.category.names,
     }),
+    sortedOrders() {
+      return this.order.slice().sort((a, b) => new Date(b.cancelDate) - new Date(a.cancelDate));
+    },
   },
   async mounted() {
     await this.getOrder();
   },
   methods: {
-    formatDate(date) {
-      const newDate = moment(date)
-        .add(7, "hour")
-        .format("DD MMMM YYYY, hh:mm:ss a");
-      return newDate;
-    },
+    formatDate,
     async getOrder() {
       const payload = {
         status: StatusOrder.Canceled,

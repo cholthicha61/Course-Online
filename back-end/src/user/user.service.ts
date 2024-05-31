@@ -1,6 +1,6 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -163,14 +163,21 @@ export class UserService {
   async update(id: number, updateUserDto: UpdateUserDto, roleId: number) {
     try {
       const user = await this.findOneWithPassword(id);
-      const findByEmail = await this.userRepository.findOne({
-        where: {
-          email: updateUserDto.email,
-        },
-      });
+      // const findByEmail = await this.userRepository.findOne({
+      //   where: {
+      //     email: updateUserDto.email,
+      //   },
+      // });
 
-      if (!_.isEmpty(findByEmail)) {
-        throw new HttpException('email already exists', HttpStatus.CONFLICT);
+      console.log("updateUserDto>>>> ", updateUserDto);
+      
+
+      const existsEmail = await this.userRepository.findOne({
+        where: { email: updateUserDto.email, id: Not(id)}
+      })
+
+      if (existsEmail) {
+        throw new HttpException(`email ${updateUserDto.email}already exists`, HttpStatus.CONFLICT);
       }
 
       const findRole = await this.roleRepository.findOne({
@@ -207,15 +214,6 @@ export class UserService {
 
   async updateTeacherProfile(file, updateTeacherDto: UpdateTeacherDto) {
     try {
-      const findByEmail = await this.userRepository.findOne({
-        where: {
-          email: updateTeacherDto.email,
-        },
-      });
-
-      if (!_.isEmpty(findByEmail)) {
-        throw new HttpException('email already exists', HttpStatus.CONFLICT);
-      }
       const teacher = await this.userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.roles', 'roles')
@@ -245,15 +243,6 @@ export class UserService {
 
   async updateTeacherProfileNonImage(updateTeacherDto: UpdateTeacherDto) {
     try {
-      const findByEmail = await this.userRepository.findOne({
-        where: {
-          email: updateTeacherDto.email,
-        },
-      });
-
-      if (!_.isEmpty(findByEmail)) {
-        throw new HttpException('email already exists', HttpStatus.CONFLICT);
-      }
       const teacher = await this.userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.roles', 'roles')

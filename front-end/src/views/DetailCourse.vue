@@ -81,7 +81,7 @@
 
       <h2
         v-if="coursebyid"
-        class="text-4xl font-bold text-orange-500 mt-10 ml-5"
+        class="text-4xl font-bold text-orange-500 mt-10 ml-5 break-words"
       >
         {{ formatPrice(coursebyid.price) }}
       </h2>
@@ -163,7 +163,7 @@
       class="box-border-detail ml-56 mt-10"
     >
       <div class="p-6 bg-white rounded-lg shadow-md">
-        <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
+        <h1 class="text-lg font-bold">Course details</h1>
         <p class="text-base mt-2 indent-10 text-wrap break-words">
           {{ coursebyid.description }}
         </p>
@@ -213,9 +213,7 @@
     </div>
   </div>
 
-  <!-- ----------- -->
 </template>
-
 <script>
 import _ from "lodash";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
@@ -252,11 +250,15 @@ export default {
     },
   },
   async mounted() {
+    this.scrollToTop();
     this.getTeacher();
     await this.getCourse();
     this.checkFavorite(this.coursebyid, this.user);
   },
   methods: {
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
     setOpenModal(item) {
       this.itemCourse = item;
       this.openModal = true;
@@ -314,6 +316,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .head-course h1 {

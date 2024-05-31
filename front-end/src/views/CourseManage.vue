@@ -1,4 +1,4 @@
-<template>
+<template lang="">
   <div class="px-8 mt-8">
     <div class="head-course">
       <h1>Manage Course</h1>
@@ -60,6 +60,7 @@
 <script>
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
+import { formatDate } from "@/constants/formatdate";
 
 export default {
   data() {
@@ -109,6 +110,7 @@ export default {
     this.getCourse();
   },
   methods: {
+    formatDate,
     showFullDescription(index) {
       const fullDescription = this.course[index].description;
       Swal.fire({
@@ -129,7 +131,7 @@ export default {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, want to delete",
-        cancelButtonText: "ยกเลิก",
+        cancelButtonText: "Cancle",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.$store.dispatch("course/deleteCourse", courseId);
@@ -160,9 +162,6 @@ export default {
 },
     async goTo(path) {
       await this.$router.push(`/${path}`);
-    },
-    formatDate(date) {
-      return new Date(date).toLocaleString();
     },
     formatPrice(price) {
       return price

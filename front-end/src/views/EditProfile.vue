@@ -141,4 +141,26 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.text-center {
+  text-align: center;
+}
+
+.text-gray-700 {
+  color: #4a5568;
+}
+
+.text-red-600 {
+  color: #e53e3e;
+}
+
+.form-input {
+  outline: none;
+}
+
+@media (min-width: 640px) {
+  .form-input {
+    font-size: 16px;
+  }
+}
+</style>

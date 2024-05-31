@@ -1,4 +1,5 @@
 import { base, baseURL } from "@/axios/baseURL"; // base => for img
+import EditCourse from "@/components/EditCourse.vue";
 export const ENDPOINT = {
     //------------- auth -----------
     LOGIN: `${baseURL}/auth/login`,
@@ -8,7 +9,8 @@ export const ENDPOINT = {
     CATEGORY: `${baseURL}/category`,
     IMG: `${base}/public/images/`,
     ORDER: `${baseURL}/order`,
-    FAVORITE: `${baseURL}/user/favorite`
+    FAVORITE: `${baseURL}/user/favorite`,
+    IMAGE: `${baseURL}/course/file-img/`
 
 
         

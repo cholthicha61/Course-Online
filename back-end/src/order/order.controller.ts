@@ -46,14 +46,22 @@ export class OrderController {
       throw error;
     }
   }
-
+  @UseGuards(AuthGuard)
+  @Get('/count-end-order')
+  async countEndCourseOrder() {
+    try {
+      const count = await this.orderService.countEndCourseOrder();
+      return { count };
+    } catch (error) {
+      throw error;
+    }
+  }
 
   @UseGuards(AuthGuard)
   @Get()
   async findAll(@Query() keyword) {
     return this.orderService.findAll(keyword);
   }
-
 
   @UseGuards(AuthGuard)
   @Get(':id')
@@ -68,6 +76,7 @@ export class OrderController {
     const courseId = updateOrderDto.courseId;
     return this.orderService.update(+id, updateOrderDto, userId, courseId);
   }
+
   @UseGuards(AuthGuard)
   @Patch('update-status/:id')
   async updateStatus(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
@@ -83,4 +92,7 @@ export class OrderController {
     }
     return { message: 'Course not bought yet' };
   }
+
+  // New endpoint to manually trigger the updateCourseStatus function
+  
 }

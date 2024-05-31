@@ -3,9 +3,11 @@ import configAxios from "../../axios/configAxios";
 import { ENDPOINT } from "../../constants/endpoint";
 import router from "../../router/index";
 import Swal from "sweetalert2";
+import { JSONParser } from "@amcharts/amcharts5";
 
 const state = {
   profile: {},
+  user: []
 };
 const mutations = {
   SET_PROFILE: (state, payload) => {
@@ -16,6 +18,9 @@ const mutations = {
 
     state.profile = payload.user;
   },
+  SET_USER: (state, payload) => {
+    state.user = payload;
+  }
 };
 const actions = {
   async login({ commit }, payload) {
@@ -36,7 +41,7 @@ const actions = {
       if (error.response.status == 401){
         Swal.fire({
           icon: "error",
-          title: "Password incorrect ",
+          title: "The user is disabled",
           text: "",
           showConfirmButton: false,
           timer: 2000,
@@ -54,9 +59,22 @@ const actions = {
     }
   },
 
+  async checkUser({commit}, user) {
+    // const userCheck = this.mapState.user
+    // const user = JSON.parse(localStorage.getItem('user'))
+    console.log('useremember', user)
+    commit("SET_USER", user);
+  },
   async logout() {
     localStorage.removeItem('accessToken')
-  }
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    router.push("/homepage");
+  },
+
+  // logoutvv({commit}, payload) {
+
+  // }
 };
 export default {
   // เพื่อทำให้การทำงานทั้งหมดทำงาน

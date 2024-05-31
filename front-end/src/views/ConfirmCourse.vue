@@ -2,29 +2,19 @@
   <div class="pa-4 text-center">
     <v-dialog v-model="dialog" max-width="600" persistent>
       <v-card class="dialog-card">
-        <v-card-title class="dialog-card-title mt-8"
-          >Confirm your course</v-card-title
-        >
+        <v-card-title class="dialog-card-title mt-8">Confirm your course</v-card-title>
         <v-card-text class="dialog-card-text">
           <v-row dense class="flex flex-col items-center">
             <v-col cols="12" md="12" sm="6" class=""></v-col>
             <div class="flex flex-col w-full m-2">
               <label class="mb-2 text-gray-700">Course Name</label>
-              <input
-                type="text"
-                class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-                v-model="course.courseName"
-                readonly
-              />
+              <input type="text" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+                v-model="course.courseName" readonly />
             </div>
             <div class="flex flex-col w-full m-1">
               <label class="mb-2 text-gray-700">Price</label>
-              <input
-                type="text"
-                class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-                v-model="formattedPrice"
-                readonly
-              />
+              <input type="text" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+                v-model="formattedPrice" readonly />
             </div>
             <div class="flex flex-col w-full m-1">
               <label class="mb-3 text-gray-700">Description</label>
@@ -39,23 +29,14 @@
 
             <div class="flex flex-col w-full m-1">
               <label class="mb-2 text-gray-700">Email</label>
-              <input
-                type="text"
-                class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
-                v-model="userEmail.email"
-                readonly
-              />
+              <input type="text" class="form-input border border-gray-300 rounded-md px-2 py-2 w-full"
+                v-model="userEmail.email" readonly />
             </div>
           </v-row>
         </v-card-text>
         <v-card-actions class="dialog-card-actions mt-3">
           <v-btn text="Close" variant="plain" @click="setClose"></v-btn>
-          <v-btn
-            color="primary"
-            text="Confirm"
-            variant="tonal"
-            @click="checkOrder"
-          ></v-btn>
+          <v-btn color="primary" text="Confirm" variant="tonal" @click="checkOrder"></v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -106,28 +87,6 @@ export default {
       this.setCloseModal();
       this.dialog = false;
     },
-    // async showConfirmationDialog() {
-    //   this.dialog = false;
-    //   await this.checkOrder();
-    //   if (this.checkOrderData) {
-    //     const { isConfirmed } = await Swal.fire({
-    //       title: "Do you want to buy this course?",
-    //       text: `Course: ${this.course.courseName}\n Price: ${this.course.price} บาท`,
-    //       icon: "warning",
-    //       showCancelButton: true,
-    //       confirmButtonColor: "#3085d6",
-    //       cancelButtonColor: "#d33",
-    //       confirmButtonText: "Confirm course purchase",
-    //       cancelButtonText: "Cancel",
-    //     });
-
-    //     if (isConfirmed) {
-    //       this.createOrder();
-    //     } else {
-    //       this.dialog = true;
-    //     }
-    //   }
-    // },
 
     async checkOrder() {
       const payload = {
@@ -188,11 +147,21 @@ export default {
       }
     },
     async createOrder() {
+      // if (item.id == this.userNow.id && item.active == false) {
+      //   console.log('checkUserActive', this.userNow.id);
+      //   console.log('okokok');
+      //   Swal.fire({
+      //     icon: "error",
+      //     title: "Oops...",
+      //     text: "Your account has been disabled.",
+      //   });
+      //   await this.$store.dispatch("auth/logout");
+      // } else { }
+
       const payload = {
         courseId: this.course.id,
         userId: this.userEmail.id,
       };
-
       await this.$store.dispatch("order/createOrder", payload);
       this.setClose();
       console.log("payload : ", payload);

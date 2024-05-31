@@ -1,5 +1,4 @@
 <template>
-    
   <div>
     <!-- <Navbar /> -->
     <v-container class="head-course">
@@ -160,7 +159,7 @@
     <div class="flex flex-row py-2 justify-center">
       <div v-if="coursebyid" class="w-1/2">
         <div class="p-6 bg-white rounded-lg shadow-md">
-          <h1 class="text-lg font-bold">รายละเอียดคอร์สเรียน</h1>
+          <h1 class="text-lg font-bold">Course details</h1>
           <p class="text-base mt-2 indent-10 text-wrap break-words">
             {{ coursebyid.description }}
           </p>
@@ -216,7 +215,6 @@ import _ from "lodash";
 import ConfirmCourse from "@/views/ConfirmCourse.vue";
 import { mapState } from "vuex";
 import { ENDPOINT } from "@/constants/endpoint";
-import Navbar from "@/layout/Navbar.vue";
 
 export default {
   data() {
@@ -230,7 +228,6 @@ export default {
   },
   components: {
     ConfirmCourse,
-    Navbar,
   },
   computed: {
     ...mapState({
@@ -249,11 +246,15 @@ export default {
     },
   },
   async mounted() {
+    this.scrollToTop();
     this.getTeacher();
     await this.getCourse();
     this.checkFavorite(this.coursebyid, this.user);
   },
   methods: {
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
     setOpenModal(item) {
       this.itemCourse = item;
       this.openModal = true;
