@@ -276,4 +276,17 @@ export class OrderService {
       throw error;
     }
   }
+  async countEndCourseOrder() {
+    try {
+      const count = await this.orderRepository
+        .createQueryBuilder('order')
+        .where('order.status = :status', { status: StatusOrder.Endcourse })
+        .getCount();
+  
+      return count;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 }
