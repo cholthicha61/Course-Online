@@ -1,42 +1,28 @@
 <template>
+
   <div class="container mx-auto px-96 mt-8">
     <h1 class="text-3xl font-bold mb-10 text-left">Edit Course</h1>
     <div class="mb-4 flex items-center">
-      <label for="courseName" class="block w-1/4 mr-4">Name:</label>
-      <input
-        type="text"
-        id="courseName"
-        v-model="course.courseName"
-        @input="validateNoSpace('courseName')"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-      />
+      <label for="courseName" class="block w-1/4 mr-4">Name:
+        <span class="text-red-500" v-if="!course.courseName.trim()">*</span>
+      </label>
+      <input type="text" id="courseName" v-model="course.courseName" class="w-3/4 p-2 border border-gray-300 rounded" />
     </div>
     <div class="mb-4 flex items-center">
       <label for="price" class="block w-1/4 mr-4">Price:</label>
-      <input
-        type="text"
-        id="price"
-        v-model="course.price"
-        @input="validatePrice"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-      />
+      <input type="text" id="price" v-model="course.price" class="w-3/4 p-2 border border-gray-300 rounded" />
     </div>
     <div class="mb-4 flex items-center">
-      <label for="description" class="block w-1/4 mr-4">Detail:</label>
-      <textarea
-        id="description"
-        v-model="course.description"
-        @input="validateNoSpace('description')"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-      ></textarea>
+      <label for="description" class="block w-1/4 mr-4">Detail:
+        <span class="text-red-500" v-if="!course.description.trim()">*</span>
+      </label>
+      <textarea id="description" v-model="course.description"
+        class="w-3/4 p-2 border border-gray-300 rounded"></textarea>
     </div>
+
     <div class="mb-4 flex items-center">
       <label for="status" class="block w-1/4 mr-4">Status:</label>
-      <select
-        id="status"
-        v-model="course.status"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-      >
+      <select id="status" v-model="course.status" class="w-3/4 p-2 border border-gray-300 rounded">
         <option value="" disabled>Select status</option>
         <option value="New">New</option>
         <option value="Recommended">Recommended</option>
@@ -46,18 +32,10 @@
     </div>
     <div class="mb-4 flex items-center">
       <label for="categoryId" class="block w-1/4 mr-4">Category:</label>
-      <select
-        id="categoryId"
-        v-model="category"
-        class="w-3/4 p-2 border border-gray-300 rounded"
-        @change="categoryChangeHandler"
-      >
+      <select id="categoryId" v-model="category" class="w-3/4 p-2 border border-gray-300 rounded"
+        @change="categoryChangeHandler">
         <option value="" disabled>Select category</option>
-        <option
-          v-for="option in categories"
-          :key="option.id"
-          :value="option.id"
-        >
+        <option v-for="option in categories" :key="option.id" :value="option.id">
           {{ option.name }}
         </option>
       </select>
@@ -143,17 +121,11 @@
     </div>
 
     <div class="flex justify-center py-5 mb-8">
-      <button
-        @click="confirmSave"
-        class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800"
-      >
+      <button @click="confirmSave" class="bg-sky-700 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-sky-800">
         Save
       </button>
       <div class="w-4"></div>
-      <button
-        @click="cancel"
-        class="bg-gray-500 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-gray-500"
-      >
+      <button @click="cancel" class="bg-gray-500 text-white px-9 py-2 rounded hover:shadow-xl hover:bg-gray-500">
         Cancel
       </button>
     </div>
@@ -204,8 +176,8 @@ export default {
     if (courseData) {
       this.course = { ...courseData };
     }
-    console.log("this.course", this.course);
-    this.category = this.course.categorys.id;
+    console.log('this.course', this.course);
+    this.category = this.course.categorys.id
     await this.$store.dispatch("category/getCategory");
   },
 
@@ -255,6 +227,22 @@ export default {
       }
     },
     async confirmSave() {
+      if (!this.course.courseName.trim() || !this.course.price || !this.course.description.trim()) {
+        Swal.fire({
+          title: "Invalid Input",
+          text: "fields must not be empty",
+          icon: "error",
+        });
+        return;
+      }
+      if (isNaN(this.course.price)) {
+        Swal.fire({
+          title: "Invalid Price",
+          text: "Price must be a number",
+          icon: "error",
+        });
+        return;
+      }
       const confirmResult = await Swal.fire({
         title: "ยืนยันการแก้ไข",
         text: "คุณแน่ใจที่จะบันทึกการเปลี่ยนแปลงหรือไม่?",
@@ -280,34 +268,25 @@ export default {
             
           },
         };
-        console.log("Payload",payload);
+        Swal.fire({
+          title: "Edit course successfully",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        this.$router.push({ name: "coursemanage" });
 
-        try {
-          await this.$store.dispatch("course/updateCourse", payload);
-          Swal.fire({
-            title: "สำเร็จ!",
-            text: "การอัพเดทข้อมูลสำเร็จ",
-            icon: "success",
-            confirmButtonText: "ตกลง",
-          });
-        } catch (error) {
-          if (error.message === "This name is already in use !!!") {
-            Swal.fire({
-              title: "ข้อผิดพลาด!",
-              text: "This name is already in use !!!",
-              icon: "error",
-              confirmButtonText: "ตกลง",
-            });
-          } else {
-            Swal.fire({
-              title: "ข้อผิดพลาด!",
-              text: "Unable to update information",
-              icon: "error",
-              confirmButtonText: "ตกลง",
-            });
-          }
-        }
+        await this.$store.dispatch("course/updateCourse", payload);
+        console.log("image", course.images)
+
       }
+    },
+    updateImage(event, index) {
+      const newImage = event.target.files[0];
+      this.course.images.splice(index, 1, newImage);
+    },
+    removeImage(index) {
+      this.course.images.splice(index, 1);
     },
     updateImage(event, index) {
       const newImage = event.target.files[0];

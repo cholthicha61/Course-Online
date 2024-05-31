@@ -38,15 +38,6 @@ export class Course extends BaseEntity {
   @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   categorys: Category;
 
-  // @ManyToMany((type) => User, {
-  //   cascade: ['insert', 'update', 'remove', 'recover'],
-  //   eager: true,
-  // })
-  // @JoinTable({
-  //   joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-  //   inverseJoinColumn: { name: 'user_course_id', referencedColumnName: 'id' },
-  // })
-  // users: User[];
   @ManyToMany(() => User, (user) => user.favoriteCourses)
   favoriteByUsers: User[];
 }
