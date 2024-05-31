@@ -85,7 +85,7 @@ export class OrderController {
 
   // New endpoint to manually trigger the updateCourseStatus function
   @UseGuards(AuthGuard)
-  @Post('/count-end-order')
+  @Get('/count-end-order')
   async manualUpdateCourseStatus() {
     try {
       await this.orderService.updateCourseStatus();

@@ -55,11 +55,12 @@ export default {
   },
   async mounted() {
     this.countEndCourse();
+    console.log('wwwwwwwwwwwww');
   },
   methods: {
     async countEndCourse() {
       await this.$store.dispatch("order/countEndCourse");
-      console.log(this.orderEnd);
+      console.log("orderEnd",orderEnd);
     },
   },
 };

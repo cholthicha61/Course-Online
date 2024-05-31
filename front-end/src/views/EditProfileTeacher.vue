@@ -137,7 +137,7 @@ export default {
         this.isWhitespaceOrEmpty(this.teacher.fname) ||
         this.isWhitespaceOrEmpty(this.teacher.lname) ||
         this.isWhitespaceOrEmpty(this.teacher.email) ||
-        this.isWhitespaceOrEmpty(this.teacher.phone)
+        this.isWhitespaceOrEmpty(this.teacher.phone) 
       ) {
         await Swal.fire({
           icon: "error",
@@ -187,9 +187,9 @@ export default {
             phone: this.teacher.phone,
             email: this.teacher.email,
             desc: this.teacher.desc,
-            // linkEmail: this.teacher.linkEmail,
-            // linkFacebook: this.teacher.linkFacebook,
-            // linkLine: this.teacher.linkLine,
+            linkEmail: this.teacher.linkEmail,
+            linkFacebook: this.teacher.linkFacebook,
+            linkLine: this.teacher.linkLine,
           },
         });
       }

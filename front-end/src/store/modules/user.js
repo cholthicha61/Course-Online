@@ -162,7 +162,11 @@ const actions = {
     formData.append("phone", newData.phone);
     formData.append("email", newData.email);
     formData.append("desc", newData.desc);
+    formData.append("linkEmail", newData.linkEmail);
+    formData.append("linkFacebook", newData.linkFacebook);
+    // formData.append("linkLine", newData.linkLine);
     formData.append("file", newData.userImage);
+
     console.log("newData:", newData);
     try {
       const res = await axios(configAxios("patch", url, formData));

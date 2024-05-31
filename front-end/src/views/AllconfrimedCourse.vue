@@ -101,13 +101,16 @@ export default {
     await this.getOrder();
   },
   methods: {
-    formatDate(date, type) {
-      if (type === 'datetime') {
-        return new Date(date).toLocaleString();
-      } else if (type === 'date') {
-        return new Date(date).toLocaleDateString();
-      }
-      return date;
+    // formatDate(date, type) {
+    //   if (type === 'datetime') {
+    //     return new Date(date).toLocaleString();
+    //   } else if (type === 'date') {
+    //     return new Date(date).toLocaleDateString();
+    //   }
+    //   return date;
+    // },
+    formatDate(date) {
+      return new Date(date).toLocaleString();
     },
     async getOrder() {
       const payload = { status: StatusOrder.Incourse };
