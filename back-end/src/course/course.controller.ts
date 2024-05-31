@@ -12,6 +12,7 @@ import {
   UploadedFiles,
   UseGuards,
   Query,
+  Res,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { unlink } from 'fs/promises';
@@ -26,14 +27,19 @@ import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('course')
 export class CourseController {
-  constructor(private readonly courseService: CourseService) {}
+  constructor(private readonly courseService: CourseService) { }
 
   // @UseGuards(AuthGuard)
   @Get()
   async findAll(@Query() keyword) {
     return await this.courseService.findAll(keyword);
   }
-
+  @Get('/file-img/:img')
+  getFileImg(@Param('img') image, @Res() res) {
+    return res.sendFile(image, {
+      root: './public/images',
+    });
+  }
   // @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
@@ -41,9 +47,53 @@ export class CourseController {
   }
 
   @UseGuards(AuthGuard)
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
-    return await this.courseService.update(+id, updateCourseDto);
+  @Patch('/update-course/:id')
+  @UseInterceptors(
+    FilesInterceptor('files', 10, {
+      storage: diskStorage({
+        destination: FOLDERPATH.Imgs, // แก้เป็น path ที่ต้องการเก็บไฟล์
+        filename: (req, file, cb) => {
+          console.log('file is ', file);
+          const uniqueSuffix = uniqueSuffixString();
+          const extension = path.extname(file.originalname);
+          const filename = `${uniqueSuffix}${extension}`;
+          cb(null, filename);
+        },
+      }),
+    })
+  )
+  async uploadCourseFiles(@UploadedFiles() files: Express.Multer.File[], @Param('id') id: number, @Body() updateCourseDto: UpdateCourseDto) {
+    // ตรวจสอบประเภทของไฟล์ที่อัปโหลด
+    const allowedFileTypes = ['.png', '.jpeg', '.jpg'];
+    const response = {
+      successfully: [],
+      failed: [],
+    };
+    console.log(files);
+
+    const successFile = [];
+    for (const file of files) {
+      const extension = path.extname(file.originalname).toLowerCase();
+      if (!allowedFileTypes.includes(extension)) {
+        const filePath = `${FOLDERPATH.Imgs}/${file.filename}`; //ดูฟังก์ชั่นนี้เพื่อลบไฟล์
+        try {
+          await unlink(filePath); // ใช้ unlink เพื่อลบไฟล์
+          console.log(`File ${filePath} deleted successfully`);
+        } catch (error) {
+          console.error(`Error deleting file ${filePath}:`, error);
+          throw new Error(`Failed to delete file ${filePath}`);
+        }
+        // throw new BadRequestException('Invalid file type');
+        response.failed.push(file.originalname);
+      } else {
+        successFile.push(file);
+        response.successfully.push(file.originalname);
+      }
+    }
+    console.log('files is ', successFile);
+
+    const course = await this.courseService.update(successFile, id, updateCourseDto);
+    return course;
   }
 
   @UseGuards(AuthGuard)
@@ -81,7 +131,9 @@ export class CourseController {
       successfully: [],
       failed: [],
     };
-    console.log(files);
+    // console.log(files);
+    
+    
 
     const successFile = [];
     for (const file of files) {
@@ -90,7 +142,7 @@ export class CourseController {
         const filePath = `${FOLDERPATH.Imgs}/${file.filename}`; //ดูฟังก์ชั่นนี้เพื่อลบไฟล์
         try {
           await unlink(filePath); // ใช้ unlink เพื่อลบไฟล์
-          console.log(`File ${filePath} deleted successfully`);
+          // console.log(`File ${filePath} deleted successfully`);
         } catch (error) {
           console.error(`Error deleting file ${filePath}:`, error);
           throw new Error(`Failed to delete file ${filePath}`);
@@ -107,6 +159,7 @@ export class CourseController {
     const course = await this.courseService.createCourse(successFile, createCourseDto);
     return course;
   }
+
   @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteCourse(@Param('id') id: string) {

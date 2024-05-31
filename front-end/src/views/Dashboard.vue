@@ -34,6 +34,12 @@
             <DashboardCancle />
           </button>
         </div>
+
+        <div class="">
+          <button @click="navigateAndRefresh('/endcourse')">
+            <DashboardEndcourse/>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -45,6 +51,7 @@ import DashboarCourse from "@/components/card/DashboardCourse.vue";
 import DashboarConfirme from "@/components/card/DashboardConfirm.vue";
 import DashboardInbox from "@/components/card/DashboardInbox.vue";
 import DashboardCancle from "@/components/card/DashboardCancle.vue";
+import DashboardEndcourse from "../components/card/DashboardEndcourse.vue"
 export default {
   components: {
     DashboardUser,
@@ -52,6 +59,7 @@ export default {
     DashboarConfirme,
     DashboardInbox,
     DashboardCancle,
+    DashboardEndcourse
   },
   beforeRouteEnter(to, from, next) {
     if (to.name === "Dashboard") {

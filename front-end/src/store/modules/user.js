@@ -12,6 +12,7 @@ const state = {
 };
 const mutations = {
   SET_USER: (state, payload) => {
+    console.log("Commit SET_USER with data:", payload); // Debugging line
     state.user = payload;
   },
   SET_USERS: (state, payload) => {
@@ -132,6 +133,27 @@ const actions = {
       }
     }
   },
+  async updateUserPassword({ commit }, { userId, newData }) {
+    try {
+      console.log("updateUser :", userId);
+      console.log("newData:", newData);
+      const url = `${ENDPOINT.USER}/${userId}`;
+      const res = await axios(configAxios("patch", url, newData));
+
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Password changed successfully",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    } catch (error) {
+      console.error("Error >> ", error);
+
+    }
+  },
   async updateTeacher({ commit }, { newData }) {
     const url = `${ENDPOINT.USER}/teacher-profile`;
     const formData = new FormData();
@@ -140,7 +162,11 @@ const actions = {
     formData.append("phone", newData.phone);
     formData.append("email", newData.email);
     formData.append("desc", newData.desc);
+    formData.append("linkEmail", newData.linkEmail);
+    formData.append("linkFacebook", newData.linkFacebook);
+    // formData.append("linkLine", newData.linkLine);
     formData.append("file", newData.userImage);
+
     console.log("newData:", newData);
     try {
       const res = await axios(configAxios("patch", url, formData));
@@ -229,6 +255,7 @@ const actions = {
     let url = `${ENDPOINT.USER}/get-teacher-profile`;
     try {
       const res = await axios(configAxios("get", url));
+      console.log("Response data from API:", res.data); // Debugging line
       commit("SET_USER", res.data);
     } catch (error) {
       throw new Error();
@@ -243,6 +270,7 @@ const actions = {
       throw error;
     }
   },
+  
 };
 
 export default {

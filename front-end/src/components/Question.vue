@@ -77,7 +77,7 @@ export default {
     },
     async sentEmails() {
       try {
-        if (!this.message) {
+        if (!this.message.trim()) {
           Swal.fire({
             icon: "warning",
             title: "Oops...",
@@ -85,8 +85,6 @@ export default {
           });
           return;
         }
-
-        // ตรวจสอบความถูกต้องของอีเมล์
         if (!this.validateEmail(this.userEmail.email)) {
           Swal.fire({
             icon: "error",
@@ -96,7 +94,6 @@ export default {
           return;
         }
 
-        // ส่งข้อมูลเมื่อทุกเงื่อนไขถูกต้อง
         const payload = {
           email: this.userEmail.email,
           message: this.message,
@@ -107,11 +104,12 @@ export default {
         this.message = "";
       } catch (error) {
         console.error("Error sending email: ", error);
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Please enter a valid email address!",
+          });
       }
-    },
-    validateEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-      return re.test(String(email).toLowerCase());
     },
 
     mounted() {
