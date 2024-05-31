@@ -1,7 +1,9 @@
 <template>
   <div class="mx-auto">
     <h2 class="text-3xl font-bold text-center my-6">Edit Profile Teacher</h2>
-    <div class="flex items-center flex-col w-full max-w-lg mx-auto border-gray-200 rounded-lg">
+    <div
+      class="flex items-center flex-col w-full max-w-lg mx-auto border-gray-200 rounded-lg"
+    >
       <div class="flex flex-col w-96">
         <label class="mb-2 text-gray-700">Firstname</label>
         <input
@@ -124,13 +126,19 @@ export default {
   methods: {
     async getTeacher() {
       await this.$store.dispatch("user/getTeacher");
-      this.teacher = this.user;
+      console.log("User data from Vuex:", this.user); // ตรวจสอบข้อมูลที่ได้จาก Vuex store
+      this.teacher = { ...this.user }; 
     },
     isWhitespaceOrEmpty(string) {
       return !string || !string.trim();
     },
     async updateTeacher() {
-      if (this.isWhitespaceOrEmpty(this.teacher.fname) || this.isWhitespaceOrEmpty(this.teacher.lname) || this.isWhitespaceOrEmpty(this.teacher.email) || this.isWhitespaceOrEmpty(this.teacher.phone)) {
+      if (
+        this.isWhitespaceOrEmpty(this.teacher.fname) ||
+        this.isWhitespaceOrEmpty(this.teacher.lname) ||
+        this.isWhitespaceOrEmpty(this.teacher.email) ||
+        this.isWhitespaceOrEmpty(this.teacher.phone) 
+      ) {
         await Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -198,5 +206,4 @@ export default {
 .picture {
   width: 82%;
 }
-</style> 
-
+</style>

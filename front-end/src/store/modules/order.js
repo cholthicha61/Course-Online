@@ -25,8 +25,11 @@ const mutations = {
     state.orderCancle = payload;
   },
   SET_ORDEREND: (state, payload) => {
-    state.orderend = payload;
+    state.orderEnd = payload;
   },
+  // SET_ORDEREND: (state, payload) => {
+  //   state.orderEnd = payload;
+  // },
   CONFIRM_ORDER: (state, index) => {
     state.orders[index].confirmed = true;
     state.showConfirmationDialog = true;
@@ -220,9 +223,12 @@ const actions = {
     }
   },
   async countEndCourse({ commit }, payload) {
+    // let url = `${ENDPOINT.ORDER}/count-end-order`;
     let url = `${ENDPOINT.ORDER}/count-end-order`;
+    // let url = `${ENDPOINT.ORDER}/count-canceled-order`;
     try {
       const res = await axios(configAxios("get", url));
+      console.log('res',this.res.data);
       commit("SET_ORDEREND", res.data);
     } catch (error) {
       throw error;

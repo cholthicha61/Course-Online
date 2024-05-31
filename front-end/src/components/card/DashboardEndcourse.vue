@@ -2,7 +2,7 @@
   <v-card
     class="mx-auto w-96 drop-shadow-xl hover:shadow-xl"
     max-width="500"
-    style="background-color: #99CCFF"
+    style="background-color: #99ccff"
   >
     <v-card-text class="flex justify-start">
       <p class="text-h4 font-weight-black text-white mt-1">Completed course</p>
@@ -41,16 +41,12 @@
 </template>
 
 <script>
-import order from "@/store/modules/order";
 import { mapState } from "vuex";
 
 export default {
-  data() {
-    return {};
-  },
   computed: {
     ...mapState({
-      orderEnd: (State) => State.order.orderEnd,
+      orderEnd: (state) => state.order.orderEnd,
     }),
   },
   async mounted() {
@@ -59,7 +55,7 @@ export default {
   methods: {
     async countEndCourse() {
       await this.$store.dispatch("order/countEndCourse");
-      console.log(this.orderEnd);
+      console.log(this.orderEnd); // Check if this is logging the correct count
     },
   },
 };

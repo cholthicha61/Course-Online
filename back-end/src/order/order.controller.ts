@@ -46,6 +46,16 @@ export class OrderController {
       throw error;
     }
   }
+  @UseGuards(AuthGuard)
+  @Get('/count-end-order')
+  async countEndCourseOrder() {
+    try {
+      const count = await this.orderService.countEndCourseOrder();
+      return { count };
+    } catch (error) {
+      throw error;
+    }
+  }
 
   @UseGuards(AuthGuard)
   @Get()
@@ -84,14 +94,5 @@ export class OrderController {
   }
 
   // New endpoint to manually trigger the updateCourseStatus function
-  @UseGuards(AuthGuard)
-  @Get('/count-end-order')
-  async manualUpdateCourseStatus() {
-    try {
-      await this.orderService.updateCourseStatus();
-      return { message: 'Course statuses updated successfully' };
-    } catch (error) {
-      throw error;
-    }
-  }
+  
 }
