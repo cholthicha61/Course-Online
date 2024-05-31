@@ -47,6 +47,7 @@ export class OrderService {
         course: findCourse,
         startdate: createOrderDto.startdate,
         enddate: createOrderDto.enddate,
+        price: findCourse.price,
       });
 
       return await this.orderRepository.save(createOrder);
