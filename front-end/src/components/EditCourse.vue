@@ -281,8 +281,7 @@ export default {
         return;
       }
       const confirmResult = await Swal.fire({
-        title: "ยืนยันการแก้ไข",
-        text: "Are you sure to save changes??",
+        title: "Are you sure to save changes??",
         icon: "question",
         showCancelButton: true,
         confirmButtonText: "Yes",
@@ -304,9 +303,9 @@ export default {
           title: "Edit course successfully",
           icon: "success",
           showConfirmButton: false,
-          // timer: 2000,
+          timer: 2000,
         });
-        // this.$router.push({ name: "coursemanage" });
+        this.$router.push({ name: "coursemanage" });
 
         await this.$store.dispatch("course/updateCourse", payload);
         // console.log("image", this.course.images);

@@ -47,6 +47,15 @@ const actions = {
           timer: 2000,
         });
       }
+      if (error.response.status == 400){
+        Swal.fire({
+          icon: "warning",
+          title: "Please fill in the information.",
+          text: "",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
       if (error.response.status == 404){
         Swal.fire({
           icon: "warning",

@@ -14,7 +14,7 @@
       <div class="mt-8">
         <img
           v-show="!dataOpenSideBar"
-          src="https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Editor.png"
+          src="https://img.pikbest.com/png-images/qiantu/q-version-cute-cartoon-cute-little-animal-zodiac-pig_2721353.png!sw800"
           class="p-1 w-8 h-8 rounded-full ring-2 ring-gray-100 dark:ring-gray-500"
           alt="Avatar"
         />
@@ -26,7 +26,7 @@
           <div class="text-center text-white" v-show="dataOpenSideBar">
             <div class="flex justify-center">
               <img
-                src="https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Editor.png"
+                src="https://img.pikbest.com/png-images/qiantu/q-version-cute-cartoon-cute-little-animal-zodiac-pig_2721353.png!sw800"
                 class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4"
                 alt="Avatar"
               />

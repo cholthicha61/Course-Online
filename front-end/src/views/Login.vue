@@ -21,8 +21,8 @@
       </div>
 
       <div>
-        <div class="mt-6 w-full max-w-lg justify-items-center">
-          <label for="password" class="block mb-2"
+        <div class="mt-6 w-full max-w-lg">
+          <label for="password" class="block mb-4"
             >Password <span style="color: red">*</span></label
           >
           <input

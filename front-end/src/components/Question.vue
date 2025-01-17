@@ -75,6 +75,11 @@ export default {
     togglePopup() {
       this.showPopup = !this.showPopup;
     },
+    // async validateEmail(email) {
+    //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //   console.log(emailRegex.test(email));
+    //   return emailRegex.test(email)?true:false;
+    // },
     async sentEmails() {
       try {
         if (!this.message.trim()) {
@@ -85,30 +90,31 @@ export default {
           });
           return;
         }
-        if (!this.validateEmail(this.userEmail.email)) {
-          Swal.fire({
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(this.userEmail.email)){
+          await Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "Please enter a valid email address!",
           });
           return;
         }
-
         const payload = {
           email: this.userEmail.email,
           message: this.message,
         };
         await this.$store.dispatch("inbox/sentEmails", payload);
         this.togglePopup();
+
         this.userEmail.email = "";
         this.message = "";
       } catch (error) {
         console.error("Error sending email: ", error);
         Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Please enter a valid email address!",
-          });
+          icon: "error",
+          title: "Oops...",
+          text: "Please enter a valid email address!",
+        });
       }
     },
 
