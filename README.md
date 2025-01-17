@@ -1,5 +1,7 @@
 # การพัฒนาระบบการจัดการคอร์สออนไลน์
-
+**Figma**
+- สำหรับออกแบบการทำงานระบบทั้งหมด
+ https://www.figma.com/design/nkL9a5XWFPCo9YQSevkRGQ/Course-Online?node-id=34-2&t=JFraF4gG2GYxqm4L-0
 ## การพัฒนาระบบการจัดการคอร์สออนไลน์ พัฒนาระบบด้วย 
 
 ### Back-end
